@@ -1,0 +1,88 @@
+import 'package:edu_sphere/core/theming/colors.dart';
+import 'package:edu_sphere/features/onboarding/ui/widgets/indicator_onboarding_widget.dart';
+import 'package:edu_sphere/features/onboarding/ui/widgets/page_view_onboarding_widget.dart';
+import 'package:edu_sphere/features/onboarding/ui/widgets/text_and_container_onboarding_widget.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+class OnboardingScreen extends StatefulWidget {
+  const OnboardingScreen({super.key});
+
+  @override
+  State<OnboardingScreen> createState() => _OnboardingScreenState();
+}
+
+class _OnboardingScreenState extends State<OnboardingScreen> {
+  late PageController pageController;
+  int _counterPage = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    pageController = PageController(initialPage: 0);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Stack(
+        children: [
+          PageView(
+            controller: pageController,
+            onPageChanged: (value) {
+              setState(() {
+                _counterPage = value;
+              });
+            },
+            children: [
+              PageViewOnboardingWidget(
+                image: 'assets/images/onboarding_image1.png',
+                text1:
+                    'Lorem ipsum dolor sit amet, Loreb ipsum dolor sit amet, cons ecte tur co nsec tetu.',
+                text2:
+                    'Lorem ipsum dolor sit amet, Loreb ipsum dolor sit amet, cons ecte tur co nsec tetu.',
+              ),
+              PageViewOnboardingWidget(
+                image: 'assets/images/onboarding_image2.png',
+                text1:
+                'Lorem ipsum dolor sit amet, Loreb ipsum dolor sit amet, cons ecte tur co nsec tetu.',
+                text2:
+                'Lorem ipsum dolor sit amet, Loreb ipsum dolor sit amet, cons ecte tur co nsec tetu.',
+              ),
+              PageViewOnboardingWidget(
+                image: 'assets/images/onboarding_image3.png',
+                text1:
+                'Lorem ipsum dolor sit amet, Loreb ipsum dolor sit amet, cons ecte tur co nsec tetu.',
+                text2:
+                'Lorem ipsum dolor sit amet, Loreb ipsum dolor sit amet, cons ecte tur co nsec tetu.',
+              ),
+            ],
+          ),
+          PositionedDirectional(
+            bottom: 72.h,
+            end: 16.w,
+            child: GestureDetector(
+              onTap: () {
+                if (_counterPage == 2) {
+                } else {
+                  pageController.nextPage(
+                      duration: const Duration(seconds: 1),
+                      curve: Curves.easeInOut);
+                  setState(() {
+                    _counterPage = _counterPage++;
+                  });
+                }
+              },
+              child: CircleAvatar(
+                backgroundColor: ColorsManager.secondaryColor,
+                radius: 25.r,
+                child: const Icon(Icons.arrow_forward, color: Colors.white),
+              ),
+            ),
+          ),
+          IndicatorOnboardingWidget(pageNumber: _counterPage),
+        ],
+      ),
+    );
+  }
+}
