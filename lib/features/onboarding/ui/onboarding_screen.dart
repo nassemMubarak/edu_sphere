@@ -1,7 +1,6 @@
 import 'package:edu_sphere/core/theming/colors.dart';
 import 'package:edu_sphere/features/onboarding/ui/widgets/indicator_onboarding_widget.dart';
 import 'package:edu_sphere/features/onboarding/ui/widgets/page_view_onboarding_widget.dart';
-import 'package:edu_sphere/features/onboarding/ui/widgets/text_and_container_onboarding_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
