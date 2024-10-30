@@ -1,3 +1,5 @@
+import 'package:edu_sphere/core/helpers/extenshions.dart';
+import 'package:edu_sphere/core/routing/routes.dart';
 import 'package:edu_sphere/core/theming/colors.dart';
 import 'package:edu_sphere/features/onboarding/ui/widgets/indicator_onboarding_widget.dart';
 import 'package:edu_sphere/features/onboarding/ui/widgets/page_view_onboarding_widget.dart';
@@ -63,6 +65,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             child: GestureDetector(
               onTap: () {
                 if (_counterPage == 2) {
+                  context.pushNamed(Routes.loginScreen);
                 } else {
                   pageController.nextPage(
                       duration: const Duration(seconds: 1),
