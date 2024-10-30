@@ -15,6 +15,11 @@ class TextStyles {
     color: ColorsManager.neutralGray,
     fontFamily: 'Poppins',
   );
+  static TextStyle font13DarkBlue400Weight = TextStyle(
+    fontSize: 13.sp,
+    fontWeight: FontWeight.w400,
+    color: ColorsManager.darkBlue,
+  );
   static TextStyle font14MainBlue400Weight = TextStyle(
     fontSize: 14.sp,
     fontWeight: FontWeight.w400,

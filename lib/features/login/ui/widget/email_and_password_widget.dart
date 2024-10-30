@@ -1,5 +1,6 @@
 import 'package:edu_sphere/core/theming/colors.dart';
-import 'package:edu_sphere/features/login/ui/widget/lable_and_text_form_field.dart';
+import 'package:edu_sphere/core/widgets/app_text_form_field.dart';
+import 'package:edu_sphere/core/widgets/label_and_widget.dart';
 import 'package:flutter/material.dart';
 
 class EmailAndPasswordWidget extends StatefulWidget {
@@ -18,17 +19,19 @@ class _EmailAndPasswordWidgetState extends State<EmailAndPasswordWidget> {
         key: formKey,
         child: Column(
           children: [
-            LableAndTextFormField(
-                lable: 'Email',
+            LabelAndWidget(label: 'Email', widget: AppTextFormField(
                 hintText: 'edusphere@gmail.com',
-                prefixIcon:const Icon(
+                validator: (v){},
+                prefixIcon: const Icon(
                   Icons.email_outlined,
                   color: ColorsManager.neutralGray,
-                )),
-            LableAndTextFormField(
-              lable: 'Password',
-              hintText: '**********',
-              isObsecure:isObsecure,
+                ),
+            ),
+
+            ),
+            LabelAndWidget(label: 'Password', widget: AppTextFormField(
+              hintText: '**************',
+              validator: (v){},
               prefixIcon: GestureDetector(
                   onTap: () {
                     setState(() {
@@ -38,8 +41,11 @@ class _EmailAndPasswordWidgetState extends State<EmailAndPasswordWidget> {
                   child: Icon(
                     isObsecure ? Icons.visibility_off : Icons.visibility,
                     color: ColorsManager.neutralGray,
-                  )),
+                  ),),
             ),
+
+            ),
+
           ],
         ));
   }
