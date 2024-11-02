@@ -1,5 +1,9 @@
+import 'package:edu_sphere/core/helpers/app_regex.dart';
+import 'package:edu_sphere/core/helpers/spacing.dart';
 import 'package:edu_sphere/core/theming/colors.dart';
-import 'package:edu_sphere/features/login/ui/widget/lable_and_text_form_field.dart';
+import 'package:edu_sphere/core/widgets/app_text_form_field.dart';
+import 'package:edu_sphere/core/widgets/label_and_widget.dart';
+import 'package:edu_sphere/core/widgets/password_validations.dart';
 import 'package:flutter/material.dart';
 
 class EmailAndPasswordWidget extends StatefulWidget {
@@ -11,36 +15,109 @@ class EmailAndPasswordWidget extends StatefulWidget {
 
 class _EmailAndPasswordWidgetState extends State<EmailAndPasswordWidget> {
   final formKey = GlobalKey<FormState>();
-  bool isObsecure = true;
+  bool isVisiblePasswordValidator = false;
+  bool hasLowercase = false;
+
+  bool hasUppercase = false;
+
+  bool hasSpecialCharacters = false;
+
+  bool hasNumber = false;
+
+  bool hasMinLength = false;
+
+  @override
+  void initState() {
+    super.initState();
+    passwordController = TextEditingController();
+    emailController = TextEditingController();
+    setupPasswordControllerListener();
+  }
+
+  late TextEditingController passwordController;
+  late TextEditingController emailController;
+  bool isObscureText = true;
+
   @override
   Widget build(BuildContext context) {
     return Form(
         key: formKey,
         child: Column(
           children: [
-            LableAndTextFormField(
-                lable: 'Email',
+            LabelAndWidget(
+              label: 'Email',
+              widget: AppTextFormField(
+                controller: emailController,
                 hintText: 'edusphere@gmail.com',
-                prefixIcon:const Icon(
+                validator: (value) {
+                  if (value == null ||
+                      value.isEmpty ||
+                      !AppRegex.isEmailValid(value)) {
+                    return 'Please enter a valid email';
+                  }
+                },
+                prefixIcon: const Icon(
                   Icons.email_outlined,
                   color: ColorsManager.neutralGray,
-                )),
-            LableAndTextFormField(
-              lable: 'Password',
-              hintText: '**********',
-              isObsecure:isObsecure,
-              prefixIcon: GestureDetector(
+                ),
+              ),
+            ),
+            LabelAndWidget(
+              label: 'Password',
+              widget: AppTextFormField(
+                isObscureText: isObscureText,
+                controller: passwordController,
+                hintText: '**************',
+                validator: (value) {
+
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter a valid Password';
+                  }
+                },
+                prefixIcon: GestureDetector(
                   onTap: () {
                     setState(() {
-                      isObsecure = !isObsecure;
+                      isObscureText = !isObscureText;
                     });
                   },
                   child: Icon(
-                    isObsecure ? Icons.visibility_off : Icons.visibility,
+                    isObscureText ? Icons.visibility_off : Icons.visibility,
                     color: ColorsManager.neutralGray,
-                  )),
+                  ),
+                ),
+              ),
+            ),
+            Visibility(
+              visible: isVisiblePasswordValidator,
+              child: PasswordValidations(
+                  hasLowerCase: hasLowercase,
+                  hasUpperCase: hasUppercase,
+                  hasSpecialCharacters: hasSpecialCharacters,
+                  hasNumber: hasNumber,
+                  hasMinLength: hasMinLength),
+            ),
+            Visibility(
+              visible: isVisiblePasswordValidator,
+              child: verticalSpace(20),
             ),
           ],
         ));
+  }
+
+  void setupPasswordControllerListener() {
+
+    passwordController.addListener(() {
+      setState(() {
+        isVisiblePasswordValidator = true;
+      });
+      setState(() {
+        hasLowercase = AppRegex.hasLowerCase(passwordController.text);
+        hasUppercase = AppRegex.hasUpperCase(passwordController.text);
+        hasSpecialCharacters =
+            AppRegex.hasSpecialCharacter(passwordController.text);
+        hasNumber = AppRegex.hasNumber(passwordController.text);
+        hasMinLength = AppRegex.hasMinLength(passwordController.text);
+      });
+    });
   }
 }

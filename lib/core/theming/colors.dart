@@ -9,5 +9,9 @@ class ColorsManager {
   static const Color neutralGray = Color(0xFF747474);
   static const Color red = Color(0xFFFF0000);
   static const Color lightGray = Color(0xFFFAF9F9);
+  static const Color gray = Color(0xFF757575);
+  static const Color darkBlue = Color(0xFF242424);
+  static const Color electricBlue = Color(0xFF0500FF);
+
 
 }

@@ -4,15 +4,14 @@ import 'package:edu_sphere/core/theming/styles.dart';
 import 'package:edu_sphere/core/widgets/app_text_button.dart';
 import 'package:edu_sphere/features/login/ui/widget/email_and_password_widget.dart';
 import 'package:edu_sphere/features/login/ui/widget/remember_forget_password_widget.dart';
-import 'package:edu_sphere/features/login/ui/widget/selecte_student_or_teacher_widget.dart';
+import 'package:edu_sphere/features/signup/ui/widget/selecte_student_or_teacher_or_camp_widget.dart';
 import 'package:edu_sphere/features/login/ui/widget/text_account_signup_widget.dart';
-import 'package:edu_sphere/features/login/ui/widget/wave_top_widget.dart';
+import 'package:edu_sphere/core/widgets/wave_top_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,21 +39,10 @@ class LoginScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        children: [
-                          Text(
-                            'Camp',
-                            style: TextStyles.font16Black600Weight.copyWith(
-                                decoration: TextDecoration.underline),
-                          ),
-                          const Spacer(),
-                          SelecteStudentOrTeacherWidget(),
-                        ],
-                      ),
-                      verticalSpace(24),
+
                       Text(
                         'Welcome Back',
-                        style: TextStyles.font24Black600Weight,
+                        style: TextStyles.font18Black600Weight,
                       ),
                       verticalSpace(8),
                       Text(
