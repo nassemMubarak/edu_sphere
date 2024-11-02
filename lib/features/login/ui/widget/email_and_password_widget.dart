@@ -65,6 +65,7 @@ class _EmailAndPasswordWidgetState extends State<EmailAndPasswordWidget> {
             LabelAndWidget(
               label: 'Password',
               widget: AppTextFormField(
+                isObscureText: isObscureText,
                 controller: passwordController,
                 hintText: '**************',
                 validator: (value) {

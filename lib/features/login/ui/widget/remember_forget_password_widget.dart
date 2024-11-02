@@ -35,8 +35,8 @@ class _RememberAndForgetPasswordWidgetState
                   border: Border.all(color: ColorsManager.lightBlue),
                 ),
                 child: isRemmember
-                    ? Padding(padding: const EdgeInsets.all(6))
-                    : Icon(
+                    ?const Padding(padding: const EdgeInsets.all(6))
+                    :const Icon(
                         Icons.check,
                         color: Colors.white,
                         size: 14,

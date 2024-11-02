@@ -18,7 +18,7 @@ class LabelAndWidget extends StatelessWidget {
       children: [
         Text(
           label,
-          style: TextStyles.font16Black500Weight,
+          style: TextStyles.font14Black500Weight,
         ),
         verticalSpace(8),
         widget,

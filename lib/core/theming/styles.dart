@@ -1,8 +1,8 @@
 import 'package:edu_sphere/core/theming/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 class TextStyles {
+  TextStyle c = TextStyle();
   static TextStyle font20White600Weight = TextStyle(
     fontSize: 20.sp,
     fontWeight: FontWeight.w600,
@@ -10,7 +10,7 @@ class TextStyles {
     fontFamily: 'Poppins',
   );
   static TextStyle font16NeutralGray400Weight = TextStyle(
-    fontSize: 16.sp,
+    fontSize: 14.sp,
     fontWeight: FontWeight.w400,
     color: ColorsManager.neutralGray,
     fontFamily: 'Poppins',
@@ -30,6 +30,12 @@ class TextStyles {
     fontSize: 12.sp,
     fontWeight: FontWeight.w400,
     color: ColorsManager.neutralGray,
+    fontFamily: 'Poppins',
+  );
+   static TextStyle   font12ElectricBlue400Weight = TextStyle(
+    fontSize: 12.sp,
+    fontWeight: FontWeight.w400,
+    color: ColorsManager.electricBlue,
     fontFamily: 'Poppins',
   );
    static TextStyle font12Red400Weight = TextStyle(
@@ -56,14 +62,20 @@ class TextStyles {
     color: ColorsManager.skyBlue,
     fontFamily: 'Poppins',
   );
+  static TextStyle font16SkyBlue600Weight = TextStyle(
+    fontSize: 16.sp,
+    fontWeight: FontWeight.w600,
+    color: ColorsManager.skyBlue,
+    fontFamily: 'Poppins',
+  );
   static TextStyle font24White700Weight = TextStyle(
     fontSize: 24.sp,
     fontWeight: FontWeight.w700,
     color: Colors.white,
     fontFamily: 'Poppins',
   );
-  static TextStyle font24Black600Weight = TextStyle(
-    fontSize: 24.sp,
+  static TextStyle font18Black600Weight = TextStyle(
+    fontSize: 18.sp,
     fontWeight: FontWeight.w600,
     color: Colors.black,
     fontFamily: 'Poppins',
@@ -74,8 +86,8 @@ class TextStyles {
     color: Colors.black,
     fontFamily: 'Poppins',
   );
-  static TextStyle font16Black500Weight = TextStyle(
-    fontSize: 16.sp,
+  static TextStyle font14Black500Weight = TextStyle(
+    fontSize: 14.sp,
     fontWeight: FontWeight.w500,
     color: Colors.black,
     fontFamily: 'Poppins',
@@ -86,8 +98,14 @@ class TextStyles {
     color: Colors.black,
     fontFamily: 'Poppins',
   );
-  static TextStyle font16SecondaryBlue600Weight = TextStyle(
-    fontSize: 16.sp,
+  static TextStyle font12Black500Weight = TextStyle(
+    fontSize: 12.sp,
+    fontWeight: FontWeight.w500,
+    color: Colors.black,
+    fontFamily: 'Poppins',
+  );
+  static TextStyle font14SecondaryBlue600Weight = TextStyle(
+    fontSize: 14.sp,
     fontWeight: FontWeight.w600,
     color: ColorsManager.secondaryColor,
     fontFamily: 'Poppins',
@@ -98,8 +116,8 @@ class TextStyles {
     color: ColorsManager.lightBlue,
     fontFamily: 'Poppins',
   );
-  static TextStyle font16White600Weight = TextStyle(
-    fontSize: 16.sp,
+  static TextStyle font14White600Weight = TextStyle(
+    fontSize: 14.sp,
     fontWeight: FontWeight.w600,
     color: Colors.white,
     fontFamily: 'Poppins',

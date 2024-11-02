@@ -65,6 +65,7 @@ dependencies:
   flutter_svg: ^2.0.10+1
   # use for in-app localization with map data
 #  flutter_localization: ^0.2.2
+  dropdown_button2: ^2.3.9
 dev_dependencies:
   flutter_test:
     sdk: flutter
