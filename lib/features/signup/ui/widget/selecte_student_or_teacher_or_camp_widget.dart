@@ -19,8 +19,9 @@ class SelecteStudentOrTeacherOrCampWidget extends StatelessWidget {
           children: [
             GestureDetector(
               onTap: () {
-                context.read<SignUpCubit>().emitChangTypSignUp('camp');
+              
                 context.read<SignUpCubit>().emitChangTypeOnClicBotton('camp');
+
               },
               child: Text(
                 'Camp',
@@ -70,7 +71,7 @@ class SelecteStudentOrTeacherOrCampWidget extends StatelessWidget {
           children: [
             GestureDetector(
               onTap: () {
-                context.read<SignUpCubit>().emitChangTypSignUp('camp');
+                context.read<SignUpCubit>().emitChangTypeOnClicBotton('camp');
               },
               child: Text(
                 'Camp',
@@ -99,7 +100,8 @@ class SelecteStudentOrTeacherOrCampWidget extends StatelessWidget {
                             .emitChangTypSignUp('student');
                       },
                       child: containerRadiusWidget(
-                          isSelected: context.read<SignUpCubit>().typeSignUp == 'student',
+                          isSelected: context.read<SignUpCubit>().typeSignUp ==
+                              'student',
                           text: 'student')),
                   GestureDetector(
                     onTap: () {
@@ -108,7 +110,9 @@ class SelecteStudentOrTeacherOrCampWidget extends StatelessWidget {
                           .emitChangTypSignUp('teatcher');
                     },
                     child: containerRadiusWidget(
-                        isSelected: context.read<SignUpCubit>().typeSignUp == 'teatcher', text: 'teacher'),
+                        isSelected: context.read<SignUpCubit>().typeSignUp ==
+                            'teatcher',
+                        text: 'teacher'),
                   ),
                 ],
               ),

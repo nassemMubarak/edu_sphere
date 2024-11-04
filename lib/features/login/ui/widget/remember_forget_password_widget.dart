@@ -1,4 +1,6 @@
+import 'package:edu_sphere/core/helpers/extenshions.dart';
 import 'package:edu_sphere/core/helpers/spacing.dart';
+import 'package:edu_sphere/core/routing/routes.dart';
 import 'package:edu_sphere/core/theming/colors.dart';
 import 'package:edu_sphere/core/theming/styles.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -35,8 +37,8 @@ class _RememberAndForgetPasswordWidgetState
                   border: Border.all(color: ColorsManager.lightBlue),
                 ),
                 child: isRemmember
-                    ?const Padding(padding: const EdgeInsets.all(6))
-                    :const Icon(
+                    ? const Padding(padding: const EdgeInsets.all(6))
+                    : const Icon(
                         Icons.check,
                         color: Colors.white,
                         size: 14,
@@ -51,9 +53,14 @@ class _RememberAndForgetPasswordWidgetState
           ),
         ),
         Spacer(),
-        Text(
-          'Forgot Password?',
-          style: TextStyles.font12Red400Weight,
+        GestureDetector(
+          onTap: () {
+            context.pushNamed(Routes.forgetPasswordScreen);
+          },
+          child: Text(
+            'Forgot Password?',
+            style: TextStyles.font12Red400Weight,
+          ),
         ),
       ],
     );
