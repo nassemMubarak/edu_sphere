@@ -65,8 +65,9 @@ class SignupScreen extends StatelessWidget {
                       BlocBuilder<SignUpCubit, SignUpState>(
                         builder: (context, state) {
                           if (state is StatusSignUpTypeOnClicBotton) {
+                            print('----------------${state.type}');
                             if (state.type == 'camp') {
-                              return  SignUpFormStudent(labelCamp: true);
+                              return SignUpFormStudent(labelCamp: true);
                             } else if (state.type == 'teatcher') {
                               return const SignUpFormTeacher();
                             } else if (state.type == 'student') {
@@ -79,7 +80,8 @@ class SignupScreen extends StatelessWidget {
                             } else {
                               return Column(
                                 children: [
-                                   SignUpFormStudent(),
+
+                                  SignUpFormStudent(),
                                   const GenderWidget(),
                                   verticalSpace(16),
                                 ],
@@ -88,7 +90,8 @@ class SignupScreen extends StatelessWidget {
                           } else {
                             return Column(
                               children: [
-                                 SignUpFormStudent(),
+
+                                SignUpFormStudent(),
                                 const GenderWidget(),
                                 verticalSpace(16),
                               ],

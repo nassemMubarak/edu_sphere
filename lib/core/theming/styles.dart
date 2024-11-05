@@ -1,6 +1,7 @@
 import 'package:edu_sphere/core/theming/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 class TextStyles {
   TextStyle c = TextStyle();
   static TextStyle font20White600Weight = TextStyle(
@@ -26,19 +27,31 @@ class TextStyles {
     color: ColorsManager.mainBlue,
     fontFamily: 'Poppins',
   );
-   static TextStyle font12NeutralGray400Weight = TextStyle(
+  static TextStyle font18MainBlue500Weight = TextStyle(
+    fontSize: 18.sp,
+    fontWeight: FontWeight.w500,
+    color: ColorsManager.mainBlue,
+    fontFamily: 'Poppins',
+  );
+  static TextStyle font12NeutralGray400Weight = TextStyle(
     fontSize: 12.sp,
     fontWeight: FontWeight.w400,
     color: ColorsManager.neutralGray,
     fontFamily: 'Poppins',
   );
-   static TextStyle   font12ElectricBlue400Weight = TextStyle(
+  static TextStyle font24NeutralGray500Weight = TextStyle(
+    fontSize: 24.sp,
+    fontWeight: FontWeight.w500,
+    color: ColorsManager.neutralGray,
+    fontFamily: 'Poppins',
+  );
+  static TextStyle font12ElectricBlue400Weight = TextStyle(
     fontSize: 12.sp,
     fontWeight: FontWeight.w400,
     color: ColorsManager.electricBlue,
     fontFamily: 'Poppins',
   );
-   static TextStyle font12Red400Weight = TextStyle(
+  static TextStyle font12Red400Weight = TextStyle(
     fontSize: 12.sp,
     fontWeight: FontWeight.w400,
     color: ColorsManager.red,
@@ -102,6 +115,12 @@ class TextStyles {
     fontSize: 12.sp,
     fontWeight: FontWeight.w500,
     color: Colors.black,
+    fontFamily: 'Poppins',
+  );
+  static TextStyle font12MainBlue500Weight = TextStyle(
+    fontSize: 12.sp,
+    fontWeight: FontWeight.w500,
+    color: ColorsManager.mainBlue,
     fontFamily: 'Poppins',
   );
   static TextStyle font14SecondaryBlue600Weight = TextStyle(

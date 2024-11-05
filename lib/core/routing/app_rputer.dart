@@ -1,4 +1,7 @@
 import 'package:edu_sphere/core/routing/routes.dart';
+import 'package:edu_sphere/features/forget_password/ui/screens/forget_password_screen.dart';
+import 'package:edu_sphere/features/forget_password/ui/screens/reset_password_screen.dart';
+import 'package:edu_sphere/features/forget_password/ui/screens/verify_password_screen.dart';
 import 'package:edu_sphere/features/login/ui/login_screen.dart';
 import 'package:edu_sphere/features/signup/logic/sign_up_cubit.dart';
 import 'package:edu_sphere/features/signup/ui/signup_screen.dart';
@@ -17,6 +20,15 @@ class AppRouter {
                   create: (context) => SignUpCubit()..emitChangTypSignUp('student'),
                   child: const SignupScreen(),
                 ));
+      case Routes.forgetPasswordScreen:
+        return MaterialPageRoute(builder: (_) =>  ForgetPasswordScreen());
+      
+      case Routes.verifyPasswordScreen:
+        return MaterialPageRoute(builder: (_) =>  VerifyPasswordScreen());
+      
+      case Routes.resetPasswordScreen:
+        return MaterialPageRoute(builder: (_) =>  ResetPasswordScreen());
+      
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(
