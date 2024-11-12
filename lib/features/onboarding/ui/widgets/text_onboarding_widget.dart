@@ -12,19 +12,25 @@ class TextOnboardingWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(
-          text1,
-          style: TextStyles.font20White600Weight,
-        ),
-        verticalSpace(8),
-        Text(
-          text2,
-          style: TextStyles.font12White400Weight,
-        ),
-        verticalSpace(49),
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Text(
+            text1,
+            style: TextStyles.font20White600Weight,
+            overflow: TextOverflow.visible,
+            maxLines: 3,
+          ),
+          verticalSpace(8),
+          Text(
+            text2,
+            style: TextStyles.font12White400Weight,
+            overflow: TextOverflow.visible,
+            maxLines: 3,
+          ),
+          verticalSpace(49),
+        ],
+      ),
     );
   }
 }

@@ -19,6 +19,7 @@ class TextAndContainerOnboardingWidget extends StatelessWidget {
       left: 0,
       right: 0,
       child: Container(
+
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 32.h),
         height: 320.h,
         decoration: BoxDecoration(
@@ -33,9 +34,13 @@ class TextAndContainerOnboardingWidget extends StatelessWidget {
             // stops: const [0.14, 0.4],
           ),
         ),
-        child: TextOnboardingWidget(
-          text1: text1,
-          text2: text2,
+        child: Container(
+          alignment: AlignmentDirectional.topCenter,
+          height: 100.h,
+          child: TextOnboardingWidget(
+            text1: text1,
+            text2: text2,
+          ),
         ),
       ),
     );
