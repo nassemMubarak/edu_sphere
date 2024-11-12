@@ -1,4 +1,6 @@
+import 'package:edu_sphere/core/helpers/constants.dart';
 import 'package:edu_sphere/core/helpers/extenshions.dart';
+import 'package:edu_sphere/core/helpers/shared_pref_helper.dart';
 import 'package:edu_sphere/core/routing/routes.dart';
 import 'package:edu_sphere/core/theming/colors.dart';
 import 'package:edu_sphere/features/onboarding/ui/widgets/indicator_onboarding_widget.dart';
@@ -21,6 +23,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   void initState() {
     super.initState();
     pageController = PageController(initialPage: 0);
+    Future.delayed(Duration.zero,() async{
+      await SharedPrefHelper.setData(SharedPrefKeys.isShowOnboarding, true);
+    },);
+
   }
 
   @override

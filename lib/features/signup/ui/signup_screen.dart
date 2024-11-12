@@ -8,7 +8,6 @@ import 'package:edu_sphere/features/signup/logic/sign_up_state.dart';
 import 'package:edu_sphere/features/signup/ui/widget/by_clicking_sign_up_text.dart';
 import 'package:edu_sphere/features/signup/ui/widget/gender_widget.dart';
 import 'package:edu_sphere/features/signup/ui/widget/selecte_student_or_teacher_or_camp_widget.dart';
-import 'package:edu_sphere/features/signup/ui/widget/sign_up_form_camp.dart';
 import 'package:edu_sphere/features/signup/ui/widget/sign_up_form_educational_and_camp_student.dart';
 import 'package:edu_sphere/features/signup/ui/widget/sign_up_form_student.dart';
 import 'package:edu_sphere/features/signup/ui/widget/sign_up_form_teacher.dart';
@@ -18,7 +17,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SignupScreen extends StatelessWidget {
   const SignupScreen({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,55 +63,102 @@ class SignupScreen extends StatelessWidget {
                       BlocBuilder<SignUpCubit, SignUpState>(
                         builder: (context, state) {
                           if (state is StatusSignUpTypeOnClicBotton) {
-                            print('----------------${state.type}');
                             if (state.type == 'camp') {
-                              return SignUpFormStudent(labelCamp: true);
+                              return Column(
+                                children: [
+                                  SignUpFormStudent(labelCamp: true),
+                                  const ByClickingSignUpText(),
+                                  verticalSpace(20),
+                                  AppTextButton(
+                                    buttonText: 'Sign up',
+                                    onPressed: () {
+
+                                    },
+                                  ),
+                                ],
+                              );
                             } else if (state.type == 'teatcher') {
-                              return const SignUpFormTeacher();
+                              return Column(
+                                children: [
+                                  const SignUpFormTeacher(),
+                                  const ByClickingSignUpText(),
+                                  verticalSpace(20),
+                                  AppTextButton(
+                                    buttonText: 'Sign up',
+                                    onPressed: () {
+
+                                    },
+                                  ),
+                                ],
+                              );
                             } else if (state.type == 'student') {
                               return Column(
                                 children: [
                                   const SignUpFormEducationalAndCampStudent(),
                                   verticalSpace(16),
+                                  const ByClickingSignUpText(),
+                                  verticalSpace(20),
+                                  AppTextButton(
+                                    buttonText: 'Sign up',
+                                    onPressed: () {
+
+                                    },
+                                  ),
                                 ],
                               );
                             } else {
                               return Column(
                                 children: [
-
                                   SignUpFormStudent(),
                                   const GenderWidget(),
                                   verticalSpace(16),
+                                  const ByClickingSignUpText(),
+                                  verticalSpace(20),
+                                  AppTextButton(
+                                    buttonText: 'Continue',
+                                    onPressed: () {
+                                      if (context.read<SignUpCubit>().typeSignUp ==
+                                          'camp') {
+                                      } else {
+                                        context
+                                            .read<SignUpCubit>()
+                                            .emitChangTypeOnClicBotton(
+                                          context.read<SignUpCubit>().typeSignUp!,
+                                        );
+                                      }
+                                    },
+                                  ),
                                 ],
                               );
                             }
                           } else {
                             return Column(
                               children: [
-
                                 SignUpFormStudent(),
                                 const GenderWidget(),
                                 verticalSpace(16),
+                                const ByClickingSignUpText(),
+                                verticalSpace(20),
+                                AppTextButton(
+                                  buttonText: 'Continue',
+                                  onPressed: () {
+                                    if (context.read<SignUpCubit>().typeSignUp ==
+                                        'camp') {
+                                    } else {
+                                      context
+                                          .read<SignUpCubit>()
+                                          .emitChangTypeOnClicBotton(
+                                        context.read<SignUpCubit>().typeSignUp!,
+                                      );
+                                    }
+                                  },
+                                ),
                               ],
                             );
                           }
                         },
                       ),
-                      const ByClickingSignUpText(),
-                      verticalSpace(20),
-                      AppTextButton(
-                        buttonText: 'Sign up',
-                        onPressed: () {
-                          if (context.read<SignUpCubit>().typeSignUp ==
-                              'camp') {
-                          } else {
-                            context
-                                .read<SignUpCubit>()
-                                .emitChangTypeOnClicBotton(
-                                    context.read<SignUpCubit>().typeSignUp!);
-                          }
-                        },
-                      ),
+
                       verticalSpace(40),
                     ],
                   ),

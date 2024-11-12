@@ -3,6 +3,7 @@ import 'package:edu_sphere/features/forget_password/ui/screens/forget_password_s
 import 'package:edu_sphere/features/forget_password/ui/screens/reset_password_screen.dart';
 import 'package:edu_sphere/features/forget_password/ui/screens/verify_password_screen.dart';
 import 'package:edu_sphere/features/login/ui/login_screen.dart';
+import 'package:edu_sphere/features/onboarding/ui/onboarding_screen.dart';
 import 'package:edu_sphere/features/signup/logic/sign_up_cubit.dart';
 import 'package:edu_sphere/features/signup/ui/signup_screen.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,7 @@ class AppRouter {
   Route generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case Routes.onBoardingScreen:
-        return MaterialPageRoute(builder: (_) => const LoginScreen());
+        return MaterialPageRoute(builder: (_) => const OnboardingScreen());
       case Routes.loginScreen:
         return MaterialPageRoute(builder: (_) => const LoginScreen());
       case Routes.signupScreen:
