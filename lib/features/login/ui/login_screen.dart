@@ -9,7 +9,7 @@ import 'package:edu_sphere/features/login/ui/widget/text_account_signup_widget.d
 import 'package:edu_sphere/core/widgets/wave_top_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
   @override
@@ -42,19 +42,19 @@ class LoginScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Welcome Back',
+                        AppLocalizations.of(context)!.welcomeBackMessage,
                         style: TextStyles.font18Black600Weight,
                       ),
                       verticalSpace(8),
                       Text(
-                        'Login to continue',
+                        AppLocalizations.of(context)!.loginToContinue,
                         style: TextStyles.font16NeutralGray400Weight,
                       ),
                       verticalSpace(32),
                       const EmailAndPasswordWidget(),
                       const RememberAndForgetPasswordWidget(),
                       verticalSpace(48),
-                      const AppTextButton(buttonText: 'Login'),
+                       AppTextButton(buttonText: AppLocalizations.of(context)!.login,),
                       verticalSpace(35),
                       const TextAccountSignupWidget(),
                     ],

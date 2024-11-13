@@ -5,7 +5,7 @@ import 'package:edu_sphere/core/theming/colors.dart';
 import 'package:edu_sphere/core/theming/styles.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class RememberAndForgetPasswordWidget extends StatefulWidget {
   const RememberAndForgetPasswordWidget({super.key});
 
@@ -46,7 +46,7 @@ class _RememberAndForgetPasswordWidgetState
               ),
               horizontalSpace(4),
               Text(
-                'Remember Me',
+                AppLocalizations.of(context)!.rememberMe,
                 style: TextStyles.font12Black400Weight,
               ),
             ],
@@ -58,7 +58,7 @@ class _RememberAndForgetPasswordWidgetState
             context.pushNamed(Routes.forgetPasswordScreen);
           },
           child: Text(
-            'Forgot Password?',
+            AppLocalizations.of(context)!.forgotPassword,
             style: TextStyles.font12Red400Weight,
           ),
         ),
