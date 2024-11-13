@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_timer_countdown/flutter_timer_countdown.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class VerifyPasswordTimerResendCode extends StatefulWidget {
   VerifyPasswordTimerResendCode({Key? key}) : super(key: key);
 
@@ -26,7 +26,7 @@ class _VerifyEmailTimerResendCodeState
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  'Didn’t receive a code?',
+                  AppLocalizations.of(context)!.didNotReceiveCode,
                   textAlign: TextAlign.center,
                   style: TextStyles.font12Black400Weight,
                 ),
@@ -35,7 +35,7 @@ class _VerifyEmailTimerResendCodeState
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Resend after ',
+                      AppLocalizations.of(context)!.resendAfter,
                       textAlign: TextAlign.center,
                       style: TextStyles.font12Black500Weight,
                     ),
@@ -63,7 +63,7 @@ class _VerifyEmailTimerResendCodeState
               child: Column(
                 children: [
                   Text(
-                    'Resend after ',
+                    AppLocalizations.of(context)!.resendAfter,
                     textAlign: TextAlign.center,
                     style: TextStyles.font12Black500Weight,
                   ),
@@ -75,7 +75,7 @@ class _VerifyEmailTimerResendCodeState
                       });
                     },
                     child: Text(
-                      'Resend',
+                      AppLocalizations.of(context)!.resend,
                       textAlign: TextAlign.center,
                       style: TextStyles.font12MainBlue500Weight,
                     ),

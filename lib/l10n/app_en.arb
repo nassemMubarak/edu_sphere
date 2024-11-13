@@ -37,6 +37,7 @@
   "verify": "Verify",
   "didNotReceiveCode": "Didn’t receive a code?",
   "resendAfter": "Resend after",
+  "resend": "Resend",
   "resetPassword": "Reset password",
   "enterNewPassword": "Enter new password to continue",
   "newPassword": "New password",
@@ -73,5 +74,10 @@
   "deleteConfirmation": "Do you really want to delete the Courses?",
   "deleteCoursesButton": "Delete Courses",
   "home": "Home",
-  "graduationResearch": "Graduation Research"
+  "graduationResearch": "Graduation Research",
+  "atLeastOneLowerCase": "At least 1 lowercase letter",
+  "atLeastOneUpperCase": "At least 1 uppercase letter",
+  "atLeastOneSpecialCharacter": "At least 1 special character",
+  "atLeastOneNumber": "At least 1 number",
+  "atLeastEightCharacters": "At least 8 characters long"
 }

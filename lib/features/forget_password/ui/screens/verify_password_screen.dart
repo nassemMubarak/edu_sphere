@@ -9,7 +9,7 @@ import 'package:edu_sphere/features/forget_password/ui/widgets/verification_pin_
 import 'package:edu_sphere/features/forget_password/ui/widgets/verify_password_timer_resend_code.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class VerifyPasswordScreen extends StatelessWidget {
   VerifyPasswordScreen({super.key});
 
@@ -39,12 +39,12 @@ class VerifyPasswordScreen extends StatelessWidget {
                     ),
                     verticalSpace(32),
                     Text(
-                      'Enter the verification code ',
+                      AppLocalizations.of(context)!.enterVerificationCode,
                       style: TextStyles.font18MainBlue500Weight,
                     ),
                     verticalSpace(8),
                     Text(
-                      'Verification code you just received.',
+                      AppLocalizations.of(context)!.verificationCodeReceived,
                       style: TextStyles.font16NeutralGray400Weight,
                     ),
                     verticalSpace(32),
@@ -56,7 +56,7 @@ class VerifyPasswordScreen extends StatelessWidget {
                     ),
                     verticalSpace(30),
                     AppTextButton(
-                      buttonText: 'Verify',
+                      buttonText: AppLocalizations.of(context)!.verify,
                       onPressed: () {
                         context.pushNamed(Routes.resetPasswordScreen);
                       },

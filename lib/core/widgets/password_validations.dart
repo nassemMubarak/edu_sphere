@@ -1,6 +1,6 @@
 import 'package:edu_sphere/core/helpers/spacing.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../theming/styles.dart';
 import '../theming/colors.dart';
 
@@ -23,16 +23,15 @@ class PasswordValidations extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        buildValidationRow('At least 1 lowercase letter', hasLowerCase),
+        buildValidationRow(AppLocalizations.of(context)!.atLeastOneLowerCase, hasLowerCase),
         verticalSpace(2),
-        buildValidationRow('At least 1 uppercase letter', hasUpperCase),
+        buildValidationRow(AppLocalizations.of(context)!.atLeastOneUpperCase, hasUpperCase),
         verticalSpace(2),
-        buildValidationRow(
-            'At least 1 special character', hasSpecialCharacters),
+        buildValidationRow(AppLocalizations.of(context)!.atLeastOneSpecialCharacter, hasSpecialCharacters),
         verticalSpace(2),
-        buildValidationRow('At least 1 number', hasNumber),
+        buildValidationRow(AppLocalizations.of(context)!.atLeastOneNumber, hasNumber),
         verticalSpace(2),
-        buildValidationRow('At least 8 characters long', hasMinLength),
+        buildValidationRow(AppLocalizations.of(context)!.atLeastEightCharacters, hasMinLength),
       ],
     );
   }
