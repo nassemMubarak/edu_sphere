@@ -1,7 +1,6 @@
-import 'package:edu_sphere/core/theming/colors.dart';
 import 'package:edu_sphere/core/widgets/app_text_form_field.dart';
 import 'package:edu_sphere/core/widgets/label_and_widget.dart';
-import 'package:edu_sphere/features/signup/ui/widget/dropdown_button_hide_underline_widget.dart';
+import 'package:edu_sphere/features/signup/ui/widget/dropdown_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -79,7 +78,7 @@ class _EmailAndPasswordWidgetState extends State<SignUpFormTeacher> {
           ),
           LabelAndWidget(
             label: AppLocalizations.of(context)!.typeOfTeaching,
-            widget: DropdownButtonHideUnderlineWidget(
+            widget: DropdownWidget(
               onChanged: (value) {
                 setState(() {
                   if (value == 'Camp teacher') {
@@ -91,33 +90,18 @@ class _EmailAndPasswordWidgetState extends State<SignUpFormTeacher> {
               },
               items: especiallyTeacher,
               hintText: AppLocalizations.of(context)!.especiallyTeacher,
-              prefixIcon: Padding(
-                padding: const EdgeInsets.all(14.0),
-                child: SvgPicture.asset('assets/svgs/type_of_teaching.svg'),
-              ),
-              suffixIcon: const Icon(
-                Icons.keyboard_arrow_down_rounded,
-                size: 24,
-                color: ColorsManager.neutralGray,
-              ),
+              prefixIcon: SvgPicture.asset('assets/svgs/type_of_teaching.svg'),
+
             ),
           ),
           Visibility(
             visible: isSelectedCamp,
             child: LabelAndWidget(
               label: AppLocalizations.of(context)!.camp,
-              widget: DropdownButtonHideUnderlineWidget(
+              widget: DropdownWidget(
                 hintText: AppLocalizations.of(context)!.campName,
                 items: campName,
-                prefixIcon: Padding(
-                  padding: const EdgeInsets.all(14.0),
-                  child: SvgPicture.asset('assets/svgs/camp.svg'),
-                ),
-                suffixIcon: const Icon(
-                  Icons.keyboard_arrow_down_rounded,
-                  size: 24,
-                  color: ColorsManager.neutralGray,
-                ),
+                prefixIcon: SvgPicture.asset('assets/svgs/camp.svg'),
               ),
             ),
           ),

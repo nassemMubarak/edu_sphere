@@ -1,8 +1,6 @@
-import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:edu_sphere/core/theming/colors.dart';
 import 'package:edu_sphere/core/widgets/app_text_form_field.dart';
 import 'package:edu_sphere/core/widgets/label_and_widget.dart';
-import 'package:edu_sphere/features/signup/ui/widget/dropdown_button_hide_underline_widget.dart';
+import 'package:edu_sphere/features/signup/ui/widget/dropdown_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -81,36 +79,22 @@ class _EmailAndPasswordWidgetState extends State<SignUpFormCamp> {
           ),
           LabelAndWidget(
             label: 'Type Of Teaching',
-            widget: DropdownButtonHideUnderlineWidget(
+            widget: DropdownWidget(
               items: especiallyTeacher,
               hintText: 'Especially teacher',
-              prefixIcon: Padding(
-                padding: const EdgeInsets.all(14.0),
-                child: SvgPicture.asset('assets/svgs/type_of_teaching.svg'),
-              ),
-              suffixIcon: const Icon(
-                Icons.keyboard_arrow_down_rounded,
-                size: 24,
-                color: ColorsManager.neutralGray,
-              ),
+              prefixIcon: SvgPicture.asset('assets/svgs/type_of_teaching.svg'),
+
             ),
           ),
           Visibility(
             visible: isSelectedCamp,
             child: LabelAndWidget(
               label: 'Camp',
-              widget: DropdownButtonHideUnderlineWidget(
+              widget: DropdownWidget(
                 hintText: 'Camp Name',
                 items: campName,
-                prefixIcon: Padding(
-                  padding: const EdgeInsets.all(14.0),
-                  child: SvgPicture.asset('assets/svgs/camp.svg'),
-                ),
-                suffixIcon: const Icon(
-                  Icons.keyboard_arrow_down_rounded,
-                  size: 24,
-                  color: ColorsManager.neutralGray,
-                ),
+                prefixIcon: SvgPicture.asset('assets/svgs/camp.svg'),
+
               ),
             ),
           ),
