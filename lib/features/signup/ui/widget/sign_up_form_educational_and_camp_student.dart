@@ -1,6 +1,4 @@
-import 'package:edu_sphere/core/theming/colors.dart';
-import 'package:edu_sphere/core/widgets/app_text_form_field.dart';
-import 'package:edu_sphere/features/signup/ui/widget/dropdown_button_hide_underline_widget.dart';
+import 'package:edu_sphere/features/signup/ui/widget/dropdown_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:edu_sphere/core/widgets/label_and_widget.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -57,40 +55,26 @@ class _SignUpFormEducationalAndCampStudentState
         children: [
           LabelAndWidget(
             label: AppLocalizations.of(context)!.lastEducationalStage,
-            widget: DropdownButtonHideUnderlineWidget(
+            widget: DropdownWidget(
               onChanged: (value){
 
               },
               items: stageEducational,
               hintText: AppLocalizations.of(context)!.lastEducationalStage,
-              prefixIcon: Padding(
-                padding: const EdgeInsets.all(14.0),
-                child: SvgPicture.asset('assets/svgs/educational.svg'),
-              ),
-              suffixIcon: const Icon(
-                Icons.keyboard_arrow_down_rounded,
-                size: 24,
-                color: ColorsManager.neutralGray,
-              ),
+              prefixIcon: SvgPicture.asset('assets/svgs/educational.svg'),
+
             ),
           ),
           LabelAndWidget(
             label: AppLocalizations.of(context)!.camp,
-            widget: DropdownButtonHideUnderlineWidget(
+            widget: DropdownWidget(
               onChanged: (value){
 
               },
               items: campName,
               hintText: AppLocalizations.of(context)!.campName,
-              prefixIcon: Padding(
-                padding: const EdgeInsets.all(14.0),
-                child: SvgPicture.asset('assets/svgs/camp.svg'),
-              ),
-              suffixIcon: const Icon(
-                Icons.keyboard_arrow_down_rounded,
-                size: 24,
-                color: ColorsManager.neutralGray,
-              ),
+              prefixIcon: SvgPicture.asset('assets/svgs/camp.svg'),
+
             ),
           ),
         ],

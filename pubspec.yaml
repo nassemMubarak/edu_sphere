@@ -67,10 +67,10 @@ dependencies:
   # An SVG rendering and widget library for Flutter, which allows painting
   flutter_svg: ^2.0.10+1
   # use for in-app localization with map data
-#  flutter_localization: ^0.2.2
-  dropdown_button2: ^2.3.9
 #   Flutter plugin for reading and writing simple key-value pairs.
   shared_preferences: ^2.3.2
+  # Custom dropdown widget allows to add highly customizable dropdown widget in your projects.
+  animated_custom_dropdown: ^3.1.1
 dev_dependencies:
   flutter_test:
     sdk: flutter
