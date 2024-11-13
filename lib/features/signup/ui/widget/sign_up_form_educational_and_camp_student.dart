@@ -4,7 +4,7 @@ import 'package:edu_sphere/features/signup/ui/widget/dropdown_button_hide_underl
 import 'package:flutter/material.dart';
 import 'package:edu_sphere/core/widgets/label_and_widget.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class SignUpFormEducationalAndCampStudent extends StatefulWidget {
   const SignUpFormEducationalAndCampStudent({super.key});
 
@@ -56,10 +56,13 @@ class _SignUpFormEducationalAndCampStudentState
       child: Column(
         children: [
           LabelAndWidget(
-            label: 'last educational stage completed',
+            label: AppLocalizations.of(context)!.lastEducationalStage,
             widget: DropdownButtonHideUnderlineWidget(
+              onChanged: (value){
+
+              },
               items: stageEducational,
-              hintText: 'last educational stage completed',
+              hintText: AppLocalizations.of(context)!.lastEducationalStage,
               prefixIcon: Padding(
                 padding: const EdgeInsets.all(14.0),
                 child: SvgPicture.asset('assets/svgs/educational.svg'),
@@ -72,10 +75,13 @@ class _SignUpFormEducationalAndCampStudentState
             ),
           ),
           LabelAndWidget(
-            label: 'Camp',
+            label: AppLocalizations.of(context)!.camp,
             widget: DropdownButtonHideUnderlineWidget(
+              onChanged: (value){
+
+              },
               items: campName,
-              hintText: 'Camp Name',
+              hintText: AppLocalizations.of(context)!.campName,
               prefixIcon: Padding(
                 padding: const EdgeInsets.all(14.0),
                 child: SvgPicture.asset('assets/svgs/camp.svg'),

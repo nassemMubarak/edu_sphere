@@ -5,7 +5,7 @@ import 'package:edu_sphere/core/widgets/app_text_form_field.dart';
 import 'package:edu_sphere/core/widgets/label_and_widget.dart';
 import 'package:edu_sphere/core/widgets/password_validations.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class SignUpFormStudent extends StatefulWidget {
   bool? labelCamp;
   SignUpFormStudent({super.key, this.labelCamp});
@@ -50,10 +50,10 @@ class _EmailAndPasswordWidgetState extends State<SignUpFormStudent> {
         child: Column(
           children: [
             LabelAndWidget(
-              label: widget.labelCamp != null ? 'Camp Name' : 'User Name',
+              label: widget.labelCamp != null ? AppLocalizations.of(context)!.campName : AppLocalizations.of(context)!.userName,
               widget: AppTextFormField(
                 controller: nameController,
-                hintText: 'full name ',
+                hintText: AppLocalizations.of(context)!.fullName,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a valid name';
@@ -66,7 +66,7 @@ class _EmailAndPasswordWidgetState extends State<SignUpFormStudent> {
               ),
             ),
             LabelAndWidget(
-              label: 'Email',
+              label: AppLocalizations.of(context)!.email,
               widget: AppTextFormField(
                 controller: emailController,
                 hintText: 'edusphere@gmail.com',
@@ -84,7 +84,7 @@ class _EmailAndPasswordWidgetState extends State<SignUpFormStudent> {
               ),
             ),
             LabelAndWidget(
-              label: 'Password',
+              label: AppLocalizations.of(context)!.password,
               widget: AppTextFormField(
                 isObscureText: isObscureText,
                 controller: passwordController,
@@ -108,7 +108,7 @@ class _EmailAndPasswordWidgetState extends State<SignUpFormStudent> {
               ),
             ),
             LabelAndWidget(
-              label: 'Confirm password',
+              label: AppLocalizations.of(context)!.confirmPassword,
               widget: AppTextFormField(
                 isObscureText: isObscureTextConfirm,
                 controller: confirmPasswordController,

@@ -4,7 +4,7 @@ import 'package:edu_sphere/core/theming/styles.dart';
 import 'package:edu_sphere/core/widgets/app_text_button.dart';
 import 'package:edu_sphere/features/login/ui/widget/email_and_password_widget.dart';
 import 'package:edu_sphere/features/login/ui/widget/remember_forget_password_widget.dart';
-import 'package:edu_sphere/features/signup/ui/widget/selecte_student_or_teacher_or_camp_widget.dart';
+import 'package:edu_sphere/features/signup/ui/widget/select_student_or_teacher_or_camp_widget.dart';
 import 'package:edu_sphere/features/login/ui/widget/text_account_signup_widget.dart';
 import 'package:edu_sphere/core/widgets/wave_top_widget.dart';
 import 'package:flutter/material.dart';

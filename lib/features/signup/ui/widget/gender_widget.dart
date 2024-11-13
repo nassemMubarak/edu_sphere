@@ -4,7 +4,7 @@ import 'package:edu_sphere/core/theming/colors.dart';
 import 'package:edu_sphere/core/theming/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class GenderWidget extends StatefulWidget {
   const GenderWidget({super.key});
 
@@ -21,7 +21,7 @@ class _GenderWidgetState extends State<GenderWidget> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Gender',
+          AppLocalizations.of(context)!.gender,
           style: TextStyles.font14Black500Weight,
         ),
         verticalSpace(8),
@@ -34,7 +34,7 @@ class _GenderWidgetState extends State<GenderWidget> {
                     isMale = true;
                   });
                 },
-                child: selecteAndLabel(label: 'Male', isSelected: isMale)),
+                child: selecteAndLabel(label: AppLocalizations.of(context)!.male, isSelected: isMale,),),
             horizontalSpace(32),
             GestureDetector(
               onTap: () {
@@ -43,7 +43,7 @@ class _GenderWidgetState extends State<GenderWidget> {
                     isMale = false;
                   });
                 },
-              child: selecteAndLabel(label: 'Female', isSelected: isFemale)),
+              child: selecteAndLabel(label: AppLocalizations.of(context)!.female, isSelected: isFemale,),),
           ],
         ),
       ],
