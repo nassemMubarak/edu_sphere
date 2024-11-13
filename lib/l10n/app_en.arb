@@ -1,5 +1,11 @@
 {
   "welcomeBackMessage": "Welcome Back",
+  "onBoarding1Text1": "Lorem ipsum dolor sit amet, Loreb ipsum dolor sit amet, cons ecte tur co nsec tetu.1",
+  "onBoarding1Text2": "Lorem ipsum dolor sit amet, Loreb ipsum dolor sit amet, cons ecte tur co nsec tetu.1",
+  "onBoarding2Text1": "Lorem ipsum dolor sit amet, Loreb ipsum dolor sit amet, cons ecte tur co nsec tetu.2",
+  "onBoarding2Text2": "Lorem ipsum dolor sit amet, Loreb ipsum dolor sit amet, cons ecte tur co nsec tetu.2",
+  "onBoarding3Text1": "Lorem ipsum dolor sit amet, Loreb ipsum dolor sit amet, cons ecte tur co nsec tetu.3",
+  "onBoarding3Text2": "Lorem ipsum dolor sit amet, Loreb ipsum dolor sit amet, cons ecte tur co nsec tetu.3",
   "loginToContinue": "Login to continue",
   "email": "Email",
   "password": "Password",

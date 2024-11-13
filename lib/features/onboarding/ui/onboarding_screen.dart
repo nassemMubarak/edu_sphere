@@ -7,7 +7,7 @@ import 'package:edu_sphere/features/onboarding/ui/widgets/indicator_onboarding_w
 import 'package:edu_sphere/features/onboarding/ui/widgets/page_view_onboarding_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
 
@@ -45,23 +45,23 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               PageViewOnboardingWidget(
                 image: 'assets/images/onboarding_image1.png',
                 text1:
-                    'Lorem ipsum dolor sit amet, Loreb ipsum dolor sit amet, cons ecte tur co nsec tetu.',
+                    AppLocalizations.of(context)!.onBoarding1Text1,
                 text2:
-                    'Lorem ipsum dolor sit amet, Loreb ipsum dolor sit amet, cons ecte tur co nsec tetu.',
+                AppLocalizations.of(context)!.onBoarding1Text2,
               ),
               PageViewOnboardingWidget(
                 image: 'assets/images/onboarding_image2.png',
                 text1:
-                'Lorem ipsum dolor sit amet, Loreb ipsum dolor sit amet, cons ecte tur co nsec tetu.',
+                AppLocalizations.of(context)!.onBoarding2Text1,
                 text2:
-                'Lorem ipsum dolor sit amet, Loreb ipsum dolor sit amet, cons ecte tur co nsec tetu.',
+                AppLocalizations.of(context)!.onBoarding2Text2,
               ),
               PageViewOnboardingWidget(
                 image: 'assets/images/onboarding_image3.png',
                 text1:
-                'Lorem ipsum dolor sit amet, Loreb ipsum dolor sit amet, cons ecte tur co nsec tetu.',
+                AppLocalizations.of(context)!.onBoarding3Text1,
                 text2:
-                'Lorem ipsum dolor sit amet, Loreb ipsum dolor sit amet, cons ecte tur co nsec tetu.',
+                AppLocalizations.of(context)!.onBoarding3Text2,
               ),
             ],
           ),
