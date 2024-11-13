@@ -8,7 +8,7 @@ import 'package:edu_sphere/core/widgets/label_and_widget.dart';
 import 'package:edu_sphere/core/widgets/wave_top_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class ForgetPasswordScreen extends StatelessWidget {
   ForgetPasswordScreen({super.key});
   final formKey = GlobalKey<FormState>();
@@ -38,19 +38,19 @@ class ForgetPasswordScreen extends StatelessWidget {
                     ),
                     verticalSpace(32),
                     Text(
-                      'Forgot Your Password?',
+                      AppLocalizations.of(context)!.forgotYourPassword,
                       style: TextStyles.font18MainBlue500Weight,
                     ),
                     verticalSpace(8),
                     Text(
-                      'We will send you a verification code.',
+                      AppLocalizations.of(context)!.sendVerificationCode,
                       style: TextStyles.font16NeutralGray400Weight,
                     ),
                     verticalSpace(32),
                     Form(
                       key: formKey,
                       child: LabelAndWidget(
-                        label: 'Email',
+                        label: AppLocalizations.of(context)!.email,
                         widget: AppTextFormField(
                           controller: emailTextEditingController,
                           hintText: 'example@example.com',
@@ -60,7 +60,7 @@ class ForgetPasswordScreen extends StatelessWidget {
                     ),
                     verticalSpace(30),
                     AppTextButton(
-                      buttonText: 'Send Verification Code',
+                      buttonText: AppLocalizations.of(context)!.sendVerificationCode,
                       onPressed: () {
                         context.pushNamed(Routes.verifyPasswordScreen);
                       },

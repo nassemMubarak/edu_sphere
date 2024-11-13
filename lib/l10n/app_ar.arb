@@ -37,6 +37,7 @@
   "verify": "تحقق",
   "didNotReceiveCode": "لم تتلقَ رمزًا؟",
   "resendAfter": "إعادة الإرسال بعد",
+  "resend": "إعادة الإرسال",
   "resetPassword": "إعادة تعيين كلمة المرور",
   "enterNewPassword": "أدخل كلمة المرور الجديدة للاستمرار",
   "newPassword": "كلمة المرور الجديدة",
@@ -73,5 +74,10 @@
   "deleteConfirmation": "هل تريد حقًا حذف الدورة؟",
   "deleteCoursesButton": "حذف الدورة",
   "home": "الرئيسية",
-  "graduationResearch": "بحث التخرج"
+  "graduationResearch": "بحث التخرج",
+  "atLeastOneLowerCase": "على الأقل حرف صغير واحد",
+  "atLeastOneUpperCase": "على الأقل حرف كبير واحد",
+  "atLeastOneSpecialCharacter": "على الأقل رمز خاص واحد",
+  "atLeastOneNumber": "على الأقل رقم واحد",
+  "atLeastEightCharacters": "على الأقل 8 أحرف"
 }
