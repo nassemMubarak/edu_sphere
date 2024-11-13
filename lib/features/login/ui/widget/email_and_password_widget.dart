@@ -5,7 +5,7 @@ import 'package:edu_sphere/core/widgets/app_text_form_field.dart';
 import 'package:edu_sphere/core/widgets/label_and_widget.dart';
 import 'package:edu_sphere/core/widgets/password_validations.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class EmailAndPasswordWidget extends StatefulWidget {
   const EmailAndPasswordWidget({super.key});
 
@@ -45,7 +45,7 @@ class _EmailAndPasswordWidgetState extends State<EmailAndPasswordWidget> {
         child: Column(
           children: [
             LabelAndWidget(
-              label: 'Email',
+              label: AppLocalizations.of(context)!.email,
               widget: AppTextFormField(
                 controller: emailController,
                 hintText: 'edusphere@gmail.com',
@@ -63,7 +63,7 @@ class _EmailAndPasswordWidgetState extends State<EmailAndPasswordWidget> {
               ),
             ),
             LabelAndWidget(
-              label: 'Password',
+              label: AppLocalizations.of(context)!.password,
               widget: AppTextFormField(
                 isObscureText: isObscureText,
                 controller: passwordController,
