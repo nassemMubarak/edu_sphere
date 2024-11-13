@@ -4,7 +4,7 @@ import 'package:edu_sphere/core/widgets/label_and_widget.dart';
 import 'package:edu_sphere/features/signup/ui/widget/dropdown_button_hide_underline_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class SignUpFormTeacher extends StatefulWidget {
   const SignUpFormTeacher({super.key});
 
@@ -42,11 +42,11 @@ class _EmailAndPasswordWidgetState extends State<SignUpFormTeacher> {
       child: Column(
         children: [
           LabelAndWidget(
-            label: 'University Major',
+            label: AppLocalizations.of(context)!.universityMajor,
             widget: AppTextFormField(
               textInputType: TextInputType.number,
               controller: universityMajorTextEditingController,
-              hintText: 'University Major ',
+              hintText: AppLocalizations.of(context)!.universityMajor,
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Please enter a valid university major';
@@ -61,11 +61,11 @@ class _EmailAndPasswordWidgetState extends State<SignUpFormTeacher> {
             ),
           ),
           LabelAndWidget(
-            label: 'Age',
+            label: AppLocalizations.of(context)!.age,
             widget: AppTextFormField(
               textInputType: TextInputType.number,
               controller: ageTextEditingController,
-              hintText: 'the age',
+              hintText: AppLocalizations.of(context)!.theAge,
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Please enter a valid age';
@@ -78,7 +78,7 @@ class _EmailAndPasswordWidgetState extends State<SignUpFormTeacher> {
             ),
           ),
           LabelAndWidget(
-            label: 'Type Of Teaching',
+            label: AppLocalizations.of(context)!.typeOfTeaching,
             widget: DropdownButtonHideUnderlineWidget(
               onChanged: (value) {
                 setState(() {
@@ -90,7 +90,7 @@ class _EmailAndPasswordWidgetState extends State<SignUpFormTeacher> {
                 });
               },
               items: especiallyTeacher,
-              hintText: 'Especially teacher',
+              hintText: AppLocalizations.of(context)!.especiallyTeacher,
               prefixIcon: Padding(
                 padding: const EdgeInsets.all(14.0),
                 child: SvgPicture.asset('assets/svgs/type_of_teaching.svg'),
@@ -105,9 +105,9 @@ class _EmailAndPasswordWidgetState extends State<SignUpFormTeacher> {
           Visibility(
             visible: isSelectedCamp,
             child: LabelAndWidget(
-              label: 'Camp',
+              label: AppLocalizations.of(context)!.camp,
               widget: DropdownButtonHideUnderlineWidget(
-                hintText: 'Camp Name',
+                hintText: AppLocalizations.of(context)!.campName,
                 items: campName,
                 prefixIcon: Padding(
                   padding: const EdgeInsets.all(14.0),

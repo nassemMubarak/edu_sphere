@@ -5,9 +5,9 @@ import 'package:edu_sphere/features/signup/logic/sign_up_state.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-class SelecteStudentOrTeacherOrCampWidget extends StatelessWidget {
-  const SelecteStudentOrTeacherOrCampWidget({
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+class SelectStudentOrTeacherOrCampWidget extends StatelessWidget {
+  const SelectStudentOrTeacherOrCampWidget({
     super.key,
   });
 
@@ -24,7 +24,7 @@ class SelecteStudentOrTeacherOrCampWidget extends StatelessWidget {
 
               },
               child: Text(
-                'Camp',
+                AppLocalizations.of(context)!.camp,
                 style: state.type == 'camp'
                     ? TextStyles.font16SkyBlue600Weight.copyWith(
                         decoration: TextDecoration.underline,
@@ -51,7 +51,7 @@ class SelecteStudentOrTeacherOrCampWidget extends StatelessWidget {
                       },
                       child: containerRadiusWidget(
                           isSelected: state.type == 'student',
-                          text: 'student')),
+                          text: AppLocalizations.of(context)!.student),),
                   GestureDetector(
                     onTap: () {
                       context
@@ -59,7 +59,7 @@ class SelecteStudentOrTeacherOrCampWidget extends StatelessWidget {
                           .emitChangTypSignUp('teatcher');
                     },
                     child: containerRadiusWidget(
-                        isSelected: state.type == 'teatcher', text: 'teacher'),
+                        isSelected: state.type == 'teatcher', text: AppLocalizations.of(context)!.teacher),
                   ),
                 ],
               ),
@@ -74,7 +74,7 @@ class SelecteStudentOrTeacherOrCampWidget extends StatelessWidget {
                 context.read<SignUpCubit>().emitChangTypeOnClicBotton('camp');
               },
               child: Text(
-                'Camp',
+                AppLocalizations.of(context)!.camp,
                 style: context.read<SignUpCubit>().typeSignUp == 'camp'
                     ? TextStyles.font16SkyBlue600Weight.copyWith(
                         decoration: TextDecoration.underline,
@@ -102,7 +102,7 @@ class SelecteStudentOrTeacherOrCampWidget extends StatelessWidget {
                       child: containerRadiusWidget(
                           isSelected: context.read<SignUpCubit>().typeSignUp ==
                               'student',
-                          text: 'student')),
+                          text: AppLocalizations.of(context)!.student,),),
                   GestureDetector(
                     onTap: () {
                       context
@@ -112,7 +112,7 @@ class SelecteStudentOrTeacherOrCampWidget extends StatelessWidget {
                     child: containerRadiusWidget(
                         isSelected: context.read<SignUpCubit>().typeSignUp ==
                             'teatcher',
-                        text: 'teacher'),
+                        text: AppLocalizations.of(context)!.teacher,),
                   ),
                 ],
               ),
