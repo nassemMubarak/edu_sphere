@@ -8,7 +8,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DeleteCourseInfoDialog extends StatelessWidget {
   int indexCourse;
-  DeleteCourseInfoDialog({super.key, required this.indexCourse});
+  String courseTitle;
+  DeleteCourseInfoDialog({super.key, required this.indexCourse,required this.courseTitle});
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -30,7 +31,7 @@ class DeleteCourseInfoDialog extends StatelessWidget {
         children: [
           verticalSpace(24),
           Text(
-            'Do you really want to delete the Courses?',
+            'Do you really want to delete the Courses $courseTitle ?',
             style: TextStyles.font14Red600Weight,
             textAlign: TextAlign.center,
           ),
