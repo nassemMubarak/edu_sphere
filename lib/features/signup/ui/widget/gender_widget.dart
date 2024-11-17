@@ -27,50 +27,61 @@ class _GenderWidgetState extends State<GenderWidget> {
         verticalSpace(8),
         Row(
           children: [
-            GestureDetector(
+                
+               selecteAndLabel(
                 onTap: () {
                   setState(() {
                     isFemale = false;
                     isMale = true;
                   });
                 },
-                child: selecteAndLabel(label: AppLocalizations.of(context)!.male, isSelected: isMale,),),
+                label: AppLocalizations.of(context)!.male, isSelected: isMale,),
             horizontalSpace(32),
-            GestureDetector(
-              onTap: () {
-                  setState(() {
+            
+              selecteAndLabel(
+                onTap: (){
+                   setState(() {
                     isFemale = true;
                     isMale = false;
                   });
                 },
-              child: selecteAndLabel(label: AppLocalizations.of(context)!.female, isSelected: isFemale,),),
+                label: AppLocalizations.of(context)!.female, isSelected: isFemale,),
           ],
         ),
       ],
     );
   }
 
-  Row selecteAndLabel({required String label, required bool isSelected}) {
-    return Row(
-      children: [
-        Container(
-          padding: const EdgeInsets.all(3),
-          decoration: BoxDecoration(
-            color: isSelected ? ColorsManager.lightBlue : Colors.white,
-            borderRadius: BorderRadius.circular(20.r),
-            border: Border.all(color: ColorsManager.lightBlue),
-          ),
-          child: isSelected
-              ? const Icon(
-                  Icons.check,
-                  color: Colors.white,
-                  size: 14,
-                )
-              : const Padding(padding: EdgeInsets.all(6)),
+  Widget selecteAndLabel(
+      {required String label,
+      required bool isSelected,
+      required Function() onTap}) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: EdgeInsets.all(5),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(3),
+              decoration: BoxDecoration(
+                color: isSelected ? ColorsManager.lightBlue : Colors.white,
+                borderRadius: BorderRadius.circular(20.r),
+                border: Border.all(color: ColorsManager.lightBlue),
+              ),
+              child: isSelected
+                  ? const Icon(
+                      Icons.check,
+                      color: Colors.white,
+                      size: 14,
+                    )
+                  : const Padding(padding: EdgeInsets.all(6)),
+            ),
+            horizontalSpace(8),
+            Text(label, style: TextStyles.font12Black500Weight),
+          ],
         ),
-        horizontalSpace(8),
-        Text(label, style: TextStyles.font12Black500Weight),
-      ],
+      ),
     );
   }
 }

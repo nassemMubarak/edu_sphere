@@ -35,7 +35,8 @@ class AppTextButton extends StatelessWidget {
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
         shape: WidgetStateProperty.all(
           RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(borderRadius ?? 5)),
+              borderRadius: BorderRadius.circular(borderRadius ?? 5),
+              side: BorderSide(color: ColorsManager.mainBlue)),
         ),
         // padding: WidgetStateProperty.all(
         //   EdgeInsets.symmetric(
@@ -47,7 +48,8 @@ class AppTextButton extends StatelessWidget {
         ),
       ),
       onPressed: onPressed,
-      child: Text(buttonText, style: TextStyles.font14White600Weight),
+      child:
+          Text(buttonText, style: textStyle ?? TextStyles.font14White600Weight),
     );
   }
 }
