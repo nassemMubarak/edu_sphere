@@ -1,4 +1,7 @@
+import 'package:edu_sphere/core/helpers/extenshions.dart';
 import 'package:edu_sphere/core/helpers/spacing.dart';
+import 'package:edu_sphere/core/routing/app_rputer.dart';
+import 'package:edu_sphere/core/routing/routes.dart';
 import 'package:edu_sphere/core/theming/colors.dart';
 import 'package:edu_sphere/core/theming/styles.dart';
 import 'package:edu_sphere/core/widgets/app_text_button.dart';
@@ -54,7 +57,9 @@ class LoginScreen extends StatelessWidget {
                       const EmailAndPasswordWidget(),
                       const RememberAndForgetPasswordWidget(),
                       verticalSpace(48),
-                       AppTextButton(buttonText: AppLocalizations.of(context)!.login,),
+                       AppTextButton(buttonText: AppLocalizations.of(context)!.login,onPressed: (){
+                         context.pushNamed(Routes.teacherMainScreen);
+                       },),
                       verticalSpace(35),
                       const TextAccountSignupWidget(),
                     ],

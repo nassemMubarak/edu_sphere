@@ -57,9 +57,21 @@ class TextStyles {
     color: ColorsManager.red,
     fontFamily: 'Poppins',
   );
+  static TextStyle font14Red600Weight = TextStyle(
+    fontSize: 14.sp,
+    fontWeight: FontWeight.w600,
+    color: ColorsManager.red,
+    fontFamily: 'Poppins',
+  );
   static TextStyle font12White400Weight = TextStyle(
     fontSize: 12.sp,
     fontWeight: FontWeight.w400,
+    color: Colors.white,
+    fontFamily: 'Poppins',
+  );
+  static TextStyle font16White600Weight = TextStyle(
+    fontSize: 16.sp,
+    fontWeight: FontWeight.w600,
     color: Colors.white,
     fontFamily: 'Poppins',
   );
@@ -99,10 +111,34 @@ class TextStyles {
     color: Colors.black,
     fontFamily: 'Poppins',
   );
+  static TextStyle font16Black500Weight = TextStyle(
+    fontSize: 16.sp,
+    fontWeight: FontWeight.w500,
+    color: Colors.black,
+    fontFamily: 'Poppins',
+  );
+  static TextStyle font16MainBlue500Weight = TextStyle(
+    fontSize: 16.sp,
+    fontWeight: FontWeight.w500,
+    color: ColorsManager.mainBlue,
+    fontFamily: 'Poppins',
+  );
   static TextStyle font14Black500Weight = TextStyle(
     fontSize: 14.sp,
     fontWeight: FontWeight.w500,
     color: Colors.black,
+    fontFamily: 'Poppins',
+  );
+  static TextStyle font14Black600Weight = TextStyle(
+    fontSize: 14.sp,
+    fontWeight: FontWeight.w600,
+    color: Colors.black,
+    fontFamily: 'Poppins',
+  );
+  static TextStyle font12Green400Weight = TextStyle(
+    fontSize: 12.sp,
+    fontWeight: FontWeight.w400,
+    color: Colors.green,
     fontFamily: 'Poppins',
   );
   static TextStyle font12Black400Weight = TextStyle(
