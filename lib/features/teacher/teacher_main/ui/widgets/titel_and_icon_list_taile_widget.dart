@@ -70,6 +70,7 @@ class TitelAndIconListTaileWidget extends StatelessWidget {
                       context: context,
                       builder: (context) => DeleteCourseInfoDialog(
                         indexCourse: indexCourse!,
+                        courseTitle: coursesModel!.title,
                       ),
                     );
                   },
