@@ -5,7 +5,7 @@ import 'package:edu_sphere/core/widgets/app_text_button.dart';
 import 'package:edu_sphere/features/teacher/teacher_main/logic/teacher_main_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class DeleteCourseInfoDialog extends StatelessWidget {
   int indexCourse;
   String courseTitle;
@@ -22,7 +22,7 @@ class DeleteCourseInfoDialog extends StatelessWidget {
       backgroundColor: Colors.white,
       scrollable: true,
       title: Text(
-        'Delete Courses',
+        AppLocalizations.of(context)!.deleteCourse,
         style: TextStyles.font16Black600Weight,
         textAlign: TextAlign.center,
       ),
@@ -30,8 +30,7 @@ class DeleteCourseInfoDialog extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           verticalSpace(24),
-          Text(
-            'Do you really want to delete the Courses $courseTitle ?',
+          Text(AppLocalizations.of(context)!.deleteConfirmation(courseTitle),
             style: TextStyles.font14Red600Weight,
             textAlign: TextAlign.center,
           ),
@@ -46,7 +45,7 @@ class DeleteCourseInfoDialog extends StatelessWidget {
                           .emitDeleteCourse(indexCourse: indexCourse);
                       context.pop();
                   },
-                  buttonText: 'Delete Course',
+                  buttonText: AppLocalizations.of(context)!.deleteCourse,
                   buttonWidth: 147,
                 ),
               ),
@@ -56,7 +55,7 @@ class DeleteCourseInfoDialog extends StatelessWidget {
                   onPressed: () {
                     context.pop();
                   },
-                  buttonText: 'Cancel',
+                  buttonText: AppLocalizations.of(context)!.cancel,
                   buttonWidth: 147,
                   backgroundColor: Colors.white,
                   textStyle: TextStyles.font14Black600Weight,

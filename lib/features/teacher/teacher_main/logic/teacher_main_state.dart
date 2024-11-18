@@ -9,4 +9,5 @@ class TeacherMainState with _$TeacherMainState {
   const factory TeacherMainState.initial() = _Initial;
   const factory TeacherMainState.addCourse(List<CoursesModel> courses) = addCouseState;
   const factory TeacherMainState.addCourse1(List<CoursesModel> courses) = addCouseState1;
+  const factory TeacherMainState.changCourseType(String type) = changCourseType;
 }

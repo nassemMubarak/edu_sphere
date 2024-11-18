@@ -15,19 +15,21 @@ class ImageAndTextEmptyData extends StatelessWidget {
     return Container(
       height: 159.h,
       alignment: Alignment.center,
-      child: Column(
-        children: [
-          Image.asset(
-            'assets/images/no_data_image.png',
-            height: 130.h,
-            width: 200.w,
-          ),
-          verticalSpace(8),
-          Text(
-            message,
-            style: TextStyles.font12Black400Weight,
-          ),
-        ],
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Image.asset(
+              'assets/images/no_data_image.png',
+              height: 130.h,
+              width: 200.w,
+            ),
+            verticalSpace(8),
+            Text(
+              message,
+              style: TextStyles.font12Black400Weight,
+            ),
+          ],
+        ),
       ),
     );
   }

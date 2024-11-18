@@ -10,20 +10,20 @@ import 'package:edu_sphere/features/teacher/teacher_main/ui/widgets/titel_and_ic
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class SectionCardCourses extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SectionCard(
       showAddButton: true,
-      title: 'Your courses',
-      message: 'You have not added any courses yet.',
+      title: AppLocalizations.of(context)!.yourCourses,
+      message: AppLocalizations.of(context)!.noCoursesAdded,
       icon: 'assets/svgs/courses_icon.svg',
       widget: BlocBuilder<TeacherMainCubit, TeacherMainState>(
         builder: (context, state) {
           if (state is addCouseState) {
             if (state.courses.isEmpty) {
-              return ImageAndTextEmptyData(message: 'You have not added any courses yet.');
+              return ImageAndTextEmptyData(message:  AppLocalizations.of(context)!.noCoursesAdded);
             } else {
               return ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
@@ -35,7 +35,7 @@ class SectionCardCourses extends StatelessWidget {
                   child: TitelAndIconListTaileWidget(
                     iconUrl: 'assets/svgs/writing_education_learning_icon.svg',
                     title: state.courses[index].title,
-                    subTitle: state.courses[index].subTitle,
+                    subTitle: state.courses[index].subTitle=='Paid'?'${ AppLocalizations.of(context)!.paid } ${state.courses[index].price} \$':state.courses[index].subTitle=='Free'? AppLocalizations.of(context)!.free: AppLocalizations.of(context)!.paid,
                     isShowTrailing: true,
                     coursesModel:  context
                             .read<TeacherMainCubit>()
@@ -50,7 +50,7 @@ class SectionCardCourses extends StatelessWidget {
             }
           } else {
             return context.read<TeacherMainCubit>().coursesModelList.isEmpty
-                ? ImageAndTextEmptyData(message: 'You have not added any courses yet.')
+                ? ImageAndTextEmptyData(message:  AppLocalizations.of(context)!.noCoursesAdded)
                 : ListView.builder(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
@@ -70,7 +70,7 @@ class SectionCardCourses extends StatelessWidget {
                         subTitle: context
                             .read<TeacherMainCubit>()
                             .coursesModelList[index]
-                            .subTitle,
+                            .subTitle=='Free'? AppLocalizations.of(context)!.free: AppLocalizations.of(context)!.paid,
                         isShowTrailing: true,
                         indexCourse: index,
                         coursesModel:  context

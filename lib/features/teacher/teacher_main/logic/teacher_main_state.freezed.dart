@@ -21,6 +21,7 @@ mixin _$TeacherMainState {
     required TResult Function() initial,
     required TResult Function(List<CoursesModel> courses) addCourse,
     required TResult Function(List<CoursesModel> courses) addCourse1,
+    required TResult Function(String type) changCourseType,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -28,6 +29,7 @@ mixin _$TeacherMainState {
     TResult? Function()? initial,
     TResult? Function(List<CoursesModel> courses)? addCourse,
     TResult? Function(List<CoursesModel> courses)? addCourse1,
+    TResult? Function(String type)? changCourseType,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -35,6 +37,7 @@ mixin _$TeacherMainState {
     TResult Function()? initial,
     TResult Function(List<CoursesModel> courses)? addCourse,
     TResult Function(List<CoursesModel> courses)? addCourse1,
+    TResult Function(String type)? changCourseType,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -43,6 +46,7 @@ mixin _$TeacherMainState {
     required TResult Function(_Initial value) initial,
     required TResult Function(addCouseState value) addCourse,
     required TResult Function(addCouseState1 value) addCourse1,
+    required TResult Function(changCourseType value) changCourseType,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -50,6 +54,7 @@ mixin _$TeacherMainState {
     TResult? Function(_Initial value)? initial,
     TResult? Function(addCouseState value)? addCourse,
     TResult? Function(addCouseState1 value)? addCourse1,
+    TResult? Function(changCourseType value)? changCourseType,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -57,6 +62,7 @@ mixin _$TeacherMainState {
     TResult Function(_Initial value)? initial,
     TResult Function(addCouseState value)? addCourse,
     TResult Function(addCouseState1 value)? addCourse1,
+    TResult Function(changCourseType value)? changCourseType,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -127,6 +133,7 @@ class _$InitialImpl implements _Initial {
     required TResult Function() initial,
     required TResult Function(List<CoursesModel> courses) addCourse,
     required TResult Function(List<CoursesModel> courses) addCourse1,
+    required TResult Function(String type) changCourseType,
   }) {
     return initial();
   }
@@ -137,6 +144,7 @@ class _$InitialImpl implements _Initial {
     TResult? Function()? initial,
     TResult? Function(List<CoursesModel> courses)? addCourse,
     TResult? Function(List<CoursesModel> courses)? addCourse1,
+    TResult? Function(String type)? changCourseType,
   }) {
     return initial?.call();
   }
@@ -147,6 +155,7 @@ class _$InitialImpl implements _Initial {
     TResult Function()? initial,
     TResult Function(List<CoursesModel> courses)? addCourse,
     TResult Function(List<CoursesModel> courses)? addCourse1,
+    TResult Function(String type)? changCourseType,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -161,6 +170,7 @@ class _$InitialImpl implements _Initial {
     required TResult Function(_Initial value) initial,
     required TResult Function(addCouseState value) addCourse,
     required TResult Function(addCouseState1 value) addCourse1,
+    required TResult Function(changCourseType value) changCourseType,
   }) {
     return initial(this);
   }
@@ -171,6 +181,7 @@ class _$InitialImpl implements _Initial {
     TResult? Function(_Initial value)? initial,
     TResult? Function(addCouseState value)? addCourse,
     TResult? Function(addCouseState1 value)? addCourse1,
+    TResult? Function(changCourseType value)? changCourseType,
   }) {
     return initial?.call(this);
   }
@@ -181,6 +192,7 @@ class _$InitialImpl implements _Initial {
     TResult Function(_Initial value)? initial,
     TResult Function(addCouseState value)? addCourse,
     TResult Function(addCouseState1 value)? addCourse1,
+    TResult Function(changCourseType value)? changCourseType,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -272,6 +284,7 @@ class _$addCouseStateImpl implements addCouseState {
     required TResult Function() initial,
     required TResult Function(List<CoursesModel> courses) addCourse,
     required TResult Function(List<CoursesModel> courses) addCourse1,
+    required TResult Function(String type) changCourseType,
   }) {
     return addCourse(courses);
   }
@@ -282,6 +295,7 @@ class _$addCouseStateImpl implements addCouseState {
     TResult? Function()? initial,
     TResult? Function(List<CoursesModel> courses)? addCourse,
     TResult? Function(List<CoursesModel> courses)? addCourse1,
+    TResult? Function(String type)? changCourseType,
   }) {
     return addCourse?.call(courses);
   }
@@ -292,6 +306,7 @@ class _$addCouseStateImpl implements addCouseState {
     TResult Function()? initial,
     TResult Function(List<CoursesModel> courses)? addCourse,
     TResult Function(List<CoursesModel> courses)? addCourse1,
+    TResult Function(String type)? changCourseType,
     required TResult orElse(),
   }) {
     if (addCourse != null) {
@@ -306,6 +321,7 @@ class _$addCouseStateImpl implements addCouseState {
     required TResult Function(_Initial value) initial,
     required TResult Function(addCouseState value) addCourse,
     required TResult Function(addCouseState1 value) addCourse1,
+    required TResult Function(changCourseType value) changCourseType,
   }) {
     return addCourse(this);
   }
@@ -316,6 +332,7 @@ class _$addCouseStateImpl implements addCouseState {
     TResult? Function(_Initial value)? initial,
     TResult? Function(addCouseState value)? addCourse,
     TResult? Function(addCouseState1 value)? addCourse1,
+    TResult? Function(changCourseType value)? changCourseType,
   }) {
     return addCourse?.call(this);
   }
@@ -326,6 +343,7 @@ class _$addCouseStateImpl implements addCouseState {
     TResult Function(_Initial value)? initial,
     TResult Function(addCouseState value)? addCourse,
     TResult Function(addCouseState1 value)? addCourse1,
+    TResult Function(changCourseType value)? changCourseType,
     required TResult orElse(),
   }) {
     if (addCourse != null) {
@@ -427,6 +445,7 @@ class _$addCouseState1Impl implements addCouseState1 {
     required TResult Function() initial,
     required TResult Function(List<CoursesModel> courses) addCourse,
     required TResult Function(List<CoursesModel> courses) addCourse1,
+    required TResult Function(String type) changCourseType,
   }) {
     return addCourse1(courses);
   }
@@ -437,6 +456,7 @@ class _$addCouseState1Impl implements addCouseState1 {
     TResult? Function()? initial,
     TResult? Function(List<CoursesModel> courses)? addCourse,
     TResult? Function(List<CoursesModel> courses)? addCourse1,
+    TResult? Function(String type)? changCourseType,
   }) {
     return addCourse1?.call(courses);
   }
@@ -447,6 +467,7 @@ class _$addCouseState1Impl implements addCouseState1 {
     TResult Function()? initial,
     TResult Function(List<CoursesModel> courses)? addCourse,
     TResult Function(List<CoursesModel> courses)? addCourse1,
+    TResult Function(String type)? changCourseType,
     required TResult orElse(),
   }) {
     if (addCourse1 != null) {
@@ -461,6 +482,7 @@ class _$addCouseState1Impl implements addCouseState1 {
     required TResult Function(_Initial value) initial,
     required TResult Function(addCouseState value) addCourse,
     required TResult Function(addCouseState1 value) addCourse1,
+    required TResult Function(changCourseType value) changCourseType,
   }) {
     return addCourse1(this);
   }
@@ -471,6 +493,7 @@ class _$addCouseState1Impl implements addCouseState1 {
     TResult? Function(_Initial value)? initial,
     TResult? Function(addCouseState value)? addCourse,
     TResult? Function(addCouseState1 value)? addCourse1,
+    TResult? Function(changCourseType value)? changCourseType,
   }) {
     return addCourse1?.call(this);
   }
@@ -481,6 +504,7 @@ class _$addCouseState1Impl implements addCouseState1 {
     TResult Function(_Initial value)? initial,
     TResult Function(addCouseState value)? addCourse,
     TResult Function(addCouseState1 value)? addCourse1,
+    TResult Function(changCourseType value)? changCourseType,
     required TResult orElse(),
   }) {
     if (addCourse1 != null) {
@@ -500,5 +524,158 @@ abstract class addCouseState1 implements TeacherMainState {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$addCouseState1ImplCopyWith<_$addCouseState1Impl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$changCourseTypeImplCopyWith<$Res> {
+  factory _$$changCourseTypeImplCopyWith(_$changCourseTypeImpl value,
+          $Res Function(_$changCourseTypeImpl) then) =
+      __$$changCourseTypeImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String type});
+}
+
+/// @nodoc
+class __$$changCourseTypeImplCopyWithImpl<$Res>
+    extends _$TeacherMainStateCopyWithImpl<$Res, _$changCourseTypeImpl>
+    implements _$$changCourseTypeImplCopyWith<$Res> {
+  __$$changCourseTypeImplCopyWithImpl(
+      _$changCourseTypeImpl _value, $Res Function(_$changCourseTypeImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of TeacherMainState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+  }) {
+    return _then(_$changCourseTypeImpl(
+      null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$changCourseTypeImpl implements changCourseType {
+  const _$changCourseTypeImpl(this.type);
+
+  @override
+  final String type;
+
+  @override
+  String toString() {
+    return 'TeacherMainState.changCourseType(type: $type)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$changCourseTypeImpl &&
+            (identical(other.type, type) || other.type == type));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, type);
+
+  /// Create a copy of TeacherMainState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$changCourseTypeImplCopyWith<_$changCourseTypeImpl> get copyWith =>
+      __$$changCourseTypeImplCopyWithImpl<_$changCourseTypeImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function(List<CoursesModel> courses) addCourse,
+    required TResult Function(List<CoursesModel> courses) addCourse1,
+    required TResult Function(String type) changCourseType,
+  }) {
+    return changCourseType(type);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function(List<CoursesModel> courses)? addCourse,
+    TResult? Function(List<CoursesModel> courses)? addCourse1,
+    TResult? Function(String type)? changCourseType,
+  }) {
+    return changCourseType?.call(type);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function(List<CoursesModel> courses)? addCourse,
+    TResult Function(List<CoursesModel> courses)? addCourse1,
+    TResult Function(String type)? changCourseType,
+    required TResult orElse(),
+  }) {
+    if (changCourseType != null) {
+      return changCourseType(type);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
+    required TResult Function(addCouseState value) addCourse,
+    required TResult Function(addCouseState1 value) addCourse1,
+    required TResult Function(changCourseType value) changCourseType,
+  }) {
+    return changCourseType(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(addCouseState value)? addCourse,
+    TResult? Function(addCouseState1 value)? addCourse1,
+    TResult? Function(changCourseType value)? changCourseType,
+  }) {
+    return changCourseType?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(addCouseState value)? addCourse,
+    TResult Function(addCouseState1 value)? addCourse1,
+    TResult Function(changCourseType value)? changCourseType,
+    required TResult orElse(),
+  }) {
+    if (changCourseType != null) {
+      return changCourseType(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class changCourseType implements TeacherMainState {
+  const factory changCourseType(final String type) = _$changCourseTypeImpl;
+
+  String get type;
+
+  /// Create a copy of TeacherMainState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$changCourseTypeImplCopyWith<_$changCourseTypeImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

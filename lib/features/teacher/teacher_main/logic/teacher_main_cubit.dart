@@ -6,18 +6,26 @@ import 'package:edu_sphere/features/teacher/teacher_main/logic/teacher_main_stat
 class TeacherMainCubit extends Cubit<TeacherMainState> {
   final globalKey = GlobalKey<FormState>();
   TextEditingController courseNameController = TextEditingController();
+  TextEditingController coursePriceController = TextEditingController();
   String? courseType = 'Paid';
 
   List<CoursesModel> coursesModelList = [
     CoursesModel(
       title: 'Graduation research',
-      subTitle: 'paid',
+      subTitle: 'Paid',
+      price: '20'
     ),
     CoursesModel(
       title: 'Software Security',
       subTitle: 'Free',
+
     ),
   ];
+  emitChangCourseType(String courseType){
+    emit(addCouseState1(coursesModelList));
+    this.courseType = courseType;
+    emit(changCourseType(courseType));
+  }
   TeacherMainCubit() : super(const TeacherMainState.initial());
   void emitAddCourse() {
     emit(addCouseState1(coursesModelList));
@@ -25,9 +33,11 @@ class TeacherMainCubit extends Cubit<TeacherMainState> {
       CoursesModel(
         title: courseNameController.text,
         subTitle: courseType!,
+        price: coursePriceController.text.isEmpty ?null:coursePriceController.text
       ),
     );
     courseNameController = TextEditingController();
+    coursePriceController = TextEditingController();
     emit(addCouseState(coursesModelList));
   }
 
@@ -36,8 +46,10 @@ class TeacherMainCubit extends Cubit<TeacherMainState> {
 
     coursesModelList[indexCourse].title = courseNameController.text;
     coursesModelList[indexCourse].subTitle = courseType!;
+    coursesModelList[indexCourse].price = coursePriceController.text.isEmpty ?null:coursePriceController.text;
 
     courseNameController = TextEditingController();
+    coursePriceController = TextEditingController();
     emit(addCouseState(coursesModelList));
   }
 
@@ -48,6 +60,7 @@ class TeacherMainCubit extends Cubit<TeacherMainState> {
     
 
     courseNameController = TextEditingController();
+    coursePriceController = TextEditingController();
     emit(addCouseState(coursesModelList));
   }
 }
