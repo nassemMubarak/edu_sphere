@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class SelectCourseType extends StatefulWidget {
   bool? isSelectedPaid;
   SelectCourseType({super.key, this.isSelectedPaid});
@@ -22,12 +22,8 @@ class _SelectCourseTypeState extends State<SelectCourseType> {
   void initState() {
     super.initState();
     isPaid = widget.isSelectedPaid != null ? widget.isSelectedPaid! : true;
-    context.read<TeacherMainCubit>().courseType = widget.isSelectedPaid==null?'Paid':'';
-    isFree = widget.isSelectedPaid != null
-        ? widget.isSelectedPaid == false
-            ? true
-            : false
-        : false;
+    context.read<TeacherMainCubit>().courseType = isPaid?'Paid':'Free';
+    isFree = isPaid==true?false:true;
   }
 
   @override
@@ -36,7 +32,7 @@ class _SelectCourseTypeState extends State<SelectCourseType> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Course Type',
+          AppLocalizations.of(context)!.courseType,
           style: TextStyles.font14Black500Weight,
         ),
         verticalSpace(8),
@@ -48,9 +44,10 @@ class _SelectCourseTypeState extends State<SelectCourseType> {
                   isFree = false;
                   isPaid = true;
                 });
-                context.read<TeacherMainCubit>().courseType = 'Paid';
+
+                context.read<TeacherMainCubit>().emitChangCourseType('Paid');
               },
-              label: 'Paid',
+              label: AppLocalizations.of(context)!.paid,
               isSelected: isPaid,
             ),
             horizontalSpace(32),
@@ -60,9 +57,9 @@ class _SelectCourseTypeState extends State<SelectCourseType> {
                   isFree = true;
                   isPaid = false;
                 });
-                context.read<TeacherMainCubit>().courseType = 'Free';
+                context.read<TeacherMainCubit>().emitChangCourseType('Free');
               },
-              label: 'Free',
+              label: AppLocalizations.of(context)!.free,
               isSelected: isFree,
             ),
           ],
@@ -71,14 +68,14 @@ class _SelectCourseTypeState extends State<SelectCourseType> {
         Visibility(
           visible: isPaid,
           child: Text(
-            'You will pay for the application if the course is paid',
+            AppLocalizations.of(context)!.paymentNoticePaid,
             style: TextStyles.font12Red400Weight,
           ),
         ),
         Visibility(
           visible: isFree,
           child: Text(
-            'You will pay for the application if the course is Free',
+            AppLocalizations.of(context)!.paymentNoticeFree,
             style: TextStyles.font12Green400Weight,
           ),
         ),

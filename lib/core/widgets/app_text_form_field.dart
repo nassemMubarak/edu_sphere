@@ -37,6 +37,7 @@ class AppTextFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+
       keyboardType: textInputType,
       controller: controller,
       decoration: InputDecoration(

@@ -8,7 +8,7 @@ import 'package:edu_sphere/features/teacher/teacher_main/ui/widgets/section_card
 import 'package:edu_sphere/features/teacher/teacher_main/ui/widgets/section_card_courses.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TeacherMainScreen extends StatelessWidget {
   const TeacherMainScreen({super.key});
@@ -34,11 +34,12 @@ class TeacherMainScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     SectionCard(
-                      title: 'Your Quizzes & Assessment',
-                      message: 'You have not added any quizzes yet.',
+                      title: AppLocalizations.of(context)!.yourQuizzes,
+                      message: AppLocalizations.of(context)!.noQuizzesAdded,
                       icon: 'assets/svgs/quiz_on_computer_question_icon.svg',
                       widget: ImageAndTextEmptyData(
-                          message: 'You have not added any courses yet.'),
+                          message: AppLocalizations.of(context)!.noQuizzesAdded,
+                      ),
                     ),
                     verticalSpace(24),
                     SectionCardCourses(),

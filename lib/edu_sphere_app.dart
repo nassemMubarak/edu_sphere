@@ -39,7 +39,7 @@ class EduSphereApp extends StatelessWidget {
                 Locale('ar',''),
                 Locale('en',''),
               ],
-              locale: Locale('en'),
+              locale: Locale('ar'),
               debugShowCheckedModeBanner: false,
               title: 'Edu Sphere App',
               onGenerateRoute: appRouter.generateRoute,
