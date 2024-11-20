@@ -1,30 +1,27 @@
 import 'package:edu_sphere/core/helpers/spacing.dart';
 import 'package:edu_sphere/core/theming/colors.dart';
 import 'package:edu_sphere/core/theming/styles.dart';
-import 'package:edu_sphere/features/teacher/teacher_main/logic/teacher_main_cubit.dart';
-import 'package:edu_sphere/features/teacher/teacher_main/logic/teacher_main_state.dart';
 import 'package:edu_sphere/features/teacher/teacher_main/ui/widgets/course_info_dialog.dart';
-import 'package:edu_sphere/core/widgets/image_and_text_empty_data.dart';
-import 'package:edu_sphere/features/teacher/teacher_main/ui/widgets/titel_and_icon_list_taile_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SectionCard extends StatelessWidget {
   final String title;
-  final String message;
   final bool showAddButton;
   final String icon;
   final Widget widget;
+  final Widget infoDialog;
+  final Function()? onTapEdit;
 
-  SectionCard({
-    required this.title,
-    required this.message,
-    this.showAddButton = false,
-    required this.icon,
-    required this.widget,
-  });
+  SectionCard(
+      {required this.title,
+      this.showAddButton = false,
+      required this.icon,
+      required this.widget,
+      required this.infoDialog,
+      this.onTapEdit,
+      });
 
   @override
   Widget build(BuildContext context) {
@@ -59,27 +56,34 @@ class SectionCard extends StatelessWidget {
                   title,
                   style: TextStyles.font16Black600Weight,
                 ),
-                const Spacer(),
+                Spacer(),
                 Visibility(
-                  visible: showAddButton,
-                  child: addButtonWidget(context),
+                  visible: onTapEdit != null,
+                  child: GestureDetector(
+                    onTap: onTapEdit,
+                    child: SvgPicture.asset('assets/svgs/edite_icon.svg',
+                        height: 24, width: 24),
+                  ),
                 ),
+                horizontalSpace(8),
+                addButtonWidget(context, infoDialog: infoDialog),
               ],
             ),
             horizontalSpace(8),
-           widget,
+            widget,
           ],
         ),
       ),
     );
   }
 
-  GestureDetector addButtonWidget(BuildContext context) {
+  GestureDetector addButtonWidget(BuildContext context,
+      {required Widget infoDialog}) {
     return GestureDetector(
       onTap: () {
         showDialog(
           context: context,
-          builder: (context) => CourseInfoDialog(),
+          builder: (context) => infoDialog,
         );
       },
       child: Container(

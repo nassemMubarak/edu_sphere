@@ -14,6 +14,9 @@ class AppTextFormField extends StatelessWidget {
   final Widget? suffixIcon;
   final Widget? prefixIcon;
   final Color? backgroundColor;
+  final int? maxLines;
+  final int? minLines;
+  final TextStyle? textStyle;
   final TextEditingController? controller;
   final Function(String?) validator;
   final TextInputType? textInputType;
@@ -31,15 +34,21 @@ class AppTextFormField extends StatelessWidget {
     this.backgroundColor,
     this.controller,
     this.textInputType,
+    this.maxLines,
+    this.minLines,
+    this.textStyle,
     required this.validator,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-
+      textAlignVertical: TextAlignVertical.top,
+      minLines: isObscureText!=null?1:minLines,
+      maxLines:isObscureText!=null?1:maxLines,
       keyboardType: textInputType,
       controller: controller,
+
       decoration: InputDecoration(
         prefixIcon: prefixIcon,
         isDense: true,
@@ -78,8 +87,9 @@ class AppTextFormField extends StatelessWidget {
         fillColor: backgroundColor ?? ColorsManager.lightGray,
         filled: true,
       ),
-      obscureText: isObscureText ?? false,
-      style: TextStyles.font14MainBlue400Weight,
+       obscureText: isObscureText ?? false,
+
+      style: textStyle??TextStyles.font14MainBlue400Weight,
       validator: (value) {
         return validator(value);
       },

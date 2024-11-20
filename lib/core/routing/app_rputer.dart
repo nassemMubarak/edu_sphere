@@ -6,6 +6,7 @@ import 'package:edu_sphere/features/login/ui/login_screen.dart';
 import 'package:edu_sphere/features/onboarding/ui/onboarding_screen.dart';
 import 'package:edu_sphere/features/signup/logic/sign_up_cubit.dart';
 import 'package:edu_sphere/features/signup/ui/signup_screen.dart';
+import 'package:edu_sphere/features/teacher/course_main/presentation/pages/course_main_screen.dart';
 import 'package:edu_sphere/features/teacher/teacher_main/logic/teacher_main_cubit.dart';
 import 'package:edu_sphere/features/teacher/teacher_main/ui/teacher_main_screen.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +27,8 @@ class AppRouter {
 
       case Routes.verifyPasswordScreen:
         return MaterialPageRoute(builder: (_) => VerifyPasswordScreen());
+      case Routes.courseMainScreen:
+        return MaterialPageRoute(builder: (_) =>const CourseMainScreen());
       case Routes.teacherMainScreen:
         return MaterialPageRoute(
           builder: (_) => const TeacherMainScreen()

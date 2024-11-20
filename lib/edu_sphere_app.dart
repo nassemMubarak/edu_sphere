@@ -2,6 +2,7 @@ import 'package:edu_sphere/core/routing/app_rputer.dart';
 import 'package:edu_sphere/core/routing/routes.dart';
 import 'package:edu_sphere/core/theming/colors.dart';
 import 'package:edu_sphere/features/signup/logic/sign_up_cubit.dart';
+import 'package:edu_sphere/features/teacher/course_main/presentation/bloc/course_main_cubit.dart';
 import 'package:edu_sphere/features/teacher/teacher_main/logic/teacher_main_cubit.dart';
 import 'package:edu_sphere/main.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,7 @@ class EduSphereApp extends StatelessWidget {
       providers: [
          BlocProvider(create: (context)=>SignUpCubit()..emitChangTypSignUp('student')),
          BlocProvider(create: (context)=>TeacherMainCubit()),
+         BlocProvider(create: (context)=>CourseMainCubit()),
       ],
       child:
          ScreenUtilInit(
@@ -39,7 +41,7 @@ class EduSphereApp extends StatelessWidget {
                 Locale('ar',''),
                 Locale('en',''),
               ],
-              locale: Locale('ar'),
+              locale: Locale('en'),
               debugShowCheckedModeBanner: false,
               title: 'Edu Sphere App',
               onGenerateRoute: appRouter.generateRoute,
