@@ -14,6 +14,7 @@ class TitelAndIconListTaileWidget extends StatelessWidget {
   final TextStyle? subTitleStyle;
   final CoursesModel? coursesModel;
   final int? indexCourse;
+  final Function()? onTap;
   const TitelAndIconListTaileWidget(
       {super.key,
       required this.title,
@@ -23,11 +24,13 @@ class TitelAndIconListTaileWidget extends StatelessWidget {
       this.subTitleStyle,
       this.coursesModel,
       this.indexCourse,
+      this.onTap,
       });
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      onTap: onTap,
       contentPadding: const EdgeInsets.only(left: 0.0, right: 0.0),
       title: Text(
         title,

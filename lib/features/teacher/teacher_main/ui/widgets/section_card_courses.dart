@@ -1,10 +1,12 @@
+import 'package:edu_sphere/core/helpers/extenshions.dart';
 import 'package:edu_sphere/core/helpers/spacing.dart';
+import 'package:edu_sphere/core/routing/routes.dart';
 import 'package:edu_sphere/core/theming/colors.dart';
 import 'package:edu_sphere/core/theming/styles.dart';
 import 'package:edu_sphere/features/teacher/teacher_main/logic/teacher_main_cubit.dart';
 import 'package:edu_sphere/features/teacher/teacher_main/logic/teacher_main_state.dart';
 import 'package:edu_sphere/features/teacher/teacher_main/ui/widgets/course_info_dialog.dart';
-import 'package:edu_sphere/features/teacher/teacher_main/ui/widgets/image_and_text_empty_data.dart';
+import 'package:edu_sphere/core/widgets/image_and_text_empty_data.dart';
 import 'package:edu_sphere/features/teacher/teacher_main/ui/widgets/section_card.dart';
 import 'package:edu_sphere/features/teacher/teacher_main/ui/widgets/titel_and_icon_list_taile_widget.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +35,9 @@ class SectionCardCourses extends StatelessWidget {
                 itemBuilder: (context, index) => Container(
                   margin: const EdgeInsets.only(bottom: 16),
                   child: TitelAndIconListTaileWidget(
+                    onTap: (){
+                      context.pushNamed(Routes.courseMainScreen);
+                    },
                     iconUrl: 'assets/svgs/writing_education_learning_icon.svg',
                     title: state.courses[index].title,
                     subTitle: state.courses[index].subTitle=='Paid'?'${ AppLocalizations.of(context)!.paid } ${state.courses[index].price} \$':state.courses[index].subTitle=='Free'? AppLocalizations.of(context)!.free: AppLocalizations.of(context)!.paid,
@@ -62,6 +67,9 @@ class SectionCardCourses extends StatelessWidget {
                     itemBuilder: (context, index) => Container(
                       margin: const EdgeInsets.only(bottom: 16),
                       child: TitelAndIconListTaileWidget(
+                        onTap: (){
+                          context.pushNamed(Routes.courseMainScreen);
+                        },
                         iconUrl: 'assets/svgs/writing_education_learning_icon.svg',
                         title: context
                             .read<TeacherMainCubit>()
