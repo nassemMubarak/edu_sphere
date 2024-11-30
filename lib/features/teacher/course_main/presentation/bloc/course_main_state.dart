@@ -14,3 +14,8 @@ class ChangColorTextInTextField extends CourseMainState{
   GetAllAds({required this.listAds});
 
   }
+  class GetAllLecture extends CourseMainState{
+  final List<Lecture> lectures;
+  GetAllLecture({required this.lectures});
+
+  }
