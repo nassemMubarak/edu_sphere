@@ -45,7 +45,7 @@ class ImageAndNameDrawer extends StatelessWidget {
             ],
           ),
           verticalSpace(8),
-          Text(' Last login 30 minutes ago',style: TextStyles.font12White400Weight,)
+          Text(' Last auth 30 minutes ago',style: TextStyles.font12White400Weight,)
         ],
 
       ),

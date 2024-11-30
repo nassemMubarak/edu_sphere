@@ -4,6 +4,8 @@ import 'package:edu_sphere/core/widgets/wave_top_widget.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/bloc/course_main_cubit.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/widgets/advertisements/add_advertisements_info_dialog.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/widgets/advertisements/advertisements_widget.dart';
+import 'package:edu_sphere/features/teacher/course_main/presentation/widgets/lecture_widgets/lectures_widget.dart';
+import 'package:edu_sphere/features/teacher/course_main/presentation/widgets/quize/quize_widget.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/widgets/section_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -33,24 +35,10 @@ class CourseMainScreen extends StatelessWidget {
                   children: [
                     AdvertisementsWidget(),
                     verticalSpace(24),
-                    SectionCard(
-                      title: 'Lectures',
-                      icon: 'assets/svgs/video_lecture_icon.svg',
-                      infoDialog: AddAdvertisementsInfoDialog(),
-
-                      widget: const ImageAndTextEmptyData(
-                        message: 'You have not added any Lectures yet.',
-                      ),
-                    ),
+                    LecturesWidget(),
+                   
                     verticalSpace(24),
-                    SectionCard(
-                      title: 'Quizzes',
-                      icon: 'assets/svgs/quiz_on_computer_question_icon.svg',
-                      infoDialog: AddAdvertisementsInfoDialog(),
-
-                      widget: const ImageAndTextEmptyData(
-                          message: 'You have not added any Quizzes yet.'),
-                    ),
+                    QuizeWidget(),
                     verticalSpace(24),
                     SectionCard(
                       title: 'Assessment',

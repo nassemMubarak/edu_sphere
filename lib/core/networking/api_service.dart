@@ -8,8 +8,8 @@
 // abstract class ApiService {
 //   factory ApiService(Dio dio, {String baseUrl}) = _ApiService;
 //
-//   @POST(ApiConstants.login)
-//   Future<LoginResponse> login(
+//   @POST(ApiConstants.auth)
+//   Future<LoginResponse> auth(
 //       @Body() LoginRequistBody loginRequistBody,
 //       );
 // }

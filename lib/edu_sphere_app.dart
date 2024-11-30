@@ -1,7 +1,7 @@
 import 'package:edu_sphere/core/routing/app_rputer.dart';
 import 'package:edu_sphere/core/routing/routes.dart';
 import 'package:edu_sphere/core/theming/colors.dart';
-import 'package:edu_sphere/features/signup/logic/sign_up_cubit.dart';
+import 'package:edu_sphere/features/auth/presentation/bloc/signup/sign_up_cubit.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/bloc/course_main_cubit.dart';
 import 'package:edu_sphere/features/teacher/teacher_main/logic/teacher_main_cubit.dart';
 import 'package:edu_sphere/main.dart';

@@ -73,6 +73,9 @@ dependencies:
   #Remote API
   http: ^1.2.2
   internet_connection_checker: ^1.0.0+1
+  # Flutter plugin for playing or streaming inline YouTube videos using the official iFrame player API
+  # youtube_player_flutter: ^9.1.1
+
   
   # use for in-app localization with map data
 #   Flutter plugin for reading and writing simple key-value pairs.
