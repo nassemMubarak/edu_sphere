@@ -49,6 +49,8 @@ class TitelAndIconListTaileWidget extends StatelessWidget {
       subtitle: Text(
         subTitle,
         style: subTitleStyle ?? TextStyles.font12NeutralGray400Weight,
+        overflow: TextOverflow.ellipsis,
+        maxLines: 2,
       ),
       trailing: isShowTrailing == null
           ? null

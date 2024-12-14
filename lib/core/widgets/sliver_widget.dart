@@ -25,15 +25,14 @@ class SliverWidget extends StatelessWidget {
             leading: leading,
             toolbarHeight: 70,
             centerTitle: true,
+            foregroundColor: Colors.white,
             backgroundColor: ColorsManager.mainBlue ,
             iconTheme:const IconThemeData(color: Colors.white),
-            expandedHeight: 165.h, // Height when fully expanded
-            floating: false, // If true, the app bar will not stick at the top
+            expandedHeight: 160.h, // Height when fully expanded04
+            floating: true, // If true, the app bar will not stick at the top
             pinned: true, // Keep the app bar visible when scrolled up
-
             flexibleSpace: FlexibleSpaceBar(
-
-              titlePadding: EdgeInsetsDirectional.only(top: 15.h,bottom: 10.h,start: 80.w),
+              titlePadding: EdgeInsetsDirectional.only(top:30.h,bottom: 12.h,start: 80.w),
               title: RichText(
                 text: TextSpan(
                     text: 'E',
@@ -50,10 +49,10 @@ class SliverWidget extends StatelessWidget {
                     ]),
               ),
               background: Container(
-                height: 165.h,
+                  height: 165.h,
                   width: double.infinity,
                   color: Colors.white,
-                  child: Image.asset('assets/images/background_appbar.png',fit: BoxFit.fitWidth,)),
+                  child: Image.asset('assets/images/background_appbar.png',fit: BoxFit.cover,)),
             ),
 
           ),
