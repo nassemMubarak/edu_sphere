@@ -7,6 +7,7 @@ import 'package:edu_sphere/core/widgets/app_text_button.dart';
 import 'package:edu_sphere/core/widgets/app_text_form_field.dart';
 import 'package:edu_sphere/core/widgets/dropdown_widget.dart';
 import 'package:edu_sphere/core/widgets/label_and_widget.dart';
+import 'package:edu_sphere/features/auth/presentation/bloc/auth/auth_cubit.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/bloc/course_main_cubit.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/widgets/quiz_widgets/date_quiz_widget.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/widgets/quiz_widgets/time_quiz_widget.dart';
@@ -150,6 +151,23 @@ class AddQuizDialog extends StatelessWidget {
                 ],
               ),
             ),
+
+            BlocBuilder<CourseMainCubit,CourseMainState>(
+              builder: (context, state) {
+                if(state is ErrorMessageAddQuiz){
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      verticalSpace(10),
+                      Text(state.message,style: TextStyles.font12Red400Weight),
+                      verticalSpace(10),
+                    ],
+                  );
+                }else{
+                  return SizedBox.shrink();
+                }
+              },
+            ),
             verticalSpace(10),
             Row(
               children: [
@@ -160,9 +178,7 @@ class AddQuizDialog extends StatelessWidget {
                               .read<CourseMainCubit>()
                               .globalQuizeKey
                               .currentState!
-                              .validate() &&
-                          context.read<CourseMainCubit>().validateStartDate() &&
-                          context.read<CourseMainCubit>().validateEndDate() &&
+                              .validate()&&context.read<CourseMainCubit>().validateDateTimeQuiz() &&
                           context
                                   .read<CourseMainCubit>()
                                   .isSuccessSelectDateTime ==
@@ -171,15 +187,7 @@ class AddQuizDialog extends StatelessWidget {
                               context.pop();
 
                       }
-                      context.read<CourseMainCubit>().quizTitleTextEditionController = TextEditingController();
-                      context.read<CourseMainCubit>().quizTimeLiftTextEditionController = TextEditingController();
-                      context.read<CourseMainCubit>().quizQuizScoreTextEditionController = TextEditingController();
-                      context.read<CourseMainCubit>().quizDescriptionTextEditionController = TextEditingController();
-                      context.read<CourseMainCubit>().selectedStartDateQuiz = null;
-                      context.read<CourseMainCubit>().selectedEndDateQuiz = null;
-                      context.read<CourseMainCubit>().startDateTimeQuiz = null;
-                      context.read<CourseMainCubit>().endDateTimeQuiz = null;
-                      context.read<CourseMainCubit>().errorMessageQuiz = null;
+
                     },
                     buttonText: 'Add Quiz',
                     buttonWidth: 147,

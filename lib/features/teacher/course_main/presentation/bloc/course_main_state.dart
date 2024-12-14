@@ -9,17 +9,9 @@ class ChangColorTextInTextField extends CourseMainState{
   final Color colorSelect;
   ChangColorTextInTextField({required this.colorSelect});
 }
-class ErrorMessageValidateEndDateQuiz extends CourseMainState{
+class ErrorMessageAddQuiz extends CourseMainState{
   final String message;
-  ErrorMessageValidateEndDateQuiz({required this.message});
-}
-class ErrorMessageValidateStartDateQuiz extends CourseMainState{
-  final String message;
-  ErrorMessageValidateStartDateQuiz({required this.message});
-}
-class ErrorMessageValidateEndTimeQuiz extends CourseMainState{
-  final String message;
-  ErrorMessageValidateEndTimeQuiz({required this.message});
+  ErrorMessageAddQuiz({required this.message});
 }
 class GetAllQuiz extends CourseMainState{
   List<Quiz> listQuiz;
@@ -28,7 +20,6 @@ class GetAllQuiz extends CourseMainState{
   class GetAllAds extends CourseMainState{
   final List<Ads> listAds;
   GetAllAds({required this.listAds});
-
   }
   class GetAllChapters extends CourseMainState{
     final List<Chapter> listChapter;

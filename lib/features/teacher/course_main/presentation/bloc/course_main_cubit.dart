@@ -1,8 +1,6 @@
 import 'dart:ui';
-
 import 'package:bloc/bloc.dart';
 import 'package:edu_sphere/core/theming/colors.dart';
-import 'package:edu_sphere/edu_sphere_app.dart';
 import 'package:edu_sphere/features/teacher/course_main/domain/entities/ads.dart';
 import 'package:edu_sphere/features/teacher/course_main/domain/entities/chapter.dart';
 import 'package:edu_sphere/features/teacher/course_main/domain/entities/lecture.dart';
@@ -11,7 +9,6 @@ import 'package:edu_sphere/features/teacher/teacher_main/data/model/courses_mode
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
-
 part 'course_main_state.dart';
 
 class CourseMainCubit extends Cubit<CourseMainState> {
@@ -39,63 +36,48 @@ class CourseMainCubit extends Cubit<CourseMainState> {
   DateTime? startDateTimeQuiz;
   DateTime? endDateTimeQuiz;
   String? errorMessageQuiz;
+  DateTime? startTime;
+  DateTime? endTime;
 
-  // Function to validate the start date
-  bool validateStartDate() {
-    if (selectedStartDateQuiz != null) {
-      if (selectedStartDateQuiz!.isBefore(DateTime.now())) {
-        errorMessageQuiz = 'Selected date cannot be before the current date.';
-        emit(ErrorMessageValidateStartDateQuiz(message: errorMessageQuiz!));
-        return false;
-      }
-    } else if (selectedStartDateQuiz == null) {
-      emit(ErrorMessageValidateStartDateQuiz(
-          message: 'Please Enter Start Date'));
+
+  validateDateTimeQuiz() {
+    if (selectedStartDateQuiz == null) {
+      emit(ErrorMessageAddQuiz(message: 'Please Enter Start Date'));
       return false;
     }
-    emit(ErrorMessageValidateStartDateQuiz(message: ''));
-    return true;
-  }
-
-  // Function to validate the end date
-  bool validateEndDate() {
-    if (selectedStartDateQuiz != null && selectedEndDateQuiz != null) {
-      if (selectedEndDateQuiz!.isBefore(selectedStartDateQuiz!)) {
-        errorMessageQuiz = "End date must be later than start date.";
-        emit(ErrorMessageValidateEndDateQuiz(message: errorMessageQuiz!));
-        return false;
-      }
-    } else if (selectedEndDateQuiz == null) {
-      emit(ErrorMessageValidateEndDateQuiz(message: 'Please Enter End Date'));
+    else if (selectedEndDateQuiz == null) {
+      emit(ErrorMessageAddQuiz(message: 'Please Enter End Date'));
       return false;
     }
-    emit(ErrorMessageValidateEndDateQuiz(message: ''));
-    errorMessageQuiz = null; // No error
-    return true;
-  }
-
-  // Function to validate the start Time
-  String? validateStartTime(DateTime startDate, TimeOfDay startTime) {
-    DateTime startDateTime = DateTime(
-      startDate.year,
-      startDate.month,
-      startDate.day,
-      startTime.hour,
-      startTime.minute,
-    );
-
-    if (startDateTime.isBefore(DateTime.now())) {
-      isSuccessSelectDateTime = false;
-      return 'Start time cannot be before the current time.';
+    else if (startTime == null) {
+      emit(ErrorMessageAddQuiz(message: 'Please Enter Start Time'));
+      return false;
+    } else if (endTime == null) {
+      emit(ErrorMessageAddQuiz(message: 'Please Enter End Time'));
+      return false;
+    }else if(selectedStartDateQuiz!.isBefore(DateTime.now())){
+      emit(ErrorMessageAddQuiz(message: 'Selected date cannot be before the current date.'));
+      return false;
     }
+    else if(selectedEndDateQuiz!.isBefore(selectedStartDateQuiz!)){
+      emit(ErrorMessageAddQuiz(message: 'end date cannot be before the start date'));
+      return false;
+    }
+    else if(selectedStartDateQuiz != null&&selectedEndDateQuiz != null&&startTime != null&&endTime != null){
+      TimeOfDay timeOfDayEnd = TimeOfDay.fromDateTime(endTime!);
+      TimeOfDay timeOfDayStart = TimeOfDay.fromDateTime(startTime!);
+      return validateEndTime(selectedStartDateQuiz!, timeOfDayStart, selectedEndDateQuiz!, timeOfDayEnd);
+    } else if(endDateTimeQuiz!.isBefore(startDateTimeQuiz!)){
+      emit(ErrorMessageAddQuiz(message: 'Start time or start date cannot be before the current date or time.'));
 
-    isSuccessSelectDateTime = true;
-    return null;
+      return false;
+    }else{
+      return true;
+    }
   }
 
 // Function to validate the end Time
-  String? validateEndTime(DateTime startDate, TimeOfDay startTime,
-      DateTime endDate, TimeOfDay endTime) {
+  bool? validateEndTime(DateTime startDate, TimeOfDay startTime, DateTime endDate, TimeOfDay endTime) {
     DateTime startDateTime = DateTime(
       startDate.year,
       startDate.month,
@@ -110,25 +92,20 @@ class CourseMainCubit extends Cubit<CourseMainState> {
       endTime.hour,
       endTime.minute,
     );
-    if (endDateTime.isBefore(startDateTime) ||
-        endDateTime.isBefore(startDateTime)) {
-      isSuccessSelectDateTime = false;
-      emit(ErrorMessageValidateEndTimeQuiz(
-          message: 'End time cannot be before start time.'));
-      return 'End time cannot be before start time.';
-    }
-    if (endDateTime.isBefore(startDateTime) ||
-        endDateTime.isAtSameMomentAs(startDateTime)) {
-      isSuccessSelectDateTime = false;
-      emit(ErrorMessageValidateEndTimeQuiz(
-          message: 'End time cannot be Same start time.'));
-      return 'End time cannot be Same start time.';
-    }
     startDateTimeQuiz = startDateTime;
     endDateTimeQuiz = endDateTime;
-
+    if (endDateTime.isBefore(startDateTime)) {
+      emit(ErrorMessageAddQuiz(
+          message: 'End time cannot be before start time.'));
+      return false;
+    }
+    if (endDateTime.isAtSameMomentAs(startDateTime)) {
+      emit(ErrorMessageAddQuiz(
+          message: 'End time cannot be Same start time.'));
+      return false;
+    }
     isSuccessSelectDateTime = true;
-    return null;
+    return true;
   }
 
   bool? isSuccessSelectDateTime;
@@ -137,8 +114,6 @@ class CourseMainCubit extends Cubit<CourseMainState> {
   List<Quiz> listQuiz = [];
 
   emitAddQuiz() {
-    print('-------------------${startDateTimeQuiz}');
-    print('+++++++++++++++++${endDateTimeQuiz}');
     listQuiz.add(
       Quiz(
         quizTitle: quizTitleTextEditionController.text,
@@ -149,7 +124,22 @@ class CourseMainCubit extends Cubit<CourseMainState> {
         endDateTime: endDateTimeQuiz!,
       ),
     );
-    print(listQuiz[0]);
+    quizTitleTextEditionController = TextEditingController();
+
+    quizTimeLiftTextEditionController = TextEditingController();
+
+    quizQuizScoreTextEditionController = TextEditingController();
+
+    quizDescriptionTextEditionController = TextEditingController();
+
+    selectedStartDateQuiz = null;
+
+    selectedEndDateQuiz = null;
+
+    startDateTimeQuiz = null;
+
+    endDateTimeQuiz = null;
+    errorMessageQuiz = null;
     emit(GetAllQuiz(listQuiz: listQuiz));
   }
 
