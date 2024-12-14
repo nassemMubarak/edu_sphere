@@ -1,6 +1,7 @@
 import 'package:edu_sphere/core/helpers/spacing.dart';
 import 'package:edu_sphere/core/theming/colors.dart';
 import 'package:edu_sphere/core/theming/styles.dart';
+import 'package:edu_sphere/core/widgets/sliver_widget.dart';
 import 'package:edu_sphere/core/widgets/wave_top_widget.dart';
 import 'package:edu_sphere/features/teacher/teacher_main/ui/widgets/drawer_widget_teacher.dart';
 import 'package:edu_sphere/core/widgets/image_and_text_empty_data.dart';
@@ -15,42 +16,27 @@ class TeacherMainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        // elevation: 0,
-        forceMaterialTransparency: true,
-        iconTheme: const IconThemeData(color: Colors.white),
-      ),
-      drawer: const DrawerWidgetTeacher(),
-      body: Stack(
-        children: [
-          const WaveTopWidget(),
-          SingleChildScrollView(
-            child: Padding(
-              padding: EdgeInsets.only(top: 200.h, left: 16.w, right: 16.w),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    SectionCard(
-                      title: AppLocalizations.of(context)!.yourQuizzes,
-                      message: AppLocalizations.of(context)!.noQuizzesAdded,
-                      icon: 'assets/svgs/quiz_on_computer_question_icon.svg',
-                      widget: ImageAndTextEmptyData(
-                          message: AppLocalizations.of(context)!.noQuizzesAdded,
-                      ),
-                    ),
-                    verticalSpace(24),
-                    SectionCardCourses(),
-                    verticalSpace(50),
-                  ],
-                ),
+    return SliverWidget(
+      widget:  Padding(
+        padding: EdgeInsets.only(top: 10.h, left: 16.w, right: 16.w),
+        child: Column(
+          children: [
+            verticalSpace(20),
+            SectionCard(
+              title: AppLocalizations.of(context)!.yourQuizzes,
+              message: AppLocalizations.of(context)!.noQuizzesAdded,
+              icon: 'assets/svgs/quiz_on_computer_question_icon.svg',
+              widget: ImageAndTextEmptyData(
+                message: AppLocalizations.of(context)!.noQuizzesAdded,
               ),
             ),
-          ),
-        ],
+            verticalSpace(24),
+            SectionCardCourses(),
+            verticalSpace(50),
+          ],
+        ),
       ),
     );
   }
 }
+

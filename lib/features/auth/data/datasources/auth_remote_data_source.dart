@@ -23,12 +23,13 @@ const BASE_URI = 'https://eduspherepal.com/api';
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final http.Client client;
-
   AuthRemoteDataSourceImpl({required this.client});
 
   @override
   Future<UserModel> registerUser({required Map authData}) async {
-    final body = {
+    print('.....................................................${authData['level']}');
+
+    final body = authData['level']!=null?{
       "name": authData['name'],
       "email": authData['email'],
       "password": authData['password'],
@@ -38,9 +39,20 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       "phone_number": authData['phone_number'],
       "camp_id": authData['camp_id'], // Convert to String
       "level": authData['level']
+    }:{
+      "name": authData['name'],
+      "email": authData['email'],
+      "password": authData['password'],
+      "password_confirmation": authData['password_confirmation'],
+      "age": authData['age'],
+      "sex": authData['sex'],
+      "phone_number": authData['phone_number'],
+      "specialization": authData['specialization']
     };
+
+
     final response =
-        await client.post(Uri.parse('$BASE_URI/auth/signup'), body: body);
+        await client.post(Uri.parse( authData['level']!=null?'$BASE_URI/student/register':'$BASE_URI/teacher/register'), body: body);
     if (response.statusCode >= 200 && response.statusCode < 300) {
       final decodeJson = json.decode(response.body);
       UserModel userModel = UserModel.fromJson(decodeJson['user']);
@@ -56,9 +68,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Future<UserModel> loginUser({required Map authData}) async {
     final body = {"email": authData['email'], "password": authData['password']};
     final response =
-        await client.post(Uri.parse('$BASE_URI/auth/login'), body: body);
+        await client.post(Uri.parse('$BASE_URI/student/login'), body: body);
     if (response.statusCode >= 200 && response.statusCode < 300) {
       final decodeJson = json.decode(response.body);
+      print('---------------${decodeJson['token']}');
       UserModel userModel = UserModel.fromJson(decodeJson['user']);
       return userModel;
     }else if (response.statusCode >= 400 && response.statusCode < 500) {

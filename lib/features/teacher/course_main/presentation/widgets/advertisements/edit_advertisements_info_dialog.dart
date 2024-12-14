@@ -127,6 +127,8 @@ class EditAdvertisementsInfoDialog extends StatelessWidget {
                 child: AppTextButton(
                   onPressed: () {
                     context.pop();
+                    context.read<CourseMainCubit>().adsTextEditionController = TextEditingController();
+                    context.read<CourseMainCubit>().colorSelectedTextField =ColorsManager.mainBlue;
                   },
                   buttonText: AppLocalizations.of(context)!.cancel,
                   buttonWidth: 147,

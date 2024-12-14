@@ -1,10 +1,12 @@
 class CoursesModel {
   String title;
-  String subTitle;
-  String? price;
+  String description;
+  bool isPending;
+  bool isRejected;
   CoursesModel({
     required this.title,
-    required this.subTitle,
-     this.price,
+    required this.description,
+     required this.isPending,
+     required this.isRejected
   });
 }

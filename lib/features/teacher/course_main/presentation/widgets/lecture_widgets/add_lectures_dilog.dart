@@ -1,3 +1,4 @@
+import 'package:edu_sphere/core/helpers/app_regex.dart';
 import 'package:edu_sphere/core/helpers/extenshions.dart';
 import 'package:edu_sphere/core/helpers/spacing.dart';
 import 'package:edu_sphere/core/theming/colors.dart';
@@ -61,17 +62,17 @@ class AddLecturesDilog extends StatelessWidget {
                   ),
                 ),
                 LabelAndWidget(
-                  label: 'Lecture Link',
+                  label: 'Lecture Link Youtube',
                   widget: AppTextFormField(
                     textInputType: TextInputType.url,
                     controller: context
                         .read<CourseMainCubit>()
                         .lectureLinkTextEditionController,
                     textStyle: TextStyles.font14MainBlue400Weight,
-                    hintText: 'Lecture link',
+                    hintText: 'Lecture link youtube',
                     validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Enter Lecture link';
+                      if (value!.isEmpty || !AppRegex.isYouTubeUrl(value)) {
+                        return 'Please enter a valid link. The link must be a proper and functional URL.';
                       }
                     },
                     prefixIcon: Icon(
@@ -87,7 +88,7 @@ class AddLecturesDilog extends StatelessWidget {
                     controller: context
                         .read<CourseMainCubit>()
                         .lectureDescriptionTextEditionController,
-                    textStyle: TextStyles.font12Black700Weight,
+                    textStyle: TextStyles.font12Black500Weight,
                     maxLines: 5,
                     hintText: 'Lecture description',
                     validator: (value) {
@@ -96,7 +97,7 @@ class AddLecturesDilog extends StatelessWidget {
                       }
                     },
                     prefixIcon: Container(
-                      height: 115,
+                      height: 100,
                       width: 50,
                       alignment: AlignmentDirectional.topCenter,
                       child: Icon(

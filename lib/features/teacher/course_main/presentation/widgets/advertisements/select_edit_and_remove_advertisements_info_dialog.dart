@@ -33,19 +33,19 @@ class _SelectEditAndRemoveAdvertisementsInfoDialogState extends State<SelectEdit
           Radius.circular(8),
         ),
       ),
-      insetPadding: EdgeInsets.all(16),
+      insetPadding:const EdgeInsets.all(16),
       backgroundColor: Colors.white,
       scrollable: true,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Spacer(),
+         const Spacer(),
           Text(
             'Edit Advertisements',
             style: TextStyles.font16Black600Weight,
             textAlign: TextAlign.center,
           ),
-          Spacer(),
+          const Spacer(),
           GestureDetector(
             onTap: () {
               if(selectedIndexAds!=null){
@@ -80,27 +80,20 @@ class _SelectEditAndRemoveAdvertisementsInfoDialogState extends State<SelectEdit
           verticalSpace(24),
           Row(
             children: [
+              Spacer(),
               Expanded(
-                child: AppTextButton(
-                  onPressed: () {
-
-                  },
-                  buttonText: 'Edit',
-                  buttonWidth: 147,
-                ),
-              ),
-              horizontalSpace(16),
-              Expanded(
+                flex: 2,
                 child: AppTextButton(
                   onPressed: () {
                     context.pop();
                   },
                   buttonText: AppLocalizations.of(context)!.cancel,
                   buttonWidth: 147,
-                  backgroundColor: Colors.white,
-                  textStyle: TextStyles.font14Black600Weight,
                 ),
               ),
+              horizontalSpace(16),
+              Spacer(),
+
             ],
           )
         ],
@@ -113,7 +106,6 @@ class _SelectEditAndRemoveAdvertisementsInfoDialogState extends State<SelectEdit
         separatorBuilder: (context, index) => verticalSpace(16.h),
         padding: EdgeInsetsDirectional.only(
             top: 24.h, bottom: 40.h, end: 16.w, start: 16.w),
-
         itemCount: listAds.length,
         itemBuilder: (context, index) => buildGestureDetector(listAds, index));
   }
@@ -142,7 +134,7 @@ class _SelectEditAndRemoveAdvertisementsInfoDialogState extends State<SelectEdit
                       child: Container(
                         height: 18.h,
                         width: 18.w,
-                        margin: EdgeInsets.all(1),
+                        margin:const EdgeInsets.all(1),
                         decoration: BoxDecoration(
                           color: ColorsManager.mainBlue,
                           borderRadius: BorderRadius.circular(20.r),

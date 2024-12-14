@@ -71,7 +71,6 @@ class AdvertisementsWidget extends StatelessWidget {
       children: [
         SvgPicture.asset(
           'assets/svgs/ads_icon.svg',
-          color: listAds[index].colorText,
         ),
         horizontalSpace(8),
         SizedBox(

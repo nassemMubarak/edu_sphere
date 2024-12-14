@@ -2,12 +2,10 @@ import 'package:edu_sphere/core/theming/colors.dart';
 import 'package:edu_sphere/core/theming/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
-
 class DropdownWidget extends StatelessWidget {
   final String? hintText;
   final Widget? prefixIcon;
   final List<String> items;
-
   Function(String?)? onChanged;
 
    DropdownWidget({
@@ -22,7 +20,7 @@ class DropdownWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomDropdown.search(
       decoration: CustomDropdownDecoration(
-        
+
         hintStyle: TextStyles.font12NeutralGray400Weight,
         closedFillColor: ColorsManager.lightGray,
         prefixIcon: prefixIcon,
@@ -36,12 +34,12 @@ class DropdownWidget extends StatelessWidget {
 
         ),
       ),
-      
       items: items,
+
       onChanged: onChanged,
       hintText: hintText,
       excludeSelected: false,
-      
+
     );
   }
 }

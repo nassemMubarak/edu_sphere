@@ -2,10 +2,15 @@ import 'package:edu_sphere/core/routing/routes.dart';
 import 'package:edu_sphere/features/auth/presentation/pages/login_screen.dart';
 import 'package:edu_sphere/features/auth/presentation/pages/forget_password_screen.dart';
 import 'package:edu_sphere/features/auth/presentation/pages/reset_password_screen.dart';
+import 'package:edu_sphere/features/auth/presentation/pages/sign_up_student_or_teacher_page.dart';
+import 'package:edu_sphere/features/auth/presentation/pages/student_request_page.dart';
 import 'package:edu_sphere/features/auth/presentation/pages/verify_password_screen.dart';
+import 'package:edu_sphere/features/auth/presentation/widgets/signup_widgets/sign_up_or_student_teacher_widget.dart';
+import 'package:edu_sphere/features/auth/presentation/widgets/student_request_widget.dart';
 import 'package:edu_sphere/features/onboarding/ui/onboarding_screen.dart';
 import 'package:edu_sphere/features/auth/presentation/pages/signup_screen.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/pages/course_main_screen.dart';
+import 'package:edu_sphere/features/teacher/course_main/presentation/widgets/lecture_widgets/show_video_widget.dart';
 import 'package:edu_sphere/features/teacher/teacher_main/ui/teacher_main_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -21,11 +26,16 @@ class AppRouter {
             builder: (_) => const SignupScreen());
       case Routes.forgetPasswordScreen:
         return MaterialPageRoute(builder: (_) => ForgetPasswordScreen());
-
+      case Routes.signUpStudentOrTeacherPage:
+        return MaterialPageRoute(builder: (_) =>const SignUpStudentOrTeacherPage());
+      case Routes.studentRequestPage:
+        return MaterialPageRoute(builder: (_) =>const StudentRequestPage());
       case Routes.verifyPasswordScreen:
         return MaterialPageRoute(builder: (_) => VerifyPasswordScreen());
       case Routes.courseMainScreen:
         return MaterialPageRoute(builder: (_) =>const CourseMainScreen());
+      case Routes.showVideoWidget:
+        return MaterialPageRoute(builder: (_) => ShowVideoWidget());
       case Routes.teacherMainScreen:
         return MaterialPageRoute(
           builder: (_) => const TeacherMainScreen()

@@ -3,16 +3,20 @@ import 'package:edu_sphere/core/helpers/spacing.dart';
 import 'package:edu_sphere/core/routing/routes.dart';
 import 'package:edu_sphere/core/theming/colors.dart';
 import 'package:edu_sphere/core/theming/styles.dart';
+import 'package:edu_sphere/features/teacher/course_main/presentation/bloc/course_main_cubit.dart';
+import 'package:edu_sphere/features/teacher/course_main/presentation/pages/course_main_screen.dart';
 import 'package:edu_sphere/features/teacher/teacher_main/logic/teacher_main_cubit.dart';
 import 'package:edu_sphere/features/teacher/teacher_main/logic/teacher_main_state.dart';
 import 'package:edu_sphere/features/teacher/teacher_main/ui/widgets/course_info_dialog.dart';
 import 'package:edu_sphere/core/widgets/image_and_text_empty_data.dart';
 import 'package:edu_sphere/features/teacher/teacher_main/ui/widgets/section_card.dart';
+import 'package:edu_sphere/features/teacher/teacher_main/ui/widgets/show_message_pinding_or_rejected_course_info_dialog.dart';
 import 'package:edu_sphere/features/teacher/teacher_main/ui/widgets/titel_and_icon_list_taile_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class SectionCardCourses extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -25,7 +29,8 @@ class SectionCardCourses extends StatelessWidget {
         builder: (context, state) {
           if (state is addCouseState) {
             if (state.courses.isEmpty) {
-              return ImageAndTextEmptyData(message:  AppLocalizations.of(context)!.noCoursesAdded);
+              return ImageAndTextEmptyData(
+                  message: AppLocalizations.of(context)!.noCoursesAdded);
             } else {
               return ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
@@ -35,27 +40,50 @@ class SectionCardCourses extends StatelessWidget {
                 itemBuilder: (context, index) => Container(
                   margin: const EdgeInsets.only(bottom: 16),
                   child: TitelAndIconListTaileWidget(
-                    onTap: (){
-                      context.pushNamed(Routes.courseMainScreen);
+
+                    onTap: () {
+                      if (state.courses[index].isRejected ||
+                          state.courses[index].isPending) {
+                        showDialog(
+                          context: context,
+                          builder: (context) =>
+                              ShowMessagePindingOrRejectedCourseInfoDialog(
+                                  isPending: state.courses[index].isPending),
+                        );
+                      } else {
+                        context.pushNamed(Routes.courseMainScreen);
+                        context.read<CourseMainCubit>().coursesModel = state.courses[index];
+                        context.read<CourseMainCubit>().indexCourseInList = index;
+
+                      }
                     },
                     iconUrl: 'assets/svgs/writing_education_learning_icon.svg',
                     title: state.courses[index].title,
-                    subTitle: state.courses[index].subTitle=='Paid'?'${ AppLocalizations.of(context)!.paid } ${state.courses[index].price} \$':state.courses[index].subTitle=='Free'? AppLocalizations.of(context)!.free: AppLocalizations.of(context)!.paid,
                     isShowTrailing: true,
-                    coursesModel:  context
-                            .read<TeacherMainCubit>()
-                            .coursesModelList[index],
-                    subTitleStyle: state.courses[index].subTitle == 'Free'
-                        ? TextStyles.font12Green400Weight
-                        : null,
-                        indexCourse: index,
+                    subTitle: state.courses[index].isPending
+                        ? 'Pending'
+                        : state.courses[index].isRejected == true
+                            ? 'Rejected'
+                            : state.courses[index].description,
+                    coursesModel: context
+                        .read<TeacherMainCubit>()
+                        .coursesModelList[index],
+                    subTitleStyle: state.courses[index].isPending
+                        ? TextStyles.font12Yellow400Weight
+                        : state.courses[index].isRejected
+                            ? TextStyles.font12Red400Weight
+                            : null,
+                    isShowEditButton: state.courses[index].isRejected ||
+                        state.courses[index].isPending,
+                    indexCourse: index,
                   ),
                 ),
               );
             }
           } else {
             return context.read<TeacherMainCubit>().coursesModelList.isEmpty
-                ? ImageAndTextEmptyData(message:  AppLocalizations.of(context)!.noCoursesAdded)
+                ? ImageAndTextEmptyData(
+                    message: AppLocalizations.of(context)!.noCoursesAdded)
                 : ListView.builder(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
@@ -67,31 +95,84 @@ class SectionCardCourses extends StatelessWidget {
                     itemBuilder: (context, index) => Container(
                       margin: const EdgeInsets.only(bottom: 16),
                       child: TitelAndIconListTaileWidget(
-                        onTap: (){
-                          context.pushNamed(Routes.courseMainScreen);
-                        },
-                        iconUrl: 'assets/svgs/writing_education_learning_icon.svg',
-                        title: context
-                            .read<TeacherMainCubit>()
-                            .coursesModelList[index]
-                            .title,
-                        subTitle: context
-                            .read<TeacherMainCubit>()
-                            .coursesModelList[index]
-                            .subTitle=='Free'? AppLocalizations.of(context)!.free: AppLocalizations.of(context)!.paid,
-                        isShowTrailing: true,
-                        indexCourse: index,
-                        coursesModel:  context
-                            .read<TeacherMainCubit>()
-                            .coursesModelList[index],
-                        subTitleStyle: context
+                          onTap: () {
+                            if (context
                                     .read<TeacherMainCubit>()
                                     .coursesModelList[index]
-                                    .subTitle ==
-                                'Free'
-                            ? TextStyles.font12Green400Weight
-                            : null,
-                      ),
+                                    .isRejected ||
+                                context
+                                    .read<TeacherMainCubit>()
+                                    .coursesModelList[index]
+                                    .isPending) {
+                              showDialog(
+                                context: context,
+                                builder: (context) =>
+                                    ShowMessagePindingOrRejectedCourseInfoDialog(
+                                        isPending: context
+                                            .read<TeacherMainCubit>()
+                                            .coursesModelList[index]
+                                            .isPending),
+                              );
+                            } else {
+
+                              context.pushNamed(Routes.courseMainScreen,argument: [
+                                context
+                                    .read<TeacherMainCubit>()
+                                    .coursesModelList[index],
+                                index
+                              ]
+                              );
+                              context.read<CourseMainCubit>().coursesModel = context
+                                  .read<TeacherMainCubit>()
+                                  .coursesModelList[index];
+                              context.read<CourseMainCubit>().indexCourseInList = index;
+                            }
+                          },
+                          iconUrl:
+                              'assets/svgs/writing_education_learning_icon.svg',
+                          title: context
+                              .read<TeacherMainCubit>()
+                              .coursesModelList[index]
+                              .title,
+                          subTitle: context
+                                  .read<TeacherMainCubit>()
+                                  .coursesModelList[index]
+                                  .isPending
+                              ? 'Pending'
+                              : context
+                                          .read<TeacherMainCubit>()
+                                          .coursesModelList[index]
+                                          .isRejected ==
+                                      true
+                                  ? 'Rejected'
+                                  : context
+                                      .read<TeacherMainCubit>()
+                                      .coursesModelList[index]
+                                      .description,
+                          isShowTrailing: true,
+                          indexCourse: index,
+                          coursesModel: context
+                              .read<TeacherMainCubit>()
+                              .coursesModelList[index],
+                          subTitleStyle: context
+                                  .read<TeacherMainCubit>()
+                                  .coursesModelList[index]
+                                  .isPending
+                              ? TextStyles.font12Yellow400Weight
+                              : context
+                                      .read<TeacherMainCubit>()
+                                      .coursesModelList[index]
+                                      .isRejected
+                                  ? TextStyles.font12Red400Weight
+                                  : null,
+                          isShowEditButton: context
+                                  .read<TeacherMainCubit>()
+                                  .coursesModelList[index]
+                                  .isPending ||
+                              context
+                                  .read<TeacherMainCubit>()
+                                  .coursesModelList[index]
+                                  .isRejected),
                     ),
                   );
           }

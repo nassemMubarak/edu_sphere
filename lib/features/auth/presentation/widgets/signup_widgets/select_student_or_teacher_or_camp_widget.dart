@@ -1,7 +1,7 @@
 import 'package:edu_sphere/core/theming/colors.dart';
 import 'package:edu_sphere/core/theming/styles.dart';
-import 'package:edu_sphere/features/auth/presentation/bloc/signup/sign_up_cubit.dart';
-import 'package:edu_sphere/features/auth/presentation/bloc/signup/sign_up_state.dart';
+import 'package:edu_sphere/features/auth/presentation/bloc/auth/auth_cubit.dart';
+import 'package:edu_sphere/features/auth/presentation/bloc/changTypSignUp/auth_type_cubit.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,14 +13,14 @@ class SelectStudentOrTeacherOrCampWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SignUpCubit, SignUpState>(builder: (context, state) {
+    return BlocBuilder<AuthTypeCubit, AuthTypeState>(builder: (context, state) {
       if (state is StatusSignUpType) {
         return Row(
           children: [
             GestureDetector(
               onTap: () {
-              
-                context.read<SignUpCubit>().emitChangTypeOnClicBotton('camp');
+                context.read<AuthTypeCubit>().emitChangTypeOnClickButton('camp');
+                context.read<AuthTypeCubit>().emitChangTypSignUp('camp');
 
               },
               child: Text(
@@ -46,8 +46,9 @@ class SelectStudentOrTeacherOrCampWidget extends StatelessWidget {
                   GestureDetector(
                       onTap: () {
                         context
-                            .read<SignUpCubit>()
+                            .read<AuthTypeCubit>()
                             .emitChangTypSignUp('student');
+                        context.read<AuthCubit>().campTeacherId=null;
                       },
                       child: containerRadiusWidget(
                           isSelected: state.type == 'student',
@@ -55,8 +56,10 @@ class SelectStudentOrTeacherOrCampWidget extends StatelessWidget {
                   GestureDetector(
                     onTap: () {
                       context
-                          .read<SignUpCubit>()
+                          .read<AuthTypeCubit>()
                           .emitChangTypSignUp('teatcher');
+                      context.read<AuthCubit>().campStudentId=null;
+                      context.read<AuthCubit>().studentEducationStage=null;
                     },
                     child: containerRadiusWidget(
                         isSelected: state.type == 'teatcher', text: AppLocalizations.of(context)!.teacher),
@@ -71,11 +74,11 @@ class SelectStudentOrTeacherOrCampWidget extends StatelessWidget {
           children: [
             GestureDetector(
               onTap: () {
-                context.read<SignUpCubit>().emitChangTypeOnClicBotton('camp');
+                context.read<AuthTypeCubit>().emitChangTypeOnClickButton('camp');
               },
               child: Text(
                 AppLocalizations.of(context)!.camp,
-                style: context.read<SignUpCubit>().typeSignUp == 'camp'
+                style: context.read<AuthTypeCubit>().typeSignUp == 'camp'
                     ? TextStyles.font16SkyBlue600Weight.copyWith(
                         decoration: TextDecoration.underline,
                         decorationColor: ColorsManager.skyBlue,
@@ -96,21 +99,21 @@ class SelectStudentOrTeacherOrCampWidget extends StatelessWidget {
                   GestureDetector(
                       onTap: () {
                         context
-                            .read<SignUpCubit>()
+                            .read<AuthTypeCubit>()
                             .emitChangTypSignUp('student');
                       },
                       child: containerRadiusWidget(
-                          isSelected: context.read<SignUpCubit>().typeSignUp ==
+                          isSelected: context.read<AuthTypeCubit>().typeSignUp ==
                               'student',
                           text: AppLocalizations.of(context)!.student,),),
                   GestureDetector(
                     onTap: () {
                       context
-                          .read<SignUpCubit>()
+                          .read<AuthTypeCubit>()
                           .emitChangTypSignUp('teatcher');
                     },
                     child: containerRadiusWidget(
-                        isSelected: context.read<SignUpCubit>().typeSignUp ==
+                        isSelected: context.read<AuthTypeCubit>().typeSignUp ==
                             'teatcher',
                         text: AppLocalizations.of(context)!.teacher,),
                   ),

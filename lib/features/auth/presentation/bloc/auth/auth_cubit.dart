@@ -1,29 +1,140 @@
-import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:edu_sphere/core/error/failure.dart';
 import 'package:edu_sphere/core/string/failure.dart';
 import 'package:edu_sphere/features/auth/domain/entities/user.dart';
 import 'package:edu_sphere/features/auth/domain/usecases/get_current_user.dart';
 import 'package:edu_sphere/features/auth/domain/usecases/login_user.dart';
+import 'package:edu_sphere/features/auth/domain/usecases/register_user.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
-  AuthCubit({required this.loginUserUseCase, required this.getCurrentUserUseCase}) : super(AuthInitial());
+  final globalKey = GlobalKey<FormState>();
+  final globalKeyRegisterScreen = GlobalKey<FormState>();
+  final globalKeyStudentScreen = GlobalKey<FormState>();
+  final globalKeyTeacherScreen = GlobalKey<FormState>();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController emailRegisterController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController passwordRegisterController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
+   String? studentEducationStage;
+   String? campStudentId;
+  late TextEditingController ageStudentTextEditingController = TextEditingController();
+   String? campTeacherId;
+  late TextEditingController teacherUniversityMajor = TextEditingController();
+  late TextEditingController ageTeacherTextEditingController = TextEditingController();
+  bool genderIsMale = true;
+
   final LoginUserUseCase loginUserUseCase;
+  final RegisterUserUseCase registerUserUseCase;
   final GetCurrentUserUseCase getCurrentUserUseCase;
 
-  emitLoginUser({required Map authData})async{
-    emit(AuthLoadingState());
-    final failureOrUser = await loginUserUseCase(authData: authData);
-    return failureOrUser.fold(
-        (failure)=>
-          AuthMessageErrorState(message: _mapFailureMessage(failure: failure)),
-          (user) => AuthLoadedState(user: user),
+  AuthCubit(
+      {required this.loginUserUseCase,
+      required this.getCurrentUserUseCase,
+      required this.registerUserUseCase})
+      : super(AuthInitial());
 
+  emitGetCurrentUser() async {
+    emit(AuthLoadingState());
+    final failureOrUser = await getCurrentUserUseCase();
+    emit(failureOrUser.fold(
+      (_) => AuthInitial(),
+      (user) => AuthLoadedState(user: user),
+    ));
+  }
+
+  emitLoginUser() async {
+    emit(AuthLoadingState());
+    final failureOrUser = await loginUserUseCase(authData: {
+      'email': emailController.text,
+      'password': passwordController.text
+    });
+    emit(_eitherFailureOrUser(failureOrUser));
+  }
+
+  emitRegisterUser({bool isStudent=false,bool isTeacher = false,bool isCamp = false }) async {
+    emit(AuthLoadingState());
+   var bodyStudent = {
+      'name': nameController.text,
+      'email': emailRegisterController.text,
+      'password': passwordRegisterController.text,
+      'password_confirmation': passwordRegisterController.text,
+      'age': ageStudentTextEditingController.text,
+      'sex': genderIsMale?'male':'female',
+      'phone_number': '0592815701',
+      'camp_id': '4',
+      'level': studentEducationStage,
+     // 'name': 'Nassem Mubarak',
+     // 'email': '787878@gmail.com',
+     // 'password': 'nassemmubarak',
+     // 'password_confirmation': 'nassemmubarak',
+     // 'age': '20',
+     // 'sex': 'male',
+     // 'phone_number': '0592815201',
+     // 'camp_id': '4',
+     // 'level': '10',
+    };
+   var bodyCamp = {
+
+     'name': 'Nassem Mubarak',
+     'email': 'nassemmubarak1qq2q3@gmail.com',
+     'password': 'nassemmubarak',
+     'password_confirmation': 'nassemmubarak',
+     'age': '20',
+     'sex': 'male',
+     'phone_number': '0592815201',
+     'camp_id': '4',
+     'level': '10',
+    };
+   var bodyTeacher = {
+     'name': nameController.text,
+     'email': emailRegisterController.text,
+     'password': passwordRegisterController.text,
+     'password_confirmation': passwordRegisterController.text,
+     'age': ageTeacherTextEditingController.text,
+     'sex': genderIsMale?'male':'female',
+     'phone_number': '0592815701',
+     'specialization': teacherUniversityMajor.text,
+     // 'name': 'Nassem111 Mubarak',
+     // 'email': '2222222@gmail.com',
+     // 'password': 'nassemmubarak',
+     // 'password_confirmation': 'nassemmubarak',
+     // 'age': '20',
+     // 'sex': 'male',
+     // 'phone_number': '0592815201',
+     // 'specialization': 'math',
+     'level': null,
+   };
+
+    // var body = {
+    //  'name': nameController.text,
+    //  'email': emailRegisterController.text,
+    //  'password': passwordRegisterController.text,
+    //  'password_confirmation': passwordRegisterController.text,
+    //  'age': ageStudentTextEditingController.text,
+    //  'sex': genderIsMale?'male':'female',
+    //  'phone_number': '0592815701',
+    //  'camp_id': campStudentId,
+    //  'level': studentEducationStage,
+    // };
+    final failureOrUser = await registerUserUseCase(authData: isStudent?bodyStudent:isTeacher?bodyTeacher:bodyCamp);
+     emit(_eitherFailureOrUser(failureOrUser));
+  }
+
+  _eitherFailureOrUser(Either<Failure, User> either) {
+    return either.fold(
+      (failure) =>
+          AuthMessageErrorState(message: _mapFailureMessage(failure: failure)),
+      (user) => AuthLoadedState(user: user),
     );
   }
+
   String _mapFailureMessage({required Failure failure}) {
     switch (failure.runtimeType) {
       case OfflineFailure:
@@ -39,4 +150,3 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 }
-

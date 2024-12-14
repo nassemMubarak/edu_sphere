@@ -4,8 +4,11 @@ import 'package:edu_sphere/core/theming/colors.dart';
 import 'package:edu_sphere/core/widgets/app_text_form_field.dart';
 import 'package:edu_sphere/core/widgets/label_and_widget.dart';
 import 'package:edu_sphere/core/widgets/password_validations.dart';
+import 'package:edu_sphere/edu_sphere_app.dart';
+import 'package:edu_sphere/features/auth/presentation/bloc/auth/auth_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 class SignUpFormStudent extends StatefulWidget {
   bool? labelCamp;
   SignUpFormStudent({super.key, this.labelCamp});
@@ -15,44 +18,30 @@ class SignUpFormStudent extends StatefulWidget {
 }
 
 class _EmailAndPasswordWidgetState extends State<SignUpFormStudent> {
-  final formKey = GlobalKey<FormState>();
   bool isVisiblePasswordValidator = false;
   bool hasLowercase = false;
-
   bool hasUppercase = false;
-
   bool hasSpecialCharacters = false;
-
   bool hasNumber = false;
-
   bool hasMinLength = false;
-  late TextEditingController nameController;
-  late TextEditingController passwordController;
-  late TextEditingController confirmPasswordController;
-  late TextEditingController emailController;
   bool isObscureText = true;
   bool isObscureTextConfirm = true;
   @override
   void initState() {
     super.initState();
-    nameController = TextEditingController();
-    emailController = TextEditingController();
-    passwordController = TextEditingController();
-    confirmPasswordController = TextEditingController();
-
     setupPasswordControllerListener();
   }
 
   @override
   Widget build(BuildContext context) {
     return Form(
-        key: formKey,
+        key: context.read<AuthCubit>().globalKeyRegisterScreen,
         child: Column(
           children: [
             LabelAndWidget(
               label: widget.labelCamp != null ? AppLocalizations.of(context)!.campName : AppLocalizations.of(context)!.userName,
               widget: AppTextFormField(
-                controller: nameController,
+                controller: context.read<AuthCubit>().nameController,
                 hintText: AppLocalizations.of(context)!.fullName,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -68,7 +57,7 @@ class _EmailAndPasswordWidgetState extends State<SignUpFormStudent> {
             LabelAndWidget(
               label: AppLocalizations.of(context)!.email,
               widget: AppTextFormField(
-                controller: emailController,
+                controller: context.read<AuthCubit>().emailRegisterController,
                 hintText: 'edusphere@gmail.com',
                 validator: (value) {
                   if (value == null ||
@@ -87,9 +76,10 @@ class _EmailAndPasswordWidgetState extends State<SignUpFormStudent> {
               label: AppLocalizations.of(context)!.password,
               widget: AppTextFormField(
                 isObscureText: isObscureText,
-                controller: passwordController,
+                controller: context.read<AuthCubit>().passwordRegisterController,
                 hintText: '**************',
                 validator: (value) {
+                  // if (value == null || value.isEmpty|| !AppRegex.isPasswordValid(value)) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a valid Password';
                   }
@@ -111,15 +101,15 @@ class _EmailAndPasswordWidgetState extends State<SignUpFormStudent> {
               label: AppLocalizations.of(context)!.confirmPassword,
               widget: AppTextFormField(
                 isObscureText: isObscureTextConfirm,
-                controller: confirmPasswordController,
+                controller: context.read<AuthCubit>().confirmPasswordController,
                 hintText: '**************',
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a valid Confirm Password';
                   } else if (value.isNotEmpty &&
-                      confirmPasswordController.text !=
-                          passwordController.text) {
-                    return 'Please enter conferm password not same password';
+                      context.read<AuthCubit>().confirmPasswordController.text !=
+                          context.read<AuthCubit>().passwordRegisterController.text) {
+                    return 'Please enter confirm password not same password';
                   }
                 },
                 prefixIcon: GestureDetector(
@@ -156,17 +146,17 @@ class _EmailAndPasswordWidgetState extends State<SignUpFormStudent> {
   }
 
   void setupPasswordControllerListener() {
-    passwordController.addListener(() {
+    context.read<AuthCubit>().passwordRegisterController.addListener(() {
       setState(() {
         isVisiblePasswordValidator = true;
       });
       setState(() {
-        hasLowercase = AppRegex.hasLowerCase(passwordController.text);
-        hasUppercase = AppRegex.hasUpperCase(passwordController.text);
+        hasLowercase = AppRegex.hasLowerCase(context.read<AuthCubit>().passwordRegisterController.text);
+        hasUppercase = AppRegex.hasUpperCase(context.read<AuthCubit>().passwordRegisterController.text);
         hasSpecialCharacters =
-            AppRegex.hasSpecialCharacter(passwordController.text);
-        hasNumber = AppRegex.hasNumber(passwordController.text);
-        hasMinLength = AppRegex.hasMinLength(passwordController.text);
+            AppRegex.hasSpecialCharacter(context.read<AuthCubit>().passwordRegisterController.text);
+        hasNumber = AppRegex.hasNumber(context.read<AuthCubit>().passwordRegisterController.text);
+        hasMinLength = AppRegex.hasMinLength(context.read<AuthCubit>().passwordRegisterController.text);
       });
     });
   }

@@ -1,4 +1,5 @@
-
+import 'package:edu_sphere/features/auth/presentation/bloc/auth/auth_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:edu_sphere/core/helpers/spacing.dart';
 import 'package:edu_sphere/core/theming/colors.dart';
 import 'package:edu_sphere/core/theming/styles.dart';
@@ -13,7 +14,7 @@ class GenderWidget extends StatefulWidget {
 }
 
 class _GenderWidgetState extends State<GenderWidget> {
-  bool isMale = false;
+  bool isMale = true;
   bool isFemale = false;
   @override
   Widget build(BuildContext context) {
@@ -33,16 +34,17 @@ class _GenderWidgetState extends State<GenderWidget> {
                   setState(() {
                     isFemale = false;
                     isMale = true;
+                    context.read<AuthCubit>().genderIsMale = true;
                   });
                 },
                 label: AppLocalizations.of(context)!.male, isSelected: isMale,),
             horizontalSpace(32),
-            
               selecteAndLabel(
                 onTap: (){
                    setState(() {
                     isFemale = true;
                     isMale = false;
+                    context.read<AuthCubit>().genderIsMale = false;
                   });
                 },
                 label: AppLocalizations.of(context)!.female, isSelected: isFemale,),

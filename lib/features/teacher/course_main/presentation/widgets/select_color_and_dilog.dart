@@ -1,5 +1,5 @@
 import 'package:edu_sphere/core/helpers/spacing.dart';
-import 'package:edu_sphere/core/routing/app_rputer.dart';
+import 'package:edu_sphere/core/routing/app_router.dart';
 import 'package:edu_sphere/core/theming/colors.dart';
 import 'package:edu_sphere/core/widgets/app_text_button.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/bloc/course_main_cubit.dart';

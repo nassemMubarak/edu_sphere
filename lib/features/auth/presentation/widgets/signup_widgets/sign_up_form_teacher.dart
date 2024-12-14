@@ -1,9 +1,11 @@
 import 'package:edu_sphere/core/widgets/app_text_form_field.dart';
 import 'package:edu_sphere/core/widgets/label_and_widget.dart';
 import 'package:edu_sphere/core/widgets/dropdown_widget.dart';
+import 'package:edu_sphere/features/auth/presentation/bloc/auth/auth_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 class SignUpFormTeacher extends StatefulWidget {
   const SignUpFormTeacher({super.key});
 
@@ -12,19 +14,14 @@ class SignUpFormTeacher extends StatefulWidget {
 }
 
 class _EmailAndPasswordWidgetState extends State<SignUpFormTeacher> {
-  final formKey = GlobalKey<FormState>();
 
   bool hasMinLength = false;
-  late TextEditingController universityMajorTextEditingController;
-  late TextEditingController ageTextEditingController;
-  late TextEditingController typeOfTeachingTextEditingController;
+
 
   @override
   void initState() {
     super.initState();
-    universityMajorTextEditingController = TextEditingController();
-    ageTextEditingController = TextEditingController();
-    typeOfTeachingTextEditingController = TextEditingController();
+
   }
 
   List<String> campName = [
@@ -37,14 +34,14 @@ class _EmailAndPasswordWidgetState extends State<SignUpFormTeacher> {
   @override
   Widget build(BuildContext context) {
     return Form(
-      key: formKey,
+      key: context.read<AuthCubit>().globalKeyTeacherScreen,
       child: Column(
         children: [
           LabelAndWidget(
             label: AppLocalizations.of(context)!.universityMajor,
             widget: AppTextFormField(
-              textInputType: TextInputType.number,
-              controller: universityMajorTextEditingController,
+              textInputType: TextInputType.text,
+              controller: context.read<AuthCubit>().teacherUniversityMajor,
               hintText: AppLocalizations.of(context)!.universityMajor,
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -63,7 +60,7 @@ class _EmailAndPasswordWidgetState extends State<SignUpFormTeacher> {
             label: AppLocalizations.of(context)!.age,
             widget: AppTextFormField(
               textInputType: TextInputType.number,
-              controller: ageTextEditingController,
+              controller: context.read<AuthCubit>().ageTeacherTextEditingController,
               hintText: AppLocalizations.of(context)!.theAge,
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -77,32 +74,16 @@ class _EmailAndPasswordWidgetState extends State<SignUpFormTeacher> {
             ),
           ),
           LabelAndWidget(
-            label: AppLocalizations.of(context)!.typeOfTeaching,
+            label: AppLocalizations.of(context)!.camp,
             widget: DropdownWidget(
-              onChanged: (value) {
-                setState(() {
-                  if (value == 'Camp teacher') {
-                    isSelectedCamp = true;
-                  } else {
-                    isSelectedCamp = false  ;
-                  }
-                });
+              onChanged: (value){
+                if(value != null){
+                  context.read<AuthCubit>().campTeacherId = value;
+                }
               },
-              items: especiallyTeacher,
-              hintText: AppLocalizations.of(context)!.especiallyTeacher,
-              prefixIcon: SvgPicture.asset('assets/svgs/type_of_teaching.svg'),
-
-            ),
-          ),
-          Visibility(
-            visible: isSelectedCamp,
-            child: LabelAndWidget(
-              label: AppLocalizations.of(context)!.camp,
-              widget: DropdownWidget(
-                hintText: AppLocalizations.of(context)!.campName,
-                items: campName,
-                prefixIcon: SvgPicture.asset('assets/svgs/camp.svg'),
-              ),
+              hintText: AppLocalizations.of(context)!.campName,
+              items: campName,
+              prefixIcon: SvgPicture.asset('assets/svgs/camp.svg'),
             ),
           ),
         ],

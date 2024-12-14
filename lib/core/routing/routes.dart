@@ -7,5 +7,8 @@ class Routes {
   static const String resetPasswordScreen = '/resetPasswordScreen';
   static const String teacherMainScreen = '/teacherMainScreen';
   static const String courseMainScreen = '/courseMainScreen';
+  static const String studentRequestPage = '/studentRequestPage';
+  static const String signUpStudentOrTeacherPage = '/signUpStudentOrTeacherPage';
+  static const String showVideoWidget = '/showVideoWidget';
 
 }

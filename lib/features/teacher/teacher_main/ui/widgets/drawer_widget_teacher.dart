@@ -1,4 +1,8 @@
+import 'package:edu_sphere/core/helpers/constants.dart';
+import 'package:edu_sphere/core/helpers/extenshions.dart';
+import 'package:edu_sphere/core/helpers/shared_pref_helper.dart';
 import 'package:edu_sphere/core/helpers/spacing.dart';
+import 'package:edu_sphere/core/routing/routes.dart';
 import 'package:edu_sphere/core/theming/colors.dart';
 import 'package:edu_sphere/core/theming/styles.dart';
 import 'package:edu_sphere/features/teacher/teacher_main/ui/widgets/image_and_name_drawer.dart';
@@ -40,7 +44,7 @@ class _DrawerWidgetTeacherState extends State<DrawerWidgetTeacher> {
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             itemCount: iconAndLabel.length,
-            itemBuilder: (context, index) => buildListTile(index),
+            itemBuilder: (context, index) => buildListTile(index,context),
           ),
           const Spacer(),
           const Padding(
@@ -57,7 +61,7 @@ class _DrawerWidgetTeacherState extends State<DrawerWidgetTeacher> {
     );
   }
 
-  Widget buildListTile(int index) {
+  Widget buildListTile(int index,BuildContext context) {
     return ListTile(
       leading: SvgPicture.asset(
         iconAndLabel[index]['icon'],
@@ -73,7 +77,11 @@ class _DrawerWidgetTeacherState extends State<DrawerWidgetTeacher> {
             ? TextStyles.font16MainBlue500Weight
             : TextStyles.font16Black500Weight,
       ),
-      onTap: () {
+      onTap: () async{
+        if(index==iconAndLabel.length-1){
+          await SharedPrefHelper.removeData(SharedPrefKeys.cachedUser);
+          context.pushReplacementNamed(Routes.loginScreen);
+        }
         setState(() {
           indexSelected = index;
         });

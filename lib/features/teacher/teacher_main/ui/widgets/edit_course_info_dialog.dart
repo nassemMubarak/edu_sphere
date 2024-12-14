@@ -7,8 +7,6 @@ import 'package:edu_sphere/core/widgets/app_text_form_field.dart';
 import 'package:edu_sphere/core/widgets/label_and_widget.dart';
 import 'package:edu_sphere/features/teacher/teacher_main/data/model/courses_model.dart';
 import 'package:edu_sphere/features/teacher/teacher_main/logic/teacher_main_cubit.dart';
-import 'package:edu_sphere/features/teacher/teacher_main/logic/teacher_main_state.dart';
-import 'package:edu_sphere/features/teacher/teacher_main/ui/widgets/select_course_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,14 +14,14 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class EditCourseInfoDialog extends StatelessWidget {
   CoursesModel coursesModel;
   int indexCourse;
-  EditCourseInfoDialog({super.key, required this.coursesModel,required this.indexCourse});
+  bool isShowTitleEdit;
+  EditCourseInfoDialog({super.key, required this.coursesModel,required this.indexCourse,this.isShowTitleEdit = true});
   @override
   Widget build(BuildContext context) {
     context.read<TeacherMainCubit>().courseNameController =
         TextEditingController(text: coursesModel.title);
-    context.read<TeacherMainCubit>().coursePriceController =
-        TextEditingController(text: coursesModel.price);
-    context.read<TeacherMainCubit>().courseType = coursesModel.subTitle;
+    context.read<TeacherMainCubit>().courseDescriptionController =
+        TextEditingController(text: coursesModel.description);
     return AlertDialog(
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(
@@ -44,96 +42,124 @@ class EditCourseInfoDialog extends StatelessWidget {
             key: context.read<TeacherMainCubit>().globalKey,
             child: Column(
               children: [
-                LabelAndWidget(
-                  label:  AppLocalizations.of(context)!.courseName,
-                  widget: AppTextFormField(
-                    controller:
-                        context.read<TeacherMainCubit>().courseNameController,
-                    hintText:  AppLocalizations.of(context)!.courseName,
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return  AppLocalizations.of(context)!.enterCourseName;
-                      }
-                    },
-                    prefixIcon: Padding(
-                      padding: EdgeInsets.all(14),
-                      child: SvgPicture.asset(
-                        'assets/svgs/courses_icon.svg',
-                        color: ColorsManager.neutralGray,
-                        width: 5,
-                        height: 5,
+                Visibility(
+                  visible: isShowTitleEdit,
+                  child: LabelAndWidget(
+                    label:  AppLocalizations.of(context)!.courseName,
+                    widget: AppTextFormField(
+                      controller:
+                          context.read<TeacherMainCubit>().courseNameController,
+                      hintText:  AppLocalizations.of(context)!.courseName,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return  AppLocalizations.of(context)!.enterCourseName;
+                        }
+                      },
+                      prefixIcon: Padding(
+                        padding: EdgeInsets.all(14),
+                        child: SvgPicture.asset(
+                          'assets/svgs/courses_icon.svg',
+                          color: ColorsManager.neutralGray,
+                          width: 5,
+                          height: 5,
+                        ),
                       ),
                     ),
                   ),
                 ),
-                SelectCourseType(
-                    isSelectedPaid:
-                    coursesModel.subTitle == 'Paid'
-                        ? true
-                        : false),
-                verticalSpace(24),
-                BlocBuilder<TeacherMainCubit, TeacherMainState>(
-                  builder: (context, state) {
-                    if(state is changCourseType){
-                      return Visibility(
-                        visible:
-                        state.type == 'Paid',
-                        child: LabelAndWidget(
-                          label:  AppLocalizations.of(context)!.coursePriceDollar,
-                          widget: AppTextFormField(
-                            textInputType: TextInputType.number,
-                            controller: context
-                                .read<TeacherMainCubit>()
-                                .coursePriceController,
-                            hintText:  AppLocalizations.of(context)!.coursePrice,
-                            validator: (value) {
-                              if (context.read<TeacherMainCubit>().courseType!='Paid'&&value!.isEmpty) {
-                                return  AppLocalizations.of(context)!.enterCoursePrice;
-                              }
-                            },
-                            prefixIcon: Padding(
-                              padding: EdgeInsets.all(14),
-                              child: SvgPicture.asset(
-                                'assets/svgs/courses_icon.svg',
-                                color: ColorsManager.neutralGray,
-                                width: 5,
-                                height: 5,
-                              ),
-                            ),
-                          ),
-                        ),
-                      );
-                    }else{
-                      return Visibility(
-                        visible: coursesModel.subTitle == 'Paid',
-                        child: LabelAndWidget(
-                          label: AppLocalizations.of(context)!.coursePriceDollar,
-                          widget: AppTextFormField(
-                            textInputType: TextInputType.number,
-                            controller: context
-                                .read<TeacherMainCubit>()
-                                .coursePriceController,
-                            hintText: AppLocalizations.of(context)!.coursePrice,
-                            validator: (value) {
-                              if (context.read<TeacherMainCubit>().courseType!='Paid'&&value!.isEmpty) {
-                                return AppLocalizations.of(context)!.enterCoursePrice;
-                              }
-                            },
-                            prefixIcon: Padding(
-                              padding: EdgeInsets.all(14),
-                              child: SvgPicture.asset(
-                                'assets/svgs/courses_icon.svg',
-                                color: ColorsManager.neutralGray,
-                                width: 5,
-                                height: 5,
-                              ),
-                            ),
-                          ),
-                        ),
-                      );
-                    }
-                  },
+                verticalSpace(16),
+                LabelAndWidget(
+                  label: 'Course Description',
+                  widget: AppTextFormField(
+                    controller: context.read<TeacherMainCubit>().courseDescriptionController,
+                    textStyle: TextStyles.font12Black700Weight,
+                    maxLines: 5,
+                    hintText: 'Course Description',
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Enter course description';
+                      }
+                    },
+                    prefixIcon: Container(
+                      height: 100,
+                      width: 50,
+                      alignment: AlignmentDirectional.topCenter,
+                      child: Icon(
+                        Icons.message_outlined,
+                        size: 25,
+                        color: ColorsManager.neutralGray,
+                      ),
+                    ),
+                  ),
                 ),
+                // SelectCourseType(
+                //     isSelectedPaid:
+                //     coursesModel.description == 'Paid'
+                //         ? true
+                //         : false),
+                // verticalSpace(24),
+                // BlocBuilder<TeacherMainCubit, TeacherMainState>(
+                //   builder: (context, state) {
+                //     if(state is changCourseType){
+                //       return Visibility(
+                //         visible:
+                //         state.type == 'Paid',
+                //         child: LabelAndWidget(
+                //           label:  AppLocalizations.of(context)!.coursePriceDollar,
+                //           widget: AppTextFormField(
+                //             textInputType: TextInputType.number,
+                //             controller: context
+                //                 .read<TeacherMainCubit>()
+                //                 .courseDescriptionController,
+                //             hintText:  AppLocalizations.of(context)!.coursePrice,
+                //             validator: (value) {
+                //               if (context.read<TeacherMainCubit>().courseType!='Paid'&&value!.isEmpty) {
+                //                 return  AppLocalizations.of(context)!.enterCoursePrice;
+                //               }
+                //             },
+                //             prefixIcon: Padding(
+                //               padding: EdgeInsets.all(14),
+                //               child: SvgPicture.asset(
+                //                 'assets/svgs/courses_icon.svg',
+                //                 color: ColorsManager.neutralGray,
+                //                 width: 5,
+                //                 height: 5,
+                //               ),
+                //             ),
+                //           ),
+                //         ),
+                //       );
+                //     }else{
+                //       return Visibility(
+                //         visible: coursesModel.description == 'Paid',
+                //         child: LabelAndWidget(
+                //           label: AppLocalizations.of(context)!.coursePriceDollar,
+                //           widget: AppTextFormField(
+                //             textInputType: TextInputType.number,
+                //             controller: context
+                //                 .read<TeacherMainCubit>()
+                //                 .courseDescriptionController,
+                //             hintText: AppLocalizations.of(context)!.coursePrice,
+                //             validator: (value) {
+                //               if (context.read<TeacherMainCubit>().courseType!='Paid'&&value!.isEmpty) {
+                //                 return AppLocalizations.of(context)!.enterCoursePrice;
+                //               }
+                //             },
+                //             prefixIcon: Padding(
+                //               padding: EdgeInsets.all(14),
+                //               child: SvgPicture.asset(
+                //                 'assets/svgs/courses_icon.svg',
+                //                 color: ColorsManager.neutralGray,
+                //                 width: 5,
+                //                 height: 5,
+                //               ),
+                //             ),
+                //           ),
+                //         ),
+                //       );
+                //     }
+                //   },
+                // ),
               ],
             ),
           ),
@@ -147,9 +173,8 @@ class EditCourseInfoDialog extends StatelessWidget {
                             .read<TeacherMainCubit>()
                             .globalKey
                             .currentState!
-                            .validate() &&
-                        context.read<TeacherMainCubit>().courseType != null) {
-                      context.read<TeacherMainCubit>().emitEditCourse(indexCourse: indexCourse);
+                            .validate() ) {
+                      context.read<TeacherMainCubit>().emitEditCourse(context: context,indexCourse: indexCourse);
                       context.pop();
                     }
                   },
@@ -161,8 +186,7 @@ class EditCourseInfoDialog extends StatelessWidget {
               Expanded(
                 child: AppTextButton(
                   onPressed: () {
-                    context.read<TeacherMainCubit>().courseType='Paid';
-                    context.read<TeacherMainCubit>().coursePriceController=TextEditingController();
+                    context.read<TeacherMainCubit>().courseDescriptionController=TextEditingController();
                     context.read<TeacherMainCubit>().courseNameController = TextEditingController();
                     context.pop();
                   },

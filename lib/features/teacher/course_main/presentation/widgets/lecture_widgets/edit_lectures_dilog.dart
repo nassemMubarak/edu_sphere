@@ -1,3 +1,4 @@
+import 'package:edu_sphere/core/helpers/app_regex.dart';
 import 'package:edu_sphere/core/helpers/extenshions.dart';
 import 'package:edu_sphere/core/helpers/spacing.dart';
 import 'package:edu_sphere/core/theming/colors.dart';
@@ -74,16 +75,17 @@ class EditLecturesDilog extends StatelessWidget {
                   ),
                 ),
                 LabelAndWidget(
-                  label: 'Lecture Link',
+                  label: 'Lecture Link Youtube',
                   widget: AppTextFormField(
+                    textInputType: TextInputType.url,
                     controller: context
                         .read<CourseMainCubit>()
                         .lectureLinkTextEditionController,
                     textStyle: TextStyles.font14MainBlue400Weight,
-                    hintText: 'Lecture link',
+                    hintText: 'Lecture link youtube',
                     validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Enter Lecture link';
+                      if (value!.isEmpty||!AppRegex.isYouTubeUrl(value)) {
+                        return 'Please enter a valid link. The link must be a proper and functional URL.';
                       }
                     },
                     prefixIcon: Icon(

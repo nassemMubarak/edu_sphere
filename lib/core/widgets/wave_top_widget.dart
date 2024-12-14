@@ -18,16 +18,16 @@ class WaveTopWidget extends StatelessWidget {
           child: Image.asset('assets/images/background_appbar.png'),
         ),
         PositionedDirectional(
-          top: 68.h,
-          start: 91.w,
+          top: 100.h,
+          start: 110.w,
           child: RichText(
             text: TextSpan(
                 text: 'E',
-                style: TextStyles.font50White700Weight,
+                style: TextStyles.font30White700Weight,
                 children: [
                   TextSpan(
                     text: 'du',
-                    style: TextStyles.font50SkyBlue700Weight,
+                    style: TextStyles.font30SkyBlue700Weight,
                   ),
                   TextSpan(
                     text: 'sphere',

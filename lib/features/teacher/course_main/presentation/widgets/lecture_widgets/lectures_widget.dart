@@ -1,4 +1,6 @@
+import 'package:edu_sphere/core/helpers/extenshions.dart';
 import 'package:edu_sphere/core/helpers/spacing.dart';
+import 'package:edu_sphere/core/routing/routes.dart';
 import 'package:edu_sphere/core/theming/colors.dart';
 import 'package:edu_sphere/core/theming/styles.dart';
 import 'package:edu_sphere/core/widgets/image_and_text_empty_data.dart';
@@ -11,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class LecturesWidget extends StatelessWidget {
   LecturesWidget({super.key});
@@ -49,6 +52,7 @@ class LecturesWidget extends StatelessWidget {
       shrinkWrap: true,
       itemBuilder: (context, index) => lectureWidgetShowDetailes(
         context,
+        url: state.lectures[index].lectureLink,
         title: state.lectures[index].title,
         description: state.lectures[index].description,
         index: index,
@@ -61,14 +65,24 @@ class LecturesWidget extends StatelessWidget {
 
   Container lectureWidgetShowDetailes(BuildContext context,
       {required String title,
+        required String url,
       required String description,
-      required int index,}) {
+      required int index,
+      }) {
+    YoutubePlayerController _controller = YoutubePlayerController(
+      initialVideoId: 'GJ4TqV156Qg',
+      flags: YoutubePlayerFlags(
+        autoPlay: true,
+        mute: true,
+      ),
+    );
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           verticalSpace(24),
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SvgPicture.asset(
                 'assets/svgs/video_icon.svg',
@@ -76,7 +90,10 @@ class LecturesWidget extends StatelessWidget {
                 width: 24.w,
               ),
               horizontalSpace(8),
-              Text(title, style: TextStyles.font16Black500Weight),
+              Container(
+                alignment: AlignmentDirectional.bottomStart,
+                  width: 0.5.sw,
+                  child: Text(title, style: TextStyles.font16Black500Weight)),
               const Spacer(),
               GestureDetector(
                 onTap: () {
@@ -111,30 +128,42 @@ class LecturesWidget extends StatelessWidget {
             textAlign: TextAlign.start,
           ),
           verticalSpace(16),
-          // YoutubePlayer(
-          //   controller: _controller,
-          //   showVideoProgressIndicator: true,
-          //   progressIndicatorColor: Colors.amber,
-          //   progressColors: const ProgressBarColors(
-          //     playedColor: Colors.amber,
-          //     handleColor: Colors.amberAccent,
-          //   ),
-          //   onReady: () {
-          //     // _controller.addListener(listener);
-          //   },
-          // ),
-          Image.asset('assets/images/lecture_image.png'),
+          Container(
+            child: Stack(
+              children: [
+
+                YoutubePlayer(
+                  controller: _controller,
+                  showVideoProgressIndicator: true,
+                  progressIndicatorColor: Colors.amber,
+                  progressColors: const ProgressBarColors(
+                    playedColor: Colors.amber,
+                    handleColor: Colors.amberAccent,
+                  ),
+                  onReady: () {
+                    // _controller.addListener(listener);
+                  },
+
+                ),
+                GestureDetector(
+                  onTap: (){
+                    context.pushNamed(Routes.showVideoWidget);
+                  },
+                  child: Container(
+                    color: Colors.transparent,
+                    height: 162,
+                    width: double.infinity,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          // Image.asset('assets/images/lecture_image.png'),
           verticalSpace(16),
         ],
       ),
     );
   }
 
-  // YoutubePlayerController _controller = YoutubePlayerController(
-  //   initialVideoId: 'e8_Kcv2yj4c',
-  //   flags: YoutubePlayerFlags(
-  //     autoPlay: true,
-  //     mute: true,
-  //   ),
-  // );
+
 }

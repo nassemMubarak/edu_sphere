@@ -9,7 +9,14 @@ class AppRegex {
         r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$")
         .hasMatch(password);
   }
+  static bool isYouTubeUrl(String url) {
+    final RegExp youtubeUrlPattern = RegExp(
+      r'^(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=|youtu\.be\/)[\w-]{11}.*$',
+      caseSensitive: false,
+    );
 
+    return youtubeUrlPattern.hasMatch(url);
+  }
   static bool isPhoneNumberValid(String phoneNumber) {
     return RegExp(r'^(010|011|012|015)[0-9]{8}$').hasMatch(phoneNumber);
   }

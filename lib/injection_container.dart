@@ -13,11 +13,14 @@ import 'package:edu_sphere/features/auth/domain/usecases/send_code_to_forget_pas
 import 'package:edu_sphere/features/auth/domain/usecases/update_password.dart';
 import 'package:edu_sphere/features/auth/presentation/bloc/auth/auth_cubit.dart';
 import 'package:get_it/get_it.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:http/http.dart' as http;
+
 GetIt sl = GetIt.instance;
 Future<void> init() async {
   ///Feature Auth
   // Bloc
-  sl.registerFactory(()=>AuthCubit(loginUserUseCase: sl(), getCurrentUserUseCase: sl()));
+  sl.registerFactory(()=>AuthCubit(registerUserUseCase: sl(),loginUserUseCase: sl(), getCurrentUserUseCase: sl()));
 
   // Use Cases
   sl.registerLazySingleton(()=>CodeCheckForgetPasswordUseCase(authRepository: sl()));
@@ -40,6 +43,7 @@ Future<void> init() async {
   sl.registerLazySingleton<NetworkInfo>(()=>NetworkInfoImpl(connectionChecker: sl()));
 
   // External
-
+  sl.registerLazySingleton(() => http.Client());
+  sl.registerLazySingleton(() => InternetConnectionChecker());
 
 }

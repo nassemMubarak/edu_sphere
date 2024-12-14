@@ -74,8 +74,8 @@ dependencies:
   http: ^1.2.2
   internet_connection_checker: ^1.0.0+1
   # Flutter plugin for playing or streaming inline YouTube videos using the official iFrame player API
-  # youtube_player_flutter: ^9.1.1
-
+  youtube_player_flutter: ^9.1.1
+#  youtube_player_iframe: ^5.2.1
   
   # use for in-app localization with map data
 #   Flutter plugin for reading and writing simple key-value pairs.
@@ -84,6 +84,17 @@ dependencies:
   animated_custom_dropdown: ^3.1.1
   # HSV(HSB)/HSL/RGB/Material color picker inspired by all the good design for your amazing flutter apps.
   flutter_colorpicker: ^1.1.0
+  # Flutter plugin for getting commonly used locations on host platform file systems
+#  path_provider: ^2.1.5
+  #A package that allows you to use a native file explorer to pick single or multiple absolute file paths, with extension filtering support.
+  file_picker: ^8.1.4
+#  open_file: ^3.5.10
+#  webview_flutter: ^4.10.0
+  # Permission plugin for Flutter.
+#  permission_handler: ^11.3.1
+  # A Flutter plugin that provides a PDFView widget on Android and iOS.
+#  flutter_pdfview: ^1.3.4
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

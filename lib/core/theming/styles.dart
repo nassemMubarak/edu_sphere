@@ -27,6 +27,12 @@ class TextStyles {
     color: ColorsManager.mainBlue,
     fontFamily: 'Poppins',
   );
+  static TextStyle font14NeutralGray400Weight = TextStyle(
+    fontSize: 14.sp,
+    fontWeight: FontWeight.w400,
+    color: ColorsManager.neutralGray,
+    fontFamily: 'Poppins',
+  );
   static TextStyle font18MainBlue500Weight = TextStyle(
     fontSize: 18.sp,
     fontWeight: FontWeight.w500,
@@ -75,14 +81,14 @@ class TextStyles {
     color: Colors.white,
     fontFamily: 'Poppins',
   );
-  static TextStyle font50White700Weight = TextStyle(
-    fontSize: 50.sp,
+  static TextStyle font30White700Weight = TextStyle(
+    fontSize: 30.sp,
     fontWeight: FontWeight.w700,
     color: Colors.white,
     fontFamily: 'Poppins',
   );
-  static TextStyle font50SkyBlue700Weight = TextStyle(
-    fontSize: 50.sp,
+  static TextStyle font30SkyBlue700Weight = TextStyle(
+    fontSize: 30.sp,
     fontWeight: FontWeight.w700,
     color: ColorsManager.skyBlue,
     fontFamily: 'Poppins',
@@ -129,6 +135,25 @@ class TextStyles {
     color: Colors.black,
     fontFamily: 'Poppins',
   );
+  static TextStyle font14Black500WeightItalic = TextStyle(
+    fontSize: 14.sp,
+    fontWeight: FontWeight.w500,
+    color: Colors.black,
+    fontStyle: FontStyle.italic,
+    fontFamily: 'Poppins',
+  );
+  static TextStyle font14Black400Weight = TextStyle(
+    fontSize: 14.sp,
+    fontWeight: FontWeight.w400,
+    color: Colors.black,
+    fontFamily: 'Poppins',
+  );
+  static TextStyle font16Red600Weight = TextStyle(
+    fontSize: 16.sp,
+    fontWeight: FontWeight.w600,
+    color: Colors.red,
+    fontFamily: 'Poppins',
+  );
   static TextStyle font14Black600Weight = TextStyle(
     fontSize: 14.sp,
     fontWeight: FontWeight.w600,
@@ -141,10 +166,22 @@ class TextStyles {
     color: Colors.green,
     fontFamily: 'Poppins',
   );
+  static TextStyle font12Yellow400Weight = TextStyle(
+    fontSize: 12.sp,
+    fontWeight: FontWeight.w400,
+    color: Colors.yellow,
+    fontFamily: 'Poppins',
+  );
   static TextStyle font12Black400Weight = TextStyle(
     fontSize: 12.sp,
     fontWeight: FontWeight.w400,
     color: Colors.black,
+    fontFamily: 'Poppins',
+  );
+  static TextStyle font12ElectricAzure400Weight = TextStyle(
+    fontSize: 12.sp,
+    fontWeight: FontWeight.w400,
+    color: ColorsManager.electricAzure,
     fontFamily: 'Poppins',
   );
   static TextStyle font12Black500Weight = TextStyle(

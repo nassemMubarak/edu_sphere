@@ -2,6 +2,8 @@ import 'package:edu_sphere/core/helpers/spacing.dart';
 import 'package:edu_sphere/core/theming/colors.dart';
 import 'package:edu_sphere/core/theming/styles.dart';
 import 'package:edu_sphere/features/teacher/teacher_main/ui/widgets/course_info_dialog.dart';
+import 'package:edu_sphere/features/teacher/teacher_main/ui/widgets/edit_course_info_dialog.dart';
+import 'package:edu_sphere/features/teacher/teacher_main/ui/widgets/warning_message_teacher_info_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -12,15 +14,19 @@ class SectionCard extends StatelessWidget {
   final String icon;
   final Widget widget;
   final Widget infoDialog;
+  final Function()? onTap;
   final Function()? onTapEdit;
+  final bool isShowEditButton;
 
   SectionCard(
       {required this.title,
-      this.showAddButton = false,
+      this.showAddButton = true,
       required this.icon,
       required this.widget,
       required this.infoDialog,
       this.onTapEdit,
+      this.onTap,
+        this.isShowEditButton = false
       });
 
   @override
@@ -66,7 +72,10 @@ class SectionCard extends StatelessWidget {
                   ),
                 ),
                 horizontalSpace(8),
-                addButtonWidget(context, infoDialog: infoDialog),
+
+                Visibility(
+                    visible: showAddButton,
+                    child: addButtonWidget(context, infoDialog: infoDialog,onTap: onTap)),
               ],
             ),
             horizontalSpace(8),
@@ -78,9 +87,9 @@ class SectionCard extends StatelessWidget {
   }
 
   GestureDetector addButtonWidget(BuildContext context,
-      {required Widget infoDialog}) {
+      {required Widget infoDialog,Function()? onTap}) {
     return GestureDetector(
-      onTap: () {
+      onTap: onTap??() {
         showDialog(
           context: context,
           builder: (context) => infoDialog,
