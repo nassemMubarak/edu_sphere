@@ -31,7 +31,7 @@ class WaveTopWidget extends StatelessWidget {
                   ),
                   TextSpan(
                     text: 'sphere',
-                    style: TextStyles.font24White700Weight,
+                    style: TextStyles.font16White700Weight,
                   )
                 ]),
           ),

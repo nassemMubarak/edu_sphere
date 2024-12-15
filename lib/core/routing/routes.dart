@@ -10,5 +10,6 @@ class Routes {
   static const String studentRequestPage = '/studentRequestPage';
   static const String signUpStudentOrTeacherPage = '/signUpStudentOrTeacherPage';
   static const String showVideoWidget = '/showVideoWidget';
+  static const String quizMainPage = '/quizMainPage';
 
 }

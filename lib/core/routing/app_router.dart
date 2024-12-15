@@ -11,6 +11,7 @@ import 'package:edu_sphere/features/onboarding/ui/onboarding_screen.dart';
 import 'package:edu_sphere/features/auth/presentation/pages/signup_screen.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/pages/course_main_screen.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/widgets/lecture_widgets/show_video_widget.dart';
+import 'package:edu_sphere/features/teacher/quiz/presentation/pages/quiz_main_page.dart';
 import 'package:edu_sphere/features/teacher/teacher_main/ui/teacher_main_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -26,6 +27,8 @@ class AppRouter {
             builder: (_) => const SignupScreen());
       case Routes.forgetPasswordScreen:
         return MaterialPageRoute(builder: (_) => ForgetPasswordScreen());
+      case Routes.quizMainPage:
+        return MaterialPageRoute(builder: (_) => QuizMainPage());
       case Routes.signUpStudentOrTeacherPage:
         return MaterialPageRoute(builder: (_) =>const SignUpStudentOrTeacherPage());
       case Routes.studentRequestPage:

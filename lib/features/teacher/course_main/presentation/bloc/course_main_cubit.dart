@@ -4,7 +4,7 @@ import 'package:edu_sphere/core/theming/colors.dart';
 import 'package:edu_sphere/features/teacher/course_main/domain/entities/ads.dart';
 import 'package:edu_sphere/features/teacher/course_main/domain/entities/chapter.dart';
 import 'package:edu_sphere/features/teacher/course_main/domain/entities/lecture.dart';
-import 'package:edu_sphere/features/teacher/course_main/domain/entities/quiz.dart';
+import 'package:edu_sphere/features/teacher/quiz/domain/entities/quiz.dart';
 import 'package:edu_sphere/features/teacher/teacher_main/data/model/courses_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

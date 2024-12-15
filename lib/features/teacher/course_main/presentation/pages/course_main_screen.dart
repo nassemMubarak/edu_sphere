@@ -43,15 +43,15 @@ class CourseMainScreen extends StatelessWidget {
                     children: [
 
                       verticalSpace(15),
-                      Row(
-                        children: [
-                          Text('Home',style: TextStyles.font12NeutralGray400Weight),
-                          horizontalSpace(8),
-                          Icon(Icons.arrow_forward_ios_sharp,color: ColorsManager.darkLightBlue,size: 15),
-                          horizontalSpace(8),
-                          Text(coursesModel.title,style: TextStyles.font12Black500Weight),
-                        ],
-                      ),
+                        Row(
+                          children: [
+                            Text('Home',style: TextStyles.font12NeutralGray400Weight),
+                            horizontalSpace(8),
+                            Icon(Icons.arrow_forward_ios_sharp,color: ColorsManager.darkLightBlue,size: 15),
+                            horizontalSpace(8),
+                            Text(coursesModel.title,style: TextStyles.font12Black500Weight),
+                          ],
+                        ),
                       verticalSpace(24),
                       SectionCard(
                         onTapEdit: () {

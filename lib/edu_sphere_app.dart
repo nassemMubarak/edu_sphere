@@ -5,6 +5,7 @@ import 'package:edu_sphere/features/auth/presentation/bloc/auth/auth_cubit.dart'
 import 'package:edu_sphere/features/auth/presentation/bloc/changTypSignUp/auth_type_cubit.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/bloc/course_main_cubit.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/pages/course_main_screen.dart';
+import 'package:edu_sphere/features/teacher/quiz/presentation/bloc/quiz_cubit.dart';
 import 'package:edu_sphere/features/teacher/teacher_main/logic/teacher_main_cubit.dart';
 import 'package:edu_sphere/main.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +26,7 @@ class EduSphereApp extends StatelessWidget {
          BlocProvider(create: (context)=>AuthTypeCubit()..emitChangTypSignUp('student')),
          BlocProvider(create: (context)=>TeacherMainCubit()),
          BlocProvider(create: (context)=>CourseMainCubit()),
+         BlocProvider(create: (context)=>QuizCubit()),
       ],
       child:
          ScreenUtilInit(
