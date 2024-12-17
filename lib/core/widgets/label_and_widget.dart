@@ -5,10 +5,12 @@ import 'package:flutter/material.dart';
 class LabelAndWidget extends StatelessWidget {
   String label;
   Widget widget;
+  double? verticalUnderText;
   LabelAndWidget({
     super.key,
     required this.label,
     required this.widget,
+     this.verticalUnderText,
   });
 
   @override
@@ -22,7 +24,7 @@ class LabelAndWidget extends StatelessWidget {
         ),
         verticalSpace(8),
         widget,
-        verticalSpace(24)
+        verticalSpace(verticalUnderText??24)
       ],
     );
   }

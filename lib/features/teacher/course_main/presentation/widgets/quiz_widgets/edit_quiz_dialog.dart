@@ -11,16 +11,26 @@ import 'package:edu_sphere/features/auth/presentation/bloc/auth/auth_cubit.dart'
 import 'package:edu_sphere/features/teacher/course_main/presentation/bloc/course_main_cubit.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/widgets/quiz_widgets/date_quiz_widget.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/widgets/quiz_widgets/time_quiz_widget.dart';
+import 'package:edu_sphere/features/teacher/quiz/domain/entities/quiz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class AddQuizDialog extends StatelessWidget {
-  const AddQuizDialog({super.key});
+class EditQuizDialog extends StatelessWidget {
+  Quiz quiz;
+  EditQuizDialog({super.key,required this.quiz});
 
   @override
   Widget build(BuildContext context) {
+    context.read<CourseMainCubit>().quizTitleTextEditionController = TextEditingController(text: quiz.quizTitle);
+    context.read<CourseMainCubit>().quizTimeLiftTextEditionController = TextEditingController(text: quiz.timeLift.toString());
+    context.read<CourseMainCubit>().quizQuizScoreTextEditionController = TextEditingController(text: quiz.passingScore.toString());
+    context.read<CourseMainCubit>().quizDescriptionTextEditionController = TextEditingController(text: quiz.description);
+    context.read<CourseMainCubit>().selectedStartDateQuiz = quiz.startDateTime;
+    context.read<CourseMainCubit>().selectedEndDateQuiz = quiz.endDateTime;
+    context.read<CourseMainCubit>().startDateTimeQuiz = quiz.startDateTime;
+    context.read<CourseMainCubit>().endDateTimeQuiz = quiz.endDateTime;
     return AlertDialog(
       contentPadding: EdgeInsets.symmetric(horizontal: 10.h, vertical: 24.w),
       shape: const RoundedRectangleBorder(
@@ -32,7 +42,7 @@ class AddQuizDialog extends StatelessWidget {
       backgroundColor: Colors.white,
       scrollable: true,
       title: Text(
-        'Add Quiz',
+        'Edit Quiz',
         style: TextStyles.font16Black600Weight,
         textAlign: TextAlign.center,
       ),
@@ -47,7 +57,7 @@ class AddQuizDialog extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   LabelAndWidget(
-                    label: 'Quiz Title',
+                    label: 'Edit Title',
                     widget: AppTextFormField(
                       controller: context
                           .read<CourseMainCubit>()
@@ -95,10 +105,13 @@ class AddQuizDialog extends StatelessWidget {
                     ),
                   ),
                   // Select Start And End Date Quiz Widget
-                   DateQuizWidget(),
+                   DateQuizWidget(
+                     startDate: quiz.startDateTime,
+                     endDate: quiz.endDateTime,
+                   ),
                   verticalSpace(16),
                   // Select Start And End Time Quiz Widget
-                   TimeQuizWidget(),
+                   TimeQuizWidget(endDateTime: quiz.endDateTime,startDateTime: quiz.startDateTime,),
                   verticalSpace(16),
                   LabelAndWidget(
                     label: 'Time Lift(minute)',
@@ -183,13 +196,11 @@ class AddQuizDialog extends StatelessWidget {
                                   .read<CourseMainCubit>()
                                   .isSuccessSelectDateTime ==
                               true) {
-                              context.read<CourseMainCubit>().emitAddQuiz();
+                              context.read<CourseMainCubit>().emitEditQuiz(context);
                               context.pop();
-
                       }
-
                     },
-                    buttonText: 'Add Quiz',
+                    buttonText: 'Edit Quiz',
                     buttonWidth: 147,
                   ),
                 ),

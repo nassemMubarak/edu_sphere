@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 
 class SelecteDateWidget extends StatefulWidget {
   final String title;
+   DateTime? date;
   final Function(DateTime?) onChanged;
-   SelecteDateWidget({super.key, required this.title,required this.onChanged});
+   SelecteDateWidget({super.key, required this.title,required this.onChanged,this.date});
 
   @override
   State<SelecteDateWidget> createState() => _SelecteDateWidgetState();
@@ -17,10 +18,14 @@ class _SelecteDateWidgetState extends State<SelecteDateWidget> {
   String? selectedYear;
   List<String> days = [];
   final List<String> months = List.generate(12, (index) => (index + 1).toString());
-  final List<String> years = List.generate(30, (index) => (DateTime.now().year + index).toString());
+  final List<String> years = List.generate(3, (index) => (DateTime.now().year + index).toString());
   @override
   void initState() {
     super.initState();
+    selectedDay = widget.date==null?null:widget.date!.day.toString();
+    selectedMonth = widget.date==null?null:widget.date!.month.toString();
+    selectedYear = widget.date==null?null:widget.date!.year.toString();
+    // Initialize the days
     // Initialize the days with 31 days as default
     days = List.generate(31, (index) => (index + 1).toString());
   }

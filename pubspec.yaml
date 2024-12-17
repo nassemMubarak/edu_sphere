@@ -90,6 +90,10 @@ dependencies:
   file_picker: ^8.1.4
   # A Flutter package to create easy slide animation countdown / countup timer.
   slide_countdown: ^2.0.2
+  # Flutter plugin for selecting images from the Android and iOS image library, and taking new pictures with the camera.
+  image_picker: ^1.1.2
+  logger: ^2.5.0
+  flutter_custom_clippers: ^2.1.0
 #  open_file: ^3.5.10
 #  webview_flutter: ^4.10.0
   # Permission plugin for Flutter.

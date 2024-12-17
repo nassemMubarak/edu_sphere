@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 class SelectTimeWidget extends StatefulWidget {
   final String title;
   final Function(DateTime?) onChanged;
-  const SelectTimeWidget({super.key, required this.title,required this.onChanged});
+  DateTime? dateTime;
+   SelectTimeWidget({super.key, required this.title,required this.onChanged,this.dateTime});
 
   @override
   _SelectTimeWidgetState createState() => _SelectTimeWidgetState();
@@ -21,7 +22,20 @@ class _SelectTimeWidgetState extends State<SelectTimeWidget> {
   final List<String> minutes = List.generate(60, (index) => index.toString().padLeft(2, '0'));
   final List<String> amPmOptions = ['AM', 'PM'];
   DateTime? selectedTime;
+@override
+  void initState() {
+  if (widget.dateTime != null) {
+    selectedHour = (widget.dateTime!.hour > 12
+        ? widget.dateTime!.hour - 12
+        : widget.dateTime!.hour)
+        .toString()
+        .padLeft(2, '0');
 
+    selectedMinute = widget.dateTime!.minute.toString().padLeft(2, '0');
+    selectedAmPm = widget.dateTime!.hour < 12 ? 'AM' : 'PM';
+  }
+    super.initState();
+  }
   void validateAndUpdateTime() {
     if (selectedHour != null && selectedMinute != null && selectedAmPm != null) {
       // Converting selected time to DateTime object

@@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DateQuizWidget extends StatelessWidget {
-  const DateQuizWidget({super.key});
+  DateTime? startDate;
+  DateTime? endDate;
+   DateQuizWidget({super.key,this.startDate,this.endDate});
 
   @override
   Widget build(BuildContext context) {
@@ -14,6 +16,7 @@ class DateQuizWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SelecteDateWidget(
+          date: startDate,
           title: 'Quiz start date',
           onChanged: (selectedDate) {
             context.read<CourseMainCubit>().selectedStartDateQuiz =
@@ -22,6 +25,7 @@ class DateQuizWidget extends StatelessWidget {
         ),
         verticalSpace(16),
         SelecteDateWidget(
+          date: endDate,
           title: 'Quiz end date',
           onChanged: (selectedDate) {
             context.read<CourseMainCubit>().selectedEndDateQuiz =

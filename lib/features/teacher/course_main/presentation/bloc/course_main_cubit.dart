@@ -5,10 +5,12 @@ import 'package:edu_sphere/features/teacher/course_main/domain/entities/ads.dart
 import 'package:edu_sphere/features/teacher/course_main/domain/entities/chapter.dart';
 import 'package:edu_sphere/features/teacher/course_main/domain/entities/lecture.dart';
 import 'package:edu_sphere/features/teacher/quiz/domain/entities/quiz.dart';
+import 'package:edu_sphere/features/teacher/quiz/presentation/bloc/quiz_cubit.dart';
 import 'package:edu_sphere/features/teacher/teacher_main/data/model/courses_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 part 'course_main_state.dart';
 
 class CourseMainCubit extends Cubit<CourseMainState> {
@@ -55,21 +57,22 @@ class CourseMainCubit extends Cubit<CourseMainState> {
     } else if (endTime == null) {
       emit(ErrorMessageAddQuiz(message: 'Please Enter End Time'));
       return false;
-    }else if(selectedStartDateQuiz!.isBefore(DateTime.now())){
-      emit(ErrorMessageAddQuiz(message: 'Selected date cannot be before the current date.'));
-      return false;
     }
-    else if(selectedEndDateQuiz!.isBefore(selectedStartDateQuiz!)){
-      emit(ErrorMessageAddQuiz(message: 'end date cannot be before the start date'));
-      return false;
-    }
+    // else if(selectedStartDateQuiz!.isBefore(DateTime.now())){
+    //   emit(ErrorMessageAddQuiz(message: 'Selected date cannot be before the current date.'));
+    //   return false;
+    // }
+    // else if(selectedEndDateQuiz!.isBefore(selectedStartDateQuiz!)){
+    //   emit(ErrorMessageAddQuiz(message: 'end date cannot be before the start date'));
+    //   return false;
+    // }
     else if(selectedStartDateQuiz != null&&selectedEndDateQuiz != null&&startTime != null&&endTime != null){
       TimeOfDay timeOfDayEnd = TimeOfDay.fromDateTime(endTime!);
       TimeOfDay timeOfDayStart = TimeOfDay.fromDateTime(startTime!);
+
       return validateEndTime(selectedStartDateQuiz!, timeOfDayStart, selectedEndDateQuiz!, timeOfDayEnd);
     } else if(endDateTimeQuiz!.isBefore(startDateTimeQuiz!)){
       emit(ErrorMessageAddQuiz(message: 'Start time or start date cannot be before the current date or time.'));
-
       return false;
     }else{
       return true;
@@ -94,9 +97,13 @@ class CourseMainCubit extends Cubit<CourseMainState> {
     );
     startDateTimeQuiz = startDateTime;
     endDateTimeQuiz = endDateTime;
+    if(startDateTime.isBefore(DateTime.now())||startDateTime.isAtSameMomentAs(DateTime.now())){
+      emit(ErrorMessageAddQuiz(message: 'Selected Time Start cannot be before the current date.'));
+      return false;
+    }
     if (endDateTime.isBefore(startDateTime)) {
       emit(ErrorMessageAddQuiz(
-          message: 'End time cannot be before start time.'));
+          message: 'End time or end date cannot be before start time or start date.'));
       return false;
     }
     if (endDateTime.isAtSameMomentAs(startDateTime)) {
@@ -109,10 +116,42 @@ class CourseMainCubit extends Cubit<CourseMainState> {
   }
 
   bool? isSuccessSelectDateTime;
-
+  int? indexQuizSelected;
 // add Quiz
   List<Quiz> listQuiz = [];
+  emitEditQuiz(BuildContext context) {
+    listQuiz[indexQuizSelected!].quizTitle =  quizTitleTextEditionController.text;
+    listQuiz[indexQuizSelected!].description = quizDescriptionTextEditionController.text;
+    listQuiz[indexQuizSelected!].passingScore = int.parse(quizQuizScoreTextEditionController.text);
+    listQuiz[indexQuizSelected!].timeLift =  int.parse(quizTimeLiftTextEditionController.text);
+    listQuiz[indexQuizSelected!].startDateTime =  startDateTimeQuiz!;
+    listQuiz[indexQuizSelected!].endDateTime =  endDateTimeQuiz!;
+    context.read<QuizCubit>().emitSelectQuiz(quiz: listQuiz[indexQuizSelected!],indexQuiz: indexQuizSelected!);
+    quizTitleTextEditionController = TextEditingController();
+    quizTimeLiftTextEditionController = TextEditingController();
+    quizQuizScoreTextEditionController = TextEditingController();
+    quizDescriptionTextEditionController = TextEditingController();
+    selectedStartDateQuiz = null;
+    selectedEndDateQuiz = null;
+    startDateTimeQuiz = null;
+    endDateTimeQuiz = null;
+    errorMessageQuiz = null;
+    emit(GetAllQuiz(listQuiz: listQuiz));
+  }
+  emitAddQuestionToQuiz({required List<Quiz> quizList}){
 
+    emit(GetAllQuiz(listQuiz: quizList));
+
+  }
+  emitDeleteQuiz({required Quiz quiz}) {
+    listQuiz.remove(quiz);
+    emit(GetAllQuiz(listQuiz: listQuiz));
+  }
+  emitChangShoeOrHidQuiz({required BuildContext context,required Quiz quiz}){
+    listQuiz[indexQuizSelected!].isHideQuiz = !listQuiz[indexQuizSelected!].isHideQuiz;
+    emit(GetAllQuiz(listQuiz: listQuiz));
+    context.read<QuizCubit>().emitSelectQuiz(quiz: listQuiz[indexQuizSelected!],indexQuiz: indexQuizSelected!);
+  }
   emitAddQuiz() {
     listQuiz.add(
       Quiz(
@@ -122,6 +161,7 @@ class CourseMainCubit extends Cubit<CourseMainState> {
         timeLift: int.parse(quizTimeLiftTextEditionController.text),
         startDateTime: startDateTimeQuiz!,
         endDateTime: endDateTimeQuiz!,
+        isHideQuiz: true
       ),
     );
     quizTitleTextEditionController = TextEditingController();

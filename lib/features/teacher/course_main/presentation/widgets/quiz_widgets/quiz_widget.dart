@@ -29,7 +29,8 @@ class QuizeWidget extends StatelessWidget {
                 shrinkWrap: true,
                 itemBuilder: (context, index) => ListTile(
                   onTap: (){
-                    context.read<QuizCubit>().emitSelectQuiz(quiz: state.listQuiz[index]);
+                    context.read<QuizCubit>().emitSelectQuiz(quiz: state.listQuiz[index],indexQuiz: index);
+                    context.read<CourseMainCubit>().indexQuizSelected = index;
                     context.pushNamed(Routes.quizMainPage);
                   },
                   contentPadding: EdgeInsets.symmetric(horizontal: 16.w),
