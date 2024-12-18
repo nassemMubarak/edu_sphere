@@ -9,6 +9,7 @@ import 'package:edu_sphere/features/auth/presentation/widgets/signup_widgets/sig
 import 'package:edu_sphere/features/auth/presentation/widgets/student_request_widget.dart';
 import 'package:edu_sphere/features/onboarding/ui/onboarding_screen.dart';
 import 'package:edu_sphere/features/auth/presentation/pages/signup_screen.dart';
+import 'package:edu_sphere/features/teacher/assessments/presentation/pages/assessments_page.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/pages/course_main_screen.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/widgets/lecture_widgets/show_video_widget.dart';
 import 'package:edu_sphere/features/teacher/quiz/presentation/pages/estimate_quiz_page.dart';
@@ -45,6 +46,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) =>const CourseMainScreen());
       case Routes.showVideoWidget:
         return MaterialPageRoute(builder: (_) => ShowVideoWidget());
+      case Routes.assessmentsPage:
+        return MaterialPageRoute(builder: (_) => AssessmentsPage());
       case Routes.teacherMainScreen:
         return MaterialPageRoute(
           builder: (_) => const TeacherMainScreen()

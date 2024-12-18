@@ -50,6 +50,7 @@ class ShowReviewQuizWidget extends StatelessWidget {
               ShowEstimatePersonWidget(
                   name: 'Nassem Ah Mubarak',
                   grad: '10/10',
+                onTapListTail: (){},
                   ),
             ],
           ),

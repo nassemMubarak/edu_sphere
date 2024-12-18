@@ -37,7 +37,7 @@ class AdvertisementsWidget extends StatelessWidget {
               title: 'Advertisements',
               icon: 'assets/svgs/advertisements_icon.svg',
               infoDialog: AddAdvertisementsInfoDialog(),
-              widget: const ImageAndTextEmptyData(
+              widget:  ImageAndTextEmptyData(
                 message: 'You have not added any ads yet.',
 
               ),
@@ -48,7 +48,7 @@ class AdvertisementsWidget extends StatelessWidget {
             title: 'Advertisements',
             icon: 'assets/svgs/advertisements_icon.svg',
             infoDialog: AddAdvertisementsInfoDialog(),
-            widget: const ImageAndTextEmptyData(
+            widget:  ImageAndTextEmptyData(
               message: 'You have not added any ads yet.',
 
             ),

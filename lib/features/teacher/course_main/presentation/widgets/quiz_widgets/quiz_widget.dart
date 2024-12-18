@@ -39,7 +39,7 @@ class QuizeWidget extends StatelessWidget {
                 ),
               );
             }else{
-             return const ImageAndTextEmptyData(
+             return  ImageAndTextEmptyData(
                 message: 'You have not added any quizzes yet.',
               );
             }
@@ -61,7 +61,7 @@ class QuizeWidget extends StatelessWidget {
                 ),
               );
             }else{
-              return const ImageAndTextEmptyData(
+              return  ImageAndTextEmptyData(
                 message: 'You have not added any quizzes yet.',
               );
             }

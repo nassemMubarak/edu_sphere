@@ -16,7 +16,7 @@ class ShowEstimatePersonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      onTap: (){
+      onTap: onTapListTail??(){
         context.pushNamed(Routes.showReviewQuizPage);
       },
       titleAlignment: ListTileTitleAlignment.center,

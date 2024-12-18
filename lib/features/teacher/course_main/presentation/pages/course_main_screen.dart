@@ -5,9 +5,11 @@ import 'package:edu_sphere/core/theming/styles.dart';
 import 'package:edu_sphere/core/widgets/bread_crumb_widget.dart';
 import 'package:edu_sphere/core/widgets/image_and_text_empty_data.dart';
 import 'package:edu_sphere/core/widgets/sliver_widget.dart';
+import 'package:edu_sphere/features/teacher/assessments/presentation/widgets/assessment_widget/add_assessment_dialog.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/bloc/course_main_cubit.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/widgets/advertisements/add_advertisements_info_dialog.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/widgets/advertisements/advertisements_widget.dart';
+import 'package:edu_sphere/features/teacher/course_main/presentation/widgets/assessments_widgets/assessment_widget.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/widgets/chapters_widgets/chapters_widget.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/widgets/lecture_widgets/lectures_widget.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/widgets/quiz_widgets/quiz_widget.dart';
@@ -82,7 +84,7 @@ class CourseMainScreen extends StatelessWidget {
                         title: 'Assessment',
                         icon: 'assets/svgs/annual_assessment_icon.svg',
                         infoDialog: AddAdvertisementsInfoDialog(),
-                        widget: const ImageAndTextEmptyData(
+                        widget:  ImageAndTextEmptyData(
                           message: 'You have not added any Assessment yet.',
                         ),
                       ),
@@ -135,14 +137,7 @@ class CourseMainScreen extends StatelessWidget {
                       verticalSpace(24),
                       QuizeWidget(),
                       verticalSpace(24),
-                      SectionCard(
-                        title: 'Assessment',
-                        icon: 'assets/svgs/annual_assessment_icon.svg',
-                        infoDialog: AddAdvertisementsInfoDialog(),
-                        widget: const ImageAndTextEmptyData(
-                          message: 'You have not added any Assessment yet.',
-                        ),
-                      ),
+                      AssessmentWidget(),
                       verticalSpace(24),
                     ],
                   ),

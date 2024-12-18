@@ -9,7 +9,6 @@ class BreadCrumbWidget extends StatelessWidget {
   final List<String> items;
 
   const BreadCrumbWidget({Key? key, required this.items}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Container(

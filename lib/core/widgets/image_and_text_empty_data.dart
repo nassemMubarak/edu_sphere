@@ -3,9 +3,11 @@ import 'package:edu_sphere/core/theming/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 class ImageAndTextEmptyData extends StatelessWidget {
-  const ImageAndTextEmptyData({
+  String? imageUrl;
+   ImageAndTextEmptyData({
     super.key,
     required this.message,
+     this.imageUrl
   });
 
   final String message;
@@ -13,14 +15,14 @@ class ImageAndTextEmptyData extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 159.h,
+      height: imageUrl!=null?250.h:159.h,
       alignment: Alignment.center,
       child: SingleChildScrollView(
         child: Column(
           children: [
             Image.asset(
-              'assets/images/no_data_image.png',
-              height: 130.h,
+              imageUrl??'assets/images/no_data_image.png',
+              height: imageUrl!=null?220.h:130.h,
               width: 200.w,
             ),
             verticalSpace(8),

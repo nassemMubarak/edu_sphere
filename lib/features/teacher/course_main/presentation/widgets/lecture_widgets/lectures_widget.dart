@@ -30,12 +30,12 @@ class LecturesWidget extends StatelessWidget {
             if (state.lectures.isNotEmpty) {
               return listViewLectureWidget(state);
             } else {
-              return const ImageAndTextEmptyData(
+              return  ImageAndTextEmptyData(
                 message: 'You have not added any Lectures yet.',
               );
             }
           } else {
-            return const ImageAndTextEmptyData(
+            return  ImageAndTextEmptyData(
               message: 'You have not added any Lectures yet.',
             );
           }
