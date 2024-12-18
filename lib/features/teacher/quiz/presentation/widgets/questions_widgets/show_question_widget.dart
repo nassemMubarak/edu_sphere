@@ -5,19 +5,21 @@ import 'package:edu_sphere/core/helpers/spacing.dart';
 import 'package:edu_sphere/core/theming/colors.dart';
 import 'package:edu_sphere/core/theming/styles.dart';
 import 'package:edu_sphere/core/widgets/full_screen_image_widget.dart';
-import 'package:edu_sphere/features/teacher/course_main/presentation/widgets/quiz_widgets/edit_quiz_dialog.dart';
 import 'package:edu_sphere/features/teacher/quiz/domain/entities/question.dart';
-import 'package:edu_sphere/features/teacher/quiz/presentation/bloc/quiz_cubit.dart';
+import 'package:edu_sphere/features/teacher/quiz/presentation/widgets/questions_widgets/delete_question_info_dialog.dart';
+import 'package:edu_sphere/features/teacher/quiz/presentation/widgets/questions_widgets/edit_question_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 class ShowQuestionWidget extends StatelessWidget {
   Question question;
   int index;
+  bool isHideEditAndDeleteIcon = true;
    ShowQuestionWidget({
     super.key,
      required this.question,
-     required this.index
+     required this.index,
+     this.isHideEditAndDeleteIcon = true
   });
 
   @override
@@ -53,40 +55,43 @@ class ShowQuestionWidget extends StatelessWidget {
               'Questions ${index+1}',
               style: TextStyles.font14Black500Weight,
             ),
-            trailing: SizedBox(
-              width: 100,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  GestureDetector(
-                    onTap: (){
-                      // showDialog(
-                      //   context: context,
-                      //   builder: (context) => EditQuizDialog(quiz: quiz),
-                      // );
-                    },
-                    child: SvgPicture.asset(
-                      'assets/svgs/edite_icon.svg',
-                      height: 24,
-                      width: 24,
-                      color: Colors.black,
+            trailing: Visibility(
+              visible: isHideEditAndDeleteIcon,
+              child: SizedBox(
+                width: 100,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    GestureDetector(
+                      onTap: (){
+                        showDialog(
+                          context: context,
+                          builder: (context) => EditQuestionDialog(question: question,indexQuestion: index,),
+                        );
+                      },
+                      child: SvgPicture.asset(
+                        'assets/svgs/edite_icon.svg',
+                        height: 24,
+                        width: 24,
+                        color: Colors.black,
+                      ),
                     ),
-                  ),
-                  horizontalSpace(8),
-                  GestureDetector(
-                    onTap: (){
-                      // showDialog(
-                      //   context: context,
-                      //   builder: (context) => DeleteQuizInfoDialog(quiz: quiz),
-                      // );
-                    },
-                    child: SvgPicture.asset(
-                      'assets/svgs/delete_icon.svg',
-                      height: 24,
-                      width: 24,
+                    horizontalSpace(8),
+                    GestureDetector(
+                      onTap: (){
+                        showDialog(
+                          context: context,
+                          builder: (context) => DeleteQuestionInfoDialog(question: question),
+                        );
+                      },
+                      child: SvgPicture.asset(
+                        'assets/svgs/delete_icon.svg',
+                        height: 24,
+                        width: 24,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

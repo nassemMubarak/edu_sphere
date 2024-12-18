@@ -2,6 +2,7 @@ import 'package:edu_sphere/core/helpers/extenshions.dart';
 import 'package:edu_sphere/core/helpers/spacing.dart';
 import 'package:edu_sphere/core/theming/colors.dart';
 import 'package:edu_sphere/core/theming/styles.dart';
+import 'package:edu_sphere/core/widgets/bread_crumb_widget.dart';
 import 'package:edu_sphere/core/widgets/image_and_text_empty_data.dart';
 import 'package:edu_sphere/core/widgets/sliver_widget.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/bloc/course_main_cubit.dart';
@@ -41,17 +42,10 @@ class CourseMainScreen extends StatelessWidget {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-
                       verticalSpace(15),
-                        Row(
-                          children: [
-                            Text('Home',style: TextStyles.font12NeutralGray400Weight),
-                            horizontalSpace(8),
-                            Icon(Icons.arrow_forward_ios_sharp,color: ColorsManager.darkLightBlue,size: 15),
-                            horizontalSpace(8),
-                            Text(coursesModel.title,style: TextStyles.font12Black500Weight),
-                          ],
-                        ),
+                      BreadCrumbWidget(
+                        items: ['Home', coursesModel.title],
+                      ),
                       verticalSpace(24),
                       SectionCard(
                         onTapEdit: () {
@@ -104,14 +98,8 @@ class CourseMainScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       verticalSpace(15),
-                      Row(
-                        children: [
-                          Text('Home',style: TextStyles.font12NeutralGray400Weight),
-                          horizontalSpace(8),
-                          Icon(Icons.arrow_forward_ios_sharp,color: ColorsManager.darkLightBlue,size: 15),
-                          horizontalSpace(8),
-                          Text(coursesModel.title,style: TextStyles.font12Black500Weight),
-                        ],
+                      BreadCrumbWidget(
+                        items: ['Home', coursesModel.title],
                       ),
                       verticalSpace(24),
                       SectionCard(

@@ -9,14 +9,7 @@ class ChangColorTextInTextField extends CourseMainState{
   final Color colorSelect;
   ChangColorTextInTextField({required this.colorSelect});
 }
-class ErrorMessageAddQuiz extends CourseMainState{
-  final String message;
-  ErrorMessageAddQuiz({required this.message});
-}
-class GetAllQuiz extends CourseMainState{
-  List<Quiz> listQuiz;
-  GetAllQuiz({required this.listQuiz});
-}
+
   class GetAllAds extends CourseMainState{
   final List<Ads> listAds;
   GetAllAds({required this.listAds});

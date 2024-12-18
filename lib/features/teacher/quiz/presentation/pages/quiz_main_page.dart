@@ -1,22 +1,24 @@
 import 'package:edu_sphere/core/helpers/extenshions.dart';
 import 'package:edu_sphere/core/helpers/spacing.dart';
+import 'package:edu_sphere/core/routing/routes.dart';
 import 'package:edu_sphere/core/theming/colors.dart';
 import 'package:edu_sphere/core/theming/styles.dart';
 import 'package:edu_sphere/core/widgets/app_text_button.dart';
+import 'package:edu_sphere/core/widgets/bread_crumb_widget.dart';
 import 'package:edu_sphere/core/widgets/sliver_widget.dart';
 import 'package:edu_sphere/core/widgets/toggle_text_widget.dart';
-import 'package:edu_sphere/features/teacher/course_main/presentation/widgets/quiz_widgets/delete_quiz_info_dialog.dart';
-import 'package:edu_sphere/features/teacher/course_main/presentation/widgets/quiz_widgets/edit_quiz_dialog.dart';
-import 'package:edu_sphere/features/teacher/course_main/presentation/widgets/quiz_widgets/show_or_hid_quiz_info_dialog.dart';
+import 'package:edu_sphere/features/teacher/course_main/presentation/bloc/course_main_cubit.dart';
+import 'package:edu_sphere/features/teacher/quiz/presentation/widgets/quiz_widget/delete_quiz_info_dialog.dart';
+import 'package:edu_sphere/features/teacher/quiz/presentation/widgets/quiz_widget/edit_quiz_dialog.dart';
+import 'package:edu_sphere/features/teacher/quiz/presentation/widgets/quiz_widget/show_or_hid_quiz_info_dialog.dart';
 import 'package:edu_sphere/features/teacher/quiz/domain/entities/quiz.dart';
 import 'package:edu_sphere/features/teacher/quiz/presentation/bloc/quiz_cubit.dart';
-import 'package:edu_sphere/features/teacher/quiz/presentation/widgets/add_question_dialog.dart';
-import 'package:edu_sphere/features/teacher/quiz/presentation/widgets/show_question_widget.dart';
+import 'package:edu_sphere/features/teacher/quiz/presentation/widgets/questions_widgets/add_question_dialog.dart';
+import 'package:edu_sphere/features/teacher/quiz/presentation/widgets/questions_widgets/show_question_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
-import 'package:logger/logger.dart';
 import 'package:slide_countdown/slide_countdown.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -25,6 +27,7 @@ class QuizMainPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return BlocBuilder<QuizCubit, QuizState>(
       builder: (context, state) {
         if (state is QuizSelected) {
@@ -35,8 +38,10 @@ class QuizMainPage extends StatelessWidget {
       },
     );
   }
-
   SliverWidget buildSliverWidget(BuildContext context, Quiz quiz) {
+    var coursesModel = context
+        .read<CourseMainCubit>()
+        .coursesModel;
     return SliverWidget(
           leading: IconButton(
             onPressed: () {
@@ -44,28 +49,21 @@ class QuizMainPage extends StatelessWidget {
             },
             icon: Icon(Icons.arrow_back),
           ),
+          actions: quiz.endDateTime.isBefore(DateTime.now())?[
+            GestureDetector(
+                onTap: (){
+                  context.pushNamed(Routes.estimateQuizPage);
+                },
+                child: SvgPicture.asset('assets/svgs/assessment_estimates_color_icon.svg',color: Colors.white,)),
+            horizontalSpace(30)
+          ]:[],
           widget: Padding(
             padding: const EdgeInsets.all(16),
             child: Column(
               children: [
-                Row(
-                  children: [
-                    Text('Home',
-                        style: TextStyles.font12NeutralGray400Weight),
-                    horizontalSpace(8),
-                    Icon(Icons.arrow_forward_ios_sharp,
-                        color: ColorsManager.darkLightBlue, size: 15),
-                    horizontalSpace(8),
-                    Text('Data Science',
-                        style: TextStyles.font12NeutralGray400Weight),
-                    horizontalSpace(8),
-                    Icon(Icons.arrow_forward_ios_sharp,
-                        color: ColorsManager.darkLightBlue, size: 15),
-                    horizontalSpace(8),
-                    Text(quiz.quizTitle,
-                        style: TextStyles.font12Black500Weight),
-                  ],
-                ),
+               BreadCrumbWidget(
+              items: ['Home', coursesModel.title, quiz.quizTitle],
+            ),
                 verticalSpace(24),
                 // card show time quiz
                 Container(
@@ -102,9 +100,9 @@ class QuizMainPage extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(5)),
                                 style: TextStyles.font12White600Weight,
                                 duration: Duration(
-                                    minutes: quiz.startDateTime
+                                    seconds: quiz.startDateTime
                                         .difference(DateTime.now())
-                                        .inMinutes),
+                                        .inSeconds),
                                 showZeroValue: true,
                               ),
                             ),

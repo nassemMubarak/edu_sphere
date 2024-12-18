@@ -9,11 +9,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 class SliverWidget extends StatelessWidget {
   final Widget widget;
   final Widget? leading;
+  List<Widget>? actions;
 
-  const SliverWidget({
+   SliverWidget({
     super.key,
     required this.widget,
     this.leading,
+    this.actions,
   });
 
   @override
@@ -31,6 +33,7 @@ class SliverWidget extends StatelessWidget {
             foregroundColor: Colors.white,
             backgroundColor: ColorsManager.mainBlue ,
             pinned: true,
+            actions: actions,
             flexibleSpace: FlexibleSpaceBar(
               centerTitle: true,
               titlePadding: EdgeInsets.only(bottom: 16.h),

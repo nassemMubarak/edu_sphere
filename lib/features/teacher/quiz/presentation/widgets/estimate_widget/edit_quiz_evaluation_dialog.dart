@@ -2,17 +2,25 @@ import 'package:edu_sphere/core/helpers/extenshions.dart';
 import 'package:edu_sphere/core/helpers/spacing.dart';
 import 'package:edu_sphere/core/theming/styles.dart';
 import 'package:edu_sphere/core/widgets/app_text_button.dart';
-import 'package:edu_sphere/features/teacher/course_main/domain/entities/chapter.dart';
-import 'package:edu_sphere/features/teacher/course_main/presentation/bloc/course_main_cubit.dart';
-import 'package:edu_sphere/features/teacher/quiz/domain/entities/quiz.dart';
-import 'package:edu_sphere/features/teacher/teacher_main/logic/teacher_main_cubit.dart';
+import 'package:edu_sphere/core/widgets/dropdown_widget.dart';
+import 'package:edu_sphere/core/widgets/label_and_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
-class DeleteQuizInfoDialog extends StatelessWidget {
-  Quiz quiz;
-  DeleteQuizInfoDialog({super.key, required this.quiz});
+import 'package:flutter_svg/flutter_svg.dart';
+class EditQuizEvaluationDialog extends StatelessWidget {
+   EditQuizEvaluationDialog({super.key});
+  List<String> score = [
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    '10',
+  ];
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -25,7 +33,7 @@ class DeleteQuizInfoDialog extends StatelessWidget {
       backgroundColor: Colors.white,
       scrollable: true,
       title: Text(
-        'Delete Quiz',
+        'Edit Quiz Evaluation',
         style: TextStyles.font16Black600Weight,
         textAlign: TextAlign.center,
       ),
@@ -33,25 +41,22 @@ class DeleteQuizInfoDialog extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           verticalSpace(24),
-          Text(
-            'Do you really want to delete the Quiz ${quiz.quizTitle} ?',
-            style: TextStyles.font14Red600Weight,
-            textAlign: TextAlign.center,
+          LabelAndWidget(
+            label: 'Question Score',
+            widget: DropdownWidget(items: score,prefixIcon: SvgPicture.asset('assets/svgs/quiz_score_icon.svg'),hintText: 'Question Score',onChanged: (val){
+              // context.read<QuizCubit>().questionScore = val;
+            },),
           ),
-
-          verticalSpace(16),
-          Text('If you delete the quiz, all the questions you added will be gone',style: TextStyles.font14Black400Weight,),
           verticalSpace(24),
           Row(
             children: [
               Expanded(
                 child: AppTextButton(
                   onPressed: () {
-                    context.read<CourseMainCubit>().emitDeleteQuiz(quiz: quiz);
-                    context.pop();
+                    // context.read<QuizCubit>().emitDeleteQuestion(context: context, question: question);
                     context.pop();
                   },
-                  buttonText: 'Delete Quiz',
+                  buttonText: 'Save',
                   textStyle: TextStyles.font12White400Weight,
                   buttonWidth: 160,
                 ),

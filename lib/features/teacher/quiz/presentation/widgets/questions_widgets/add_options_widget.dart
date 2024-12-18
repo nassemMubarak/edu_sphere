@@ -6,7 +6,7 @@ import 'package:edu_sphere/core/widgets/dropdown_widget.dart';
 import 'package:edu_sphere/core/widgets/label_and_widget.dart';
 import 'package:edu_sphere/features/auth/presentation/bloc/auth/auth_cubit.dart';
 import 'package:edu_sphere/features/teacher/quiz/presentation/bloc/quiz_cubit.dart';
-import 'package:edu_sphere/features/teacher/quiz/presentation/widgets/dropdown_button_widget.dart';
+import 'package:edu_sphere/features/teacher/quiz/presentation/widgets/questions_widgets/dropdown_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';

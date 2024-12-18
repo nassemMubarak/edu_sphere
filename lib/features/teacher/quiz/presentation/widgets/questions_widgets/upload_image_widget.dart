@@ -8,9 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../../core/theming/styles.dart';
+import '../../../../../../core/theming/styles.dart';
 class UploadImageWidget extends StatefulWidget {
-   UploadImageWidget({super.key});
+  String? imagePath;
+   UploadImageWidget({super.key, this.imagePath});
 
   @override
   State<UploadImageWidget> createState() => _UploadImageWidgetState();
@@ -18,6 +19,7 @@ class UploadImageWidget extends StatefulWidget {
 
 class _UploadImageWidgetState extends State<UploadImageWidget> {
   final ImagePicker _picker = ImagePicker();
+
   XFile? _image;
 
   // For picking an image from the gallery
@@ -30,8 +32,13 @@ class _UploadImageWidgetState extends State<UploadImageWidget> {
       });
     }
     }
+    @override
+  void initState() {
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
+
     return  Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -56,6 +63,24 @@ class _UploadImageWidgetState extends State<UploadImageWidget> {
             borderRadius: BorderRadius.circular(10),  // Image border radius
             child: Image.file(
               File(_image!.path),
+              width: 105.0,  // Set image width to fit container
+              height: 115.0, // Set image height to fit container
+              fit: BoxFit.cover, // Crop the image to cover the container
+            ),
+          ),
+        ):widget.imagePath!=null?GestureDetector(
+          onTap: (){
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => FullScreenImageWidget(imagePath: widget.imagePath!),
+              ),
+            );
+          },
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(10),  // Image border radius
+            child: Image.file(
+              File(widget.imagePath!),
               width: 105.0,  // Set image width to fit container
               height: 115.0, // Set image height to fit container
               fit: BoxFit.cover, // Crop the image to cover the container
