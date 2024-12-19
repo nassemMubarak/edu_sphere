@@ -10,6 +10,13 @@ class AssessmentsCubit extends Cubit<AssessmentsState> {
   AssessmentsCubit() : super(AssessmentsInitial());
   Assessment? assessment;
   int? indexAssessmentSelected;
+  bool isHideEstimationAssessment = false;
+  emitIsHideEstimationAssessment(bool isHide){
+    isHideEstimationAssessment = isHide;
+    emit(IsHideEstimationAssessment(isHide: isHide));
+
+  }
+
   final globalAssessmentKey = GlobalKey<FormState>();
   emitSelectAssessments({required Assessment assessment, required int indexAssessments}) {
     this.assessment = assessment;

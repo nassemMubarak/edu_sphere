@@ -226,6 +226,12 @@ class TextStyles {
     color: Colors.black,
     fontFamily: 'Poppins',
   );
+  static TextStyle font10White400Weight = TextStyle(
+    fontSize: 10.sp,
+    fontWeight: FontWeight.w400,
+    color: Colors.white,
+    fontFamily: 'Poppins',
+  );
   static TextStyle font14SecondaryBlue600Weight = TextStyle(
     fontSize: 14.sp,
     fontWeight: FontWeight.w600,
@@ -241,6 +247,12 @@ class TextStyles {
   static TextStyle font14White600Weight = TextStyle(
     fontSize: 14.sp,
     fontWeight: FontWeight.w600,
+    color: Colors.white,
+    fontFamily: 'Poppins',
+  );
+  static TextStyle font14White500Weight = TextStyle(
+    fontSize: 14.sp,
+    fontWeight: FontWeight.w500,
     color: Colors.white,
     fontFamily: 'Poppins',
   );

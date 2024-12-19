@@ -10,10 +10,13 @@ import 'package:edu_sphere/features/auth/presentation/widgets/student_request_wi
 import 'package:edu_sphere/features/onboarding/ui/onboarding_screen.dart';
 import 'package:edu_sphere/features/auth/presentation/pages/signup_screen.dart';
 import 'package:edu_sphere/features/teacher/assessments/presentation/pages/assessments_page.dart';
+import 'package:edu_sphere/features/teacher/assessments/presentation/pages/estimate_assessment_page.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/pages/course_main_screen.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/widgets/lecture_widgets/show_video_widget.dart';
+import 'package:edu_sphere/features/teacher/profile/presentation/pages/profile_page.dart';
 import 'package:edu_sphere/features/teacher/quiz/presentation/pages/estimate_quiz_page.dart';
 import 'package:edu_sphere/features/teacher/quiz/presentation/pages/quiz_main_page.dart';
+import 'package:edu_sphere/features/teacher/assessments/presentation/pages/show_review_assessment_page.dart';
 import 'package:edu_sphere/features/teacher/quiz/presentation/pages/show_review_quiz_page.dart';
 import 'package:edu_sphere/features/teacher/teacher_main/ui/teacher_main_screen.dart';
 import 'package:flutter/material.dart';
@@ -34,6 +37,10 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => EstimateQuizPage());
       case Routes.showReviewQuizPage:
         return MaterialPageRoute(builder: (_) => ShowReviewQuizPage());
+      case Routes.showReviewAssessmentPage:
+        return MaterialPageRoute(builder: (_) => ShowReviewAssessmentPage());
+      case Routes.profilePage:
+        return MaterialPageRoute(builder: (_) => ProfilePage());
       case Routes.quizMainPage:
         return MaterialPageRoute(builder: (_) => QuizMainPage());
       case Routes.signUpStudentOrTeacherPage:
@@ -48,6 +55,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => ShowVideoWidget());
       case Routes.assessmentsPage:
         return MaterialPageRoute(builder: (_) => AssessmentsPage());
+      case Routes.estimateAssessmentPage:
+        return MaterialPageRoute(builder: (_) => EstimateAssessmentPage());
       case Routes.teacherMainScreen:
         return MaterialPageRoute(
           builder: (_) => const TeacherMainScreen()

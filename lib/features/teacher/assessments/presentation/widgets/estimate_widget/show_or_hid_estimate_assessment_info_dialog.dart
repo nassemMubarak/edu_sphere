@@ -2,6 +2,7 @@ import 'package:edu_sphere/core/helpers/extenshions.dart';
 import 'package:edu_sphere/core/helpers/spacing.dart';
 import 'package:edu_sphere/core/theming/styles.dart';
 import 'package:edu_sphere/core/widgets/app_text_button.dart';
+import 'package:edu_sphere/features/teacher/assessments/presentation/bloc/assessments_cubit.dart';
 import 'package:edu_sphere/features/teacher/course_main/domain/entities/chapter.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/bloc/course_main_cubit.dart';
 import 'package:edu_sphere/features/teacher/quiz/domain/entities/quiz.dart';
@@ -11,10 +12,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class ShowOrHidEstimateInfoDialog extends StatelessWidget {
+class ShowOrHidEstimateAssessmentInfoDialog extends StatelessWidget {
   bool isHide;
 
-  ShowOrHidEstimateInfoDialog({super.key, required this.isHide});
+  ShowOrHidEstimateAssessmentInfoDialog({super.key, required this.isHide});
 
   @override
   Widget build(BuildContext context) {
@@ -58,8 +59,8 @@ class ShowOrHidEstimateInfoDialog extends StatelessWidget {
                 child: AppTextButton(
                   onPressed: () {
                     context
-                        .read<QuizCubit>()
-                        .emitIsHideEstimation(!isHide);
+                        .read<AssessmentsCubit>()
+                        .emitIsHideEstimationAssessment(!isHide);
                     context.pop();
                   },
                   buttonText: isHide ? 'Show Evaluation' : 'Hide Evaluation',

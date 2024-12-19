@@ -2,7 +2,7 @@ import 'package:edu_sphere/core/helpers/extenshions.dart';
 import 'package:edu_sphere/core/helpers/spacing.dart';
 import 'package:edu_sphere/core/theming/colors.dart';
 import 'package:edu_sphere/core/theming/styles.dart';
-import 'package:edu_sphere/features/teacher/assessments/presentation/widgets/estimate_widget/edit_assessment_evaluation_dialog.dart';
+import 'package:edu_sphere/features/teacher/quiz/presentation/widgets/estimate_widget/edit_quiz_evaluation_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -39,7 +39,7 @@ class ShowEstimatePersonWidget extends StatelessWidget {
             horizontalSpace(5),
             GestureDetector(
               onTap: (){
-                showDialog(context: context, builder: (context) => EditAssessmentEvaluationDialog());
+                showDialog(context: context, builder: (context) => EditQuizEvaluationDialog());
               },
               // child: Icon(quiz.isHideQuiz?Icons.visibility_off_outlined:Icons.visibility_outlined,
               child: SvgPicture.asset(

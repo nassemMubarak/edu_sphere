@@ -16,3 +16,7 @@ class SelectedAssessment extends AssessmentsState{
   Assessment assessment;
   SelectedAssessment({required this.assessment});
 }
+class IsHideEstimationAssessment extends AssessmentsState{
+  bool isHide;
+  IsHideEstimationAssessment({required this.isHide});
+}

@@ -2,20 +2,15 @@ import 'package:edu_sphere/core/helpers/extenshions.dart';
 import 'package:edu_sphere/core/helpers/spacing.dart';
 import 'package:edu_sphere/core/theming/styles.dart';
 import 'package:edu_sphere/core/widgets/app_text_button.dart';
-import 'package:edu_sphere/features/teacher/course_main/domain/entities/chapter.dart';
-import 'package:edu_sphere/features/teacher/course_main/presentation/bloc/course_main_cubit.dart';
-import 'package:edu_sphere/features/teacher/quiz/domain/entities/quiz.dart';
-import 'package:edu_sphere/features/teacher/quiz/presentation/bloc/quiz_cubit.dart';
-import 'package:edu_sphere/features/teacher/teacher_main/logic/teacher_main_cubit.dart';
+import 'package:edu_sphere/core/widgets/app_text_form_field.dart';
+import 'package:edu_sphere/core/widgets/dropdown_widget.dart';
+import 'package:edu_sphere/core/widgets/label_and_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
-class ShowOrHidEstimateInfoDialog extends StatelessWidget {
-  bool isHide;
-
-  ShowOrHidEstimateInfoDialog({super.key, required this.isHide});
-
+import 'package:flutter_svg/flutter_svg.dart';
+class EditEmailDialog extends StatelessWidget {
+  EditEmailDialog({super.key});
+ 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -28,7 +23,7 @@ class ShowOrHidEstimateInfoDialog extends StatelessWidget {
       backgroundColor: Colors.white,
       scrollable: true,
       title: Text(
-        isHide ? 'Show Estimate' : 'Hide Estimate',
+        'Edit Email',
         style: TextStyles.font16Black600Weight,
         textAlign: TextAlign.center,
       ),
@@ -36,20 +31,16 @@ class ShowOrHidEstimateInfoDialog extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           verticalSpace(24),
-          Text(
-            isHide
-                ? 'Do you really want to show the estimate ?'
-                : 'Do you really want to hide the estimate ?',
-            style: TextStyles.font14Red600Weight,
-            textAlign: TextAlign.center,
-          ),
-          verticalSpace(16),
-          Text(
-            isHide
-                ? 'Do you want to show the Estimate to students?'
-                : 'If you hide the Estimate, it will not appear to students until you show it again',
-            style: TextStyles.font14Black400Weight,
-            textAlign: TextAlign.center,
+          LabelAndWidget(
+            label: 'Email',
+
+            widget: AppTextFormField(
+                textInputType: TextInputType.emailAddress,
+                hintText: 'email', validator: (value){
+              if(value==null){
+                return 'Enter User Name';
+              }
+            }),
           ),
           verticalSpace(24),
           Row(
@@ -57,12 +48,10 @@ class ShowOrHidEstimateInfoDialog extends StatelessWidget {
               Expanded(
                 child: AppTextButton(
                   onPressed: () {
-                    context
-                        .read<QuizCubit>()
-                        .emitIsHideEstimation(!isHide);
+                    // context.read<QuizCubit>().emitDeleteQuestion(context: context, question: question);
                     context.pop();
                   },
-                  buttonText: isHide ? 'Show Evaluation' : 'Hide Evaluation',
+                  buttonText: 'Edit',
                   textStyle: TextStyles.font12White400Weight,
                   buttonWidth: 160,
                 ),

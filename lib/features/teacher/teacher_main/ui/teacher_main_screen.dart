@@ -3,7 +3,7 @@ import 'package:edu_sphere/core/theming/colors.dart';
 import 'package:edu_sphere/core/theming/styles.dart';
 import 'package:edu_sphere/core/widgets/sliver_widget.dart';
 import 'package:edu_sphere/core/widgets/wave_top_widget.dart';
-import 'package:edu_sphere/features/teacher/teacher_main/ui/widgets/drawer_widget_teacher.dart';
+import 'package:edu_sphere/features/teacher/profile/presentation/widgets/drawer_widget_teacher.dart';
 import 'package:edu_sphere/core/widgets/image_and_text_empty_data.dart';
 import 'package:edu_sphere/features/teacher/teacher_main/ui/widgets/section_card.dart';
 import 'package:edu_sphere/features/teacher/teacher_main/ui/widgets/section_card_courses.dart';

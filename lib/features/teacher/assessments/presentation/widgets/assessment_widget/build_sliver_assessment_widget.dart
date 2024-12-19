@@ -1,5 +1,6 @@
 import 'package:edu_sphere/core/helpers/extenshions.dart';
 import 'package:edu_sphere/core/helpers/spacing.dart';
+import 'package:edu_sphere/core/routing/routes.dart';
 import 'package:edu_sphere/core/theming/colors.dart';
 import 'package:edu_sphere/core/theming/styles.dart';
 import 'package:edu_sphere/core/util/file_utils.dart';
@@ -42,7 +43,7 @@ class BuildSliverAssessmentWidget extends StatelessWidget {
       actions: assessment.endDateTime.isBefore(DateTime.now())?[
         GestureDetector(
             onTap: (){
-              // context.pushNamed(Routes.estimateQuizPage);
+              context.pushNamed(Routes.estimateAssessmentPage);
             },
             child: SvgPicture.asset('assets/svgs/assessment_estimates_color_icon.svg',color: Colors.white,)),
         horizontalSpace(30)
@@ -271,9 +272,8 @@ class BuildSliverAssessmentWidget extends StatelessWidget {
                         ),
                       ),
                     ),
-
                   ),
-                  verticalSpace(24),
+                  verticalSpace(10),
                   BlocBuilder<AssessmentsCubit,AssessmentsState>(builder: (context, state) {
                     if(state is SelectedAssessment){
                       final listFiles = state.assessment.listFilesUrl;
@@ -303,7 +303,7 @@ class BuildSliverAssessmentWidget extends StatelessWidget {
     return ListView.builder(
       itemCount: listAssessmentFile.length,
       padding: EdgeInsetsDirectional.only(
-          top: 24.h, bottom: 40.h, end: 16.w, start: 16.w),
+          top: 0.h, bottom: 40.h, end: 16.w, start: 16.w),
       physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       itemBuilder: (context, index) =>
@@ -316,7 +316,6 @@ class BuildSliverAssessmentWidget extends StatelessWidget {
       contentPadding: EdgeInsetsDirectional.zero,
       leading: GestureDetector(
           onTap: () {
-
           }, child: SvgPicture.asset('assets/svgs/pdf_icon.svg')),
       title: Text(
         assessmentFile.title,
