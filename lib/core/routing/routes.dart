@@ -17,5 +17,7 @@ class Routes {
   static const String estimateAssessmentPage = '/estimateAssessmentPage';
   static const String showReviewAssessmentPage = '/showReviewAssessmentPage';
   static const String profilePage = '/profilePage';
+  static const String requestsTeacherPage = '/requestsTeacherPage';
+  static const String acceptRequestStudentPage = '/acceptRequestStudentPage';
 
 }

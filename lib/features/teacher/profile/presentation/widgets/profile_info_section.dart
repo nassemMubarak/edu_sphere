@@ -1,7 +1,10 @@
+import 'package:edu_sphere/core/widgets/warning_message_alert_dialog.dart';
 import 'package:edu_sphere/features/teacher/profile/presentation/pages/profile_page.dart';
+import 'package:edu_sphere/features/teacher/profile/presentation/widgets/edit_age_dialog.dart';
 import 'package:edu_sphere/features/teacher/profile/presentation/widgets/edit_bio_dialog.dart';
 import 'package:edu_sphere/features/teacher/profile/presentation/widgets/edit_email_dialog.dart';
 import 'package:edu_sphere/features/teacher/profile/presentation/widgets/edit_gender.dart';
+import 'package:edu_sphere/features/teacher/profile/presentation/widgets/edit_major_dialog.dart';
 import 'package:edu_sphere/features/teacher/profile/presentation/widgets/edit_password_dialog.dart';
 import 'package:edu_sphere/features/teacher/profile/presentation/widgets/edit_user_name_dialog.dart';
 import 'package:edu_sphere/features/teacher/profile/presentation/widgets/profile_info_row.dart';
@@ -22,6 +25,7 @@ class ProfileInfoSection extends StatelessWidget {
       sex: 'Male',
       level: 'Level 5',
       age: '15',
+      major: 'University Major',
       campName: 'Camp Name',
     );
 
@@ -63,24 +67,31 @@ class ProfileInfoSection extends StatelessWidget {
           },
         ),
         ProfileInfoRow(
-          iconPath: 'assets/svgs/educational.svg',
-          label: user.level,
+          iconPath: 'assets/svgs/university_teacher.svg',
+          label: user.major,
           onEdit: () {
-            // Handle edit action for level
+            showDialog(context: context, builder: (context) => EditMajorDialog());
           },
         ),
+        // ProfileInfoRow(
+        //   iconPath: 'assets/svgs/educational.svg',
+        //   label: user.level,
+        //   onEdit: () {
+        //     // Handle edit action for level
+        //   },
+        // ),
         ProfileInfoRow(
           iconPath: 'assets/svgs/circular-word-age.svg',
           label: user.age,
           onEdit: () {
-            // Handle edit action for age
+            showDialog(context: context, builder: (context) => EditAgeDialog());
           },
         ),
         ProfileInfoRow(
           iconPath: 'assets/svgs/camp.svg',
           label: user.campName,
           onEdit: () {
-            // Handle edit action for camp name
+            showDialog(context: context, builder: (context) => WarningMessageAlertDialog(changCampOnTap: (){},));
           },
         ),
       ],

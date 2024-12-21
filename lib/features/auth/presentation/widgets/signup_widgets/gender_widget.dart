@@ -6,8 +6,12 @@ import 'package:edu_sphere/core/theming/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+
 class GenderWidget extends StatefulWidget {
-  const GenderWidget({super.key});
+  Function()? onSelectGender;
+
+  GenderWidget({super.key, this.onSelectGender});
 
   @override
   State<GenderWidget> createState() => _GenderWidgetState();
@@ -16,38 +20,58 @@ class GenderWidget extends StatefulWidget {
 class _GenderWidgetState extends State<GenderWidget> {
   bool isMale = true;
   bool isFemale = false;
+
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          AppLocalizations.of(context)!.gender,
-          style: TextStyles.font14Black500Weight,
+        Row(
+          children: [
+            if(widget.onSelectGender!=null)...[
+            SvgPicture.asset('assets/svgs/mail_icon.svg',color: ColorsManager.neutralGray,),
+              horizontalSpace(8),
+            ],
+            Text(
+              AppLocalizations.of(context)!.gender,
+              style: TextStyles.font14Black500Weight,
+            ),
+          ],
         ),
         verticalSpace(8),
         Row(
           children: [
-                
-               selecteAndLabel(
-                onTap: () {
-                  setState(() {
-                    isFemale = false;
-                    isMale = true;
+            selecteAndLabel(
+              onTap: () {
+                setState(() {
+                  isFemale = false;
+                  isMale = true;
+                  if (widget.onSelectGender != null) {
+                    widget.onSelectGender;
+                  } else {
                     context.read<AuthCubit>().genderIsMale = true;
-                  });
-                },
-                label: AppLocalizations.of(context)!.male, isSelected: isMale,),
+                  }
+                });
+              },
+              label: AppLocalizations.of(context)!.male,
+              isSelected: isMale,
+            ),
             horizontalSpace(32),
-              selecteAndLabel(
-                onTap: (){
-                   setState(() {
-                    isFemale = true;
-                    isMale = false;
+            selecteAndLabel(
+              onTap: () {
+                setState(() {
+                  isFemale = true;
+                  isMale = false;
+                  if (widget.onSelectGender != null) {
+                    widget.onSelectGender;
+                  } else {
                     context.read<AuthCubit>().genderIsMale = false;
-                  });
-                },
-                label: AppLocalizations.of(context)!.female, isSelected: isFemale,),
+                  }
+                });
+              },
+              label: AppLocalizations.of(context)!.female,
+              isSelected: isFemale,
+            ),
           ],
         ),
       ],
@@ -61,7 +85,7 @@ class _GenderWidgetState extends State<GenderWidget> {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.all(5),
+        padding: EdgeInsets.all(10),
         child: Row(
           children: [
             Container(

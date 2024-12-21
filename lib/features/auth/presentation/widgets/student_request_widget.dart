@@ -1,17 +1,12 @@
+import 'package:edu_sphere/core/widgets/warning_message_alert_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
-import 'package:edu_sphere/core/helpers/constants.dart';
-import 'package:edu_sphere/core/helpers/shared_pref_helper.dart';
 import 'package:edu_sphere/core/helpers/spacing.dart';
 import 'package:edu_sphere/core/theming/colors.dart';
 import 'package:edu_sphere/core/theming/styles.dart';
 import 'package:edu_sphere/core/widgets/wave_top_widget.dart';
 import 'package:edu_sphere/features/auth/domain/entities/user.dart';
-import 'package:edu_sphere/features/auth/presentation/bloc/auth/auth_cubit.dart';
-import 'package:edu_sphere/features/auth/presentation/widgets/warning_message_alert_dialog.dart';
 
 class StudentRequestWidget extends StatelessWidget {
   final User user;
@@ -94,7 +89,7 @@ class StudentRequestWidget extends StatelessWidget {
   void _showChangeCampDialog(BuildContext context) {
     showDialog(
       context: context,
-      builder: (context) => const WarningMessageAlertDialog(),
+      builder: (context) =>  WarningMessageAlertDialog(),
     );
   }
 }

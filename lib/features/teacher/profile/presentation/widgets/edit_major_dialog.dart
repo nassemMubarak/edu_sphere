@@ -9,20 +9,24 @@ import 'package:edu_sphere/core/widgets/label_and_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-class EditEmailDialog extends StatelessWidget {
-  EditEmailDialog({super.key});
+class EditMajorDialog extends StatelessWidget {
+  EditMajorDialog({super.key});
  
   @override
   Widget build(BuildContext context) {
-    return AlertDialogWidget(title: 'Edit Email', textButton: 'Edit',
+    return AlertDialogWidget(title: 'Edit Major', textButton: 'Edit',
       widget: LabelAndWidget(
-              label: 'Email',
+              label: 'University Major',
 
               widget: AppTextFormField(
-                  textInputType: TextInputType.emailAddress,
-                  hintText: 'email', validator: (value){
+                prefixIcon: Padding(
+                  padding: const EdgeInsets.all(14.0),
+                  child: SvgPicture.asset('assets/svgs/university_teacher.svg'),
+                ),
+                  textInputType: TextInputType.text,
+                  hintText: 'University Major', validator: (value){
                 if(value==null){
-                  return 'Enter User Name';
+                  return 'University Major';
                 }
               }),
             ),

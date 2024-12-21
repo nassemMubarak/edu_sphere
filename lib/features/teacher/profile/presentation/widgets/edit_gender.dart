@@ -1,6 +1,7 @@
 import 'package:edu_sphere/core/helpers/extenshions.dart';
 import 'package:edu_sphere/core/helpers/spacing.dart';
 import 'package:edu_sphere/core/theming/styles.dart';
+import 'package:edu_sphere/core/widgets/alert_dialog_widget.dart';
 import 'package:edu_sphere/core/widgets/app_text_button.dart';
 import 'package:edu_sphere/core/widgets/app_text_form_field.dart';
 import 'package:edu_sphere/core/widgets/dropdown_widget.dart';
@@ -14,55 +15,11 @@ class EditGender extends StatelessWidget {
  
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(8),
-        ),
-      ),
-      insetPadding: EdgeInsets.all(16),
-      backgroundColor: Colors.white,
-      scrollable: true,
-      title: Text(
-        'Edit Gender',
-        style: TextStyles.font16Black600Weight,
-        textAlign: TextAlign.center,
-      ),
-      content: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          verticalSpace(24),
-          GenderWidget(),
-          verticalSpace(24),
-          Row(
-            children: [
-              Expanded(
-                child: AppTextButton(
-                  onPressed: () {
-                    // context.read<QuizCubit>().emitDeleteQuestion(context: context, question: question);
-                    context.pop();
-                  },
-                  buttonText: 'Edit',
-                  textStyle: TextStyles.font12White400Weight,
-                  buttonWidth: 160,
-                ),
-              ),
-              horizontalSpace(16),
-              Expanded(
-                child: AppTextButton(
-                  onPressed: () {
-                    context.pop();
-                  },
-                  buttonText: AppLocalizations.of(context)!.cancel,
-                  buttonWidth: 147,
-                  backgroundColor: Colors.white,
-                  textStyle: TextStyles.font12Black500Weight,
-                ),
-              ),
-            ],
-          )
-        ],
-      ),
-    );
+    return AlertDialogWidget(title: 'Edit Gender', textButton: 'Edit', widget: GenderWidget(
+      onSelectGender: (){},
+    ), onTapButton: (){
+      context.pop();
+    });
   }
 }
+

@@ -2,18 +2,13 @@ import 'package:edu_sphere/core/helpers/extenshions.dart';
 import 'package:edu_sphere/core/helpers/spacing.dart';
 import 'package:edu_sphere/core/theming/styles.dart';
 import 'package:edu_sphere/core/widgets/app_text_button.dart';
-import 'package:edu_sphere/core/widgets/dropdown_widget.dart';
-import 'package:edu_sphere/core/widgets/label_and_widget.dart';
+import 'package:edu_sphere/core/widgets/chang_camp_alert_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-class ChangCampAlertDialog extends StatelessWidget {
-   ChangCampAlertDialog({super.key});
-  List<String> campName = [
-    'Nassem',
-    'Ahmed',
-    'Foad',
-  ];
+class WarningMessageAlertDialog extends StatelessWidget {
+  Function()? changCampOnTap;
+   WarningMessageAlertDialog({super.key,this.changCampOnTap});
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -34,24 +29,14 @@ class ChangCampAlertDialog extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           verticalSpace(24),
-          Text('Choose a new camp',
-            style: TextStyles.font16Black600Weight,
+          Text('Do you really want to Change Camp?',
+            style: TextStyles.font14Black500Weight,
             textAlign: TextAlign.center,
           ),
-          Form(
-              child: LabelAndWidget(
-                label: AppLocalizations.of(context)!.camp,
-                widget: DropdownWidget(
-                  onChanged: (value){
-                    if(value != null){
-
-                    }
-                  },
-                  hintText: AppLocalizations.of(context)!.campName,
-                  items: campName,
-                  prefixIcon: SvgPicture.asset('assets/svgs/camp.svg'),
-                ),
-              ),
+          verticalSpace(16),
+          Text('This action will delete the request you sent to the camp.',
+            style: TextStyles.font14Black400Weight,
+            textAlign: TextAlign.center,
           ),
           verticalSpace(24),
           Row(
@@ -61,9 +46,12 @@ class ChangCampAlertDialog extends StatelessWidget {
                   onPressed: () {
 
                     context.pop();
-
+                    showDialog(
+                      context: context,
+                      builder: (context) => ChangCampAlertDialog(changCampOnTap: changCampOnTap,),
+                    );
                   },
-                  buttonText: 'Change Camp',
+                  buttonText: 'New Camp',
                   buttonWidth: 147,
                 ),
               ),

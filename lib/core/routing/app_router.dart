@@ -13,7 +13,9 @@ import 'package:edu_sphere/features/teacher/assessments/presentation/pages/asses
 import 'package:edu_sphere/features/teacher/assessments/presentation/pages/estimate_assessment_page.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/pages/course_main_screen.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/widgets/lecture_widgets/show_video_widget.dart';
+import 'package:edu_sphere/features/teacher/profile/presentation/pages/accept_request_student_page.dart';
 import 'package:edu_sphere/features/teacher/profile/presentation/pages/profile_page.dart';
+import 'package:edu_sphere/features/teacher/profile/presentation/pages/requests_teacher_page.dart';
 import 'package:edu_sphere/features/teacher/quiz/presentation/pages/estimate_quiz_page.dart';
 import 'package:edu_sphere/features/teacher/quiz/presentation/pages/quiz_main_page.dart';
 import 'package:edu_sphere/features/teacher/assessments/presentation/pages/show_review_assessment_page.dart';
@@ -39,6 +41,10 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => ShowReviewQuizPage());
       case Routes.showReviewAssessmentPage:
         return MaterialPageRoute(builder: (_) => ShowReviewAssessmentPage());
+      case Routes.acceptRequestStudentPage:
+        return MaterialPageRoute(builder: (_) => AcceptRequestStudentPage());
+      case Routes.requestsTeacherPage:
+        return MaterialPageRoute(builder: (_) => RequestsTeacherPage());
       case Routes.profilePage:
         return MaterialPageRoute(builder: (_) => ProfilePage());
       case Routes.quizMainPage:

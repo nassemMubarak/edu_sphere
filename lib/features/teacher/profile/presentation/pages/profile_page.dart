@@ -40,6 +40,7 @@ class UserProfile {
   final String password;
   final String sex;
   final String level;
+  final String major;
   final String age;
   final String campName;
 
@@ -50,6 +51,7 @@ class UserProfile {
     required this.password,
     required this.sex,
     required this.level,
+    required this.major,
     required this.age,
     required this.campName,
   });

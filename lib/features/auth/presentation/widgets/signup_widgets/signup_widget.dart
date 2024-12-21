@@ -98,7 +98,7 @@ class SignupWidget extends StatelessWidget {
                             }else if(state.type=='teacher'){
                               return Column(
                                 children: [
-                                  const GenderWidget(),
+                                   GenderWidget(),
                                   verticalSpace(16),
                                   const ByClickingSignUpText(),
                                   verticalSpace(20),
@@ -128,7 +128,7 @@ class SignupWidget extends StatelessWidget {
                             else{
                               return Column(
                                 children: [
-                                  const GenderWidget(),
+                                   GenderWidget(),
                                   verticalSpace(16),
                                   const ByClickingSignUpText(),
                                   verticalSpace(20),
@@ -157,7 +157,7 @@ class SignupWidget extends StatelessWidget {
                           }else{
                             return Column(
                               children: [
-                                const GenderWidget(),
+                                 GenderWidget(),
                                 verticalSpace(16),
                                 const ByClickingSignUpText(),
                                 verticalSpace(20),

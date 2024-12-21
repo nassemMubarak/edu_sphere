@@ -23,7 +23,6 @@ class SectionCardCourses extends StatelessWidget {
     return SectionCard(
       showAddButton: true,
       title: AppLocalizations.of(context)!.yourCourses,
-      message: AppLocalizations.of(context)!.noCoursesAdded,
       icon: 'assets/svgs/courses_icon.svg',
       widget: BlocBuilder<TeacherMainCubit, TeacherMainState>(
         builder: (context, state) {

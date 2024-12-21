@@ -24,7 +24,6 @@ class TeacherMainScreen extends StatelessWidget {
             verticalSpace(20),
             SectionCard(
               title: AppLocalizations.of(context)!.yourQuizzes,
-              message: AppLocalizations.of(context)!.noQuizzesAdded,
               icon: 'assets/svgs/quiz_on_computer_question_icon.svg',
               widget: ImageAndTextEmptyData(
                 message: AppLocalizations.of(context)!.noQuizzesAdded,

@@ -13,15 +13,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SectionCard extends StatelessWidget {
   final String title;
-  final String message;
   final bool showAddButton;
   final String icon;
   final Widget widget;
+  final TextStyle? textStyle;
 
   SectionCard({
     required this.title,
-    required this.message,
     this.showAddButton = false,
+    this.textStyle,
     required this.icon,
     required this.widget,
   });
@@ -57,7 +57,7 @@ class SectionCard extends StatelessWidget {
                 horizontalSpace(8.w),
                 Text(
                   title,
-                  style: TextStyles.font16Black600Weight,
+                  style: textStyle??TextStyles.font16Black500Weight,
                 ),
                 const Spacer(),
                 Visibility(
