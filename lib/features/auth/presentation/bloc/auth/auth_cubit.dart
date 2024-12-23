@@ -1,11 +1,14 @@
 import 'package:dartz/dartz.dart';
 import 'package:edu_sphere/core/error/failure.dart';
 import 'package:edu_sphere/core/string/failure.dart';
+import 'package:edu_sphere/features/auth/domain/entities/camp.dart';
 import 'package:edu_sphere/features/auth/domain/entities/user.dart';
+import 'package:edu_sphere/features/auth/domain/usecases/get_all_camp.dart';
 import 'package:edu_sphere/features/auth/domain/usecases/get_current_user.dart';
 import 'package:edu_sphere/features/auth/domain/usecases/login_user.dart';
 import 'package:edu_sphere/features/auth/domain/usecases/register_user.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:logger/logger.dart';
 import 'package:meta/meta.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -31,13 +34,16 @@ class AuthCubit extends Cubit<AuthState> {
   bool genderIsMale = true;
 
   final LoginUserUseCase loginUserUseCase;
+  final GetAllCampUseCase getAllCampUserUseCase;
   final RegisterUserUseCase registerUserUseCase;
   final GetCurrentUserUseCase getCurrentUserUseCase;
 
   AuthCubit(
       {required this.loginUserUseCase,
       required this.getCurrentUserUseCase,
-      required this.registerUserUseCase})
+      required this.registerUserUseCase,
+      required this.getAllCampUserUseCase,
+      })
       : super(AuthInitial());
 
   emitGetCurrentUser() async {
@@ -57,6 +63,14 @@ class AuthCubit extends Cubit<AuthState> {
     });
     emit(_eitherFailureOrUser(failureOrUser));
   }
+  emitGetAllCamp()async{
+    final failureOrListCamp = await getAllCampUserUseCase();
+    failureOrListCamp.fold(
+          (failure) =>
+          emit(AuthMessageErrorCampState(message: _mapFailureMessage(failure: failure))),
+          (camps) => emit(GetAllCampsLoadedState(camp: camps)),
+    );
+  }
 
   emitRegisterUser({bool isStudent=false,bool isTeacher = false,bool isCamp = false }) async {
     emit(AuthLoadingState());
@@ -68,7 +82,7 @@ class AuthCubit extends Cubit<AuthState> {
       'age': ageStudentTextEditingController.text,
       'sex': genderIsMale?'male':'female',
       'phone_number': '0592815701',
-      'camp_id': '4',
+      'camp_id': campStudentId,
       'level': studentEducationStage,
      // 'name': 'Nassem Mubarak',
      // 'email': '787878@gmail.com',
@@ -101,6 +115,7 @@ class AuthCubit extends Cubit<AuthState> {
      'sex': genderIsMale?'male':'female',
      'phone_number': '0592815701',
      'specialization': teacherUniversityMajor.text,
+     'camp_id': campTeacherId,
      // 'name': 'Nassem111 Mubarak',
      // 'email': '2222222@gmail.com',
      // 'password': 'nassemmubarak',
@@ -110,6 +125,7 @@ class AuthCubit extends Cubit<AuthState> {
      // 'phone_number': '0592815201',
      // 'specialization': 'math',
      'level': null,
+
    };
 
     // var body = {

@@ -4,10 +4,8 @@ import 'package:edu_sphere/core/theming/styles.dart';
 import 'package:edu_sphere/core/widgets/sliver_widget.dart';
 import 'package:edu_sphere/features/teacher/profile/presentation/widgets/request_widgets/course_enrollment_requests_widget.dart';
 import 'package:edu_sphere/features/teacher/profile/presentation/widgets/request_widgets/course_withdrawal_requests_widget.dart';
-import 'package:edu_sphere/features/teacher/teacher_main/ui/widgets/section_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class RequestsTeacherPage extends StatelessWidget {
   const RequestsTeacherPage({super.key});

@@ -10,12 +10,14 @@ class AlertDialogWidget extends StatelessWidget {
   String textButton;
   Widget widget;
   Function() onTapButton;
+  bool showCancel;
    AlertDialogWidget({
     super.key,
      required this.title,
      required this.textButton,
      required this.widget,
-     required this.onTapButton
+     required this.onTapButton,
+      this.showCancel=true
   });
 
   @override
@@ -41,25 +43,40 @@ class AlertDialogWidget extends StatelessWidget {
           widget,
           verticalSpace(24),
           Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Expanded(
-                child: AppTextButton(
-                  onPressed: onTapButton,
-                  buttonText: textButton,
-                  textStyle: TextStyles.font12White400Weight,
-                  buttonWidth: 160,
+              Visibility(
+                  visible: !showCancel,
+                  child: AppTextButton(
+                onPressed: onTapButton,
+                buttonText: textButton,
+                textStyle: TextStyles.font12White400Weight,
+                buttonWidth: 160,
+              )),
+              Visibility(
+                visible: showCancel,
+                child: Expanded(
+                  child: AppTextButton(
+                    onPressed: onTapButton,
+                    buttonText: textButton,
+                    textStyle: TextStyles.font12White400Weight,
+                    buttonWidth: 160,
+                  ),
                 ),
               ),
               horizontalSpace(16),
-              Expanded(
-                child: AppTextButton(
-                  onPressed: () {
-                    context.pop();
-                  },
-                  buttonText: AppLocalizations.of(context)!.cancel,
-                  buttonWidth: 147,
-                  backgroundColor: Colors.white,
-                  textStyle: TextStyles.font12Black500Weight,
+              Visibility(
+                visible: showCancel,
+                child: Expanded(
+                  child: AppTextButton(
+                    onPressed: () {
+                      context.pop();
+                    },
+                    buttonText: AppLocalizations.of(context)!.cancel,
+                    buttonWidth: 147,
+                    backgroundColor: Colors.white,
+                    textStyle: TextStyles.font12Black500Weight,
+                  ),
                 ),
               ),
             ],

@@ -1,15 +1,10 @@
 import 'package:edu_sphere/core/helpers/spacing.dart';
 import 'package:edu_sphere/core/theming/colors.dart';
 import 'package:edu_sphere/core/theming/styles.dart';
-import 'package:edu_sphere/features/teacher/teacher_main/logic/teacher_main_cubit.dart';
-import 'package:edu_sphere/features/teacher/teacher_main/logic/teacher_main_state.dart';
-import 'package:edu_sphere/features/teacher/teacher_main/ui/widgets/course_info_dialog.dart';
-import 'package:edu_sphere/core/widgets/image_and_text_empty_data.dart';
-import 'package:edu_sphere/features/teacher/teacher_main/ui/widgets/titel_and_icon_list_taile_widget.dart';
+import 'package:edu_sphere/features/teacher/teacher_main/presentation/widgets/course_info_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SectionCard extends StatelessWidget {
   final String title;

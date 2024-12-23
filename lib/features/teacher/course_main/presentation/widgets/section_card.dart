@@ -1,9 +1,6 @@
 import 'package:edu_sphere/core/helpers/spacing.dart';
 import 'package:edu_sphere/core/theming/colors.dart';
 import 'package:edu_sphere/core/theming/styles.dart';
-import 'package:edu_sphere/features/teacher/teacher_main/ui/widgets/course_info_dialog.dart';
-import 'package:edu_sphere/features/teacher/teacher_main/ui/widgets/edit_course_info_dialog.dart';
-import 'package:edu_sphere/features/teacher/teacher_main/ui/widgets/warning_message_teacher_info_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';

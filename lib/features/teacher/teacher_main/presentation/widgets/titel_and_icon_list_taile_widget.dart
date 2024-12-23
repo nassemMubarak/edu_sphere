@@ -2,9 +2,10 @@ import 'package:edu_sphere/core/helpers/extenshions.dart';
 import 'package:edu_sphere/core/helpers/spacing.dart';
 import 'package:edu_sphere/core/theming/styles.dart';
 import 'package:edu_sphere/features/teacher/teacher_main/data/model/courses_model.dart';
-import 'package:edu_sphere/features/teacher/teacher_main/ui/widgets/delete_course_info_dialog.dart';
-import 'package:edu_sphere/features/teacher/teacher_main/ui/widgets/edit_course_info_dialog.dart';
-import 'package:edu_sphere/features/teacher/teacher_main/ui/widgets/warning_message_teacher_info_dialog.dart';
+import 'package:edu_sphere/features/teacher/teacher_main/domain/entities/course.dart';
+import 'package:edu_sphere/features/teacher/teacher_main/presentation/widgets/delete_course_info_dialog.dart';
+import 'package:edu_sphere/features/teacher/teacher_main/presentation/widgets/edit_course_info_dialog.dart';
+import 'package:edu_sphere/features/teacher/teacher_main/presentation/widgets/warning_message_teacher_info_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -14,7 +15,7 @@ class TitelAndIconListTaileWidget extends StatelessWidget {
   final String iconUrl;
   final bool? isShowTrailing;
   final TextStyle? subTitleStyle;
-  final CoursesModel? coursesModel;
+  final Course? coursesModel;
   final int? indexCourse;
   final bool isShowEditButton;
   final Function()? onTap;

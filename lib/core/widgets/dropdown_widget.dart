@@ -20,7 +20,6 @@ class DropdownWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomDropdown.search(
       decoration: CustomDropdownDecoration(
-
         hintStyle: TextStyles.font12NeutralGray400Weight,
         closedFillColor: ColorsManager.lightGray,
         prefixIcon: prefixIcon,
@@ -35,7 +34,6 @@ class DropdownWidget extends StatelessWidget {
         ),
       ),
       items: items,
-
       onChanged: onChanged,
       hintText: hintText,
       excludeSelected: false,

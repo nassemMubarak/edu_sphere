@@ -5,23 +5,16 @@ import 'package:edu_sphere/core/theming/styles.dart';
 import 'package:edu_sphere/core/widgets/app_text_button.dart';
 import 'package:edu_sphere/core/widgets/app_text_form_field.dart';
 import 'package:edu_sphere/core/widgets/label_and_widget.dart';
-import 'package:edu_sphere/features/teacher/teacher_main/data/model/courses_model.dart';
-import 'package:edu_sphere/features/teacher/teacher_main/logic/teacher_main_cubit.dart';
+import 'package:edu_sphere/features/teacher/teacher_main/presentation/logic/teacher_main_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-class EditCourseInfoDialog extends StatelessWidget {
-  CoursesModel coursesModel;
-  int indexCourse;
-  bool isShowTitleEdit;
-  EditCourseInfoDialog({super.key, required this.coursesModel,required this.indexCourse,this.isShowTitleEdit = true});
+class CourseInfoDialog extends StatelessWidget {
+  CourseInfoDialog({super.key});
+
   @override
   Widget build(BuildContext context) {
-    context.read<TeacherMainCubit>().courseNameController =
-        TextEditingController(text: coursesModel.title);
-    context.read<TeacherMainCubit>().courseDescriptionController =
-        TextEditingController(text: coursesModel.description);
     return AlertDialog(
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(
@@ -31,9 +24,10 @@ class EditCourseInfoDialog extends StatelessWidget {
       insetPadding: EdgeInsets.all(16),
       backgroundColor: Colors.white,
       scrollable: true,
-      title: Text(AppLocalizations.of(context)!.editCoursesInformation,
-        style: TextStyles.font16Black600Weight,
+      title: Text(
+        'Add New Course',
         textAlign: TextAlign.center,
+        style: TextStyles.font16Black600Weight,
       ),
       content: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -42,27 +36,24 @@ class EditCourseInfoDialog extends StatelessWidget {
             key: context.read<TeacherMainCubit>().globalKey,
             child: Column(
               children: [
-                Visibility(
-                  visible: isShowTitleEdit,
-                  child: LabelAndWidget(
-                    label:  AppLocalizations.of(context)!.courseName,
-                    widget: AppTextFormField(
-                      controller:
-                          context.read<TeacherMainCubit>().courseNameController,
-                      hintText:  AppLocalizations.of(context)!.courseName,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return  AppLocalizations.of(context)!.enterCourseName;
-                        }
-                      },
-                      prefixIcon: Padding(
-                        padding: EdgeInsets.all(14),
-                        child: SvgPicture.asset(
-                          'assets/svgs/courses_icon.svg',
-                          color: ColorsManager.neutralGray,
-                          width: 5,
-                          height: 5,
-                        ),
+                LabelAndWidget(
+                  label: AppLocalizations.of(context)!.courseName,
+                  widget: AppTextFormField(
+                    controller:
+                        context.read<TeacherMainCubit>().courseNameController,
+                    hintText: AppLocalizations.of(context)!.courseName,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return AppLocalizations.of(context)!.enterCourseName;
+                      }
+                    },
+                    prefixIcon: Padding(
+                      padding: EdgeInsets.all(14),
+                      child: SvgPicture.asset(
+                        'assets/svgs/courses_icon.svg',
+                        color: ColorsManager.neutralGray,
+                        width: 5,
+                        height: 5,
                       ),
                     ),
                   ),
@@ -91,54 +82,22 @@ class EditCourseInfoDialog extends StatelessWidget {
                       ),
                     ),
                   ),
-                ),
-                // SelectCourseType(
-                //     isSelectedPaid:
-                //     coursesModel.description == 'Paid'
-                //         ? true
-                //         : false),
+                )
+                // SelectCourseType(),
                 // verticalSpace(24),
                 // BlocBuilder<TeacherMainCubit, TeacherMainState>(
                 //   builder: (context, state) {
                 //     if(state is changCourseType){
                 //       return Visibility(
                 //         visible:
-                //         state.type == 'Paid',
-                //         child: LabelAndWidget(
-                //           label:  AppLocalizations.of(context)!.coursePriceDollar,
-                //           widget: AppTextFormField(
-                //             textInputType: TextInputType.number,
-                //             controller: context
-                //                 .read<TeacherMainCubit>()
-                //                 .courseDescriptionController,
-                //             hintText:  AppLocalizations.of(context)!.coursePrice,
-                //             validator: (value) {
-                //               if (context.read<TeacherMainCubit>().courseType!='Paid'&&value!.isEmpty) {
-                //                 return  AppLocalizations.of(context)!.enterCoursePrice;
-                //               }
-                //             },
-                //             prefixIcon: Padding(
-                //               padding: EdgeInsets.all(14),
-                //               child: SvgPicture.asset(
-                //                 'assets/svgs/courses_icon.svg',
-                //                 color: ColorsManager.neutralGray,
-                //                 width: 5,
-                //                 height: 5,
-                //               ),
-                //             ),
-                //           ),
-                //         ),
-                //       );
-                //     }else{
-                //       return Visibility(
-                //         visible: coursesModel.description == 'Paid',
+                //         context.read<TeacherMainCubit>().courseType == 'Paid',
                 //         child: LabelAndWidget(
                 //           label: AppLocalizations.of(context)!.coursePriceDollar,
                 //           widget: AppTextFormField(
                 //             textInputType: TextInputType.number,
                 //             controller: context
                 //                 .read<TeacherMainCubit>()
-                //                 .courseDescriptionController,
+                //                 .coursePriceController,
                 //             hintText: AppLocalizations.of(context)!.coursePrice,
                 //             validator: (value) {
                 //               if (context.read<TeacherMainCubit>().courseType!='Paid'&&value!.isEmpty) {
@@ -157,13 +116,37 @@ class EditCourseInfoDialog extends StatelessWidget {
                 //           ),
                 //         ),
                 //       );
+                //     }else{
+                //       return LabelAndWidget(
+                //         label: AppLocalizations.of(context)!.coursePriceDollar,
+                //         widget: AppTextFormField(
+                //           textInputType: TextInputType.number,
+                //           controller: context
+                //               .read<TeacherMainCubit>()
+                //               .coursePriceController,
+                //           hintText: AppLocalizations.of(context)!.coursePrice,
+                //           validator: (value) {
+                //             if (context.read<TeacherMainCubit>().courseType!='Paid'&&value!.isEmpty) {
+                //               return AppLocalizations.of(context)!.enterCoursePrice;
+                //             }
+                //           },
+                //           prefixIcon: Padding(
+                //             padding: EdgeInsets.all(14),
+                //             child: SvgPicture.asset(
+                //               'assets/svgs/courses_icon.svg',
+                //               color: ColorsManager.neutralGray,
+                //               width: 5,
+                //               height: 5,
+                //             ),
+                //           ),
+                //         ),
+                //       );
                 //     }
                 //   },
                 // ),
               ],
             ),
           ),
-
           Row(
             children: [
               Expanded(
@@ -173,12 +156,12 @@ class EditCourseInfoDialog extends StatelessWidget {
                             .read<TeacherMainCubit>()
                             .globalKey
                             .currentState!
-                            .validate() ) {
-                      context.read<TeacherMainCubit>().emitEditCourse(context: context,indexCourse: indexCourse);
+                            .validate()) {
+                      context.read<TeacherMainCubit>().emitAddCourse();
                       context.pop();
                     }
                   },
-                  buttonText: AppLocalizations.of(context)!.save,
+                  buttonText: 'Add Course',
                   buttonWidth: 147,
                 ),
               ),

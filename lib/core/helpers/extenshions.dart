@@ -1,3 +1,4 @@
+import 'package:edu_sphere/core/theming/colors.dart';
 import 'package:flutter/material.dart';
 
 extension Navigation on BuildContext {
@@ -16,5 +17,20 @@ extension Navigation on BuildContext {
   }
 
   void pop() => Navigator.of(this).pop();
+
+  void loading()=>showDialog(
+      barrierColor: ColorsManager.neutralGray.withOpacity(0.5),
+      barrierDismissible: false,
+      context: this, builder: (context) => const AlertDialog(
+    backgroundColor: Colors.transparent,
+    title: Center(
+      child: SizedBox(
+        height: 30,
+        width: 30,
+        child: CircularProgressIndicator(),
+      ),
+    ),
+  ));
 }
+
 

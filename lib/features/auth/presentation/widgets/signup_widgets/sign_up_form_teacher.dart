@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:logger/logger.dart';
+
 class SignUpFormTeacher extends StatefulWidget {
   const SignUpFormTeacher({super.key});
 
@@ -14,23 +16,16 @@ class SignUpFormTeacher extends StatefulWidget {
 }
 
 class _EmailAndPasswordWidgetState extends State<SignUpFormTeacher> {
-
   bool hasMinLength = false;
-
 
   @override
   void initState() {
     super.initState();
-
   }
 
-  List<String> campName = [
-    'Nassem',
-    'Ahmed',
-    'Foad',
-  ];
   List<String> especiallyTeacher = ['Especially teacher', 'Camp teacher'];
   bool isSelectedCamp = false;
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -60,7 +55,8 @@ class _EmailAndPasswordWidgetState extends State<SignUpFormTeacher> {
             label: AppLocalizations.of(context)!.age,
             widget: AppTextFormField(
               textInputType: TextInputType.number,
-              controller: context.read<AuthCubit>().ageTeacherTextEditingController,
+              controller:
+                  context.read<AuthCubit>().ageTeacherTextEditingController,
               hintText: AppLocalizations.of(context)!.theAge,
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -73,18 +69,47 @@ class _EmailAndPasswordWidgetState extends State<SignUpFormTeacher> {
               ),
             ),
           ),
-          LabelAndWidget(
-            label: AppLocalizations.of(context)!.camp,
-            widget: DropdownWidget(
-              onChanged: (value){
-                if(value != null){
-                  context.read<AuthCubit>().campTeacherId = value;
-                }
-              },
-              hintText: AppLocalizations.of(context)!.campName,
-              items: campName,
-              prefixIcon: SvgPicture.asset('assets/svgs/camp.svg'),
-            ),
+          BlocBuilder<AuthCubit, AuthState>(
+            buildWhen: (previous, current) => current is GetAllCampsLoadedState,
+            builder: (context, state) {
+              if(state is GetAllCampsLoadedState){
+                return LabelAndWidget(
+                  label: AppLocalizations.of(context)!.camp,
+                  widget: DropdownWidget(
+                    onChanged: (value) {
+                      if (value != null) {
+                        for (var camp in state.camp) {
+                          if(camp.name==value)
+                          context.read<AuthCubit>().campTeacherId = camp.name==value?camp.id.toString():'';
+                        }
+                      }
+                    },
+                    hintText: AppLocalizations.of(context)!.campName,
+                    items: state.camp.map((camp)=>camp.name).toList(),
+                    prefixIcon: SvgPicture.asset('assets/svgs/camp.svg'),
+                  ),
+                );
+              }else{
+                return GestureDetector(
+                  onTap: (){
+                    context.read<AuthCubit>().emitGetAllCamp();
+                  },
+                  child: LabelAndWidget(
+                    label: AppLocalizations.of(context)!.camp,
+                    widget: DropdownWidget(
+                      onChanged: (value) {
+                        if (value != null) {
+                          context.read<AuthCubit>().campTeacherId = value;
+                        }
+                      },
+                      hintText: AppLocalizations.of(context)!.campName,
+                      items: [],
+                      prefixIcon: SvgPicture.asset('assets/svgs/camp.svg'),
+                    ),
+                  ),
+                );
+              }
+            },
           ),
         ],
       ),

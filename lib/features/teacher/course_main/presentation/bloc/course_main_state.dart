@@ -24,7 +24,7 @@ class ChangColorTextInTextField extends CourseMainState{
 
   }
   class EditCourseDescription extends CourseMainState{
-  final CoursesModel coursesModel;
+  final Course coursesModel;
   EditCourseDescription({required this.coursesModel});
 
   }

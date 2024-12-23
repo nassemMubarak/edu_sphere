@@ -34,17 +34,19 @@ class LoginScreen extends StatelessWidget {
             SnackBarMessage()
                 .showSnackBarSuccess(message: state.message, context: context);
           }else if(state is AuthMessageErrorState){
+            context.pop();
           SnackBarMessage()
               .showSnackBarError(message: state.message, context: context);
           }else if(state is AuthLoadedState){
             context.read<AuthCubit>().getCurrentUserUseCase();
             context.pushReplacementNamed(Routes.studentRequestPage);
+          }else if(state is AuthLoadingState){
+            context.loading();
+
           }
         },
         builder: (context, state) {
-          if (state is AuthLoadingState) {
-            return const LoadingWidget();
-          }
+
           return const LoginFormWidget();
 
         },

@@ -76,6 +76,8 @@ dependencies:
   # Flutter plugin for playing or streaming inline YouTube videos using the official iFrame player API
   youtube_player_flutter: ^9.1.1
 #  youtube_player_iframe: ^5.2.1
+  #A package provides an easy way to add shimmer effect in Flutter project
+  shimmer: ^3.0.0
   
   # use for in-app localization with map data
 #   Flutter plugin for reading and writing simple key-value pairs.

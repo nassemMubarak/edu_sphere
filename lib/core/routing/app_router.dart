@@ -20,7 +20,7 @@ import 'package:edu_sphere/features/teacher/quiz/presentation/pages/estimate_qui
 import 'package:edu_sphere/features/teacher/quiz/presentation/pages/quiz_main_page.dart';
 import 'package:edu_sphere/features/teacher/assessments/presentation/pages/show_review_assessment_page.dart';
 import 'package:edu_sphere/features/teacher/quiz/presentation/pages/show_review_quiz_page.dart';
-import 'package:edu_sphere/features/teacher/teacher_main/ui/teacher_main_screen.dart';
+import 'package:edu_sphere/features/teacher/teacher_main/presentation/pages/teacher_main_screen.dart';
 import 'package:flutter/material.dart';
 
 class AppRouter {
@@ -65,7 +65,7 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => EstimateAssessmentPage());
       case Routes.teacherMainScreen:
         return MaterialPageRoute(
-          builder: (_) => const TeacherMainScreen()
+          builder: (_) =>  TeacherMainScreen()
         );
 
       case Routes.resetPasswordScreen:

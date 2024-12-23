@@ -12,8 +12,10 @@ abstract class AuthLocalDataSource {
   Future<Unit> saveUser({required UserModel userModel});
 
   Future<Unit> saveToken({required String token});
+  Future<Unit> saveUserType({required String type});
 
   Future<String> getToken();
+  Future<String> getUserType();
 
   Future<Unit> logout();
 }
@@ -59,5 +61,21 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   Future<Unit> logout() {
     SharedPrefHelper.clearAllData();
     return Future.value(unit);
+  }
+
+  @override
+  Future<Unit> saveUserType({required String type}) async{
+    await SharedPrefHelper.setData(SharedPrefKeys.cachedTypeUser, type);
+    return unit;
+  }
+
+  @override
+  Future<String> getUserType() async{
+    final token = await SharedPrefHelper.getString(SharedPrefKeys.cachedTypeUser);
+    if (token != null) {
+      return token;
+    } else {
+      throw EmptyCacheException();
+    }
   }
 }

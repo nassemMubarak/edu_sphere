@@ -3,7 +3,7 @@ import 'package:edu_sphere/core/helpers/spacing.dart';
 import 'package:edu_sphere/core/routing/routes.dart';
 import 'package:edu_sphere/core/theming/colors.dart';
 import 'package:edu_sphere/core/theming/styles.dart';
-import 'package:edu_sphere/features/teacher/teacher_main/ui/widgets/section_card.dart';
+import 'package:edu_sphere/features/teacher/teacher_main/presentation/widgets/section_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 class CourseEnrollmentRequestsWidget extends StatelessWidget {

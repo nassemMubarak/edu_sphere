@@ -2,13 +2,17 @@ import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
 import 'package:edu_sphere/core/error/exception.dart';
+import 'package:edu_sphere/core/networking/api_constants.dart';
+import 'package:edu_sphere/features/auth/data/models/camp_model.dart';
 import 'package:edu_sphere/features/auth/data/models/user_model.dart';
+import 'package:edu_sphere/features/auth/data/models/user_response_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:logger/logger.dart';
 
 abstract class AuthRemoteDataSource {
-  Future<UserModel> loginUser({required Map authData});
+  Future<UserResponseModel> loginUser({required Map authData});
 
-  Future<UserModel> registerUser({required Map authData});
+  Future<UserResponseModel> registerUser({required Map authData});
 
   Future<Unit> sendCodeToForgetPassword({required String email});
 
@@ -17,18 +21,16 @@ abstract class AuthRemoteDataSource {
 
   Future<Unit> updatePassword(
       {required String token, required String password});
+  Future<List<CampModel>> getAllCamp();
 }
 
-const BASE_URI = 'https://eduspherepal.com/api';
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final http.Client client;
   AuthRemoteDataSourceImpl({required this.client});
 
   @override
-  Future<UserModel> registerUser({required Map authData}) async {
-    print('.....................................................${authData['level']}');
-
+  Future<UserResponseModel> registerUser({required Map authData}) async {
     final body = authData['level']!=null?{
       "name": authData['name'],
       "email": authData['email'],
@@ -50,30 +52,33 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       "specialization": authData['specialization']
     };
 
-
-    final response =
-        await client.post(Uri.parse( authData['level']!=null?'$BASE_URI/student/register':'$BASE_URI/teacher/register'), body: body);
+        late var response;
+      try{
+       response = await client.post(Uri.parse( authData['level']!=null?'${ApiConstants.apiBaseUrl}/student/register':'${ApiConstants.apiBaseUrl}/teacher/register'), body: body);
+      }on Exception{
+        throw ServerException();
+      };
     if (response.statusCode >= 200 && response.statusCode < 300) {
       final decodeJson = json.decode(response.body);
-      UserModel userModel = UserModel.fromJson(decodeJson['user']);
-      return userModel;
+      UserResponseModel userResponseModel = UserResponseModel.fromJson(decodeJson);
+      return userResponseModel;
     } else if (response.statusCode >= 400 && response.statusCode < 500) {
       throw InvalidDataException();
     } else {
       throw ServerException();
     }
+
   }
 
   @override
-  Future<UserModel> loginUser({required Map authData}) async {
+  Future<UserResponseModel> loginUser({required Map authData}) async {
     final body = {"email": authData['email'], "password": authData['password']};
     final response =
-        await client.post(Uri.parse('$BASE_URI/student/login'), body: body);
+        await client.post(Uri.parse('${ApiConstants.apiBaseUrl}/login'), body: body);
     if (response.statusCode >= 200 && response.statusCode < 300) {
       final decodeJson = json.decode(response.body);
-      print('---------------${decodeJson['token']}');
-      UserModel userModel = UserModel.fromJson(decodeJson['user']);
-      return userModel;
+      UserResponseModel userResponseModel = UserResponseModel.fromJson(decodeJson);
+      return userResponseModel;
     }else if (response.statusCode >= 400 && response.statusCode < 500) {
       throw InvalidDataException();
     } else {
@@ -83,7 +88,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<Unit> sendCodeToForgetPassword({required String email}) async{
     final body = {"email":email};
-    final response = await client.post(Uri.parse('$BASE_URI/student/resit_password/otp'),body: body);
+    final response = await client.post(Uri.parse('${ApiConstants.apiBaseUrl}/student/resit_password/otp'),body: body);
     if(response.statusCode>=200&&response.statusCode<300){
       return Future.value(unit);
     }else if(response.statusCode >= 400 && response.statusCode < 500){
@@ -92,7 +97,21 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       throw ServerException();
     }
   }
-
+  @override
+  Future<List<CampModel>> getAllCamp() async{
+    final response = await client.get(Uri.parse('${ApiConstants.apiBaseUrl}/camp/getAll'));
+    if(response.statusCode>=200&&response.statusCode<300){
+      final List<dynamic> decodedJson = json.decode(response.body);
+      List<CampModel> listCampModel = decodedJson.map((json) => CampModel.fromJson(json)).toList();
+      Logger().w(listCampModel);
+      return listCampModel;
+    }else if(response.statusCode >= 400 && response.statusCode < 500){
+      throw InvalidDataException();
+    }else{
+      throw ServerException();
+    }
+   
+  }
   @override
   Future<Unit> codeCheckForgetPassword(
       {required String email, required String code})async {
@@ -100,7 +119,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         'email':email,
         'otp':code
       };
-      final response = await client.post(Uri.parse('$BASE_URI/student/resit_password/check_otp'),body: body);
+      final response = await client.post(Uri.parse('${ApiConstants.apiBaseUrl}/student/resit_password/check_otp'),body: body);
       if(response.statusCode>=200&&response.statusCode<300){
         return Future.value(unit);
       }else if(response.statusCode >= 400 && response.statusCode < 500){
@@ -115,4 +134,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     // TODO: implement updatePassword
     throw UnimplementedError();
   }
+
+ 
 }

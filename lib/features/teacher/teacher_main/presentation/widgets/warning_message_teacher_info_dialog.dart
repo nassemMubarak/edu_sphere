@@ -2,14 +2,24 @@ import 'package:edu_sphere/core/helpers/extenshions.dart';
 import 'package:edu_sphere/core/helpers/spacing.dart';
 import 'package:edu_sphere/core/theming/styles.dart';
 import 'package:edu_sphere/core/widgets/app_text_button.dart';
-import 'package:edu_sphere/features/teacher/teacher_main/logic/teacher_main_cubit.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-class DeleteCourseInfoDialog extends StatelessWidget {
-  int indexCourse;
-  String courseTitle;
-  DeleteCourseInfoDialog({super.key, required this.indexCourse,required this.courseTitle});
+
+class WarningMessageTeacherInfoDialog extends StatelessWidget {
+  Function() onTap;
+  String title;
+  String subTitle;
+  String textButton;
+
+  WarningMessageTeacherInfoDialog({
+    super.key,
+
+    required this.onTap,
+    required this.title,
+    required this.subTitle,
+    required this.textButton,
+  });
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -22,16 +32,23 @@ class DeleteCourseInfoDialog extends StatelessWidget {
       backgroundColor: Colors.white,
       scrollable: true,
       title: Text(
-        AppLocalizations.of(context)!.deleteCourse,
-        style: TextStyles.font16Black600Weight,
+        'Warning Message',
+        style: TextStyles.font16Red600Weight,
         textAlign: TextAlign.center,
       ),
       content: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           verticalSpace(24),
-          Text(AppLocalizations.of(context)!.deleteConfirmation(courseTitle),
-            style: TextStyles.font14Red600Weight,
+          Text(
+            title,
+            style: TextStyles.font16Black500Weight,
+            textAlign: TextAlign.center,
+          ),
+          verticalSpace(16),
+          Text(
+            subTitle,
+            style: TextStyles.font14Black400Weight,
             textAlign: TextAlign.center,
           ),
           verticalSpace(24),
@@ -39,13 +56,8 @@ class DeleteCourseInfoDialog extends StatelessWidget {
             children: [
               Expanded(
                 child: AppTextButton(
-                  onPressed: () {
-                    context
-                          .read<TeacherMainCubit>()
-                          .emitDeleteCourse(indexCourse: indexCourse);
-                      context.pop();
-                  },
-                  buttonText: AppLocalizations.of(context)!.deleteCourse,
+                  onPressed: onTap,
+                  buttonText: textButton,
                   buttonWidth: 147,
                 ),
               ),

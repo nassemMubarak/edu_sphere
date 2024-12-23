@@ -5,8 +5,10 @@ import 'package:edu_sphere/core/networking/network_info.dart';
 import 'package:edu_sphere/features/auth/data/datasources/auth_local_data_source.dart';
 import 'package:edu_sphere/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:edu_sphere/features/auth/data/models/user_model.dart';
+import 'package:edu_sphere/features/auth/domain/entities/camp.dart';
 import 'package:edu_sphere/features/auth/domain/entities/user.dart';
 import 'package:edu_sphere/features/auth/domain/repositorises/repository.dart';
+import 'package:logger/logger.dart';
 
 class RepositoryImpl implements AuthRepository {
   final AuthLocalDataSource localDataSource;
@@ -30,7 +32,10 @@ class RepositoryImpl implements AuthRepository {
   Future<Either<Failure, User>> loginUser({required Map authData}) async {
     if (await networkInfo.isConnected) {
       try {
-        final user = await remoteDataSource.loginUser(authData: authData);
+        final userResponseModel = await remoteDataSource.loginUser(authData: authData);
+        UserModel user = userResponseModel.user;
+        await localDataSource.saveToken(token: userResponseModel.token);
+        await localDataSource.saveUserType(type: userResponseModel.type??' ');
         await localDataSource.saveUser(userModel: user);
         return Right(user);
       } on InvalidDataException{
@@ -46,11 +51,27 @@ class RepositoryImpl implements AuthRepository {
   Future<Either<Failure, User>> registerUser({required Map authData}) async{
     if(await networkInfo.isConnected){
       try{
-        final user = await remoteDataSource.registerUser(authData: authData);
+        final userResponseModel = await remoteDataSource.registerUser(authData: authData);
+        UserModel user = userResponseModel.user;
+        await localDataSource.saveToken(token: userResponseModel.token);
+        await localDataSource.saveUserType(type: userResponseModel.type??' ');
         await localDataSource.saveUser(userModel: user);
         return Right(user);
       }on InvalidDataException{
         return Left(InvalidDataFailure());
+      }on ServerException{
+        return Left(ServerFailure());
+      }
+    }else{
+      return Left(OfflineFailure());
+    }
+  }
+  @override
+  Future<Either<Failure, List<Camp>>> getAllCamp() async{
+    if(await networkInfo.isConnected){
+      try{
+        final listCamp = await remoteDataSource.getAllCamp();
+        return Right(listCamp);
       }on ServerException{
         return Left(ServerFailure());
       }
@@ -86,5 +107,7 @@ class RepositoryImpl implements AuthRepository {
     // TODO: implement updatePassword
     throw UnimplementedError();
   }
+
+
 
 }

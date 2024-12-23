@@ -16,11 +16,11 @@ class UserModel extends User {
     return UserModel(
       name: json['name'],
       email: json['email'],
-      age: json['age'], // Assuming age is a String in the JSON
+      age: json['age'].toString(), // Assuming age is a String in the JSON
       sex: json['sex'],
       phoneNumber: json['phone_number'],
       level: json['level'],
-      specialization: json['specialization'],
+      specialization: json['specialization'].toString(),
       updatedAt: DateTime.parse(json['updated_at']),
       createdAt: DateTime.parse(json['created_at']),
     );

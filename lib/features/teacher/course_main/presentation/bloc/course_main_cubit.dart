@@ -7,6 +7,7 @@ import 'package:edu_sphere/features/teacher/course_main/domain/entities/lecture.
 import 'package:edu_sphere/features/teacher/quiz/domain/entities/quiz.dart';
 import 'package:edu_sphere/features/teacher/quiz/presentation/bloc/quiz_cubit.dart';
 import 'package:edu_sphere/features/teacher/teacher_main/data/model/courses_model.dart';
+import 'package:edu_sphere/features/teacher/teacher_main/domain/entities/course.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
@@ -14,10 +15,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 part 'course_main_state.dart';
 
 class CourseMainCubit extends Cubit<CourseMainState> {
-  late CoursesModel coursesModel;
+  late Course coursesModel;
   late int indexCourseInList;
 
-  emitEditCourseDescription({required CoursesModel course}) {
+  emitEditCourseDescription({required Course course}) {
     coursesModel = course;
     emit(EditCourseDescription(coursesModel: course));
   }

@@ -7,7 +7,7 @@ import 'package:edu_sphere/features/teacher/assessments/presentation/bloc/assess
 import 'package:edu_sphere/features/teacher/course_main/presentation/bloc/course_main_cubit.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/pages/course_main_screen.dart';
 import 'package:edu_sphere/features/teacher/quiz/presentation/bloc/quiz_cubit.dart';
-import 'package:edu_sphere/features/teacher/teacher_main/logic/teacher_main_cubit.dart';
+import 'package:edu_sphere/features/teacher/teacher_main/presentation/logic/teacher_main_cubit.dart';
 import 'package:edu_sphere/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,7 +25,7 @@ class EduSphereApp extends StatelessWidget {
       providers: [
          BlocProvider(create: (context)=>di.sl<AuthCubit>()..emitGetCurrentUser()),
          BlocProvider(create: (context)=>AuthTypeCubit()..emitChangTypSignUp('student')),
-         BlocProvider(create: (context)=>TeacherMainCubit()),
+         BlocProvider(create: (context)=>di.sl<TeacherMainCubit>()),
          BlocProvider(create: (context)=>CourseMainCubit()),
          BlocProvider(create: (context)=>QuizCubit()),
          BlocProvider(create: (context)=>AssessmentsCubit()),
@@ -54,7 +54,7 @@ class EduSphereApp extends StatelessWidget {
               theme: ThemeData(
                 primaryColor: ColorsManager.mainBlue,
               ),
-              initialRoute: isShowOnBoarding?isUserLogIn?Routes.teacherMainScreen:Routes.teacherMainScreen:Routes.onBoardingScreen,
+              initialRoute: isShowOnBoarding?isUserLogIn?Routes.teacherMainScreen:Routes.loginScreen:Routes.onBoardingScreen,
               routes: {
                 Routes.courseMainScreen: (context) => const CourseMainScreen( ),
               },

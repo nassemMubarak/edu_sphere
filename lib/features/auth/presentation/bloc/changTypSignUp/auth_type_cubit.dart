@@ -15,7 +15,7 @@ class AuthTypeCubit extends Cubit<AuthTypeState> {
 
   AuthTypeCubit()
       : super(AuthInitial());
-  String? typeSignUp;
+  String? typeSignUp='student';
   late bool isContinue;
 
   void emitChangTypSignUp(String type) {
