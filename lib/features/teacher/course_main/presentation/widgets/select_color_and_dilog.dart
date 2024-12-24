@@ -2,6 +2,7 @@ import 'package:edu_sphere/core/helpers/spacing.dart';
 import 'package:edu_sphere/core/routing/app_router.dart';
 import 'package:edu_sphere/core/theming/colors.dart';
 import 'package:edu_sphere/core/widgets/app_text_button.dart';
+import 'package:edu_sphere/features/teacher/course_main/presentation/bloc/course_advertisement/course_advertisement_cubit.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/bloc/course_main_cubit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -52,7 +53,7 @@ class _ColorPickerInfoDilogState extends State<SelectColorAndDilog> {
                   builder: (context) => colorsDialog(context),
                 );
               }else{
-                context.read<CourseMainCubit>().emitChangColorTextField(color: colorsList[index]);
+                context.read<CourseAdvertisementCubit>().emitChangColorTextField(color: colorsList[index]);
               }
             },
             index: index),
@@ -102,7 +103,7 @@ class _ColorPickerInfoDilogState extends State<SelectColorAndDilog> {
           AppTextButton(
             buttonText: 'Select',
             onPressed: () {
-              context.read<CourseMainCubit>().emitChangColorTextField(color: pickerColor);
+              context.read<CourseAdvertisementCubit>().emitChangColorTextField(color: pickerColor);
               setState(() => currentColor = pickerColor);
               Navigator.of(context).pop();
             },

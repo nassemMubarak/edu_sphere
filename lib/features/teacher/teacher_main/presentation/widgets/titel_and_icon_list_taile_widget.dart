@@ -112,6 +112,7 @@ class TitelAndIconListTaileWidget extends StatelessWidget {
                                   builder: (context) => DeleteCourseInfoDialog(
                                     indexCourse: indexCourse!,
                                     courseTitle: coursesModel!.title,
+                                    courseId: coursesModel!.id,
                                   ),
                                 );
                               },

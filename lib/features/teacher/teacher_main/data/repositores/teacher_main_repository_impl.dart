@@ -55,7 +55,7 @@ class TeacherMainRepositoryImpl implements TeacherMainRepository{
         return Left(ServerFailure());
       }
     }else{
-      return Left(EmptyCacheFailure());
+      return Left(OfflineFailure());
     }
   }
 
@@ -73,7 +73,7 @@ class TeacherMainRepositoryImpl implements TeacherMainRepository{
         return Left(ServerFailure());
       }
     }else{
-      return Left(EmptyCacheFailure());
+      return Left(OfflineFailure());
     }
   }
 
@@ -84,7 +84,7 @@ class TeacherMainRepositoryImpl implements TeacherMainRepository{
       try{
         final String token = await SharedPrefHelper.getString(SharedPrefKeys.cachedToken);
         Logger().t('token -----> $token');
-        await teacherMainRemoteDataSource.deleteCourse(id: id, token: token);
+        await teacherMainRemoteDataSource.updateCourse(courseData: courseData,id: id, token: token);
         return Right(unit);
       }on InvalidDataException{
         return Left(InvalidDataFailure());
@@ -92,7 +92,7 @@ class TeacherMainRepositoryImpl implements TeacherMainRepository{
         return Left(ServerFailure());
       }
     }else{
-      return Left(EmptyCacheFailure());
+      return Left(OfflineFailure());
     }
   }
 

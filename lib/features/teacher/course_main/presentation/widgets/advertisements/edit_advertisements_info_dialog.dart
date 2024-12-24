@@ -6,6 +6,7 @@ import 'package:edu_sphere/core/widgets/app_text_button.dart';
 import 'package:edu_sphere/core/widgets/app_text_form_field.dart';
 import 'package:edu_sphere/core/widgets/label_and_widget.dart';
 import 'package:edu_sphere/features/teacher/course_main/domain/entities/ads.dart';
+import 'package:edu_sphere/features/teacher/course_main/presentation/bloc/course_advertisement/course_advertisement_cubit.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/bloc/course_main_cubit.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/widgets/select_color_and_dilog.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +42,7 @@ class EditAdvertisementsInfoDialog extends StatelessWidget {
         children: [
           Form(
             key: context.read<CourseMainCubit>().globalAdsKey,
-            child: BlocBuilder<CourseMainCubit, CourseMainState>(
+            child: BlocBuilder<CourseAdvertisementCubit, CourseAdvertisementState>(
               builder: (context, state) {
                 if(state is ChangColorTextInTextField){
                   return  LabelAndWidget(

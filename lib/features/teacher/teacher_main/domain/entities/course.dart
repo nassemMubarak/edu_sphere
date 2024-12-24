@@ -1,14 +1,14 @@
 import 'package:equatable/equatable.dart';
 
 class Course extends Equatable{
-  final int id;
-  final String title;
-  final String description;
-  final int? teacherId;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
-  final String? deletedAt; // Nullable field
-  final String? type;
+   int id;
+   String title;
+   String description;
+   int? teacherId;
+   DateTime? createdAt;
+   DateTime? updatedAt;
+   String? deletedAt; // Nullable field
+   String? type;
   bool isPending=false;
   bool isRejected=false;
   Course({

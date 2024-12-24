@@ -52,10 +52,7 @@ class CourseMainCubit extends Cubit<CourseMainState> {
     emit(GetAllChapters(listChapter: chapterList));
   }
 
-  emitChangColorTextField({required Color color}) {
-    colorSelectedTextField = color;
-    emit(ChangColorTextInTextField(colorSelect: color));
-  }
+
 
   String? extractYouTubeVideoId(String url) {
     final RegExp videoIdPattern = RegExp(
@@ -99,14 +96,14 @@ class CourseMainCubit extends Cubit<CourseMainState> {
     emit(GetAllLecture(lectures: lectureList));
   }
 
-  emitAddAds() {
-    listAds.add(Ads(
-        colorText: colorSelectedTextField,
-        text: adsTextEditionController.text));
-    emit(GetAllAds(listAds: listAds));
-    adsTextEditionController = TextEditingController();
-    colorSelectedTextField = ColorsManager.mainBlue;
-  }
+  // emitAddAds() {
+  //   listAds.add(Ads(
+  //       colorText: colorSelectedTextField,
+  //       text: adsTextEditionController.text));
+  //   emit(GetAllAds(listAds: listAds));
+  //   adsTextEditionController = TextEditingController();
+  //   colorSelectedTextField = ColorsManager.mainBlue;
+  // }
 
   emitEditAds({required int index}) {
     listAds[index].text = adsTextEditionController.text;

@@ -35,7 +35,7 @@ class SectionCardCourses extends StatelessWidget {
               widget: CoursesShimmerWidget());
         }
         if(state is TeacherMainMessageErrorState){
-
+          SnackBarMessage().showSnackBarError(message: state.message, context: context);
         }
         if (state is AddCourseState) {
           if (state.courses.isEmpty) {
@@ -96,8 +96,13 @@ class SectionCardCourses extends StatelessWidget {
           }
         } else {
           return context.read<TeacherMainCubit>().coursesModelList.isEmpty
-              ? ImageAndTextEmptyData(
-              message: AppLocalizations.of(context)!.noCoursesAdded)
+              ? SectionCard(
+            showAddButton: true,
+            title: AppLocalizations.of(context)!.yourCourses,
+            icon: 'assets/svgs/courses_icon.svg',
+                widget: ImageAndTextEmptyData(
+                message: AppLocalizations.of(context)!.noCoursesAdded),
+              )
               : SectionCard(
             showAddButton: true,
                 title: AppLocalizations.of(context)!.yourCourses,

@@ -57,31 +57,43 @@ class TeacherMainCubit extends Cubit<TeacherMainState> {
   emitGetAllCourses() async {
     emit(TeacherMainLoadingState());
     final failureOrCourses = await getAllCoursesUseCase();
-    emit(failureOrCourses.fold((failure)=>TeacherMainMessageErrorState(message: _mapFailureMessage(failure: failure)), (courses){
+    emit(failureOrCourses.fold(
+        (failure) => TeacherMainMessageErrorState(
+            message: _mapFailureMessage(failure: failure)), (courses) {
       Logger().d(courses);
       coursesModelList = courses;
       return GetAllCoursesLoadedState(courses: courses);
     }));
   }
 
-  void emitAddCourse() {
-    emit(AddCourseState1(coursesModelList));
-    coursesModelList.add(
-      Course(
-        id: 1,
-          title: courseNameController.text,
-          description: courseDescriptionController.text,
-          isPending: true,
-          isRejected: false,
-      ),
-    );
+  void emitAddCourse() async {
+    emit(AddOrUpdateOrDeleteCourseLoadingState());
+    // emit(AddCourseState1(coursesModelList));
+    // coursesModelList.add(
+    //   Course(
+    //     id: 1,
+    //     title: courseNameController.text,
+    //     description: courseDescriptionController.text,
+    //     isPending: true,
+    //     isRejected: false,
+    //   ),
+    // );
+    final failureAddCourse = await addCourseUseCase(courseData: {
+      'title': courseNameController.text,
+      'description': courseDescriptionController.text
+    });
+    failureAddCourse.fold( (failure) => emit(AddOrUpdateOrDeleteMessageSuccessState(
+        message: _mapFailureMessage(failure: failure))), (course){
+      coursesModelList.add(course);
+      return emit(AddCourseState(coursesModelList));
+    });
     courseNameController = TextEditingController();
     courseDescriptionController = TextEditingController();
     // emit(AddCourseState(coursesModelList));
   }
 
   void emitEditCourse(
-      {required int indexCourse, required BuildContext context}) {
+      {required int indexCourse, required BuildContext context,required int id}) async{
     // emit(AddCourseState1(coursesModelList));
     // coursesModelList[indexCourse].title = courseNameController.text;
     // coursesModelList[indexCourse].description =
@@ -89,13 +101,28 @@ class TeacherMainCubit extends Cubit<TeacherMainState> {
     // context
     //     .read<CourseMainCubit>()
     //     .emitEditCourseDescription(course: coursesModelList[indexCourse]);
-
+    emit(AddOrUpdateOrDeleteCourseLoadingState());
+   var body = {
+        'title': courseNameController.text,
+        'description': courseDescriptionController.text
+    };
+    Logger().e(body);
+    final failureAddCourse = await updateCourseUseCase(courseData: body,id: id);
+    failureAddCourse.fold( (failure) => emit(AddOrUpdateOrDeleteMessageSuccessState(
+        message: _mapFailureMessage(failure: failure))), (unit){
+      coursesModelList[indexCourse].title = courseNameController.text;
+      coursesModelList[indexCourse].description = courseDescriptionController.text;
+      context
+          .read<CourseMainCubit>()
+          .emitEditCourseDescription(course: coursesModelList[indexCourse]);
+      return emit(AddCourseState(coursesModelList));
+    });
     courseNameController = TextEditingController();
     courseDescriptionController = TextEditingController();
     // emit(AddCourseState(coursesModelList));
   }
 
-  void emitDeleteCourse({required int indexCourse}) {
+  void emitDeleteCourse({required int indexCourse,required int courseId}) async{
     // emit(AddCourseState1(coursesModelList));
     //
     // coursesModelList.remove(coursesModelList[indexCourse]);
@@ -103,6 +130,13 @@ class TeacherMainCubit extends Cubit<TeacherMainState> {
     // courseNameController = TextEditingController();
     // courseDescriptionController = TextEditingController();
     // emit(AddCourseState(coursesModelList));
+    emit(AddOrUpdateOrDeleteCourseLoadingState());
+    final failureAddCourse = await deleteCourseUseCase(id: courseId);
+    failureAddCourse.fold( (failure) => emit(AddOrUpdateOrDeleteMessageSuccessState(
+        message: _mapFailureMessage(failure: failure))), (unit){
+      coursesModelList.remove(coursesModelList[indexCourse]);
+      return emit(AddCourseState(coursesModelList));
+    });
   }
 
   String _mapFailureMessage({required Failure failure}) {

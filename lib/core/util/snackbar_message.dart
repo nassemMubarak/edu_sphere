@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 class SnackBarMessage{
   void showSnackBarSuccess({required String message,required BuildContext context}){
     ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(
+        SnackBar(
+          content: Text(
           message,
           style: TextStyle(color: Colors.white),
         ),

@@ -13,6 +13,15 @@ import 'package:edu_sphere/features/auth/domain/usecases/register_user.dart';
 import 'package:edu_sphere/features/auth/domain/usecases/send_code_to_forget_password.dart';
 import 'package:edu_sphere/features/auth/domain/usecases/update_password.dart';
 import 'package:edu_sphere/features/auth/presentation/bloc/auth/auth_cubit.dart';
+import 'package:edu_sphere/features/teacher/course_main/data/datasources/course_main_local_data_source.dart';
+import 'package:edu_sphere/features/teacher/course_main/data/datasources/course_main_remote_data_source.dart';
+import 'package:edu_sphere/features/teacher/course_main/data/repositores/course_main_repository_impl.dart';
+import 'package:edu_sphere/features/teacher/course_main/domain/repositorises/repository.dart';
+import 'package:edu_sphere/features/teacher/course_main/domain/usecases/advertisement_usecase/add_advertisement.dart';
+import 'package:edu_sphere/features/teacher/course_main/domain/usecases/advertisement_usecase/delete_advertisement.dart';
+import 'package:edu_sphere/features/teacher/course_main/domain/usecases/advertisement_usecase/get_all_advertisement.dart';
+import 'package:edu_sphere/features/teacher/course_main/domain/usecases/advertisement_usecase/update_advertisement.dart';
+import 'package:edu_sphere/features/teacher/course_main/presentation/bloc/course_advertisement/course_advertisement_cubit.dart';
 import 'package:edu_sphere/features/teacher/teacher_main/data/datasources/teacher_main_local_data_source.dart';
 import 'package:edu_sphere/features/teacher/teacher_main/data/datasources/teacher_main_remote_data_source.dart';
 import 'package:edu_sphere/features/teacher/teacher_main/data/repositores/teacher_main_repository_impl.dart';
@@ -33,6 +42,9 @@ Future<void> init() async {
   sl.registerFactory(()=>AuthCubit(registerUserUseCase: sl(),loginUserUseCase: sl(), getCurrentUserUseCase: sl(),getAllCampUserUseCase: sl()));
   //feature teacher main
   sl.registerFactory(()=>TeacherMainCubit(addCourseUseCase: sl(), deleteCourseUseCase: sl(), getAllCoursesUseCase: sl(), updateCourseUseCase: sl()));
+  // feature course main
+    // Course Advertisement
+  sl.registerFactory(()=>CourseAdvertisementCubit(updateAdvertisementUseCase: sl(), addAdvertisementUseCase: sl(), deleteAdvertisementUseCase: sl(), getAllAdvertisementUseCase: sl()));
 
   // Use Cases
   sl.registerLazySingleton(()=>CodeCheckForgetPasswordUseCase(authRepository: sl()));
@@ -48,10 +60,24 @@ Future<void> init() async {
   sl.registerLazySingleton(()=>DeleteCourseUseCase(repository: sl()));
   sl.registerLazySingleton(()=>GetAllCoursesUseCase(repository: sl()));
   sl.registerLazySingleton(()=>UpdateCourseUseCase(repository: sl()));
+  // use case course main feature
+    // use case Course Advertisement
+  sl.registerLazySingleton(()=>AddAdvertisementUseCase(repository: sl()));
+  sl.registerLazySingleton(()=>DeleteAdvertisementUseCase(repository: sl()));
+  sl.registerLazySingleton(()=>GetAllAdvertisementUseCase(repository: sl()));
+  sl.registerLazySingleton(()=>UpdateAdvertisementUseCase(repository: sl()));
+
+
+
+
   // Repository
   sl.registerLazySingleton<AuthRepository>(()=>RepositoryImpl(localDataSource: sl(), remoteDataSource: sl(), networkInfo: sl()));
   //feature teacher main
   sl.registerLazySingleton<TeacherMainRepository>(()=>TeacherMainRepositoryImpl(networkInfo: sl(), teacherMainLocalDataSource: sl(), teacherMainRemoteDataSource: sl()));
+  // use case course main feature
+  // use case Course Advertisement
+  sl.registerLazySingleton<CourseMainRepository>(()=>CourseMainRepositoryImpl(networkInfo: sl(), localDataSource: sl(), remoteDataSourceImpl: sl()));
+
 
   // Data Sources
 
@@ -60,11 +86,22 @@ Future<void> init() async {
   //feature teacher main
   sl.registerLazySingleton<TeacherMainLocalDataSource>(()=>TeacherMainLocalDataSourceImpl());
   sl.registerLazySingleton<TeacherMainRemoteDataSource>(()=>TeacherMainRemoteDataSourceImpl(client: sl()));
+
+  // // use case course main feature
+  // // use case Course Advertisement
+  sl.registerLazySingleton<CourseMainLocalDataSource>(() => CourseMainLocalDataSourceImpl());
+  sl.registerFactory<CourseMainRemoteDataSourceImpl>(() => CourseMainRemoteDataSourceImpl(client: sl()));
+
+
+
+
+
+
   // Network
   sl.registerLazySingleton<NetworkInfo>(()=>NetworkInfoImpl(connectionChecker: sl()));
 
   // External
-  sl.registerLazySingleton(() => http.Client());
+  sl.registerLazySingleton<http.Client>(() => http.Client());
   sl.registerLazySingleton(() => InternetConnectionChecker());
 
 }

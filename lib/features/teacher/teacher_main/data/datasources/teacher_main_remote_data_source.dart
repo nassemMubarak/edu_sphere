@@ -33,13 +33,13 @@ class TeacherMainRemoteDataSourceImpl implements TeacherMainRemoteDataSource{
   @override
   Future<CourseModel> addCourse({required Map courseData,required String token}) async{
     final header = {'Authorization': 'Bearer $token'};
-    final response = await client.post(Uri.parse('${ApiConstants.apiBaseUrl}${ApiConstants.teacherCourses}'),headers: header);
+    final response = await client.post(Uri.parse('${ApiConstants.apiBaseUrl}${ApiConstants.teacherCourses}'),body: courseData,headers: header);
     return _addCourse(response);
   }
   @override
   Future<Unit> updateCourse({required Map courseData,required int id,required String token}) async{
     final header = {'Authorization': 'Bearer $token'};
-    final response = await client.put(Uri.parse('${ApiConstants.apiBaseUrl}${ApiConstants.teacherCourses}/$id'),headers: header);
+    final response = await client.put(Uri.parse('${ApiConstants.apiBaseUrl}${ApiConstants.teacherCourses}/$id'),body: courseData,headers: header);
     return _returnUnitOrException(response: response);
   }
 

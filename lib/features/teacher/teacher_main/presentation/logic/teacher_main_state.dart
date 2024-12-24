@@ -37,10 +37,19 @@ class GetAllCoursesLoadedState extends TeacherMainState{
   List<Object> get props => [courses];
 }
 class TeacherMainLoadingState extends TeacherMainState{}
+class AddOrUpdateOrDeleteCourseLoadingState extends TeacherMainState{}
 class TeacherMainMessageSuccessState extends TeacherMainState{
   final String message;
 
   TeacherMainMessageSuccessState({required this.message});
+
+  @override
+  List<Object> get props => [message];
+}
+class AddOrUpdateOrDeleteMessageSuccessState extends TeacherMainState{
+  final String message;
+
+  AddOrUpdateOrDeleteMessageSuccessState({required this.message});
 
   @override
   List<Object> get props => [message];
