@@ -2,7 +2,7 @@ import 'package:edu_sphere/core/helpers/extenshions.dart';
 import 'package:edu_sphere/core/helpers/spacing.dart';
 import 'package:edu_sphere/core/theming/colors.dart';
 import 'package:edu_sphere/core/theming/styles.dart';
-import 'package:edu_sphere/core/util/snackbar_message.dart';
+import 'package:edu_sphere/core/util/toast_notification_message.dart';
 import 'package:edu_sphere/core/widgets/app_text_button.dart';
 import 'package:edu_sphere/core/widgets/wave_top_widget.dart';
 import 'package:edu_sphere/features/auth/presentation/bloc/auth/auth_cubit.dart';
@@ -91,13 +91,13 @@ class SignUpStudentOrTeacherWidget extends StatelessWidget {
                                   if(context.read<AuthCubit>().globalKeyStudentScreen.currentState!.validate()&&context.read<AuthCubit>().campStudentId!=null&&context.read<AuthCubit>().studentEducationStage!=null){
                                     context.read<AuthCubit>().emitRegisterUser(isStudent: true);
                                   }else{
-                                    SnackBarMessage().showSnackBarError(message: 'Please enter All required data', context: context);
+                                    ToastNotificationMessage().showToastNotificationError(message: 'Please enter All required data', context: context);
                                   }
                                 }else if(context.read<AuthTypeCubit>().typeSignUp=='teatcher'){
                                   if(context.read<AuthCubit>().globalKeyTeacherScreen.currentState!.validate()&&context.read<AuthCubit>().campTeacherId!=null){
                                     context.read<AuthCubit>().emitRegisterUser(isTeacher: true);
                                   }else{
-                                    SnackBarMessage().showSnackBarError(message: 'Please enter All required data', context: context);
+                                    ToastNotificationMessage().showToastNotificationError(message: 'Please enter All required data', context: context);
                                   }
                                 }
                               },

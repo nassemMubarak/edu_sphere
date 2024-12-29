@@ -1,12 +1,7 @@
 import 'dart:ui';
 import 'package:bloc/bloc.dart';
-import 'package:edu_sphere/core/theming/colors.dart';
-import 'package:edu_sphere/features/teacher/course_main/domain/entities/ads.dart';
 import 'package:edu_sphere/features/teacher/course_main/domain/entities/chapter.dart';
 import 'package:edu_sphere/features/teacher/course_main/domain/entities/lecture.dart';
-import 'package:edu_sphere/features/teacher/quiz/domain/entities/quiz.dart';
-import 'package:edu_sphere/features/teacher/quiz/presentation/bloc/quiz_cubit.dart';
-import 'package:edu_sphere/features/teacher/teacher_main/data/model/courses_model.dart';
 import 'package:edu_sphere/features/teacher/teacher_main/domain/entities/course.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -23,20 +18,19 @@ class CourseMainCubit extends Cubit<CourseMainState> {
     emit(EditCourseDescription(coursesModel: course));
   }
 
-  Color colorSelectedTextField = ColorsManager.mainBlue;
+  // Color colorSelectedTextField = ColorsManager.mainBlue;
 
 
-  TextEditingController adsTextEditionController = TextEditingController();
+  // TextEditingController adsTextEditionController = TextEditingController();
   TextEditingController lectureTitleTextEditionController =
       TextEditingController();
   TextEditingController lectureLinkTextEditionController =
       TextEditingController();
   TextEditingController lectureDescriptionTextEditionController =
       TextEditingController();
-  final globalAdsKey = GlobalKey<FormState>();
+  // final globalAdsKey = GlobalKey<FormState>();
   final globalLectureKey = GlobalKey<FormState>();
 
-  List<Ads> listAds = [];
   List<Lecture> lectureList = [];
   List<Chapter> chapterList = [];
 
@@ -69,8 +63,8 @@ class CourseMainCubit extends Cubit<CourseMainState> {
       Lecture(
         title: lectureTitleTextEditionController.text,
         description: lectureDescriptionTextEditionController.text,
-        lectureLink:
-            extractYouTubeVideoId(lectureLinkTextEditionController.text)!,
+        link:
+            extractYouTubeVideoId(lectureLinkTextEditionController.text)!, id: 1,courseId: 5,
       ),
     );
     emit(GetAllLecture(lectures: lectureList));
@@ -83,7 +77,7 @@ class CourseMainCubit extends Cubit<CourseMainState> {
     lectureList[index].title = lectureTitleTextEditionController.text;
     lectureList[index].description =
         lectureDescriptionTextEditionController.text;
-    lectureList[index].lectureLink =
+    lectureList[index].link =
         extractYouTubeVideoId(lectureLinkTextEditionController.text)!;
     emit(GetAllLecture(lectures: lectureList));
     lectureTitleTextEditionController = TextEditingController();
@@ -105,16 +99,16 @@ class CourseMainCubit extends Cubit<CourseMainState> {
   //   colorSelectedTextField = ColorsManager.mainBlue;
   // }
 
-  emitEditAds({required int index}) {
-    listAds[index].text = adsTextEditionController.text;
-    listAds[index].colorText = colorSelectedTextField;
-    emit(GetAllAds(listAds: listAds));
-    adsTextEditionController = TextEditingController();
-    colorSelectedTextField = ColorsManager.mainBlue;
-  }
-
-  emitDeleteAds({required int index}) {
-    listAds.remove(listAds[index]);
-    emit(GetAllAds(listAds: listAds));
-  }
+  // emitEditAds({required int index}) {
+  //   listAds[index].text = adsTextEditionController.text;
+  //   listAds[index].colorText = colorSelectedTextField;
+  //   emit(GetAllAds(listAds: listAds));
+  //   adsTextEditionController = TextEditingController();
+  //   colorSelectedTextField = ColorsManager.mainBlue;
+  // }
+  //
+  // emitDeleteAds({required int index}) {
+  //   listAds.remove(listAds[index]);
+  //   emit(GetAllAds(listAds: listAds));
+  // }
 }

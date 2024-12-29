@@ -1,6 +1,6 @@
 import 'package:edu_sphere/core/helpers/extenshions.dart';
 import 'package:edu_sphere/core/routing/routes.dart';
-import 'package:edu_sphere/core/util/snackbar_message.dart';
+import 'package:edu_sphere/core/util/toast_notification_message.dart';
 import 'package:edu_sphere/core/widgets/loading_widget.dart';
 import 'package:edu_sphere/edu_sphere_app.dart';
 import 'package:edu_sphere/features/auth/presentation/bloc/auth/auth_cubit.dart';

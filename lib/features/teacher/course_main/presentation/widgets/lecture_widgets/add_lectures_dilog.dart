@@ -3,16 +3,20 @@ import 'package:edu_sphere/core/helpers/extenshions.dart';
 import 'package:edu_sphere/core/helpers/spacing.dart';
 import 'package:edu_sphere/core/theming/colors.dart';
 import 'package:edu_sphere/core/theming/styles.dart';
+import 'package:edu_sphere/core/util/toast_notification_message.dart';
 import 'package:edu_sphere/core/widgets/app_text_button.dart';
 import 'package:edu_sphere/core/widgets/app_text_form_field.dart';
 import 'package:edu_sphere/core/widgets/label_and_widget.dart';
+import 'package:edu_sphere/features/teacher/course_main/presentation/bloc/course_lecture/course_lecture_cubit.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/bloc/course_main_cubit.dart';
+import 'package:edu_sphere/features/teacher/course_main/presentation/widgets/lecture_widgets/add_or_update_or_delete_lecture_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class AddLecturesDilog extends StatelessWidget {
-  const AddLecturesDilog({super.key});
+  int idCourse;
+   AddLecturesDilog({super.key,required this.idCourse});
 
   @override
   Widget build(BuildContext context) {
@@ -34,14 +38,14 @@ class AddLecturesDilog extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Form(
-            key: context.read<CourseMainCubit>().globalLectureKey,
+            key: context.read<CourseLectureCubit>().globalLectureKey,
             child: Column(
               children: [
                 LabelAndWidget(
                   label: 'Lecture Title',
                   widget: AppTextFormField(
                     controller: context
-                        .read<CourseMainCubit>()
+                        .read<CourseLectureCubit>()
                         .lectureTitleTextEditionController,
                     textStyle: TextStyles.font12Black700Weight,
                     hintText: 'Lecture title',
@@ -61,12 +65,13 @@ class AddLecturesDilog extends StatelessWidget {
                     ),
                   ),
                 ),
+                AddOrUpdateOrDeleteLectureLoading(message: 'The Lecture has been added successfully.',),
                 LabelAndWidget(
                   label: 'Lecture Link Youtube',
                   widget: AppTextFormField(
                     textInputType: TextInputType.url,
                     controller: context
-                        .read<CourseMainCubit>()
+                        .read<CourseLectureCubit>()
                         .lectureLinkTextEditionController,
                     textStyle: TextStyles.font14MainBlue400Weight,
                     hintText: 'Lecture link youtube',
@@ -86,7 +91,7 @@ class AddLecturesDilog extends StatelessWidget {
                   label: 'Lecture Description',
                   widget: AppTextFormField(
                     controller: context
-                        .read<CourseMainCubit>()
+                        .read<CourseLectureCubit>()
                         .lectureDescriptionTextEditionController,
                     textStyle: TextStyles.font12Black500Weight,
                     maxLines: 5,
@@ -118,12 +123,11 @@ class AddLecturesDilog extends StatelessWidget {
                 child: AppTextButton(
                   onPressed: () {
                     if (context
-                        .read<CourseMainCubit>()
+                        .read<CourseLectureCubit>()
                         .globalLectureKey
                         .currentState!
                         .validate()) {
-                      context.read<CourseMainCubit>().emitAddLecture();
-                      context.pop();
+                      context.read<CourseLectureCubit>().emitAddLecture(idCourse: idCourse);
                     }
                   },
                   buttonText: 'Add Lecture',

@@ -1,6 +1,6 @@
 
 import 'package:edu_sphere/core/helpers/extenshions.dart';
-import 'package:edu_sphere/core/util/snackbar_message.dart';
+import 'package:edu_sphere/core/util/toast_notification_message.dart';
 import 'package:edu_sphere/features/teacher/teacher_main/presentation/logic/teacher_main_cubit.dart';
 import 'package:edu_sphere/features/teacher/teacher_main/presentation/logic/teacher_main_state.dart';
 import 'package:flutter/cupertino.dart';
@@ -19,11 +19,11 @@ class LoadingAddOrUpdateOrDeleteCourse extends StatelessWidget {
         context.loading();
       }else if(state is AddOrUpdateOrDeleteMessageSuccessState){
         context.pop();
-        SnackBarMessage().showSnackBarError(message: state.message, context: context);
+        ToastNotificationMessage().showToastNotificationError(message: state.message, context: context);
       }else if(state is AddCourseState){
         context.pop();
         context.pop();
-        SnackBarMessage().showSnackBarSuccess(message: messageSuccessful, context: context);
+        ToastNotificationMessage().showNotificationSuccess(message: messageSuccessful, context: context);
       }
     },builder: (context, state) {
       return SizedBox.shrink();

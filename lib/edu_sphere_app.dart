@@ -5,6 +5,7 @@ import 'package:edu_sphere/features/auth/presentation/bloc/auth/auth_cubit.dart'
 import 'package:edu_sphere/features/auth/presentation/bloc/changTypSignUp/auth_type_cubit.dart';
 import 'package:edu_sphere/features/teacher/assessments/presentation/bloc/assessments_cubit.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/bloc/course_advertisement/course_advertisement_cubit.dart';
+import 'package:edu_sphere/features/teacher/course_main/presentation/bloc/course_lecture/course_lecture_cubit.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/bloc/course_main_cubit.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/pages/course_main_screen.dart';
 import 'package:edu_sphere/features/teacher/quiz/presentation/bloc/quiz_cubit.dart';
@@ -31,6 +32,7 @@ class EduSphereApp extends StatelessWidget {
          BlocProvider(create: (context)=>QuizCubit()),
          BlocProvider(create: (context)=>AssessmentsCubit()),
          BlocProvider(create: (context)=>di.sl<CourseAdvertisementCubit>()),
+         BlocProvider(create: (context)=>di.sl<CourseLectureCubit>()),
       ],
       child:
          ScreenUtilInit(

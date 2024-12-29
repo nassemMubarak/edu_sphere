@@ -5,11 +5,6 @@ sealed class CourseMainState {}
 
 final class CourseMainInitial extends CourseMainState {}
 
-
-  class GetAllAds extends CourseMainState{
-  final List<Ads> listAds;
-  GetAllAds({required this.listAds});
-  }
   class GetAllChapters extends CourseMainState{
     final List<Chapter> listChapter;
     GetAllChapters({required this.listChapter});

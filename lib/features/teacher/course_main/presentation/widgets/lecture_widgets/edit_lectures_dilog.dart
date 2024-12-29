@@ -6,28 +6,33 @@ import 'package:edu_sphere/core/theming/styles.dart';
 import 'package:edu_sphere/core/widgets/app_text_button.dart';
 import 'package:edu_sphere/core/widgets/app_text_form_field.dart';
 import 'package:edu_sphere/core/widgets/label_and_widget.dart';
+import 'package:edu_sphere/features/teacher/course_main/presentation/bloc/course_lecture/course_lecture_cubit.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/bloc/course_main_cubit.dart';
+import 'package:edu_sphere/features/teacher/course_main/presentation/widgets/lecture_widgets/add_or_update_or_delete_lecture_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class EditLecturesDilog extends StatelessWidget {
   int index;
-  EditLecturesDilog({super.key, required this.index});
+  int indexLecture;
+  int idLecture;
+  int idCourse;
+  EditLecturesDilog({super.key, required this.index,required this.idLecture,required this.indexLecture,required this.idCourse});
 
   @override
   Widget build(BuildContext context) {
-    context.read<CourseMainCubit>().lectureLinkTextEditionController =
+    context.read<CourseLectureCubit>().lectureLinkTextEditionController =
         TextEditingController(
-      text: context.read<CourseMainCubit>().lectureList[index].lectureLink,
+      text: context.read<CourseLectureCubit>().lectureList[index].link,
     );
-    context.read<CourseMainCubit>().lectureDescriptionTextEditionController =
+    context.read<CourseLectureCubit>().lectureDescriptionTextEditionController =
         TextEditingController(
-      text: context.read<CourseMainCubit>().lectureList[index].description,
+      text: context.read<CourseLectureCubit>().lectureList[index].description,
     );
-    context.read<CourseMainCubit>().lectureTitleTextEditionController =
+    context.read<CourseLectureCubit>().lectureTitleTextEditionController =
         TextEditingController(
-      text: context.read<CourseMainCubit>().lectureList[index].title,
+      text: context.read<CourseLectureCubit>().lectureList[index].title,
     );
     return AlertDialog(
       shape: const RoundedRectangleBorder(
@@ -54,7 +59,7 @@ class EditLecturesDilog extends StatelessWidget {
                   label: 'Lecture Title',
                   widget: AppTextFormField(
                     controller: context
-                        .read<CourseMainCubit>()
+                        .read<CourseLectureCubit>()
                         .lectureTitleTextEditionController,
                     textStyle: TextStyles.font12Black700Weight,
                     hintText: 'Lecture title',
@@ -79,7 +84,7 @@ class EditLecturesDilog extends StatelessWidget {
                   widget: AppTextFormField(
                     textInputType: TextInputType.url,
                     controller: context
-                        .read<CourseMainCubit>()
+                        .read<CourseLectureCubit>()
                         .lectureLinkTextEditionController,
                     textStyle: TextStyles.font14MainBlue400Weight,
                     hintText: 'Lecture link youtube',
@@ -95,11 +100,13 @@ class EditLecturesDilog extends StatelessWidget {
                     ),
                   ),
                 ),
+                AddOrUpdateOrDeleteLectureLoading(message: 'The Lecture has been updated successfully.',),
+
                 LabelAndWidget(
                   label: 'Lecture Description',
                   widget: AppTextFormField(
                     controller: context
-                        .read<CourseMainCubit>()
+                        .read<CourseLectureCubit>()
                         .lectureDescriptionTextEditionController,
                     textStyle: TextStyles.font12Black700Weight,
                     maxLines: 5,
@@ -135,8 +142,7 @@ class EditLecturesDilog extends StatelessWidget {
                         .globalLectureKey
                         .currentState!
                         .validate()) {
-                      context.read<CourseMainCubit>().emitEditLecture(index);
-                      context.pop();
+                      context.read<CourseLectureCubit>().emitUpdateLecture(idCourse: idCourse, idLecture: idLecture, indexLecture: indexLecture);
                     }
                     
                   },

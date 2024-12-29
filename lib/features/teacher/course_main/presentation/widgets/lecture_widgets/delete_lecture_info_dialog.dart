@@ -2,14 +2,18 @@ import 'package:edu_sphere/core/helpers/extenshions.dart';
 import 'package:edu_sphere/core/helpers/spacing.dart';
 import 'package:edu_sphere/core/theming/styles.dart';
 import 'package:edu_sphere/core/widgets/app_text_button.dart';
+import 'package:edu_sphere/features/teacher/course_main/presentation/bloc/course_lecture/course_lecture_cubit.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/bloc/course_main_cubit.dart';
+import 'package:edu_sphere/features/teacher/course_main/presentation/widgets/lecture_widgets/add_or_update_or_delete_lecture_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DeleteLectureInfoDialog extends StatelessWidget {
+  int idCourse;
+  int idLecture;
   int indexLecture;
-  DeleteLectureInfoDialog({super.key, required this.indexLecture});
+  DeleteLectureInfoDialog({super.key, required this.indexLecture,required this.idCourse,required this.idLecture});
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -36,17 +40,17 @@ class DeleteLectureInfoDialog extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           verticalSpace(24),
+          AddOrUpdateOrDeleteLectureLoading(message: 'The lecture has been successfully deleted.',),
           Row(
             children: [
               Expanded(
                 child: AppTextButton(
                   onPressed: () {
                     context
-                        .read<CourseMainCubit>()
-                        .emitDeleteLecture(index: indexLecture);
-                    context.pop();
+                        .read<CourseLectureCubit>()
+                        .emitDeleteLecture(idCourse: idCourse, idLecture: idLecture, indexLecture: indexLecture);
                   },
-                  buttonText: 'Delete Ads',
+                  buttonText: 'Delete Lecture',
                   buttonWidth: 147,
                 ),
               ),

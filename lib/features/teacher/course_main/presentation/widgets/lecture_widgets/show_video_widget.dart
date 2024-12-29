@@ -1,22 +1,24 @@
+import 'package:edu_sphere/features/teacher/course_main/presentation/bloc/course_lecture/course_lecture_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 // import 'package:youtube_player_iframe/youtube_player_iframe.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
 class ShowVideoWidget extends StatelessWidget {
   ShowVideoWidget({Key? key}) : super(key: key);
 
-  final YoutubePlayerController _controller = YoutubePlayerController(
-    initialVideoId: 'GJ4TqV156Qg', // Replace with a valid YouTube video ID
-    flags: const YoutubePlayerFlags(
-      autoPlay: true,
-      mute: false,
 
-    ),
-  );
 
   @override
   Widget build(BuildContext context) {
+    final YoutubePlayerController _controller = YoutubePlayerController(
+      initialVideoId: context.read<CourseLectureCubit>().linkVideo, // Replace with a valid YouTube video ID
+      flags: const YoutubePlayerFlags(
+        autoPlay: true,
+        mute: false,
+
+      ),
+    );
     return Scaffold(
       body: SafeArea(
         child: Container(

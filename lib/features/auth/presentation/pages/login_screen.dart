@@ -4,7 +4,7 @@ import 'package:edu_sphere/core/routing/app_router.dart';
 import 'package:edu_sphere/core/routing/routes.dart';
 import 'package:edu_sphere/core/theming/colors.dart';
 import 'package:edu_sphere/core/theming/styles.dart';
-import 'package:edu_sphere/core/util/snackbar_message.dart';
+import 'package:edu_sphere/core/util/toast_notification_message.dart';
 import 'package:edu_sphere/core/widgets/app_text_button.dart';
 import 'package:edu_sphere/core/widgets/loading_widget.dart';
 import 'package:edu_sphere/core/widgets/wave_top_widget.dart';
@@ -31,12 +31,12 @@ class LoginScreen extends StatelessWidget {
       return BlocConsumer<AuthCubit,AuthState> (
         listener: (context, state) {
           if(state is AuthMessageSuccessState){
-            SnackBarMessage()
-                .showSnackBarSuccess(message: state.message, context: context);
+            ToastNotificationMessage()
+                .showNotificationSuccess(message: state.message, context: context);
           }else if(state is AuthMessageErrorState){
             context.pop();
-          SnackBarMessage()
-              .showSnackBarError(message: state.message, context: context);
+          ToastNotificationMessage()
+              .showToastNotificationError(message: state.message, context: context);
           }else if(state is AuthLoadedState){
             context.read<AuthCubit>().getCurrentUserUseCase();
             context.pushReplacementNamed(Routes.studentRequestPage);

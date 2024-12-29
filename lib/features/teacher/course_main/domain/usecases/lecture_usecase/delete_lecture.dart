@@ -3,10 +3,10 @@ import 'package:edu_sphere/core/error/failure.dart';
 import 'package:edu_sphere/features/teacher/course_main/domain/entities/advertisement.dart';
 import 'package:edu_sphere/features/teacher/course_main/domain/repositorises/repository.dart';
 
-class UpdateAdvertisementUseCase{
+class DeleteLectureUseCase{
   final CourseMainRepository repository;
-  UpdateAdvertisementUseCase({required this.repository});
-  Future<Either<Failure,Unit>> call({required int idAdvertisement,required int idCourse,required Map data})async{
-    return await repository.updateAdvertisement(idAdvertisement: idAdvertisement, idCourse: idCourse, data: data);
+  DeleteLectureUseCase({required this.repository});
+  Future<Either<Failure,Unit>> call({required int idLecture,required int idCourse})async{
+    return await repository.deleteLecture(idLecture: idLecture, idCourse: idCourse);
   }
 }

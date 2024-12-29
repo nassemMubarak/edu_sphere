@@ -3,7 +3,7 @@ import 'package:edu_sphere/core/helpers/spacing.dart';
 import 'package:edu_sphere/core/routing/routes.dart';
 import 'package:edu_sphere/core/theming/colors.dart';
 import 'package:edu_sphere/core/theming/styles.dart';
-import 'package:edu_sphere/core/util/snackbar_message.dart';
+import 'package:edu_sphere/core/util/toast_notification_message.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/bloc/course_main_cubit.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/pages/course_main_screen.dart';
 import 'package:edu_sphere/features/teacher/teacher_main/presentation/logic/teacher_main_cubit.dart';
@@ -35,7 +35,7 @@ class SectionCardCourses extends StatelessWidget {
               widget: CoursesShimmerWidget());
         }
         if(state is TeacherMainMessageErrorState){
-          SnackBarMessage().showSnackBarError(message: state.message, context: context);
+          ToastNotificationMessage().showToastNotificationError(message: state.message, context: context);
         }
         if (state is AddCourseState) {
           if (state.courses.isEmpty) {

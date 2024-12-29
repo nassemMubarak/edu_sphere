@@ -63,9 +63,8 @@ dependencies:
   # localization
   intl: ^0.19.0
   flutter_localization: ^0.2.2
-#  easy_localization: ^3.0.7
-  # for splash screen
-#  flutter_native_splash: ^2.4.1
+  #Toastification is a Flutter package that allows you to easily show toast and notification messages in your application.
+  toastification: ^2.3.0
   # for adapting screen and font size
   flutter_screenutil: ^5.9.3
   # An SVG rendering and widget library for Flutter, which allows painting

@@ -3,13 +3,10 @@ import 'package:edu_sphere/core/helpers/spacing.dart';
 import 'package:edu_sphere/core/theming/colors.dart';
 import 'package:edu_sphere/core/theming/styles.dart';
 import 'package:edu_sphere/core/widgets/app_text_button.dart';
-import 'package:edu_sphere/core/widgets/app_text_form_field.dart';
-import 'package:edu_sphere/core/widgets/label_and_widget.dart';
-import 'package:edu_sphere/features/teacher/course_main/domain/entities/ads.dart';
-import 'package:edu_sphere/features/teacher/course_main/presentation/bloc/course_main_cubit.dart';
-import 'package:edu_sphere/features/teacher/course_main/presentation/widgets/advertisements/delete_ads_info_dialog.dart';
+import 'package:edu_sphere/features/teacher/course_main/domain/entities/advertisement.dart';
+import 'package:edu_sphere/features/teacher/course_main/presentation/bloc/course_advertisement/course_advertisement_cubit.dart';
+import 'package:edu_sphere/features/teacher/course_main/presentation/widgets/advertisements/delete_advertisement_info_dialog.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/widgets/advertisements/edit_advertisements_info_dialog.dart';
-import 'package:edu_sphere/features/teacher/course_main/presentation/widgets/select_color_and_dilog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -17,7 +14,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SelectEditAndRemoveAdvertisementsInfoDialog extends StatefulWidget {
-  SelectEditAndRemoveAdvertisementsInfoDialog({super.key});
+  int idCourse;
+  SelectEditAndRemoveAdvertisementsInfoDialog({super.key,required this.idCourse});
 
   @override
   State<SelectEditAndRemoveAdvertisementsInfoDialog> createState() => _SelectEditAndRemoveAdvertisementsInfoDialogState();
@@ -50,7 +48,7 @@ class _SelectEditAndRemoveAdvertisementsInfoDialogState extends State<SelectEdit
             onTap: () {
               if(selectedIndexAds!=null){
                 context.pop();
-                showDialog(context: context, builder: (context) => EditAdvertisementsInfoDialog(ads: context.read<CourseMainCubit>().listAds[selectedIndexAds!], index: selectedIndexAds!));
+                showDialog(context: context, builder: (context) => EditAdvertisementsInfoDialog(idCourse: widget.idCourse,ads: context.read<CourseAdvertisementCubit>().advertisementList[selectedIndexAds!], index: selectedIndexAds!));
               }
             },
             child: SvgPicture.asset('assets/svgs/writing_icon.svg',
@@ -61,7 +59,7 @@ class _SelectEditAndRemoveAdvertisementsInfoDialogState extends State<SelectEdit
             onTap: () {
               if(selectedIndexAds!=null){
                 context.pop();
-                showDialog(context: context, builder: (context) => DeleteAdsInfoDialog(indexCourse: selectedIndexAds!));
+                showDialog(context: context, builder: (context) => DeleteAdvertisementInfoDialog(idCourse: widget.idCourse,idAdvertisement: context.read<CourseAdvertisementCubit>().advertisementList[selectedIndexAds!].id,indexAdvertisement: selectedIndexAds!,));
               }
             },
             child: SvgPicture.asset('assets/svgs/delete_icon.svg',
@@ -72,11 +70,10 @@ class _SelectEditAndRemoveAdvertisementsInfoDialogState extends State<SelectEdit
       content: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-
           Container(
               width:  0.6.sw,
               height: 0.5.sh,
-              child: buildListView(listAds: context.read<CourseMainCubit>().listAds)),
+              child: buildListView(listAds: context.read<CourseAdvertisementCubit>().advertisementList)),
           verticalSpace(24),
           Row(
             children: [
@@ -101,7 +98,7 @@ class _SelectEditAndRemoveAdvertisementsInfoDialogState extends State<SelectEdit
     );
   }
 
-  ListView buildListView({required List<Ads> listAds}) {
+  ListView buildListView({required List<Advertisement> listAds}) {
     return ListView.separated(
         separatorBuilder: (context, index) => verticalSpace(16.h),
         padding: EdgeInsetsDirectional.only(
@@ -110,7 +107,12 @@ class _SelectEditAndRemoveAdvertisementsInfoDialogState extends State<SelectEdit
         itemBuilder: (context, index) => buildGestureDetector(listAds, index));
   }
 
-  GestureDetector buildGestureDetector(List<Ads> listAds, int index) {
+  GestureDetector buildGestureDetector(List<Advertisement> listAds, int index) {
+    String colorString = listAds[index].color;
+    // Remove the "Color(" and ")" and also handle '0x' prefix if it exists
+    String colorHex = colorString.replaceAll('Color(', '').replaceAll(')', '').replaceAll('0x', '');
+    // Parse the hex string into a color integer
+    Color color = Color(int.parse(colorHex, radix: 16));
     return GestureDetector(
         onTap: (){
           setState(() {
@@ -149,7 +151,7 @@ class _SelectEditAndRemoveAdvertisementsInfoDialogState extends State<SelectEdit
                   child: Text(
                     listAds[index].text,
                     style: TextStyles.font12Black400Weight
-                        .copyWith(color: listAds[index].colorText),
+                        .copyWith(color: color),
                     maxLines: null, // Allow multiple lines
                     overflow: TextOverflow
                         .visible, // Ensure text overflow is handled properly

@@ -2,18 +2,15 @@ import 'package:edu_sphere/core/helpers/extenshions.dart';
 import 'package:edu_sphere/core/helpers/spacing.dart';
 import 'package:edu_sphere/core/theming/colors.dart';
 import 'package:edu_sphere/core/theming/styles.dart';
-import 'package:edu_sphere/core/util/snackbar_message.dart';
+import 'package:edu_sphere/core/util/toast_notification_message.dart';
 import 'package:edu_sphere/core/widgets/app_text_button.dart';
 import 'package:edu_sphere/core/widgets/app_text_form_field.dart';
 import 'package:edu_sphere/core/widgets/label_and_widget.dart';
-import 'package:edu_sphere/features/teacher/course_main/domain/entities/ads.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/bloc/course_advertisement/course_advertisement_cubit.dart';
-import 'package:edu_sphere/features/teacher/course_main/presentation/bloc/course_main_cubit.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/widgets/select_color_and_dilog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 class AddAdvertisementsInfoDialog extends StatelessWidget {
   int idCourse;
@@ -48,10 +45,11 @@ class AddAdvertisementsInfoDialog extends StatelessWidget {
                     context.loading();
                   }
                   else if(state is AdvertisementMessageErrorState){
-                    SnackBarMessage().showSnackBarError(message: state.message, context: context);
+                    ToastNotificationMessage().showToastNotificationError(message: state.message, context: context);
                     context.pop();
                   }
                   else if(state is GetAllAdvertisementLoadedState){
+                    ToastNotificationMessage().showNotificationSuccess(message: 'The advertisement has been added successfully.', context: context);
                     context.pop();
                     context.pop();
                   }

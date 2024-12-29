@@ -1,7 +1,7 @@
 import 'package:edu_sphere/core/helpers/extenshions.dart';
 import 'package:edu_sphere/core/routing/routes.dart';
 import 'package:edu_sphere/core/theming/colors.dart';
-import 'package:edu_sphere/core/util/snackbar_message.dart';
+import 'package:edu_sphere/core/util/toast_notification_message.dart';
 import 'package:edu_sphere/core/widgets/loading_widget.dart';
 import 'package:edu_sphere/features/auth/presentation/bloc/auth/auth_cubit.dart';
 import 'package:edu_sphere/features/auth/presentation/widgets/signup_widgets/sign_up_or_student_teacher_widget.dart';
@@ -15,20 +15,20 @@ class SignupLoadingWidget extends StatelessWidget {
     return BlocConsumer<AuthCubit,AuthState> (
       listener: (context, state) {
         if(state is AuthMessageSuccessState){
-          SnackBarMessage()
-              .showSnackBarSuccess(message: state.message, context: context);
+          ToastNotificationMessage()
+              .showNotificationSuccess(message: state.message, context: context);
         }else if(state is AuthMessageErrorState){
           context.pop();
-          SnackBarMessage()
-              .showSnackBarError(message: state.message, context: context);
+          ToastNotificationMessage()
+              .showToastNotificationError(message: state.message, context: context);
         }else if(state is AuthLoadedState){
           context.read<AuthCubit>().getCurrentUserUseCase();
           context.pushReplacementNamed(Routes.studentRequestPage);
         }else if(state is AuthLoadingState){
         context.loading();
         }else if(state is AuthMessageErrorCampState){
-          SnackBarMessage()
-              .showSnackBarError(message: state.message, context: context);
+          ToastNotificationMessage()
+              .showToastNotificationError(message: state.message, context: context);
         }
       },
       builder: (context, state) {

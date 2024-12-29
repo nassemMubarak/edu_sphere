@@ -1,5 +1,5 @@
 import 'package:edu_sphere/core/helpers/extenshions.dart';
-import 'package:edu_sphere/core/util/snackbar_message.dart';
+import 'package:edu_sphere/core/util/toast_notification_message.dart';
 import 'package:edu_sphere/core/widgets/loading_widget.dart';
 import 'package:edu_sphere/features/auth/presentation/bloc/auth/auth_cubit.dart';
 import 'package:edu_sphere/features/auth/presentation/widgets/student_request_widget.dart';

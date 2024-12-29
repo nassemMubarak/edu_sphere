@@ -34,6 +34,7 @@ class CourseAdvertisementCubit extends Cubit<CourseAdvertisementState> {
   Color colorSelectedTextField = ColorsManager.mainBlue;
   TextEditingController advertisementTextEditionController = TextEditingController();
   final globalAdvertisementKey = GlobalKey<FormState>();
+  /// Get All Advertisement
   emitGetAllAdvertisement({required int idCourse})async{
     emit(GetAllAdvertisementLoadingState());
     Logger().e('--------------------------------');
@@ -45,6 +46,36 @@ class CourseAdvertisementCubit extends Cubit<CourseAdvertisementState> {
       emit(GetAllAdvertisementLoadedState(advertisement: advertisementList));
     }) ;
   }
+  /// Edit Advertisement
+  emitEditAdvertisement({required int idCourse,required int idAdvertisement,required int indexAdvertisement})async{
+    Logger().d('--idCourse-------$idCourse --------idAdvertisement---------$idAdvertisement');
+    emit(AddOrUpdateOrDeleteLoadingState());
+    final failureOrAdvertisement = await updateAdvertisementUseCase(idAdvertisement: idAdvertisement,idCourse: idCourse,data:{
+      'text':advertisementTextEditionController.text,
+      'color':colorSelectedTextField.toString()
+    } );
+    failureOrAdvertisement.fold((failure)=>emit(AdvertisementMessageErrorState(message: _mapFailureMessage(failure: failure))), (advertisement){
+      Logger().d(advertisement);
+      advertisementList[indexAdvertisement].text = advertisementTextEditionController.text;
+      advertisementList[indexAdvertisement].color = colorSelectedTextField.toString();
+      advertisementTextEditionController = TextEditingController();
+      colorSelectedTextField = ColorsManager.mainBlue;
+      emit(GetAllAdvertisementLoadedState(advertisement: advertisementList));
+    }) ;
+
+  }
+  /// Delete Advertisement
+  emitDeleteAdvertisement({required int idCourse,required int idAdvertisement,required int indexAdvertisement})async{
+    Logger().d('--idCourse-------$idCourse --------idAdvertisement---------$idAdvertisement');
+    emit(AddOrUpdateOrDeleteLoadingState());
+    final failureOrAdvertisement = await deleteAdvertisementUseCase(idAdvertisement: idAdvertisement,idCourse: idCourse);
+    failureOrAdvertisement.fold((failure)=>emit(AdvertisementMessageErrorState(message: _mapFailureMessage(failure: failure))), (unit){
+      advertisementList.remove(advertisementList[indexAdvertisement]);
+      emit(GetAllAdvertisementLoadedState(advertisement: advertisementList));
+    }) ;
+
+  }
+  /// Add Advertisement
   emitAddAdvertisement({required int idCourse})async{
     emit(AddOrUpdateOrDeleteLoadingState());
     Logger().e('--------------------------------${colorSelectedTextField.toString()}');
