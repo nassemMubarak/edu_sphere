@@ -19,8 +19,8 @@ class SignupLoadingWidget extends StatelessWidget {
               .showNotificationSuccess(message: state.message, context: context);
         }else if(state is AuthMessageErrorState){
           context.pop();
-          ToastNotificationMessage()
-              .showToastNotificationError(message: state.message, context: context);
+          // ToastNotificationMessage()
+          //     .showToastNotificationError(message: state.message, context: context);
         }else if(state is AuthLoadedState){
           context.read<AuthCubit>().getCurrentUserUseCase();
           context.pushReplacementNamed(Routes.studentRequestPage);

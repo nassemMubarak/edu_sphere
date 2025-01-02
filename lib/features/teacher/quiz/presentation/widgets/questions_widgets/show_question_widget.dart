@@ -13,17 +13,22 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 class ShowQuestionWidget extends StatelessWidget {
   Question question;
+  int idCourse;
+  int idQuiz;
   int index;
   bool isHideEditAndDeleteIcon = true;
    ShowQuestionWidget({
     super.key,
      required this.question,
      required this.index,
+     required this.idCourse,
+     required this.idQuiz,
      this.isHideEditAndDeleteIcon = true
   });
 
   @override
   Widget build(BuildContext context) {
+
     return Container(
       margin: EdgeInsetsDirectional.only(bottom: 20.h),
       padding: const EdgeInsets.all(16.0),
@@ -66,7 +71,7 @@ class ShowQuestionWidget extends StatelessWidget {
                       onTap: (){
                         showDialog(
                           context: context,
-                          builder: (context) => EditQuestionDialog(question: question,indexQuestion: index,),
+                          builder: (context) => EditQuestionDialog(idQuiz: idQuiz,idCourse: idCourse,question: question,indexQuestion: index,),
                         );
                       },
                       child: SvgPicture.asset(
@@ -81,7 +86,7 @@ class ShowQuestionWidget extends StatelessWidget {
                       onTap: (){
                         showDialog(
                           context: context,
-                          builder: (context) => DeleteQuestionInfoDialog(question: question),
+                          builder: (context) => DeleteQuestionInfoDialog(question: question,idCourse:idCourse ,indexQuestion: index,),
                         );
                       },
                       child: SvgPicture.asset(
@@ -107,14 +112,15 @@ class ShowQuestionWidget extends StatelessWidget {
                   color: Colors.black
               ),
             ),
-            title:Text(question.questionText,style: TextStyles.font14Black500Weight,) ,
+            title:Text(question.title,style: TextStyles.font14Black500Weight,) ,
           ),
-          question.questionPathImage!=null?GestureDetector(
+          question.documents!=null&&question.documents!.isNotEmpty?GestureDetector(
             onTap: (){
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => FullScreenImageWidget(imagePath: question.questionPathImage!),
+                  // builder: (context) => FullScreenImageWidget(networkImageUrl: question.documents![0].url,),
+                  builder: (context) => FullScreenImageWidget(networkImageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkR48LoFHBZXunbYp-PlllTPPEgrgml-paqg&s',),
                 ),
               );
             },
@@ -130,13 +136,26 @@ class ShowQuestionWidget extends StatelessWidget {
               ),
               // padding: EdgeInsetsDirectional.only(start: 30),
               child: ClipRRect(
-              borderRadius: BorderRadius.circular(10),  // Image border radius
-              child: Image.file(
-                File(question.questionPathImage!),
-                width: double.infinity,
-                height: 115.0.w,
-                fit: BoxFit.cover, // Crop the image to cover the container
-              ),
+              borderRadius: BorderRadius.circular(10),
+                child: Image.network('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkR48LoFHBZXunbYp-PlllTPPEgrgml-paqg&s')
+                // child: Image.network(question.documents![0].url)
+                // CachedNetworkImage(
+                //   imageUrl: question.documents![0].url,
+                //   placeholder: (context, url) => Container(
+                //       width: 100,
+                //       height: 100,
+                //       color: ColorsManager.neutralGray.withOpacity(0.5),
+                //       padding: EdgeInsetsDirectional.all(40),
+                //       child: CircularProgressIndicator(color: ColorsManager.mainBlue,strokeWidth: 1,)),
+                //   errorWidget: (context, url, error) => Icon(Icons.error),
+                // ),// Image border radius
+                // child: Image.network(question.documents![0].url),// Image border radius
+              // child: Image.file(
+              //   File(question.questionPathImage!),
+              //   width: double.infinity,
+              //   height: 115.0.w,
+              //   fit: BoxFit.cover, // Crop the image to cover the container
+              // ),
                         ),
             ),
           ):SizedBox.shrink(),
@@ -202,7 +221,7 @@ class ShowQuestionWidget extends StatelessWidget {
                   color: Colors.black
               ),
             ),
-            title:Text(question.questionScore,style: TextStyles.font14Black400Weight,) ,
+            title:Text(question.mark.toString(),style: TextStyles.font14Black400Weight,) ,
           ),
         ],
       ),

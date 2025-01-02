@@ -31,6 +31,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<UserResponseModel> registerUser({required Map authData}) async {
+    Logger().f(authData);
     final body = authData['level']!=null?{
       "name": authData['name'],
       "email": authData['email'],
@@ -55,6 +56,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         late var response;
       try{
        response = await client.post(Uri.parse( authData['level']!=null?'${ApiConstants.apiBaseUrl}/student/register':'${ApiConstants.apiBaseUrl}/teacher/register'), body: body);
+       Logger().f('response.status----->${response.statusCode} response.message----->${json.decode(response.body)['message']}        response.body ------------>>>>>>>> ${response.body}');
+
       }on Exception{
         throw ServerException();
       };
@@ -63,7 +66,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       UserResponseModel userResponseModel = UserResponseModel.fromJson(decodeJson);
       return userResponseModel;
     } else if (response.statusCode >= 400 && response.statusCode < 500) {
-      throw InvalidDataException();
+      throw InvalidDataExceptionMessage(message: json.decode(response.body)['message']);
     } else {
       throw ServerException();
     }
@@ -75,12 +78,13 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     final body = {"email": authData['email'], "password": authData['password']};
     final response =
         await client.post(Uri.parse('${ApiConstants.apiBaseUrl}/login'), body: body);
+
     if (response.statusCode >= 200 && response.statusCode < 300) {
       final decodeJson = json.decode(response.body);
       UserResponseModel userResponseModel = UserResponseModel.fromJson(decodeJson);
       return userResponseModel;
     }else if (response.statusCode >= 400 && response.statusCode < 500) {
-      throw InvalidDataException();
+      throw InvalidDataExceptionMessage(message: json.decode(response.body)['message']);
     } else {
       throw ServerException();
     }

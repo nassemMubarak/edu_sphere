@@ -152,11 +152,14 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   String _mapFailureMessage({required Failure failure}) {
+    Logger().f(failure.message);
     switch (failure.runtimeType) {
       case OfflineFailure:
         return OFFLINE_FAILURE_MESSAGE;
       case EmptyCacheFailure:
         return CACHE_FAILURE_MESSAGE;
+      case InvalidDataFailureMessage:
+        return failure.message??'';
       case ServerFailure:
         return SERVER_FAILURE_MESSAGE;
       case InvalidDataFailure:

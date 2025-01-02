@@ -68,8 +68,8 @@ class CourseMainRepositoryImpl implements CourseMainRepository{
     if(await networkInfo.isConnected){
       try{
         final String token = await SharedPrefHelper.getString(SharedPrefKeys.cachedToken);
-        final advertisement = await remoteDataSourceImpl.deleteAdvertisement(idAdvertisement: idAdvertisement, idCourse: idCourse, token: token);
-        return Right(advertisement);
+        await remoteDataSourceImpl.deleteAdvertisement(idAdvertisement: idAdvertisement, idCourse: idCourse, token: token);
+        return const Right(unit);
       }on InvalidDataException{
         return Left(InvalidDataFailure());
       }on ServerException{

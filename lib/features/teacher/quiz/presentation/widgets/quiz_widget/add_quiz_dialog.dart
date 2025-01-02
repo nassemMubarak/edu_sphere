@@ -2,20 +2,24 @@ import 'package:edu_sphere/core/helpers/extenshions.dart';
 import 'package:edu_sphere/core/helpers/spacing.dart';
 import 'package:edu_sphere/core/theming/colors.dart';
 import 'package:edu_sphere/core/theming/styles.dart';
+import 'package:edu_sphere/core/util/toast_notification_message.dart';
 import 'package:edu_sphere/core/widgets/app_text_button.dart';
 import 'package:edu_sphere/core/widgets/app_text_form_field.dart';
 import 'package:edu_sphere/core/widgets/label_and_widget.dart';
-import 'package:edu_sphere/features/teacher/course_main/presentation/bloc/course_main_cubit.dart';
 import 'package:edu_sphere/features/teacher/quiz/presentation/bloc/quiz_cubit.dart';
 import 'package:edu_sphere/features/teacher/quiz/presentation/widgets/quiz_widget/date_quiz_widget.dart';
+import 'package:edu_sphere/features/teacher/quiz/presentation/widgets/quiz_widget/loading_add_or_update_or_delete_quiz_widget.dart';
 import 'package:edu_sphere/features/teacher/quiz/presentation/widgets/quiz_widget/time_quiz_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddQuizDialog extends StatelessWidget {
-  const AddQuizDialog({super.key});
+  int idCourse;
+
+  AddQuizDialog({super.key, required this.idCourse});
 
   @override
   Widget build(BuildContext context) {
@@ -93,10 +97,10 @@ class AddQuizDialog extends StatelessWidget {
                     ),
                   ),
                   // Select Start And End Date Quiz Widget
-                   DateQuizWidget(),
+                  DateQuizWidget(),
                   verticalSpace(16),
                   // Select Start And End Time Quiz Widget
-                   TimeQuizWidget(),
+                  TimeQuizWidget(),
                   verticalSpace(16),
                   LabelAndWidget(
                     label: 'Time Lift(minute)',
@@ -122,6 +126,7 @@ class AddQuizDialog extends StatelessWidget {
                       ),
                     ),
                   ),
+                  LoadingAddOrUpdateOrDeleteQuizWidget(message: 'The quiz has been added successfully.'),
                   LabelAndWidget(
                     label: 'Quiz Score',
                     widget: AppTextFormField(
@@ -149,19 +154,18 @@ class AddQuizDialog extends StatelessWidget {
                 ],
               ),
             ),
-
-            BlocBuilder<QuizCubit,QuizState>(
+            BlocBuilder<QuizCubit, QuizState>(
               builder: (context, state) {
-                if(state is ErrorMessageAddQuiz){
+                if (state is ErrorMessageAddQuiz) {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       verticalSpace(10),
-                      Text(state.message,style: TextStyles.font12Red400Weight),
+                      Text(state.message, style: TextStyles.font12Red400Weight),
                       verticalSpace(10),
                     ],
                   );
-                }else{
+                } else {
                   return SizedBox.shrink();
                 }
               },
@@ -176,16 +180,14 @@ class AddQuizDialog extends StatelessWidget {
                               .read<QuizCubit>()
                               .globalQuizKey
                               .currentState!
-                              .validate()&&context.read<QuizCubit>().validateDateTimeQuiz() &&
-                          context
-                                  .read<QuizCubit>()
-                                  .isSuccessSelectDateTime ==
+                              .validate() &&
+                          context.read<QuizCubit>().validateDateTimeQuiz() &&
+                          context.read<QuizCubit>().isSuccessSelectDateTime ==
                               true) {
-                              context.read<QuizCubit>().emitAddQuiz();
-                              context.pop();
-
+                        context
+                            .read<QuizCubit>()
+                            .emitAddQuize(idCourse: idCourse);
                       }
-
                     },
                     buttonText: 'Add Quiz',
                     buttonWidth: 147,
@@ -195,10 +197,20 @@ class AddQuizDialog extends StatelessWidget {
                 Expanded(
                   child: AppTextButton(
                     onPressed: () {
-                      context.read<QuizCubit>().quizTitleTextEditionController = TextEditingController();
-                      context.read<QuizCubit>().quizTimeLiftTextEditionController = TextEditingController();
-                      context.read<QuizCubit>().quizQuizScoreTextEditionController = TextEditingController();
-                      context.read<QuizCubit>().quizDescriptionTextEditionController = TextEditingController();
+                      context.read<QuizCubit>().quizTitleTextEditionController =
+                          TextEditingController();
+                      context
+                              .read<QuizCubit>()
+                              .quizTimeLiftTextEditionController =
+                          TextEditingController();
+                      context
+                              .read<QuizCubit>()
+                              .quizQuizScoreTextEditionController =
+                          TextEditingController();
+                      context
+                              .read<QuizCubit>()
+                              .quizDescriptionTextEditionController =
+                          TextEditingController();
                       context.read<QuizCubit>().selectedStartDateQuiz = null;
                       context.read<QuizCubit>().selectedEndDateQuiz = null;
                       context.read<QuizCubit>().startDateTimeQuiz = null;

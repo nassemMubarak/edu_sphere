@@ -26,31 +26,17 @@ class ShowVideoWidget extends StatelessWidget {
           alignment: Alignment.center,
           height: 1.sh,
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Spacer(),
               YoutubePlayerBuilder(
-
                 player: YoutubePlayer(
                   onReady: () {},
                   controller: _controller,
                 ),
                 builder: (context, player) {
-                  return Column(
-                    children: [
-                      player, // YouTube player widget
-                      const SizedBox(height: 16), // Add spacing for better UI
-                      Text(
-                        "Playing video...",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18.sp,
-                        ),
-                      ),
-                    ],
-                  );
+                  return player;
                 },
               ),
-              const Spacer(),
             ],
           ),
         ),

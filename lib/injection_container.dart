@@ -27,6 +27,19 @@ import 'package:edu_sphere/features/teacher/course_main/domain/usecases/lecture_
 import 'package:edu_sphere/features/teacher/course_main/domain/usecases/lecture_usecase/update_lecture.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/bloc/course_advertisement/course_advertisement_cubit.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/bloc/course_lecture/course_lecture_cubit.dart';
+import 'package:edu_sphere/features/teacher/quiz/data/datasources/quiz_remote_data_source.dart';
+import 'package:edu_sphere/features/teacher/quiz/data/repository/quiz_repository_impl.dart';
+import 'package:edu_sphere/features/teacher/quiz/domain/repositorises/quiz_repository.dart';
+import 'package:edu_sphere/features/teacher/quiz/domain/usecases/add_quiz.dart';
+import 'package:edu_sphere/features/teacher/quiz/domain/usecases/delete_quiz.dart';
+import 'package:edu_sphere/features/teacher/quiz/domain/usecases/get_all_quiz.dart';
+import 'package:edu_sphere/features/teacher/quiz/domain/usecases/question_use_cases/add_question.dart';
+import 'package:edu_sphere/features/teacher/quiz/domain/usecases/question_use_cases/delete_question.dart';
+import 'package:edu_sphere/features/teacher/quiz/domain/usecases/question_use_cases/get_all_question.dart';
+import 'package:edu_sphere/features/teacher/quiz/domain/usecases/question_use_cases/update_question.dart';
+import 'package:edu_sphere/features/teacher/quiz/domain/usecases/update_quiz.dart';
+import 'package:edu_sphere/features/teacher/quiz/presentation/bloc/question/question_cubit.dart';
+import 'package:edu_sphere/features/teacher/quiz/presentation/bloc/quiz_cubit.dart';
 import 'package:edu_sphere/features/teacher/teacher_main/data/datasources/teacher_main_local_data_source.dart';
 import 'package:edu_sphere/features/teacher/teacher_main/data/datasources/teacher_main_remote_data_source.dart';
 import 'package:edu_sphere/features/teacher/teacher_main/data/repositores/teacher_main_repository_impl.dart';
@@ -52,6 +65,12 @@ Future<void> init() async {
   sl.registerFactory(()=>CourseAdvertisementCubit(updateAdvertisementUseCase: sl(), addAdvertisementUseCase: sl(), deleteAdvertisementUseCase: sl(), getAllAdvertisementUseCase: sl()));
   /// Course Lecture
   sl.registerFactory(()=>CourseLectureCubit(getAllLectureUseCase: sl(), updateLectureUseCase: sl(), deleteLectureUseCase: sl(), addLectureUseCase: sl()));
+  /// quiz
+  /// course quiz
+  sl.registerFactory(()=>QuizCubit(getAllQuizUseCase: sl(), addQuizUseCase: sl(), updateQuizUseCase: sl(), deleteQuizUseCase: sl()));
+  /// question quiz
+  sl.registerFactory(()=>QuestionCubit(getAllQuestionUseCase: sl(), addQuestionUseCase: sl(), deleteQuestionUseCase: sl(), updateQuestionUseCase: sl()));
+
 
   // Use Cases
   sl.registerLazySingleton(()=>CodeCheckForgetPasswordUseCase(authRepository: sl()));
@@ -78,6 +97,16 @@ Future<void> init() async {
   sl.registerLazySingleton(()=>DeleteLectureUseCase(repository: sl()));
   sl.registerLazySingleton(()=>GetAllLectureUseCase(repository: sl()));
   sl.registerLazySingleton(()=>UpdateLectureUseCase(repository: sl()));
+  /// use cases quiz
+  sl.registerLazySingleton(()=>GetAllQuizUseCase(repository: sl()));
+  sl.registerLazySingleton(()=>AddQuizUseCase(repository: sl()));
+  sl.registerLazySingleton(()=>UpdateQuizUseCase(repository: sl()));
+  sl.registerLazySingleton(()=>DeleteQuizUseCase(repository: sl()));
+  /// use cases question quiz
+  sl.registerLazySingleton(()=>GetAllQuestionUseCase(repository: sl()));
+  sl.registerLazySingleton(()=>AddQuestionUseCase(repository: sl()));
+  sl.registerLazySingleton(()=>UpdateQuestionUseCase(repository: sl()));
+  sl.registerLazySingleton(()=>DeleteQuestionUseCase(repository: sl()));
 
 
 
@@ -89,23 +118,25 @@ Future<void> init() async {
   ///  Course Advertisement
   ///  Course Lecture
   sl.registerLazySingleton<CourseMainRepository>(()=>CourseMainRepositoryImpl(networkInfo: sl(), localDataSource: sl(), remoteDataSourceImpl: sl()));
+  /// Quiz Repository
+  sl.registerLazySingleton<QuizRepository>(()=>QuizRepositoryImpl(networkInfo: sl(), remoteDataSourceImpl: sl()));
+
+
 
   /// Data Sources
 
   sl.registerLazySingleton<AuthLocalDataSource>(()=>AuthLocalDataSourceImpl());
   sl.registerLazySingleton<AuthRemoteDataSource>(()=>AuthRemoteDataSourceImpl(client: sl()));
-  //feature teacher main
+  ///feature teacher main
   sl.registerLazySingleton<TeacherMainLocalDataSource>(()=>TeacherMainLocalDataSourceImpl());
   sl.registerLazySingleton<TeacherMainRemoteDataSource>(()=>TeacherMainRemoteDataSourceImpl(client: sl()));
-
   /// Data Sources course main feature
   ///  Course Advertisement
   ///  Course Lecture
   sl.registerLazySingleton<CourseMainLocalDataSource>(() => CourseMainLocalDataSourceImpl());
-  sl.registerFactory<CourseMainRemoteDataSourceImpl>(() => CourseMainRemoteDataSourceImpl(client: sl()));
-
-
-
+  sl.registerLazySingleton<CourseMainRemoteDataSourceImpl>(() => CourseMainRemoteDataSourceImpl(client: sl()));
+  /// feature quiz
+  sl.registerLazySingleton<QuizRemoteDataSource>(() => QuizRemoteDataSourceImpl(client: sl()));
 
 
 

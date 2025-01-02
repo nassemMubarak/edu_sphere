@@ -77,7 +77,7 @@ class CourseMainScreen extends StatelessWidget {
                       verticalSpace(24),
                       LecturesWidget(idCourse: coursesModel.id),
                       verticalSpace(24),
-                      QuizeWidget(),
+                      QuizeWidget(idCourse: coursesModel.id,),
                       verticalSpace(24),
                       SectionCard(
                         title: 'Assessment',
@@ -134,7 +134,7 @@ class CourseMainScreen extends StatelessWidget {
                       verticalSpace(24),
                       ChaptersWidget(),
                       verticalSpace(24),
-                      QuizeWidget(),
+                      QuizeWidget(idCourse: coursesModel.id,),
                       verticalSpace(24),
                       AssessmentWidget(),
                       verticalSpace(24),

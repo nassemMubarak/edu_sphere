@@ -1,9 +1,6 @@
 import 'dart:convert';
 import 'package:dartz/dartz.dart';
 import 'package:edu_sphere/core/error/exception.dart';
-import 'package:edu_sphere/core/error/failure.dart';
-import 'package:edu_sphere/core/helpers/constants.dart';
-import 'package:edu_sphere/core/helpers/shared_pref_helper.dart';
 import 'package:edu_sphere/core/networking/api_constants.dart';
 import 'package:edu_sphere/features/teacher/course_main/data/models/advertisement_model.dart';
 import 'package:edu_sphere/features/teacher/course_main/data/models/lecture_model.dart';

@@ -1,9 +1,6 @@
 import 'dart:io';
 import 'package:edu_sphere/core/widgets/full_screen_image_widget.dart';
-import 'package:edu_sphere/edu_sphere_app.dart';
-import 'package:edu_sphere/features/teacher/quiz/presentation/bloc/quiz_cubit.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:edu_sphere/core/helpers/spacing.dart';
+import 'package:edu_sphere/features/teacher/quiz/presentation/bloc/question/question_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
@@ -28,7 +25,8 @@ class _UploadImageWidgetState extends State<UploadImageWidget> {
     if (image != null) {
       setState(() {
         _image = image; // Update the image when picked
-        context.read<QuizCubit>().questionPathImage = _image!.path;
+        context.read<QuestionCubit>().questionPathImage = _image!.path;
+        context.read<QuestionCubit>().questionImage = File(_image!.path);
       });
     }
     }
@@ -73,18 +71,23 @@ class _UploadImageWidgetState extends State<UploadImageWidget> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => FullScreenImageWidget(imagePath: widget.imagePath!),
+                builder: (context) => FullScreenImageWidget(networkImageUrl: widget.imagePath!),
               ),
             );
           },
           child: ClipRRect(
             borderRadius: BorderRadius.circular(10),  // Image border radius
-            child: Image.file(
-              File(widget.imagePath!),
-              width: 105.0,  // Set image width to fit container
-              height: 115.0, // Set image height to fit container
-              fit: BoxFit.cover, // Crop the image to cover the container
-            ),
+            child: Image.network(widget.imagePath!,)
+            // CachedNetworkImage(
+            //   imageUrl: widget.imagePath!,
+            //   placeholder: (context, url) => Container(
+            //       width: 100,
+            //       height: 100,
+            //       color: ColorsManager.neutralGray.withOpacity(0.5),
+            //       padding: EdgeInsetsDirectional.all(40),
+            //       child: CircularProgressIndicator(color: ColorsManager.mainBlue,strokeWidth: 1,)),
+            //   errorWidget: (context, url, error) => Icon(Icons.error),
+            // ),
           ),
         ):SizedBox.shrink()
 

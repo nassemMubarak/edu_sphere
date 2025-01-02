@@ -38,8 +38,8 @@ class RepositoryImpl implements AuthRepository {
         await localDataSource.saveUserType(type: userResponseModel.type??' ');
         await localDataSource.saveUser(userModel: user);
         return Right(user);
-      } on InvalidDataException{
-        return Left(InvalidDataFailure());
+      } on InvalidDataExceptionMessage catch (e){
+        return Left(InvalidDataFailureMessage(message:e.message ));
       } on ServerException{
         return Left(ServerFailure());
       }
@@ -57,8 +57,8 @@ class RepositoryImpl implements AuthRepository {
         await localDataSource.saveUserType(type: userResponseModel.type??' ');
         await localDataSource.saveUser(userModel: user);
         return Right(user);
-      }on InvalidDataException{
-        return Left(InvalidDataFailure());
+      }on InvalidDataExceptionMessage catch (e){
+        return Left(InvalidDataFailureMessage(message:e.message ));
       }on ServerException{
         return Left(ServerFailure());
       }

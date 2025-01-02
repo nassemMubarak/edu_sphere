@@ -1,13 +1,139 @@
-import 'package:edu_sphere/features/teacher/quiz/domain/entities/question.dart';
+import 'package:edu_sphere/features/teacher/quiz/domain/entities/question1.dart';
 import 'package:edu_sphere/features/teacher/quiz/domain/entities/quiz.dart';
+import 'package:edu_sphere/features/teacher/quiz/domain/entities/quize.dart';
+import 'package:edu_sphere/features/teacher/quiz/domain/usecases/add_quiz.dart';
+import 'package:edu_sphere/features/teacher/quiz/domain/usecases/delete_quiz.dart';
+import 'package:edu_sphere/features/teacher/quiz/domain/usecases/get_all_quiz.dart';
+import 'package:edu_sphere/features/teacher/quiz/domain/usecases/update_quiz.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../core/error/failure.dart';
+import '../../../../../core/string/failure.dart';
+
 part 'quiz_state.dart';
 
 class QuizCubit extends Cubit<QuizState> {
-  QuizCubit() : super(QuizInitial());
+  final GetAllQuizUseCase getAllQuizUseCase;
+  final AddQuizUseCase addQuizUseCase;
+  final UpdateQuizUseCase updateQuizUseCase;
+  final DeleteQuizUseCase deleteQuizUseCase;
+  QuizCubit({
+    required this.getAllQuizUseCase,
+    required this.addQuizUseCase,
+    required this.updateQuizUseCase,
+    required this.deleteQuizUseCase,
+}) : super(QuizInitial());
+  List<Quize> listQuize = [];
+  ///emit get all quiz from api
+  emitGetAllQuiz({required int idCourse})async{
+    emit(GetAllQuizLoadingState());
+    final failureOrAdvertisement = await getAllQuizUseCase(idCourse:idCourse);
+    failureOrAdvertisement.fold((failure)=>emit(QuizMessageErrorState(message: _mapFailureMessage(failure: failure))),
+    (quizes){
+      Logger().d('Quiz  list ---->   $quizes');
+      listQuize = quizes;
+      emit(GetAllQuizLoadedState(listQuiz: listQuize));
+  });
+  }
+  emitAddQuize({required int idCourse})async{
+    emit(AddOrUpdateOrDeleteLoadingState());
+    final failureOrAdvertisement = await addQuizUseCase(idCourse: idCourse,data:{
+      'title':quizTitleTextEditionController.text,
+      'description':quizDescriptionTextEditionController.text,
+      'degree':quizQuizScoreTextEditionController.text,
+      'visibility':'$quizVisibility',
+      'start_in':startDateTimeQuiz.toString(),
+      'end_in':endDateTimeQuiz.toString(),
+      'time':quizTimeLiftTextEditionController.text,
+    } );
+    failureOrAdvertisement.fold((failure)=>emit(QuizMessageErrorState(message: _mapFailureMessage(failure: failure))), (quiz){
+      Logger().d('add quiz --> ${quiz}');
+      quizTitleTextEditionController = TextEditingController();
+
+      quizTimeLiftTextEditionController = TextEditingController();
+
+      quizQuizScoreTextEditionController = TextEditingController();
+
+      quizDescriptionTextEditionController = TextEditingController();
+
+      selectedStartDateQuiz = null;
+
+      selectedEndDateQuiz = null;
+
+      startDateTimeQuiz = null;
+
+      endDateTimeQuiz = null;
+      errorMessageQuiz = null;
+      listQuize.add(quiz);
+      emit(GetAllQuizLoadedState(listQuiz: listQuize));
+    }) ;
+  }
+  emitUpdateQuize({required int idCourse,required int idQuiz})async{
+    emit(AddOrUpdateOrDeleteLoadingState());
+    final failureOrAdvertisement = await updateQuizUseCase(idCourse: idCourse,idQuiz: idQuiz,data:{
+      'title':quizTitleTextEditionController.text,
+      'description':quizDescriptionTextEditionController.text,
+      'degree':quizQuizScoreTextEditionController.text,
+      'visibility':'$quizVisibility',
+      'start_in':startDateTimeQuiz.toString(),
+      'end_in':endDateTimeQuiz.toString(),
+      'time':quizTimeLiftTextEditionController.text,
+    });
+    failureOrAdvertisement.fold((failure)=>emit(QuizMessageErrorState(message: _mapFailureMessage(failure: failure))), (quiz){
+      listQuize[indexQuiz!].title=quizTitleTextEditionController.text;
+      listQuize[indexQuiz!].description=quizDescriptionTextEditionController.text;
+      listQuize[indexQuiz!].degree=quizQuizScoreTextEditionController.text;
+      listQuize[indexQuiz!].visibility=quizVisibility;
+      listQuize[indexQuiz!].startIn=startDateTimeQuiz!;
+      listQuize[indexQuiz!].endIn=endDateTimeQuiz!;
+      listQuize[indexQuiz!].time=quizTimeLiftTextEditionController.text;
+      quizTitleTextEditionController = TextEditingController();
+      quizTimeLiftTextEditionController = TextEditingController();
+      quizQuizScoreTextEditionController = TextEditingController();
+      quizDescriptionTextEditionController = TextEditingController();
+      selectedStartDateQuiz = null;
+      selectedEndDateQuiz = null;
+      quizVisibility = 0;
+      startDateTimeQuiz = null;
+      endDateTimeQuiz = null;
+      errorMessageQuiz = null;
+      quize=listQuize[indexQuiz!];
+      emit(QuizeSelected(quiz: listQuize[indexQuiz!]));
+      emit(GetAllQuizLoadedState(listQuiz: listQuize));
+    }) ;
+  }
+  emitUpdateVisibilityQuiz({required int idCourse,required int idQuiz,required int visibility})async{
+    Logger().w('quiz.visibility -----------> ${visibility}');
+    Logger().w('quiz.visibility -----------> ${visibility==0?1:0}');
+
+    emit(AddOrUpdateOrDeleteLoadingState());
+    final failureOrAdvertisement = await updateQuizUseCase(idCourse: idCourse,idQuiz: idQuiz,data:{
+      'visibility':'${visibility==0?1:0}',
+    });
+    failureOrAdvertisement.fold((failure)=>emit(QuizMessageErrorState(message: _mapFailureMessage(failure: failure))), (quiz){
+      listQuize[indexQuiz!].visibility = visibility==0?1:0;
+      quize = listQuize[indexQuiz!];
+      emit(QuizeSelected(quiz: listQuize[indexQuiz!]));
+      emit(GetAllQuizLoadedState(listQuiz: listQuize));
+    }) ;
+  }
+  emitDeleteQuize({required Quize quiz,required int idCourse}) async{
+    Logger().d('course id ----->    $idCourse');
+    emit(AddOrUpdateOrDeleteLoadingState());
+    final failureOrAdvertisement = await deleteQuizUseCase(idCourse: idCourse,idQuiz: quiz.id);
+    failureOrAdvertisement.fold((failure)=>emit(QuizMessageErrorState(message: _mapFailureMessage(failure: failure))), (unit){
+      listQuize.remove(quiz);
+      emit(GetAllQuizLoadedState(listQuiz: listQuize));
+    }) ;
+  }
+
+  emitSelectQuize({required Quize quiz, required int indexQuiz}) {
+    this.quize = quiz;
+    this.indexQuiz = indexQuiz;
+    emit(QuizeSelected(quiz: quiz));
+  }
   bool isisHideEstimation = false;
   emitIsHideEstimation(bool isHide){
     isisHideEstimation = isHide;
@@ -16,6 +142,7 @@ class QuizCubit extends Cubit<QuizState> {
   }
   final globalQuizKey = GlobalKey<FormState>();
   Quiz? quiz;
+  Quize? quize;
   int? indexQuiz;
   final formQuestionKey = GlobalKey<FormState>();
   final formOption1Key = GlobalKey<FormState>();
@@ -48,6 +175,7 @@ class QuizCubit extends Cubit<QuizState> {
   String? errorMessageQuiz;
   DateTime? startTime;
   DateTime? endTime;
+  int quizVisibility= 0;
   validateDateTimeQuiz() {
     if (selectedStartDateQuiz == null) {
       emit(ErrorMessageAddQuiz(message: 'Please Enter Start Date'));
@@ -58,6 +186,7 @@ class QuizCubit extends Cubit<QuizState> {
       return false;
     }
     else if (startTime == null) {
+      Logger().e(startTime);
       emit(ErrorMessageAddQuiz(message: 'Please Enter Start Time'));
       return false;
     } else if (endTime == null) {
@@ -123,65 +252,64 @@ class QuizCubit extends Cubit<QuizState> {
   int? indexQuizSelected;
 // add Quiz
   List<Quiz> listQuiz = [];
-  emitEditQuiz(BuildContext context) {
-    listQuiz[indexQuizSelected!].quizTitle =  quizTitleTextEditionController.text;
-    listQuiz[indexQuizSelected!].description = quizDescriptionTextEditionController.text;
-    listQuiz[indexQuizSelected!].passingScore = int.parse(quizQuizScoreTextEditionController.text);
-    listQuiz[indexQuizSelected!].timeLift =  int.parse(quizTimeLiftTextEditionController.text);
-    listQuiz[indexQuizSelected!].startDateTime =  startDateTimeQuiz!;
-    listQuiz[indexQuizSelected!].endDateTime =  endDateTimeQuiz!;
-    context.read<QuizCubit>().emitSelectQuiz(quiz: listQuiz[indexQuizSelected!],indexQuiz: indexQuizSelected!);
-    quizTitleTextEditionController = TextEditingController();
-    quizTimeLiftTextEditionController = TextEditingController();
-    quizQuizScoreTextEditionController = TextEditingController();
-    quizDescriptionTextEditionController = TextEditingController();
-    selectedStartDateQuiz = null;
-    selectedEndDateQuiz = null;
-    startDateTimeQuiz = null;
-    endDateTimeQuiz = null;
-    errorMessageQuiz = null;
-    emit(GetAllQuiz(listQuiz: listQuiz));
-  }
-
-  emitDeleteQuiz({required Quiz quiz}) {
-    listQuiz.remove(quiz);
-    emit(GetAllQuiz(listQuiz: listQuiz));
-  }
-  emitChangShoeOrHidQuiz({required BuildContext context,required Quiz quiz}){
-    listQuiz[indexQuizSelected!].isHideQuiz = !listQuiz[indexQuizSelected!].isHideQuiz;
-    emit(GetAllQuiz(listQuiz: listQuiz));
-    context.read<QuizCubit>().emitSelectQuiz(quiz: listQuiz[indexQuizSelected!],indexQuiz: indexQuizSelected!);
-  }
-  emitAddQuiz() {
-    listQuiz.add(
-      Quiz(
-          quizTitle: quizTitleTextEditionController.text,
-          description: quizDescriptionTextEditionController.text,
-          passingScore: int.parse(quizQuizScoreTextEditionController.text),
-          timeLift: int.parse(quizTimeLiftTextEditionController.text),
-          startDateTime: startDateTimeQuiz!,
-          endDateTime: endDateTimeQuiz!,
-          isHideQuiz: true
-      ),
-    );
-    quizTitleTextEditionController = TextEditingController();
-
-    quizTimeLiftTextEditionController = TextEditingController();
-
-    quizQuizScoreTextEditionController = TextEditingController();
-
-    quizDescriptionTextEditionController = TextEditingController();
-
-    selectedStartDateQuiz = null;
-
-    selectedEndDateQuiz = null;
-
-    startDateTimeQuiz = null;
-
-    endDateTimeQuiz = null;
-    errorMessageQuiz = null;
-    emit(GetAllQuiz(listQuiz: listQuiz));
-  }
+  // emitEditQuiz(BuildContext context) {
+  //   listQuiz[indexQuizSelected!].quizTitle =  quizTitleTextEditionController.text;
+  //   listQuiz[indexQuizSelected!].description = quizDescriptionTextEditionController.text;
+  //   listQuiz[indexQuizSelected!].passingScore = int.parse(quizQuizScoreTextEditionController.text);
+  //   listQuiz[indexQuizSelected!].timeLift =  int.parse(quizTimeLiftTextEditionController.text);
+  //   listQuiz[indexQuizSelected!].startDateTime =  startDateTimeQuiz!;
+  //   listQuiz[indexQuizSelected!].endDateTime =  endDateTimeQuiz!;
+  //   context.read<QuizCubit>().emitSelectQuiz(quiz: listQuiz[indexQuizSelected!],indexQuiz: indexQuizSelected!);
+  //   quizTitleTextEditionController = TextEditingController();
+  //   quizTimeLiftTextEditionController = TextEditingController();
+  //   quizQuizScoreTextEditionController = TextEditingController();
+  //   quizDescriptionTextEditionController = TextEditingController();
+  //   selectedStartDateQuiz = null;
+  //   selectedEndDateQuiz = null;
+  //   startDateTimeQuiz = null;
+  //   endDateTimeQuiz = null;
+  //   errorMessageQuiz = null;
+  //   emit(GetAllQuiz(listQuiz: listQuiz));
+  // }
+  // emitDeleteQuiz({required Quiz quiz}) {
+  //   listQuiz.remove(quiz);
+  //   emit(GetAllQuiz(listQuiz: listQuiz));
+  // }
+  // emitChangShoeOrHidQuiz({required BuildContext context,required Quiz quiz}){
+  //   listQuiz[indexQuizSelected!].isHideQuiz = !listQuiz[indexQuizSelected!].isHideQuiz;
+  //   emit(GetAllQuiz(listQuiz: listQuiz));
+  //   context.read<QuizCubit>().emitSelectQuiz(quiz: listQuiz[indexQuizSelected!],indexQuiz: indexQuizSelected!);
+  // }
+  // emitAddQuiz() {
+  //   listQuiz.add(
+  //     Quiz(
+  //         quizTitle: quizTitleTextEditionController.text,
+  //         description: quizDescriptionTextEditionController.text,
+  //         passingScore: int.parse(quizQuizScoreTextEditionController.text),
+  //         timeLift: int.parse(quizTimeLiftTextEditionController.text),
+  //         startDateTime: startDateTimeQuiz!,
+  //         endDateTime: endDateTimeQuiz!,
+  //         isHideQuiz: true
+  //     ),
+  //   );
+  //   quizTitleTextEditionController = TextEditingController();
+  //
+  //   quizTimeLiftTextEditionController = TextEditingController();
+  //
+  //   quizQuizScoreTextEditionController = TextEditingController();
+  //
+  //   quizDescriptionTextEditionController = TextEditingController();
+  //
+  //   selectedStartDateQuiz = null;
+  //
+  //   selectedEndDateQuiz = null;
+  //
+  //   startDateTimeQuiz = null;
+  //
+  //   endDateTimeQuiz = null;
+  //   errorMessageQuiz = null;
+  //   emit(GetAllQuiz(listQuiz: listQuiz));
+  // }
 // question
   bool emitValidateCorrectChoiceAndQuestionScore() {
     if (correctChoice == null) {
@@ -216,14 +344,14 @@ class QuizCubit extends Cubit<QuizState> {
   }
 
   emitDeleteQuestion(
-      {required BuildContext context, required Question question}) {
+      {required BuildContext context, required Question1 question}) {
     quiz!.questions!.remove(question);
     listQuiz[indexQuiz!] = quiz!;
     emit(GetAllQuiz(listQuiz: listQuiz));
     emit(QuizSelected(quiz: quiz!));
   }
   emitEditQuestionToQuiz(BuildContext context,int index) {
-    Question question = Question(
+    Question1 question = Question1(
         questionText: questionTitle.text,
         correctAnswer: correctChoice!,
         questionPathImage: questionPathImage,
@@ -262,7 +390,7 @@ class QuizCubit extends Cubit<QuizState> {
     addOrRemoveNumberOption = 0;
   }
   emitAddQuestionToQuiz(BuildContext context) {
-    Question question = Question(
+    Question1 question = Question1(
         questionText: questionTitle.text,
         correctAnswer: correctChoice!,
         questionPathImage: questionPathImage,
@@ -317,9 +445,24 @@ class QuizCubit extends Cubit<QuizState> {
     addOrRemoveNumberOption = 0;
   }
 
-  emitSelectQuiz({required Quiz quiz, required int indexQuiz}) {
-    this.quiz = quiz;
-    this.indexQuiz = indexQuiz;
-    emit(QuizSelected(quiz: quiz));
+  // emitSelectQuiz({required Quiz quiz, required int indexQuiz}) {
+  //   this.quiz = quiz;
+  //   this.indexQuiz = indexQuiz;
+  //   emit(QuizSelected(quiz: quiz));
+  // }
+  String _mapFailureMessage({required Failure failure}) {
+    switch (failure.runtimeType) {
+      case OfflineFailure:
+        return OFFLINE_FAILURE_MESSAGE;
+      case EmptyCacheFailure:
+        return CACHE_FAILURE_MESSAGE;
+      case ServerFailure:
+        return SERVER_FAILURE_MESSAGE;
+      case InvalidDataFailure:
+        return INVALID_DATA_FAILURE_MESSAGE;
+      default:
+        return 'Unexpected Error, Please try again later .';
+    }
   }
+
 }

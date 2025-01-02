@@ -1,17 +1,35 @@
 import 'dart:io';
 
+import 'package:edu_sphere/core/theming/colors.dart';
 import 'package:flutter/material.dart';
 class FullScreenImageWidget extends StatelessWidget {
-  final String imagePath;
+   String? imagePath;
+   String? networkImageUrl;
 
-  FullScreenImageWidget({required this.imagePath});
+  FullScreenImageWidget({ this.imagePath,this.networkImageUrl});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: InteractiveViewer(
-          child: Image.file(File(imagePath)), // Show the image in full screen
+      body: SafeArea(
+        child: Container(
+          height: double.infinity,
+          width: double.infinity,
+          child: InteractiveViewer(
+        
+            child: networkImageUrl!=null?
+                Image.network(networkImageUrl!)
+            // CachedNetworkImage(
+            //   imageUrl: networkImageUrl!,
+            //   placeholder: (context, url) => Padding(
+            //     padding: const EdgeInsets.all(8.0),
+            //     child: CircularProgressIndicator(),
+            //   ),
+            //   errorWidget: (context, url, error) => Icon(Icons.error),
+            // )
+                :
+            Image.file(File(imagePath!)), // Show the image in full screen
+          ),
         ),
       ),
     );

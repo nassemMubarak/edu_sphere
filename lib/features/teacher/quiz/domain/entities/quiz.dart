@@ -1,4 +1,4 @@
-import 'package:edu_sphere/features/teacher/quiz/domain/entities/question.dart';
+import 'package:edu_sphere/features/teacher/quiz/domain/entities/question1.dart';
 
 class Quiz {
   String quizTitle;
@@ -8,7 +8,7 @@ class Quiz {
   DateTime startDateTime;
   DateTime endDateTime;
   bool isHideQuiz;
-   List<Question>? questions;
+   List<Question1>? questions;
 
   Quiz({
     required this.quizTitle,

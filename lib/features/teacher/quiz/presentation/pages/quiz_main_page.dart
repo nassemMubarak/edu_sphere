@@ -8,6 +8,8 @@ import 'package:edu_sphere/core/widgets/bread_crumb_widget.dart';
 import 'package:edu_sphere/core/widgets/sliver_widget.dart';
 import 'package:edu_sphere/core/widgets/toggle_text_widget.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/bloc/course_main_cubit.dart';
+import 'package:edu_sphere/features/teacher/quiz/domain/entities/quize.dart';
+import 'package:edu_sphere/features/teacher/quiz/presentation/bloc/question/question_cubit.dart';
 import 'package:edu_sphere/features/teacher/quiz/presentation/widgets/quiz_widget/delete_quiz_info_dialog.dart';
 import 'package:edu_sphere/features/teacher/quiz/presentation/widgets/quiz_widget/edit_quiz_dialog.dart';
 import 'package:edu_sphere/features/teacher/quiz/presentation/widgets/quiz_widget/show_or_hid_quiz_info_dialog.dart';
@@ -19,6 +21,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
+import 'package:logger/logger.dart';
 import 'package:slide_countdown/slide_countdown.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -27,18 +30,25 @@ class QuizMainPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+   int idCourse = context.read<CourseMainCubit>().coursesModel.id;
 
     return BlocBuilder<QuizCubit, QuizState>(
       builder: (context, state) {
-        if (state is QuizSelected) {
-          return buildSliverWidget(context, state.quiz);
-        } else {
-          return context.read<QuizCubit>().quiz!=null?buildSliverWidget(context, context.read<QuizCubit>().quiz!):const SizedBox.shrink();
+        if (state is QuizeSelected) {
+          return buildSliverWidget(context, state.quiz,idCourse: idCourse);
+        }else if(state is GetAllQuizLoadedState){
+          return buildSliverWidget(context, context.read<QuizCubit>().quize!,idCourse: idCourse);
+
+        }
+        else {
+          return context.read<QuizCubit>().quize!=null?buildSliverWidget(context, context.read<QuizCubit>().quize!,idCourse: idCourse):const SizedBox.shrink();
         }
       },
     );
   }
-  SliverWidget buildSliverWidget(BuildContext context, Quiz quiz) {
+  SliverWidget buildSliverWidget(BuildContext context, Quize quiz,{required int idCourse}) {
+    Logger().e('--------------------------------------------->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+    context.read<QuestionCubit>().emitGetAllQuestion(idQuiz: quiz.id, idCourse: idCourse);
     var coursesModel = context
         .read<CourseMainCubit>()
         .coursesModel;
@@ -49,7 +59,7 @@ class QuizMainPage extends StatelessWidget {
             },
             icon: Icon(Icons.arrow_back),
           ),
-          actions: quiz.endDateTime.isBefore(DateTime.now())?[
+          actions: quiz.endIn.isBefore(DateTime.now())?[
             GestureDetector(
                 onTap: (){
                   context.pushNamed(Routes.estimateQuizPage);
@@ -62,7 +72,7 @@ class QuizMainPage extends StatelessWidget {
             child: Column(
               children: [
                BreadCrumbWidget(
-              items: ['Home', coursesModel.title, quiz.quizTitle],
+              items: ['Home', coursesModel.title, quiz.title],
             ),
                 verticalSpace(24),
                 // card show time quiz
@@ -80,8 +90,8 @@ class QuizMainPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  child: !quiz.endDateTime.isBefore(DateTime.now()) &&
-                          quiz.startDateTime
+                  child: !quiz.endIn.isBefore(DateTime.now()) &&
+                          quiz.startIn
                                   .difference(DateTime.now())
                                   .inDays <
                               5
@@ -100,7 +110,7 @@ class QuizMainPage extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(5)),
                                 style: TextStyles.font12White600Weight,
                                 duration: Duration(
-                                    seconds: quiz.startDateTime
+                                    seconds: quiz.startIn
                                         .difference(DateTime.now())
                                         .inSeconds),
                                 showZeroValue: true,
@@ -108,7 +118,7 @@ class QuizMainPage extends StatelessWidget {
                             ),
                           ],
                         )
-                      : quiz.endDateTime.isBefore(DateTime.now())
+                      : quiz.endIn.isBefore(DateTime.now())
                           ? Text(
                               'Quiz submission deadline is over',
                               textAlign: TextAlign.center,
@@ -146,7 +156,7 @@ class QuizMainPage extends StatelessWidget {
                           color: ColorsManager.mainBlue,
                         ),
                         title: Text(
-                          quiz.quizTitle,
+                          quiz.title,
                           style: TextStyles.font14Black500Weight,
                         ),
                         trailing: SizedBox(
@@ -157,10 +167,11 @@ class QuizMainPage extends StatelessWidget {
                                 onTap: (){
                                   showDialog(
                                     context: context,
-                                    builder: (context) => ShowOrHidQuizInfoDialog(quiz: quiz),
+                                    builder: (context) => ShowOrHidQuizInfoDialog(quiz: quiz,idCourse: idCourse),
                                   );
                                 },
-                                child: Icon(quiz.isHideQuiz?Icons.visibility_off_outlined:Icons.visibility_outlined,
+                                  child: Icon(quiz.visibility==0?Icons.visibility_off_outlined:
+                                  Icons.visibility_outlined,
                                     color: Colors.black),
                               ),
                               horizontalSpace(8),
@@ -168,7 +179,7 @@ class QuizMainPage extends StatelessWidget {
                                 onTap: (){
                                   showDialog(
                                     context: context,
-                                    builder: (context) => EditQuizDialog(quiz: quiz),
+                                    builder: (context) => EditQuizDialog(quiz: quiz,idCourse: idCourse,),
                                   );
                                 },
                                 child: SvgPicture.asset(
@@ -183,7 +194,7 @@ class QuizMainPage extends StatelessWidget {
                                 onTap: (){
                                   showDialog(
                                     context: context,
-                                    builder: (context) => DeleteQuizInfoDialog(quiz: quiz),
+                                    builder: (context) => DeleteQuizInfoDialog(quiz: quiz, idCourse: idCourse),
                                   );
                                 },
                                 child: SvgPicture.asset(
@@ -210,39 +221,39 @@ class QuizMainPage extends StatelessWidget {
                       ),
                       buildListTile(
                           subTitle:
-                              '${quiz.startDateTime.day}/${quiz.startDateTime.month}/${quiz.startDateTime.year}',
+                              '${quiz.startIn.day}/${quiz.startIn.month}/${quiz.startIn.year}',
                           svgUrl: 'assets/svgs/quiz_date.svg',
                           title: 'Quiz start date'),
                       buildListTile(
                           subTitle:
-                              '${quiz.endDateTime.day}/${quiz.endDateTime.month}/${quiz.endDateTime.year}',
+                              '${quiz.endIn.day}/${quiz.endIn.month}/${quiz.endIn.year}',
                           svgUrl: 'assets/svgs/quiz_date.svg',
                           title: 'Quiz end date'),
                       buildListTile(
                           subTitle: DateFormat.jm()
-                              .format(quiz.startDateTime),
+                              .format(quiz.startIn),
                           svgUrl: 'assets/svgs/quiz_time.svg',
                           title: 'Quiz start time'),
                       buildListTile(
                           subTitle:
-                              DateFormat.jm().format(quiz.endDateTime),
+                              DateFormat.jm().format(quiz.endIn),
                           svgUrl: 'assets/svgs/quiz_time.svg',
                           title: 'Quiz end time'),
                       buildListTile(
-                          subTitle: quiz.timeLift.toString(),
+                          subTitle: quiz.time.toString(),
                           svgUrl: 'assets/svgs/time_icon.svg',
                           title: 'Time lift'),
                       buildListTile(
-                          subTitle: quiz.passingScore.toString(),
+                          subTitle: quiz.degree.toString(),
                           svgUrl: 'assets/svgs/quiz_score_icon.svg',
                           title: 'Quiz Score'),
                       Visibility(
-                        visible: !quiz.endDateTime.isBefore(DateTime.now()),
+                        visible: !quiz.endIn.isBefore(DateTime.now()),
                         child: AppTextButton(
                           onPressed: (){
                             showDialog(
                               context: context,
-                              builder: (context) => AddQuestionDialog(),
+                              builder: (context) => AddQuestionDialog(idCourse: idCourse,idQuiz: quiz.id),
                             );
                           },
                             buttonText: 'Add Quiz Questions',
@@ -251,13 +262,41 @@ class QuizMainPage extends StatelessWidget {
                     ],
                   ),
                 ),
+                /// Show Question Widget
+                BlocBuilder<QuestionCubit,QuestionState>(builder: (context, state) {
+                  if(state is GetAllQuestionLoadedState){
+                    return state.listQuestion.isNotEmpty?Column(
+                      children: [
+                        verticalSpace(24),
+                        ListView.builder(
+                          itemCount: state.listQuestion.length,
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) => ShowQuestionWidget(idCourse: idCourse,idQuiz: quiz.id,question: state.listQuestion[index], index: index),
+                        )
+                      ],
+                    ):SizedBox.shrink();
+                  }else{
+                    return context.read<QuestionCubit>().listOfQuestion.isNotEmpty?Column(
+                      children: [
+                        verticalSpace(24),
+                        ListView.builder(
+                          itemCount:context.read<QuestionCubit>().listOfQuestion.length,
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) => ShowQuestionWidget(idCourse: idCourse,idQuiz: quiz.id,question: context.read<QuestionCubit>().listOfQuestion[index], index: index),
+                        )
+                      ],
+                    ):SizedBox.shrink();
+                  }
+                },),
                 // verticalSpace(24),
-                quiz.questions!=null?ListView.builder(
-                  itemCount: quiz.questions!.length,
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) => ShowQuestionWidget(question: quiz.questions![index], index: index),
-                ):SizedBox.shrink(),
+                // quiz.questions!=null?ListView.builder(
+                //   itemCount: quiz.questions!.length,
+                //   shrinkWrap: true,
+                //   physics: NeverScrollableScrollPhysics(),
+                //   itemBuilder: (context, index) => ShowQuestionWidget(question: quiz.questions![index], index: index),
+                // ):SizedBox.shrink(),
               ],
             ),
           ),

@@ -75,7 +75,7 @@ class LecturesWidget extends StatelessWidget {
       itemBuilder: (context, index) =>
           lectureWidgetShowDetailes(
             context,
-            url: extractYouTubeVideoId(lectures[index].link)!,
+            url:YoutubePlayer.convertUrlToId(lectures[index].link)!,
             title: lectures[index].title,
             description: lectures[index].description,
             index: index,
@@ -97,8 +97,7 @@ class LecturesWidget extends StatelessWidget {
     YoutubePlayerController _controller = YoutubePlayerController(
       initialVideoId: url,
       flags: YoutubePlayerFlags(
-        autoPlay: true,
-        mute: true,
+        autoPlay: false,
       ),
     );
     return Container(
@@ -189,14 +188,14 @@ class LecturesWidget extends StatelessWidget {
       ),
     );
   }
-  String? extractYouTubeVideoId(String url) {
-    final RegExp videoIdPattern = RegExp(
-      r'^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})',
-      caseSensitive: false,
-    );
-
-    final Match? match = videoIdPattern.firstMatch(url);
-    return match != null ? match.group(1) : null;
-  }
+  // String? extractYouTubeVideoId(String url) {
+  //   final RegExp videoIdPattern = RegExp(
+  //     r'^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})',
+  //     caseSensitive: false,
+  //   );
+  //
+  //   final Match? match = videoIdPattern.firstMatch(url);
+  //   return match != null ? match.group(1) : null;
+  // }
 
 }

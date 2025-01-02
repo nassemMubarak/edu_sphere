@@ -1,4 +1,4 @@
-import 'package:edu_sphere/features/teacher/quiz/domain/entities/question.dart';
+import 'package:edu_sphere/features/teacher/quiz/domain/entities/question1.dart';
 
 class Assessment {
   String title;

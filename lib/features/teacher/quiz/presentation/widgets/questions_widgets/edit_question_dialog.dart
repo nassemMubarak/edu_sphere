@@ -7,8 +7,11 @@ import 'package:edu_sphere/core/widgets/app_text_form_field.dart';
 import 'package:edu_sphere/core/widgets/label_and_widget.dart';
 import 'package:edu_sphere/edu_sphere_app.dart';
 import 'package:edu_sphere/features/teacher/quiz/domain/entities/question.dart';
+import 'package:edu_sphere/features/teacher/quiz/domain/entities/question1.dart';
+import 'package:edu_sphere/features/teacher/quiz/presentation/bloc/question/question_cubit.dart';
 import 'package:edu_sphere/features/teacher/quiz/presentation/bloc/quiz_cubit.dart';
 import 'package:edu_sphere/features/teacher/quiz/presentation/widgets/questions_widgets/add_options_widget.dart';
+import 'package:edu_sphere/features/teacher/quiz/presentation/widgets/questions_widgets/loading_add_or_update_or_delete_question_widget.dart';
 import 'package:edu_sphere/features/teacher/quiz/presentation/widgets/questions_widgets/upload_image_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -20,21 +23,23 @@ import 'package:logger/logger.dart';
 class EditQuestionDialog extends StatelessWidget {
   Question question;
   int indexQuestion;
-   EditQuestionDialog({super.key,required this.question,required this.indexQuestion});
+  int idCourse;
+  int idQuiz;
+   EditQuestionDialog({super.key,required this.question,required this.indexQuestion,required this.idQuiz,required this.idCourse});
 
   @override
   Widget build(BuildContext context) {
-    Logger().w(question.questionPathImage);
-   context.read<QuizCubit>().questionTitle = TextEditingController(text: question.questionText);
-   context.read<QuizCubit>().firstChoice = TextEditingController(text: question.options[0]);
-   context.read<QuizCubit>().secondChoice = TextEditingController(text: question.options[1]);
-   context.read<QuizCubit>().thirdChoice = TextEditingController(text: question.options.length>2?question.options[2]:null);
-   context.read<QuizCubit>().forthChoice = TextEditingController(text: question.options.length>3?question.options[3]:null);
-   context.read<QuizCubit>().correctChoice = question.correctAnswer;
-   context.read<QuizCubit>().questionScore = question.questionScore;
-   context.read<QuizCubit>().questionPathImage = question.questionPathImage;
-   context.read<QuizCubit>().addOrRemoveNumberOption = question.options.length;
-   context.read<QuizCubit>().emitNumberOption(question.options.length-2);
+    Logger().w(question);
+   context.read<QuestionCubit>().questionTitle = TextEditingController(text: question.title);
+   context.read<QuestionCubit>().firstChoice = TextEditingController(text: question.options[0]);
+   context.read<QuestionCubit>().secondChoice = TextEditingController(text: question.options[1]);
+   context.read<QuestionCubit>().thirdChoice = TextEditingController(text: question.options.length>2?question.options[2]:null);
+   context.read<QuestionCubit>().forthChoice = TextEditingController(text: question.options.length>3?question.options[3]:null);
+   context.read<QuestionCubit>().correctChoice = question.correctAnswer;
+   context.read<QuestionCubit>().questionScore = question.mark.toString();
+   // context.read<QuestionCubit>().questionPathImage = question.documents!=null&&question.documents!.isNotEmpty?question.documents![0].url:null;
+   context.read<QuestionCubit>().addOrRemoveNumberOption = question.options.length;
+   context.read<QuestionCubit>().emitNumberOption(question.options.length-2);
 
     return AlertDialog(
       shape: const RoundedRectangleBorder(
@@ -53,13 +58,14 @@ class EditQuestionDialog extends StatelessWidget {
       content: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          LoadingAddOrUpdateOrDeleteQuestionWidget(message: 'The Question has been successfully update'),
           Form(
-            key: context.read<QuizCubit>().formQuestionKey,
+            key: context.read<QuestionCubit>().formQuestionKey,
             child: LabelAndWidget(
               verticalUnderText: 12,
               label: 'Question Title',
               widget: AppTextFormField(
-                controller: context.read<QuizCubit>().questionTitle,
+                controller: context.read<QuestionCubit>().questionTitle,
                 maxLines: 5,
                 hintText: 'questions Title',
                 validator: (value) {
@@ -77,12 +83,12 @@ class EditQuestionDialog extends StatelessWidget {
               ),
             ),
           ),
-          UploadImageWidget(imagePath: context.read<QuizCubit>().questionPathImage),
+          // UploadImageWidget(imagePath: context.read<QuestionCubit>().questionPathImage),
           verticalSpace(16),
           AddOptionsWidget(),
-          BlocBuilder<QuizCubit,QuizState>(
+          BlocBuilder<QuestionCubit,QuestionState>(
             builder: (context, state) {
-              if(state is ErrorAddOption){
+              if(state is ErrorAddOptions){
                 return state.error!=null?Column(
                   children: [
                     Text(state.error!,style: TextStyles.font12Red400Weight),
@@ -100,32 +106,31 @@ class EditQuestionDialog extends StatelessWidget {
                 child: AppTextButton(
                   onPressed: () {
                     if (context
-                            .read<QuizCubit>()
+                            .read<QuestionCubit>()
                             .formQuestionKey
                             .currentState!
                             .validate() &&
                         context
-                            .read<QuizCubit>()
+                            .read<QuestionCubit>()
                             .formOption1Key
                             .currentState!
                             .validate() &&
 
                         context
-                            .read<QuizCubit>()
+                            .read<QuestionCubit>()
                             .formOption2Key
                             .currentState!
-                            .validate()&&context.read<QuizCubit>().addOrRemoveNumberOption>=2?context
-                        .read<QuizCubit>()
+                            .validate()&&context.read<QuestionCubit>().addOrRemoveNumberOption>=2?context
+                        .read<QuestionCubit>()
                         .formOption3Key
                         .currentState!.validate()&&context
-                        .read<QuizCubit>()
+                        .read<QuestionCubit>()
                         .formOption4Key
-                        .currentState!.validate():context.read<QuizCubit>().addOrRemoveNumberOption>=1?context
-                        .read<QuizCubit>()
-                        .formOption3Key.currentState!.validate():true&&context.read<QuizCubit>().emitValidateCorrectChoiceAndQuestionScore()
+                        .currentState!.validate():context.read<QuestionCubit>().addOrRemoveNumberOption>=1?context
+                        .read<QuestionCubit>()
+                        .formOption3Key.currentState!.validate():true&&context.read<QuestionCubit>().emitValidateCorrectChoiceAndQuestionScore()
                     ) {
-                      context.read<QuizCubit>().emitEditQuestionToQuiz(context,indexQuestion);
-                      context.pop();
+                      context.read<QuestionCubit>().emitEditQuestion(idCourse: idCourse, idQuiz: idQuiz, idQuestion: question.id, indexQuestion: indexQuestion);
                     }
                     // context
                     //     .read<CourseMainCubit>()
@@ -140,8 +145,8 @@ class EditQuestionDialog extends StatelessWidget {
               Expanded(
                 child: AppTextButton(
                   onPressed: () {
-                    context.read<QuizCubit>().emitClearOptions();
-                    context.read<QuizCubit>().emitClearQuestionInputs();
+                    context.read<QuestionCubit>().emitClearOptions();
+                    context.read<QuestionCubit>().emitClearQuestionInputs();
                     context.pop();
                   },
                   buttonText: AppLocalizations.of(context)!.cancel,

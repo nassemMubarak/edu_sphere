@@ -5,6 +5,7 @@ import 'package:edu_sphere/core/widgets/app_text_form_field.dart';
 import 'package:edu_sphere/core/widgets/dropdown_widget.dart';
 import 'package:edu_sphere/core/widgets/label_and_widget.dart';
 import 'package:edu_sphere/features/auth/presentation/bloc/auth/auth_cubit.dart';
+import 'package:edu_sphere/features/teacher/quiz/presentation/bloc/question/question_cubit.dart';
 import 'package:edu_sphere/features/teacher/quiz/presentation/bloc/quiz_cubit.dart';
 import 'package:edu_sphere/features/teacher/quiz/presentation/widgets/questions_widgets/dropdown_button_widget.dart';
 import 'package:flutter/material.dart';
@@ -33,12 +34,12 @@ class AddOptionsWidget extends StatelessWidget {
     return Column(
       children: [
         Form(
-          key: context.read<QuizCubit>().formOption1Key,
+          key: context.read<QuestionCubit>().formOption1Key,
           child: LabelAndWidget(
             verticalUnderText: 12,
             label: 'First Choice',
             widget: AppTextFormField(
-              controller: context.read<QuizCubit>().firstChoice,
+              controller: context.read<QuestionCubit>().firstChoice,
               maxLines: 5,
               hintText: 'First Choice',
               validator: (value) {
@@ -56,12 +57,12 @@ class AddOptionsWidget extends StatelessWidget {
           ),
         ),
         Form(
-          key: context.read<QuizCubit>().formOption2Key,
+          key: context.read<QuestionCubit>().formOption2Key,
           child: LabelAndWidget(
             verticalUnderText: 12,
             label: 'Second Choice',
             widget: AppTextFormField(
-              controller: context.read<QuizCubit>().secondChoice,
+              controller: context.read<QuestionCubit>().secondChoice,
               maxLines: 5,
               hintText: 'Second Choice',
               validator: (value) {
@@ -78,21 +79,21 @@ class AddOptionsWidget extends StatelessWidget {
             ),
           ),
         ),
-        BlocBuilder<QuizCubit, QuizState>(
+        BlocBuilder<QuestionCubit, QuestionState>(
           builder: (context, state) {
-            if (state is AddOrRemoveNewOption) {
+            if (state is AddOrRemoveNewOptions) {
               return Column(
                 children: [
                   Visibility(
                     visible: state.numberOption >= 1,
                     child: Form(
-                      key:context.read<QuizCubit>().formOption3Key ,
+                      key:context.read<QuestionCubit>().formOption3Key ,
                       child: LabelAndWidget(
                         verticalUnderText: 12,
                         label: 'Third Choice',
                         widget: AppTextFormField(
 
-                          controller: context.read<QuizCubit>().thirdChoice,
+                          controller: context.read<QuestionCubit>().thirdChoice,
                           maxLines: 5,
                           hintText: 'Third Choice',
                           validator: (value) {
@@ -114,13 +115,13 @@ class AddOptionsWidget extends StatelessWidget {
                   Visibility(
                     visible: state.numberOption == 2,
                     child: Form(
-                      key:context.read<QuizCubit>().formOption4Key ,
+                      key:context.read<QuestionCubit>().formOption4Key ,
                       child: LabelAndWidget(
                         verticalUnderText: 12,
                         label: 'Forth Choice',
                         widget: AppTextFormField(
 
-                          controller: context.read<QuizCubit>().forthChoice,
+                          controller: context.read<QuestionCubit>().forthChoice,
                           maxLines: 5,
                           hintText: 'Forth Choice',
                           validator: (value) {
@@ -143,7 +144,7 @@ class AddOptionsWidget extends StatelessWidget {
                     visible: state.numberOption < 2,
                     child: ListTile(
                       onTap: () {
-                        context.read<QuizCubit>().emitAddNewOptions();
+                        context.read<QuestionCubit>().emitAddNewOptions();
                       },
                       contentPadding: EdgeInsets.zero,
                       leading: Container(
@@ -164,7 +165,7 @@ class AddOptionsWidget extends StatelessWidget {
                     visible: state.numberOption>0,
                     child: ListTile(
                       onTap: () {
-                        context.read<QuizCubit>().emitRemoveOptions();
+                        context.read<QuestionCubit>().emitRemoveOptions();
                       },
                       contentPadding: EdgeInsets.zero,
                       leading: Container(
@@ -184,7 +185,7 @@ class AddOptionsWidget extends StatelessWidget {
                   LabelAndWidget(
                     label: 'Correct choice',
                     widget: DropdownWidget(items:  state.numberOption==0?correctChoiceList.sublist(0,2):state.numberOption==1?correctChoiceList.sublist(0,3):correctChoiceList,prefixIcon: SvgPicture.asset('assets/svgs/choice_icon.svg'),hintText: 'Correct choice',onChanged: (val){
-                      context.read<QuizCubit>().correctChoice = val;
+                      context.read<QuestionCubit>().correctChoice = val;
                     },),
                   ),
                 ],
@@ -194,7 +195,7 @@ class AddOptionsWidget extends StatelessWidget {
                 children: [
                   ListTile(
                     onTap: () {
-                      context.read<QuizCubit>().emitAddNewOptions();
+                      context.read<QuestionCubit>().emitAddNewOptions();
                     },
                     contentPadding: EdgeInsets.zero,
                     leading: Container(
@@ -214,7 +215,7 @@ class AddOptionsWidget extends StatelessWidget {
                   LabelAndWidget(
                     label: 'Correct choice',
                     widget: DropdownWidget(items:  correctChoiceList.sublist(0,2),prefixIcon: SvgPicture.asset('assets/svgs/choice_icon.svg'),hintText: 'Correct choice',onChanged: (val){
-                      context.read<QuizCubit>().correctChoice = val;
+                      context.read<QuestionCubit>().correctChoice = val;
                     },),
                   ),
                 ],
@@ -226,7 +227,7 @@ class AddOptionsWidget extends StatelessWidget {
         LabelAndWidget(
           label: 'Question Score',
           widget: DropdownWidget(items: questionScoreList,prefixIcon: SvgPicture.asset('assets/svgs/quiz_score_icon.svg'),hintText: 'Question Score',onChanged: (val){
-            context.read<QuizCubit>().questionScore = val;
+            context.read<QuestionCubit>().questionScore = val;
           },),
         ),
       ],

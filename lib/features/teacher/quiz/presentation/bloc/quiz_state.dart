@@ -7,7 +7,29 @@ final class QuizInitial extends QuizState {}
 final class QuizSelected extends QuizState{
    Quiz quiz;
   QuizSelected({required this.quiz});
+}final class QuizeSelected extends QuizState{
+   Quize quiz;
+  QuizeSelected({required this.quiz});
 }
+class GetAllQuizLoadingState extends QuizState{}
+class AddOrUpdateOrDeleteLoadingState extends QuizState{}
+class GetAllQuizLoadedState extends QuizState{
+  final List<Quize> listQuiz;
+
+  GetAllQuizLoadedState({required this.listQuiz});
+
+  @override
+  List<Object> get props => [listQuiz];
+}
+class QuizMessageErrorState extends QuizState{
+  final String message;
+
+  QuizMessageErrorState({required this.message});
+
+  @override
+  List<Object> get props => [message];
+}
+
 class ErrorMessageAddQuiz extends QuizState{
   final String message;
   ErrorMessageAddQuiz({required this.message});
