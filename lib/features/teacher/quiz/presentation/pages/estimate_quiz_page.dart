@@ -17,7 +17,7 @@ class EstimateQuizPage extends StatelessWidget {
         .coursesModel;
     var quiz = context
         .read<QuizCubit>()
-        .quiz;
+        .quize;
     return Scaffold(
       body: SliverWidget(leading: IconButton(
           onPressed: () {
@@ -28,7 +28,7 @@ class EstimateQuizPage extends StatelessWidget {
       child: Column(
         children: [
           BreadCrumbWidget(
-            items: ['Home', coursesModel.title, quiz!.quizTitle,'Estimate'],
+            items: ['Home', coursesModel.title, quiz!.title,'Estimate'],
 
           ),
           verticalSpace(24),

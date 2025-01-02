@@ -88,6 +88,17 @@ class AddQuestionDialog extends StatelessWidget {
               Expanded(
                 child: AppTextButton(
                   onPressed: () {
+                    bool validate =
+                    context.read<QuestionCubit>().addOrRemoveNumberOption>=2?context
+                        .read<QuestionCubit>()
+                        .formOption3Key
+                        .currentState!.validate()&&
+                        context
+                            .read<QuestionCubit>()
+                            .formOption4Key
+                            .currentState!.validate():context.read<QuestionCubit>().addOrRemoveNumberOption>=1?context
+                        .read<QuestionCubit>()
+                        .formOption3Key.currentState!.validate():true;
                     if (context
                             .read<QuestionCubit>()
                             .formQuestionKey
@@ -98,21 +109,32 @@ class AddQuestionDialog extends StatelessWidget {
                             .formOption1Key
                             .currentState!
                             .validate() &&
-
                         context
                             .read<QuestionCubit>()
                             .formOption2Key
                             .currentState!
-                            .validate()&&context.read<QuestionCubit>().addOrRemoveNumberOption>=2?context
+                            .validate()&&
+                        context.read<QuestionCubit>().addOrRemoveNumberOption>=2?context
                         .read<QuestionCubit>()
                         .formOption3Key
-                        .currentState!.validate()&&context
+                        .currentState!.validate()&&
+                        context
                         .read<QuestionCubit>()
                         .formOption4Key
                         .currentState!.validate():context.read<QuestionCubit>().addOrRemoveNumberOption>=1?context
                         .read<QuestionCubit>()
-                        .formOption3Key.currentState!.validate():true&&context.read<QuestionCubit>().emitValidateCorrectChoiceAndQuestionScore()
+                        .formOption3Key.currentState!.validate(): context
+                        .read<QuestionCubit>()
+                        .formOption1Key
+                        .currentState!
+                        .validate() &&
+                        context
+                            .read<QuestionCubit>()
+                            .formOption2Key
+                            .currentState!
+                            .validate()&&context.read<QuestionCubit>().emitValidateCorrectChoiceAndQuestionScore()
                     ) {
+
                       ///
                       context.read<QuestionCubit>().emitAddQuestion(idCourse: idCourse, idQuiz: idQuiz);
                       // context.pop();

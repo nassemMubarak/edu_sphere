@@ -47,7 +47,6 @@ class QuizMainPage extends StatelessWidget {
     );
   }
   SliverWidget buildSliverWidget(BuildContext context, Quize quiz,{required int idCourse}) {
-    Logger().e('--------------------------------------------->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
     context.read<QuestionCubit>().emitGetAllQuestion(idQuiz: quiz.id, idCourse: idCourse);
     var coursesModel = context
         .read<CourseMainCubit>()
