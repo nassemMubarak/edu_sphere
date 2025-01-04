@@ -58,7 +58,7 @@ class QuizMainPage extends StatelessWidget {
             },
             icon: Icon(Icons.arrow_back),
           ),
-          actions: quiz.endIn.isBefore(DateTime.now())?[
+          actions: quiz.startIn.isBefore(DateTime.now())?[
             GestureDetector(
                 onTap: (){
                   context.pushNamed(Routes.estimateQuizPage);

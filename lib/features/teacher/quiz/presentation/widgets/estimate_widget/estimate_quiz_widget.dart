@@ -1,26 +1,31 @@
-import 'package:edu_sphere/core/helpers/extenshions.dart';
-import 'package:edu_sphere/core/helpers/spacing.dart';
-import 'package:edu_sphere/core/routing/routes.dart';
 import 'package:edu_sphere/core/theming/colors.dart';
 import 'package:edu_sphere/core/theming/styles.dart';
+import 'package:edu_sphere/core/widgets/image_and_text_empty_data.dart';
+import 'package:edu_sphere/features/teacher/quiz/domain/entities/quize.dart';
 import 'package:edu_sphere/features/teacher/quiz/presentation/bloc/quiz_cubit.dart';
-import 'package:edu_sphere/features/teacher/quiz/presentation/widgets/estimate_widget/edit_quiz_evaluation_dialog.dart';
+import 'package:edu_sphere/features/teacher/quiz/presentation/widgets/estimate_widget/shimmer_loading_estimate_quiz_widget.dart';
 import 'package:edu_sphere/features/teacher/quiz/presentation/widgets/estimate_widget/show_estimate_person_widget.dart';
 import 'package:edu_sphere/features/teacher/quiz/presentation/widgets/estimate_widget/show_or_hid_estimate_info_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:edu_sphere/features/teacher/teacher_main/presentation/widgets/section_card.dart';
+
 
 class EstimateQuizWidget extends StatelessWidget {
-  const EstimateQuizWidget({super.key});
+  Quize quiz;
+   EstimateQuizWidget({super.key,required this.quiz});
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<QuizCubit, QuizState>(
       builder: (context, state) {
-        if (state is IsHideEstimation) {
-          return Container(
+        if(state is GetAllEstimateQuizLoadingState){
+         return ShimmerLoadingEstimateQuizWidget();
+        }
+        if (state is GetAllEstimateQuizLoadedState) {
+          return state.listEstimateQuiz.isNotEmpty? Container(
             padding: const EdgeInsets.all(16.0),
             decoration: BoxDecoration(
               color: Colors.white,
@@ -45,7 +50,7 @@ class EstimateQuizWidget extends StatelessWidget {
                     color: ColorsManager.mainBlue,
                   ),
                   title: Text(
-                    'Assessment Estimates',
+                    'Quiz Estimates',
                     style: TextStyles.font14Black500Weight,
                   ),
                   trailing: GestureDetector(
@@ -53,37 +58,41 @@ class EstimateQuizWidget extends StatelessWidget {
                       showDialog(
                         context: context,
                         builder: (context) =>
-                            ShowOrHidEstimateInfoDialog(isHide: state.isHide),
+                            ShowOrHidEstimateInfoDialog(isHide: context.read<QuizCubit>().isisHideEstimation),
                       );
                     },
                     // child: Icon(quiz.isHideQuiz?Icons.visibility_off_outlined:Icons.visibility_outlined,
                     child: Icon(
-                        state.isHide
+                        context.read<QuizCubit>().isisHideEstimation
                             ? Icons.visibility_off_outlined
                             : Icons.visibility_outlined,
                         color: Colors.black),
                   ),
                 ),
-                verticalSpace(24),
-                ShowEstimatePersonWidget(
-                    name: 'Nassem Ah Mubarak',
-                    grad: '10/10',
-                    onTapListTail: () {
-                      context.pushNamed(Routes.showReviewQuizPage);
-                    }),
-                ShowEstimatePersonWidget(
-                    name: 'Wessam Ah Mubarak',
-                    grad: '8/10',
-                    onTapListTail: () {
-                      context.pushNamed(Routes.showReviewQuizPage);
-                    }),
-                ShowEstimatePersonWidget(
-                    name: 'Fouad A Haboub',
-                    grad: '5/10',
-                    onTapListTail: () {
-                      context.pushNamed(Routes.showReviewQuizPage);
-                    }),
+                ListView.builder(
+                  shrinkWrap: true,
+                  padding: EdgeInsets.zero,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: state.listEstimateQuiz.length,
+                  itemBuilder: (context, index) {
+                  return ShowEstimatePersonWidget(
+                    indexEstimateQuiz: index,
+                      quize:quiz ,
+                      estimateQuiz: state.listEstimateQuiz[index],
+                      name: state.listEstimateQuiz[index].student.name,
+                      grad: '${state.listEstimateQuiz[index].grade.result}/${quiz.degree}',
+                      email: state.listEstimateQuiz[index].student.email,
+                      onTapListTail: () {
+                        // context.pushNamed(Routes.showReviewQuizPage);
+                      });
+                },)
               ],
+            ),
+          ): SectionCard(
+            title: 'Quiz Estimates',
+            icon: 'assets/svgs/assessment_estimates_icon.svg',
+            widget: ImageAndTextEmptyData(
+              message: 'No quizzes have been submitted yet.',
             ),
           );
         } else {
@@ -132,25 +141,24 @@ class EstimateQuizWidget extends StatelessWidget {
                         color: Colors.black),
                   ),
                 ),
-                verticalSpace(24),
-                ShowEstimatePersonWidget(
-                    name: 'Nassem Ah Mubarak',
-                    grad: '10/10',
-                    onTapListTail: () {
-                      context.pushNamed(Routes.showReviewQuizPage);
-                    }),
-                ShowEstimatePersonWidget(
-                    name: 'Wessam Ah Mubarak',
-                    grad: '8/10',
-                    onTapListTail: () {
-                      context.pushNamed(Routes.showReviewQuizPage);
-                    }),
-                ShowEstimatePersonWidget(
-                    name: 'Fouad A Haboub',
-                    grad: '5/10',
-                    onTapListTail: () {
-                      context.pushNamed(Routes.showReviewQuizPage);
-                    }),
+                // verticalSpace(24),
+                ListView.builder(
+                  shrinkWrap: true,
+                  padding: EdgeInsets.zero,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: context.read<QuizCubit>().listEstimateQuiz.length,
+                  itemBuilder: (context, index) {
+                    return ShowEstimatePersonWidget(
+                        indexEstimateQuiz: index,
+                        quize:quiz ,
+                        estimateQuiz: context.read<QuizCubit>().listEstimateQuiz[index],
+                        name: context.read<QuizCubit>().listEstimateQuiz[index].student.name,
+                        grad: '${context.read<QuizCubit>().listEstimateQuiz[index].grade.result}/10',
+                        email: context.read<QuizCubit>().listEstimateQuiz[index].student.email,
+                        onTapListTail: () {
+                          // context.pushNamed(Routes.showReviewQuizPage);
+                        });
+                  },)
               ],
             ),
           );

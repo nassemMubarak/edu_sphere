@@ -8,6 +8,7 @@ import 'package:edu_sphere/core/widgets/label_and_widget.dart';
 import 'package:edu_sphere/features/teacher/assessments/domain/entities/assessment.dart';
 import 'package:edu_sphere/features/teacher/assessments/presentation/bloc/assessments_cubit.dart';
 import 'package:edu_sphere/features/teacher/assessments/presentation/widgets/assessment_widget/date_assessment_widget.dart';
+import 'package:edu_sphere/features/teacher/assessments/presentation/widgets/assessment_widget/loading_add_or_update_or_assessment_quiz_widget.dart';
 import 'package:edu_sphere/features/teacher/assessments/presentation/widgets/assessment_widget/time_assessment_widget.dart';
 import 'package:edu_sphere/features/teacher/quiz/domain/entities/quiz.dart';
 import 'package:edu_sphere/features/teacher/quiz/presentation/bloc/quiz_cubit.dart';
@@ -18,19 +19,25 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../domain/entities/assessment1.dart';
+
 class EditAssessmentDialog extends StatelessWidget {
   Assessment assessment;
-  EditAssessmentDialog({super.key,required this.assessment});
+  int idCourse;
+  EditAssessmentDialog({super.key,required this.assessment,required this.idCourse});
 
   @override
   Widget build(BuildContext context) {
     context.read<AssessmentsCubit>().assessmentTitleTextEditionController = TextEditingController(text: assessment.title);
-    context.read<AssessmentsCubit>().assessmentScoreTextEditionController = TextEditingController(text: assessment.passingScore.toString());
+    context.read<AssessmentsCubit>().assessmentScoreTextEditionController = TextEditingController(text: assessment.degree.toString());
     context.read<AssessmentsCubit>().assessmentDescriptionTextEditionController = TextEditingController(text: assessment.description);
-    context.read<AssessmentsCubit>().selectedStartDateAssessment = assessment.startDateTime;
-    context.read<AssessmentsCubit>().selectedEndDateAssessment = assessment.endDateTime;
-    context.read<AssessmentsCubit>().startDateTimeAssessment = assessment.startDateTime;
-    context.read<AssessmentsCubit>().endDateTimeAssessment = assessment.endDateTime;
+    context.read<AssessmentsCubit>().selectedStartDateAssessment = assessment.startIn;
+    context.read<AssessmentsCubit>().selectedEndDateAssessment = assessment.endIn;
+    context.read<AssessmentsCubit>().startDateTimeAssessment = assessment.startIn;
+    context.read<AssessmentsCubit>().startTime = assessment.startIn;
+    context.read<AssessmentsCubit>().endDateTimeAssessment = assessment.endIn;
+    context.read<AssessmentsCubit>().endTime = assessment.endIn;
+    context.read<AssessmentsCubit>().isHideEstimationAssessment = assessment.visibility;
     return AlertDialog(
       contentPadding: EdgeInsets.symmetric(horizontal: 10.h, vertical: 24.w),
       shape: const RoundedRectangleBorder(
@@ -42,7 +49,7 @@ class EditAssessmentDialog extends StatelessWidget {
       backgroundColor: Colors.white,
       scrollable: true,
       title: Text(
-        'Edit Quiz',
+        'Edit Assessment',
         style: TextStyles.font16Black600Weight,
         textAlign: TextAlign.center,
       ),
@@ -105,10 +112,11 @@ class EditAssessmentDialog extends StatelessWidget {
                     ),
                   ),
                   // Select Start And End Date Quiz Widget
-                  DateAssessmentWidget(endDate: assessment.endDateTime,startDate: assessment.startDateTime,),
+                  DateAssessmentWidget(endDate: assessment.endIn,startDate: assessment.startIn,),
                   verticalSpace(16),
+                  LoadingAddOrUpdateOrAssessmentQuizWidget(message: 'The assessment has been updated successfully.'),
                   // Select Start And End Time Quiz Widget
-                  TimeAssessmentWidget(endDateTime: assessment.endDateTime,startDateTime: assessment.startDateTime,),
+                  TimeAssessmentWidget(endDateTime: assessment.endIn,startDateTime: assessment.startIn,),
                   verticalSpace(16),
                   LabelAndWidget(
                     label: 'Assessment Score',
@@ -169,13 +177,13 @@ class EditAssessmentDialog extends StatelessWidget {
                               .read<AssessmentsCubit>()
                               .isSuccessSelectDateTime ==
                               true) {
-                        context.read<AssessmentsCubit>().emitEditAssessments();
-                        context.pop();
+                        context.read<AssessmentsCubit>().emitUpdateAssessment(idCourse: idCourse, idAssessment: assessment.id);
+                        // context.pop();
 
                       }
 
                     },
-                    buttonText: 'Add Ass',
+                    buttonText: 'Edit Ass',
                     buttonWidth: 147,
                   ),
                 ),

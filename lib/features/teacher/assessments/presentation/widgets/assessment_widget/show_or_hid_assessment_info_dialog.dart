@@ -4,17 +4,23 @@ import 'package:edu_sphere/core/theming/styles.dart';
 import 'package:edu_sphere/core/widgets/app_text_button.dart';
 import 'package:edu_sphere/features/teacher/assessments/domain/entities/assessment.dart';
 import 'package:edu_sphere/features/teacher/assessments/presentation/bloc/assessments_cubit.dart';
+import 'package:edu_sphere/features/teacher/assessments/presentation/widgets/assessment_widget/loading_add_or_update_or_assessment_quiz_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:logger/logger.dart';
+
+import '../../../domain/entities/assessment1.dart';
 
 class ShowOrHidAssessmentInfoDialog extends StatelessWidget {
+  int idCourse;
   Assessment assessment;
 
-  ShowOrHidAssessmentInfoDialog({super.key, required this.assessment});
+  ShowOrHidAssessmentInfoDialog({super.key, required this.assessment,required this.idCourse});
 
   @override
   Widget build(BuildContext context) {
+    Logger().f('=------------->assessment---------------${assessment.visibility}');
     return AlertDialog(
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(
@@ -25,7 +31,7 @@ class ShowOrHidAssessmentInfoDialog extends StatelessWidget {
       backgroundColor: Colors.white,
       scrollable: true,
       title: Text(
-        assessment.isHideAssessment ? 'Show Quiz' : 'Hide Quiz',
+        assessment.visibility ? 'Hide Assessment' : 'Show Assessment',
         style: TextStyles.font16Black600Weight,
         textAlign: TextAlign.center,
       ),
@@ -34,21 +40,23 @@ class ShowOrHidAssessmentInfoDialog extends StatelessWidget {
         children: [
           verticalSpace(24),
           Text(
-            assessment.isHideAssessment
-                ? 'Do you really want to show the quiz ?'
-                : 'Do you really want to hide the quiz ?',
+            assessment.visibility
+                ? 'Do you really want to hide the assessment ?'
+                : 'Do you really want to show the assessment ?',
             style: TextStyles.font14Red600Weight,
             textAlign: TextAlign.center,
           ),
           verticalSpace(16),
           Text(
-            assessment.isHideAssessment
-                ? 'Do you want to show the quiz to students?'
-                : 'If you hide the quiz, it will not appear to students until you show it again',
+            assessment.visibility
+                ? 'If you hide the quiz, it will not appear to students until you show it again'
+                : 'Do you want to show the assessment to students?',
             style: TextStyles.font14Black400Weight,
             textAlign: TextAlign.center,
           ),
           verticalSpace(24),
+          LoadingAddOrUpdateOrAssessmentQuizWidget(message: 'The assessment has been updated successfully.'),
+
           Row(
             children: [
               Expanded(
@@ -56,10 +64,9 @@ class ShowOrHidAssessmentInfoDialog extends StatelessWidget {
                   onPressed: () {
                     context
                         .read<AssessmentsCubit>()
-                        .emitChangShoeOrHidAssessment(assessment: assessment);
-                    context.pop();
+                        .emitUpdateVisibilityAssessment(idAssessment: assessment.id,idCourse: idCourse,visibility: !assessment.visibility);
                   },
-                  buttonText: assessment.isHideAssessment ? 'Show Quiz' : 'Hide Quiz',
+                  buttonText: assessment.visibility ? 'Hide Assessment':'Show Assessment' ,
                   textStyle: TextStyles.font12White400Weight,
                   buttonWidth: 160,
                 ),

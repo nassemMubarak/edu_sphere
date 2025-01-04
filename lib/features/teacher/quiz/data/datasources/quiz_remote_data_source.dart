@@ -5,7 +5,7 @@ import 'package:dartz/dartz.dart';
 import 'package:edu_sphere/core/error/exception.dart';
 import 'package:edu_sphere/core/networking/api_constants.dart';
 import 'package:edu_sphere/features/teacher/quiz/data/models/document_question_model.dart';
-import 'package:edu_sphere/features/teacher/quiz/data/models/question1_model.dart';
+import 'package:edu_sphere/features/teacher/quiz/data/models/estimate_quiz_models.dart';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 
@@ -23,6 +23,9 @@ abstract class QuizRemoteDataSource{
   Future<QuestionModel> addQuestion({required String token,File? image,required int idQuiz,required Map data,required int idCourse});
   Future<Unit> updateQuestion({File? image,required int idQuestion,required int idQuiz, required int idCourse, required Map data,required String token});
   Future<Unit> deleteQuestion({required int idQuestion,required int idQuiz, required int idCourse,required String token});
+  /// Estimate Quiz
+  Future<List<EstimateQuizModels>> getAllEstimateQuiz({required int idQuiz,required int idCourse,required String token});
+  Future<Unit> updateEstimateQuiz({required int idQuiz,required int grade,required int idCourse,required String token,required int idEstimate});
 
 }
 class QuizRemoteDataSourceImpl implements QuizRemoteDataSource{
@@ -50,15 +53,6 @@ class QuizRemoteDataSourceImpl implements QuizRemoteDataSource{
   @override
   Future<QuizeModel> addQuiz({required String token, required Map data, required int idCourse}) async{
     final header = {'Authorization': 'Bearer $token'};
-    final d = {
-      'title': 'Nassem 1 545454quiz',
-      'description': '3838irti',
-      'degree': '10',
-      'visibility': '0',
-      'start_in': '2025-01-02 04:07:00.000',
-      'end_in': '2025-01-03 20:10:00.000',
-      'time': '10'
-    };
     Logger().e('----------------------->$data');
     final response = await client.post(Uri.parse('${ApiConstants.apiBaseUrl}${ApiConstants.teacherCourses}/$idCourse/${ApiConstants.quiz}'),body: data,headers: header);
     Logger().e(response.body);
@@ -222,6 +216,38 @@ class QuizRemoteDataSourceImpl implements QuizRemoteDataSource{
     // request.fields['mark'] = data['mark']; // Key for mark
     // Send the request
     // final response = await request.send();
+    if(response.statusCode>=200&&response.statusCode<300){
+      return unit;
+    }else if(response.statusCode >= 400 && response.statusCode < 500){
+      throw InvalidDataException();
+    }else{
+      throw ServerException();
+    }
+  }
+
+  @override
+  Future<List<EstimateQuizModels>> getAllEstimateQuiz({required int idQuiz, required int idCourse, required String token}) async{
+    final header = {'Authorization': 'Bearer $token'};
+    final response = await client.get(Uri.parse('${ApiConstants.apiBaseUrl}${ApiConstants.teacherCourses}/$idCourse/${ApiConstants.quiz}/$idQuiz/${ApiConstants.quizAttempt}'),headers: header);
+    Logger().w('$token---------${response.statusCode}----///////-------------->${ApiConstants.apiBaseUrl}${ApiConstants.teacherCourses}/$idCourse/${ApiConstants.quiz}/$idQuiz/${ApiConstants.quizAttempt}');
+    if(response.statusCode>=200&&response.statusCode<300){
+      final List<dynamic> decodeJson = json.decode(response.body);
+      List<EstimateQuizModels> estimateQuizModels = decodeJson.map((course)=>EstimateQuizModels.fromJson(course)).toList();
+      Logger().w('EstimateQuizModels----------------------$estimateQuizModels');
+      return estimateQuizModels;
+    }else if(response.statusCode >= 400 && response.statusCode < 500){
+      throw InvalidDataException();
+    }else{
+      throw ServerException();
+    }
+  }
+
+  @override
+  Future<Unit> updateEstimateQuiz({required int idQuiz, required int grade, required int idCourse, required String token,required int idEstimate})async {
+    final header = {'Authorization': 'Bearer $token',
+    };
+    String url = '${ApiConstants.apiBaseUrl}${ApiConstants.teacherCourses}/$idCourse/${ApiConstants.quiz}/$idQuiz/${ApiConstants.quizAttempt}/$idEstimate';
+    final response = await client.put(Uri.parse(url),body: {'grade':'$grade'},headers: header);
     if(response.statusCode>=200&&response.statusCode<300){
       return unit;
     }else if(response.statusCode >= 400 && response.statusCode < 500){

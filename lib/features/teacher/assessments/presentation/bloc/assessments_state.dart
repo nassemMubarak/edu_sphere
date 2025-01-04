@@ -8,8 +8,49 @@ class ErrorMessageAddAssessment extends AssessmentsState{
   final String message;
   ErrorMessageAddAssessment({required this.message});
 }
+///
+class GetAllAssessmentLoadingState extends AssessmentsState{}
+class AddOrUpdateOrDeleteAssessmentLoadingState extends AssessmentsState{}
+class GetAllAssessmentLoadedState extends AssessmentsState{
+  final List<Assessment> listAssessment;
+
+  GetAllAssessmentLoadedState({required this.listAssessment});
+
+  @override
+  List<Object> get props => [listAssessment];
+}
+class AddSucssessEstimateAssessmentLoadingState extends AssessmentsState{}
+
+class GetAllEstimateAssessmentLoadedState extends AssessmentsState{
+  final List<EstimateAssessment> listEstimateAssessment;
+
+  GetAllEstimateAssessmentLoadedState({required this.listEstimateAssessment});
+
+  @override
+  List<Object> get props => [listEstimateAssessment];
+}
+class GetAllEstimateAssessmentLoadingState extends AssessmentsState{}
+class AddEstimateAssessmentLoadingState extends AssessmentsState{}
+class ErrorMessageAssessment extends AssessmentsState{
+  final String message;
+  ErrorMessageAssessment({required this.message});
+}
+
+class ErrorMessageEstimateAssessment extends AssessmentsState{
+  final String message;
+  ErrorMessageEstimateAssessment({required this.message});
+}
+
+class QuizMessageErrorState extends AssessmentsState{
+  final String message;
+
+  QuizMessageErrorState({required this.message});
+
+  @override
+  List<Object> get props => [message];
+}
 class GetAllAssessment extends AssessmentsState{
-  List<Assessment> assessment;
+  List<Assessment1> assessment;
   GetAllAssessment({required this.assessment});
 }
 class SelectedAssessment extends AssessmentsState{

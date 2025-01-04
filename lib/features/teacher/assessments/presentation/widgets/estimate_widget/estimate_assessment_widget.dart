@@ -1,26 +1,96 @@
 import 'package:edu_sphere/core/helpers/extenshions.dart';
-import 'package:edu_sphere/core/helpers/spacing.dart';
 import 'package:edu_sphere/core/routing/routes.dart';
-import 'package:edu_sphere/core/theming/colors.dart';
-import 'package:edu_sphere/core/theming/styles.dart';
+import 'package:edu_sphere/core/widgets/image_and_text_empty_data.dart';
 import 'package:edu_sphere/features/teacher/assessments/presentation/bloc/assessments_cubit.dart';
-import 'package:edu_sphere/features/teacher/assessments/presentation/widgets/estimate_widget/show_or_hid_estimate_assessment_info_dialog.dart';
-import 'package:edu_sphere/features/teacher/quiz/presentation/bloc/quiz_cubit.dart';
-import 'package:edu_sphere/features/teacher/quiz/presentation/widgets/estimate_widget/edit_quiz_evaluation_dialog.dart';
-import 'package:edu_sphere/features/teacher/quiz/presentation/widgets/estimate_widget/show_estimate_person_widget.dart';
-import 'package:edu_sphere/features/teacher/quiz/presentation/widgets/estimate_widget/show_or_hid_estimate_info_dialog.dart';
+import 'package:edu_sphere/features/teacher/assessments/presentation/widgets/estimate_widget/shimmer_loading_estimate_assessment_widget.dart';
+import 'package:edu_sphere/features/teacher/assessments/presentation/widgets/estimate_widget/show_estimate_person_assessment_widget.dart';
+import 'package:edu_sphere/features/teacher/course_main/presentation/bloc/course_main_cubit.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:edu_sphere/features/teacher/teacher_main/presentation/widgets/section_card.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:logger/logger.dart';
 
 class EstimateAssessmentWidget extends StatelessWidget {
   const EstimateAssessmentWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
+    var coursesModel = context
+        .read<CourseMainCubit>()
+        .coursesModel;
+    var assessment = context
+        .read<AssessmentsCubit>()
+        .assessment;
     return BlocBuilder<AssessmentsCubit, AssessmentsState>(
+      builder: (context, state) {
+        if (state is GetAllEstimateAssessmentLoadingState) {
+          return ShimmerLoadingEstimateAssessmentWidget();
+        }
+        if (state is GetAllEstimateAssessmentLoadedState) {
+          return state.listEstimateAssessment.isNotEmpty?SectionCard(title: 'Assessment Estimates',
+              icon: 'assets/svgs/assessment_estimates_icon.svg',
+              widget:ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: state.listEstimateAssessment.length,
+                itemBuilder: (context, index) {
+                 return
+                   ShowEstimatePersonAssessmentWidget(estimateAssessment: state.listEstimateAssessment[index],idCourse:coursesModel.id ,grade:assessment!.degree ,idAssessment:assessment.id ,indexEstimateAssessment: index,
+                 onTapListTail: (){
+                   if(state.listEstimateAssessment[index].assignmentAssessment.isNotEmpty){
+
+                     context.pushNamed(Routes.showReviewAssessmentPage);
+                   }
+                   context
+                       .read<AssessmentsCubit>()
+                       .indexEstimateAssessmentSelected = index;
+                   context
+                       .read<AssessmentsCubit>()
+                       .estimateAssessmentSelected = context.read<AssessmentsCubit>().listEstimateAssessment[index];
+
+                 },
+                 );
+                },),
+          ):SectionCard(
+            title: 'Assessment Estimates',
+            icon: 'assets/svgs/assessment_estimates_icon.svg',
+            widget: ImageAndTextEmptyData(
+              message: 'No assignment have been submitted yet.',
+            ),
+          );
+        }else{
+          return context.read<AssessmentsCubit>().listEstimateAssessment.isNotEmpty?SectionCard(title: 'Assessment Estimates',
+            icon: 'assets/svgs/assessment_estimates_icon.svg',
+            widget:ListView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: context.read<AssessmentsCubit>().listEstimateAssessment.length,
+              itemBuilder: (context, index) {
+                return  ShowEstimatePersonAssessmentWidget(estimateAssessment: context.read<AssessmentsCubit>().listEstimateAssessment[index],idCourse:coursesModel.id ,grade:assessment!.degree ,idAssessment:assessment.id ,indexEstimateAssessment: index,onTapListTail: (){
+                  if(context.read<AssessmentsCubit>().listEstimateAssessment[index].assignmentAssessment.isNotEmpty){
+
+                    context.pushNamed(Routes.showReviewAssessmentPage);
+                  }
+                  context
+                      .read<AssessmentsCubit>()
+                      .indexEstimateAssessmentSelected = index;
+                  context
+                      .read<AssessmentsCubit>()
+                      .estimateAssessmentSelected = context.read<AssessmentsCubit>().listEstimateAssessment[index];
+                },);
+              },),
+          ):SectionCard(
+            title: 'Assessment Estimates',
+            icon: 'assets/svgs/assessment_estimates_icon.svg',
+            widget: ImageAndTextEmptyData(
+              message: 'No assignment have been submitted yet.',
+            ),
+          );
+        }
+      },);
+  }
+}
+/*
+BlocBuilder<AssessmentsCubit, AssessmentsState>(
       builder: (context, state) {
         Logger().d(state is IsHideEstimationAssessment);
         if (state is IsHideEstimationAssessment) {
@@ -69,24 +139,28 @@ class EstimateAssessmentWidget extends StatelessWidget {
                   ),
                 ),
                 verticalSpace(24),
-                ShowEstimatePersonWidget(
-                    name: 'Nassem Ah Mubarak',
-                    grad: '10/10',
-                    onTapListTail: () {
-                      context.pushNamed(Routes.showReviewAssessmentPage);
-                    }),
-                ShowEstimatePersonWidget(
-                    name: 'Wessam Ah Mubarak',
-                    grad: '8/10',
-                    onTapListTail: () {
-                      context.pushNamed(Routes.showReviewAssessmentPage);
-                    }),
-                ShowEstimatePersonWidget(
-                    name: 'Fouad A Haboub',
-                    grad: '5/10',
-                    onTapListTail: () {
-                      context.pushNamed(Routes.showReviewAssessmentPage);
-                    }),
+                ShowEstimatePersonAssessmentWidget(name: 'Nassem Ah Mubarak', grad: '10/10')
+                // ShowEstimatePersonWidget(
+                //     name: 'Nassem Ah Mubarak',
+                //     grad: '10/10',
+                //     email: '',
+                //     onTapListTail: () {
+                //       context.pushNamed(Routes.showReviewAssessmentPage);
+                //     }),
+                // ShowEstimatePersonWidget(
+                //     name: 'Wessam Ah Mubarak',
+                //     grad: '8/10',
+                //     email: '',
+                //     onTapListTail: () {
+                //       context.pushNamed(Routes.showReviewAssessmentPage);
+                //     }),
+                // ShowEstimatePersonWidget(
+                //     name: 'Fouad A Haboub',
+                //     grad: '5/10',
+                //     email: '',
+                //     onTapListTail: () {
+                //       context.pushNamed(Routes.showReviewAssessmentPage);
+                //     }),
               ],
             ),
           );
@@ -137,29 +211,31 @@ class EstimateAssessmentWidget extends StatelessWidget {
                   ),
                 ),
                 verticalSpace(24),
-                ShowEstimatePersonWidget(
-                    name: 'Nassem Ah Mubarak',
-                    grad: '10/10',
-                    onTapListTail: () {
-                      context.pushNamed(Routes.showReviewQuizPage);
-                    }),
-                ShowEstimatePersonWidget(
-                    name: 'Wessam Ah Mubarak',
-                    grad: '8/10',
-                    onTapListTail: () {
-                      context.pushNamed(Routes.showReviewQuizPage);
-                    }),
-                ShowEstimatePersonWidget(
-                    name: 'Fouad A Haboub',
-                    grad: '5/10',
-                    onTapListTail: () {
-                      context.pushNamed(Routes.showReviewQuizPage);
-                    }),
+                // ShowEstimatePersonWidget(
+                //     name: 'Nassem Ah Mubarak',
+                //     grad: '10/10',
+                //     email: '',
+                //     onTapListTail: () {
+                //       context.pushNamed(Routes.showReviewQuizPage);
+                //     }),
+                // ShowEstimatePersonWidget(
+                //     name: 'Wessam Ah Mubarak',
+                //     grad: '8/10',
+                //     email: '',
+                //     onTapListTail: () {
+                //       context.pushNamed(Routes.showReviewQuizPage);
+                //     }),
+                // ShowEstimatePersonWidget(
+                //     name: 'Fouad A Haboub',
+                //     grad: '5/10',
+                //     email: '',
+                //     onTapListTail: () {
+                //       context.pushNamed(Routes.showReviewQuizPage);
+                //     }),
               ],
             ),
           );
         }
       },
     );
-  }
-}
+ */

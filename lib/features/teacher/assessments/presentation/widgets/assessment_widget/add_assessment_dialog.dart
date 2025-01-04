@@ -7,16 +7,16 @@ import 'package:edu_sphere/core/widgets/app_text_form_field.dart';
 import 'package:edu_sphere/core/widgets/label_and_widget.dart';
 import 'package:edu_sphere/features/teacher/assessments/presentation/bloc/assessments_cubit.dart';
 import 'package:edu_sphere/features/teacher/assessments/presentation/widgets/assessment_widget/date_assessment_widget.dart';
+import 'package:edu_sphere/features/teacher/assessments/presentation/widgets/assessment_widget/loading_add_or_update_or_assessment_quiz_widget.dart';
 import 'package:edu_sphere/features/teacher/assessments/presentation/widgets/assessment_widget/time_assessment_widget.dart';
-import 'package:edu_sphere/features/teacher/quiz/presentation/bloc/quiz_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:logger/logger.dart';
 
 class AddAssessmentDialog extends StatelessWidget {
-  const AddAssessmentDialog({super.key});
+  int idCourse;
+   AddAssessmentDialog({super.key,required this.idCourse});
 
   @override
   Widget build(BuildContext context) {
@@ -126,7 +126,7 @@ class AddAssessmentDialog extends StatelessWidget {
                 ],
               ),
             ),
-
+            LoadingAddOrUpdateOrAssessmentQuizWidget(message: 'The assessment has been added successfully.'),
             BlocBuilder<AssessmentsCubit,AssessmentsState>(
               builder: (context, state) {
                 if(state is ErrorMessageAddAssessment){
@@ -149,7 +149,6 @@ class AddAssessmentDialog extends StatelessWidget {
                 Expanded(
                   child: AppTextButton(
                     onPressed: () {
-                      Logger().d(context.read<AssessmentsCubit>().validateDateTimeAssessment() );
                       if (context
                               .read<AssessmentsCubit>()
                               .globalAssessmentKey
@@ -159,9 +158,7 @@ class AddAssessmentDialog extends StatelessWidget {
                                   .read<AssessmentsCubit>()
                                   .isSuccessSelectDateTime ==
                               true) {
-                              context.read<AssessmentsCubit>().emitAddAssessments();
-                              context.pop();
-
+                              context.read<AssessmentsCubit>().emitAddAssessment(idCourse: idCourse);
                       }
 
                     },

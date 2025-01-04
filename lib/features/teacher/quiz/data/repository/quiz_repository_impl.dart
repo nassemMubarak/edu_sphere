@@ -6,6 +6,7 @@ import 'package:edu_sphere/core/error/failure.dart';
 import 'package:edu_sphere/core/helpers/constants.dart';
 import 'package:edu_sphere/core/helpers/shared_pref_helper.dart';
 import 'package:edu_sphere/features/teacher/quiz/data/datasources/quiz_remote_data_source.dart';
+import 'package:edu_sphere/features/teacher/quiz/domain/entities/estimate_quiz.dart';
 import 'package:edu_sphere/features/teacher/quiz/domain/entities/question.dart';
 import 'package:edu_sphere/features/teacher/quiz/domain/entities/question1.dart';
 import 'package:edu_sphere/features/teacher/quiz/domain/entities/quiz.dart';
@@ -142,6 +143,38 @@ class QuizRepositoryImpl implements QuizRepository{
       try{
         final String token = await SharedPrefHelper.getString(SharedPrefKeys.cachedToken);
         await remoteDataSourceImpl.updateQuestion(image:image,idQuiz: idQuiz,idQuestion: idQuestion, idCourse: idCourse, data: data, token: token);
+        return const Right(unit);
+      }on InvalidDataException{
+        return Left(InvalidDataFailure());
+      }on ServerException{
+        return Left(ServerFailure());
+      }
+    }else{
+      return Left(OfflineFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<EstimateQuiz>>> getAllEstimateQuiz({required int idQuiz, required int idCourse})async {
+    if(await networkInfo.isConnected){
+      try{
+        final String token = await SharedPrefHelper.getString(SharedPrefKeys.cachedToken);
+        final listEstimateQuiz = await remoteDataSourceImpl.getAllEstimateQuiz(idCourse: idCourse, token: token,idQuiz: idQuiz);
+        return Right(listEstimateQuiz);
+      }on ServerException{
+        return Left(ServerFailure());
+      }
+    }else{
+      return Left(OfflineFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> updateAllEstimateQuiz({required int idQuiz, required int idCourse, required int idEstimate, required int grade}) async{
+    if(await networkInfo.isConnected){
+      try{
+        final String token = await SharedPrefHelper.getString(SharedPrefKeys.cachedToken);
+        await remoteDataSourceImpl.updateEstimateQuiz(idQuiz: idQuiz, grade: grade, idCourse: idCourse, token: token, idEstimate: idEstimate);
         return const Right(unit);
       }on InvalidDataException{
         return Left(InvalidDataFailure());

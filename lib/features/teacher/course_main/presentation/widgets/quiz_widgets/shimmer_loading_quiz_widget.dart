@@ -23,8 +23,8 @@ class ShimmerLoadingQuizWidget extends StatelessWidget {
             contentPadding: EdgeInsets.symmetric(horizontal: 16.w),
             leading: SvgPicture.asset('assets/svgs/quiz_leading_icon.svg'),
             title: Container(
-              height: 10,
-              width: 100,
+              height: 20,
+              width: 20,
               decoration: BoxDecoration(
                   color: Colors.black, borderRadius: BorderRadius.circular(5)),
             ),

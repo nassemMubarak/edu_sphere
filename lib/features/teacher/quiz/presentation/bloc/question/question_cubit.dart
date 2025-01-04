@@ -105,13 +105,14 @@ class QuestionCubit extends Cubit<QuestionState> {
       firstChoice.text,
       secondChoice.text,
     ];
-
+    String correctAnswer = correctChoice=='First Choice'?option[0]:correctChoice=='Second Choice'?option[1]:correctChoice=='Third Choice'?option[2]:option[3];
+    Logger().f('correctAnswer --------------->>>>>>    $correctAnswer');
     emit(AddOrUpdateOrDeleteQuestionLoadingState());
     final data = {
       'title':questionTitle.text,
       'type':'choice',
       'options':option,
-      'correct_answer':correctChoice,
+      'correct_answer':correctAnswer,
       'mark':questionScore,
     };
   Logger().e('-----------********************');

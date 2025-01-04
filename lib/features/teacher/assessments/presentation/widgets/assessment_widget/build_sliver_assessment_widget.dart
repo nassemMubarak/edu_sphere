@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:edu_sphere/core/helpers/extenshions.dart';
 import 'package:edu_sphere/core/helpers/spacing.dart';
 import 'package:edu_sphere/core/routing/routes.dart';
@@ -8,10 +10,12 @@ import 'package:edu_sphere/core/widgets/bread_crumb_widget.dart';
 import 'package:edu_sphere/core/widgets/image_and_text_empty_data.dart';
 import 'package:edu_sphere/core/widgets/toggle_text_widget.dart';
 import 'package:edu_sphere/features/teacher/assessments/domain/entities/assessment.dart';
+import 'package:edu_sphere/features/teacher/assessments/domain/entities/document_assessment.dart';
 import 'package:edu_sphere/features/teacher/assessments/presentation/bloc/assessments_cubit.dart';
 import 'package:edu_sphere/features/teacher/assessments/presentation/widgets/assessment_widget/delete_assessments_info_dialog.dart';
 import 'package:edu_sphere/features/teacher/assessments/presentation/widgets/assessment_widget/delete_file_assessment_info_dialog.dart';
 import 'package:edu_sphere/features/teacher/assessments/presentation/widgets/assessment_widget/edit_assessment_dialog.dart';
+import 'package:edu_sphere/features/teacher/assessments/presentation/widgets/assessment_widget/loading_add_or_update_or_assessment_quiz_widget.dart';
 import 'package:edu_sphere/features/teacher/assessments/presentation/widgets/assessment_widget/show_or_hid_assessment_info_dialog.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/bloc/course_main_cubit.dart';
 import 'package:file_picker/file_picker.dart';
@@ -24,12 +28,15 @@ import 'package:logger/logger.dart';
 import 'package:slide_countdown/slide_countdown.dart';
 
 import '../../../../../../core/widgets/sliver_widget.dart';
+import '../../../domain/entities/assessment1.dart';
 class BuildSliverAssessmentWidget extends StatelessWidget {
   Assessment assessment;
    BuildSliverAssessmentWidget({super.key,required this.assessment});
 
   @override
   Widget build(BuildContext context) {
+    int idCourse = context.read<CourseMainCubit>().coursesModel.id;
+
     var coursesModel = context
         .read<CourseMainCubit>()
         .coursesModel;
@@ -40,7 +47,7 @@ class BuildSliverAssessmentWidget extends StatelessWidget {
         },
         icon: Icon(Icons.arrow_back),
       ),
-      actions: assessment.endDateTime.isBefore(DateTime.now())?[
+      actions: assessment.startIn.isBefore(DateTime.now())?[
         GestureDetector(
             onTap: (){
               context.pushNamed(Routes.estimateAssessmentPage);
@@ -71,8 +78,8 @@ class BuildSliverAssessmentWidget extends StatelessWidget {
                   ),
                 ],
               ),
-              child: !assessment.endDateTime.isBefore(DateTime.now()) &&
-                  assessment.startDateTime
+              child: !assessment.endIn.isBefore(DateTime.now()) &&
+                  assessment.startIn
                       .difference(DateTime.now())
                       .inDays <
                       5
@@ -91,7 +98,7 @@ class BuildSliverAssessmentWidget extends StatelessWidget {
                           borderRadius: BorderRadius.circular(5)),
                       style: TextStyles.font12White600Weight,
                       duration: Duration(
-                          seconds: assessment.startDateTime
+                          seconds: assessment.startIn
                               .difference(DateTime.now())
                               .inSeconds),
                       showZeroValue: true,
@@ -99,7 +106,7 @@ class BuildSliverAssessmentWidget extends StatelessWidget {
                   ),
                 ],
               )
-                  : assessment.endDateTime.isBefore(DateTime.now())
+                  : assessment.endIn.isBefore(DateTime.now())
                   ? Text(
                 'Assessment submission deadline is over',
                 textAlign: TextAlign.center,
@@ -148,10 +155,10 @@ class BuildSliverAssessmentWidget extends StatelessWidget {
                             onTap: (){
                               showDialog(
                                 context: context,
-                                builder: (context) => ShowOrHidAssessmentInfoDialog(assessment: assessment),
+                                builder: (context) => ShowOrHidAssessmentInfoDialog(assessment: assessment,idCourse: idCourse,),
                               );
                             },
-                            child: Icon(assessment.isHideAssessment?Icons.visibility_off_outlined:Icons.visibility_outlined,
+                            child: Icon(assessment.visibility?Icons.visibility_outlined: Icons.visibility_off_outlined,
                                 color: Colors.black),
                           ),
                           horizontalSpace(8),
@@ -159,7 +166,7 @@ class BuildSliverAssessmentWidget extends StatelessWidget {
                             onTap: (){
                               showDialog(
                                 context: context,
-                                builder: (context) => EditAssessmentDialog(assessment: assessment),
+                                builder: (context) => EditAssessmentDialog(assessment: assessment,idCourse: idCourse),
                               );
                             },
                             child: SvgPicture.asset(
@@ -174,7 +181,7 @@ class BuildSliverAssessmentWidget extends StatelessWidget {
                             onTap: (){
                               showDialog(
                                 context: context,
-                                builder: (context) => DeleteAssessmentsInfoDialog(assessment: assessment),
+                                builder: (context) => DeleteAssessmentsInfoDialog(assessment: assessment,idCourse: idCourse),
                               );
                             },
                             child: SvgPicture.asset(
@@ -201,26 +208,26 @@ class BuildSliverAssessmentWidget extends StatelessWidget {
                   ),
                   buildListTileText(
                       subTitle:
-                      '${assessment.startDateTime.day}/${assessment.startDateTime.month}/${assessment.startDateTime.year}',
+                      '${assessment.startIn.day}/${assessment.startIn.month}/${assessment.startIn.year}',
                       svgUrl: 'assets/svgs/quiz_date.svg',
                       title: 'Assessment start date'),
                   buildListTileText(
                       subTitle:
-                      '${assessment.endDateTime.day}/${assessment.endDateTime.month}/${assessment.endDateTime.year}',
+                      '${assessment.endIn.day}/${assessment.endIn.month}/${assessment.endIn.year}',
                       svgUrl: 'assets/svgs/quiz_date.svg',
                       title: 'Assessment end date'),
                   buildListTileText(
                       subTitle: DateFormat.jm()
-                          .format(assessment.startDateTime),
+                          .format(assessment.startIn),
                       svgUrl: 'assets/svgs/quiz_time.svg',
                       title: 'Assessment start time'),
                   buildListTileText(
                       subTitle:
-                      DateFormat.jm().format(assessment.endDateTime),
+                      DateFormat.jm().format(assessment.endIn),
                       svgUrl: 'assets/svgs/quiz_time.svg',
                       title: 'Assessment end time'),
                   buildListTileText(
-                      subTitle: assessment.passingScore.toString(),
+                      subTitle: assessment.degree.toString(),
                       svgUrl: 'assets/svgs/quiz_score_icon.svg',
                       title: 'Assessment Score'),
                 ],
@@ -257,7 +264,7 @@ class BuildSliverAssessmentWidget extends StatelessWidget {
                     ),
                     trailing: GestureDetector(
                       onTap: () {
-                        _showBottomSheet(context);
+                        _showBottomSheet(context,idAssessment: assessment.id,idCourse: idCourse);
                       },
                       child: Container(
                         height: 32.h,
@@ -274,13 +281,13 @@ class BuildSliverAssessmentWidget extends StatelessWidget {
                     ),
                   ),
                   verticalSpace(10),
+                  ///TOODO
                   BlocBuilder<AssessmentsCubit,AssessmentsState>(builder: (context, state) {
                     if(state is SelectedAssessment){
-                      final listFiles = state.assessment.listFilesUrl;
-
+                      final listDocument = state.assessment.documents;
                       // Check if listFilesUrl is not null and not empty
-                      if (listFiles != null && listFiles.isNotEmpty) {
-                        return buildListView(listAssessmentFile: listFiles);
+                      if (listDocument != null && listDocument.isNotEmpty) {
+                        return buildListView(listDocumentAssessment: listDocument,idCourse:idCourse ,idAssessment: state.assessment.id);
                       } else {
                         return ImageAndTextEmptyData(
                           imageUrl: 'assets/images/no_download_image.png',
@@ -288,7 +295,7 @@ class BuildSliverAssessmentWidget extends StatelessWidget {
                         );
                       }
                     }else{
-                     return context.read<AssessmentsCubit>().assessment!.listFilesUrl!=null?buildListView(listAssessmentFile: context.read<AssessmentsCubit>().assessment!.listFilesUrl!):ImageAndTextEmptyData(imageUrl:'assets/images/no_download_image.png',message:'You have not uploaded any file yet.');
+                     return context.read<AssessmentsCubit>().assessment!.documents!=null&&context.read<AssessmentsCubit>().assessment!.documents!.isNotEmpty?buildListView(listDocumentAssessment: context.read<AssessmentsCubit>().assessment!.documents!,idAssessment:context.read<AssessmentsCubit>().assessment!.id ,idCourse: idCourse):ImageAndTextEmptyData(imageUrl:'assets/images/no_download_image.png',message:'You have not uploaded any file yet.');
                     }
                   },),
                 ],
@@ -299,33 +306,37 @@ class BuildSliverAssessmentWidget extends StatelessWidget {
       ),
     );
   }
-  ListView buildListView({required List<AssessmentFile> listAssessmentFile}) {
+  ListView buildListView({required List<DocumentAssessment> listDocumentAssessment,required int idCourse,required int idAssessment}) {
     return ListView.builder(
-      itemCount: listAssessmentFile.length,
+      itemCount: listDocumentAssessment.length,
       padding: EdgeInsetsDirectional.only(
           top: 0.h, bottom: 40.h, end: 16.w, start: 16.w),
       physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       itemBuilder: (context, index) =>
-          buildListTile(assessmentFile: listAssessmentFile[index], context: context),
+          buildListTile(documentAssessment: listDocumentAssessment[index], context: context,index: index,idAssessment: idAssessment,idCourse: idCourse),
     );
   }
   ListTile buildListTile(
-      {required AssessmentFile assessmentFile, required BuildContext context}) {
+      {required DocumentAssessment documentAssessment, required BuildContext context,required int index,required int idCourse,required int idAssessment}) {
     return ListTile(
+      onTap: (){
+        // context.read<AssessmentsCubit>().emitDownloadADocumentToAssessment(idCourse: idCourse, idAssessment: idAssessment, idDocument: documentAssessment.id, indexDocument: index);
+
+      },
       contentPadding: EdgeInsetsDirectional.zero,
       leading: GestureDetector(
           onTap: () {
           }, child: SvgPicture.asset('assets/svgs/pdf_icon.svg')),
       title: Text(
-        assessmentFile.title,
+        documentAssessment.title??'Document $index',
         style: TextStyles.font14Black400Weight,
       ),
       trailing: GestureDetector(
         onTap: () {
           showDialog(
               context: context,
-              builder: (context) => DeleteFileAssessmentInfoDialog(assessmentFile: assessmentFile,),);
+              builder: (context) => DeleteFileAssessmentInfoDialog(idAssessment: idAssessment,idCourse: idCourse,documentAssessment:documentAssessment,indexDocument: index),);
         },
         child: SvgPicture.asset(
           'assets/svgs/delete_icon.svg',
@@ -334,7 +345,7 @@ class BuildSliverAssessmentWidget extends StatelessWidget {
     );
   }
 
-  _showBottomSheet(BuildContext context) {
+  _showBottomSheet(BuildContext context,{required int idCourse,required int idAssessment }) {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
@@ -357,19 +368,24 @@ class BuildSliverAssessmentWidget extends StatelessWidget {
                 style: TextStyles.font14Black500WeightItalic,
               ),
               verticalSpace(24),
+              LoadingAddOrUpdateOrAssessmentQuizWidget(message: 'The file assessment has been added successfully.'),
               GestureDetector(
                 onTap: () async {
                   List<PlatformFile>? files =
                   await FileUtils.pickPdfFiles(context);
                   if (files != null && files.isNotEmpty) {
-                    List<AssessmentFile> listAssessmentFile = files
-                        .map((file) =>
-                        AssessmentFile(title: file.name, path: file.path!))
-                        .toList();
+
+                    List<File> filesList  = files.map((platformFile) {
+                      // Convert PlatformFile to File
+                      return File(platformFile.path!);
+                    }).toList();
                     context
                         .read<AssessmentsCubit>()
-                        .emitAddAssessmentFile(listAssessmentFile: listAssessmentFile);
-                    context.pop();
+                        .emitAddDocumentToAssessment(idCourse: idCourse, idAssessment: idAssessment, files: filesList);
+                    // context
+                    //     .read<AssessmentsCubit>()
+                    //     .emitAddAssessmentFile(listAssessmentFile: listAssessmentFile);
+                    // context.pop();
                   }
                 },
                 child: Container(

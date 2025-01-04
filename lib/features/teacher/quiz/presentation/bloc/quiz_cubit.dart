@@ -1,9 +1,12 @@
+import 'package:edu_sphere/features/teacher/quiz/domain/entities/estimate_quiz.dart';
 import 'package:edu_sphere/features/teacher/quiz/domain/entities/question1.dart';
 import 'package:edu_sphere/features/teacher/quiz/domain/entities/quiz.dart';
 import 'package:edu_sphere/features/teacher/quiz/domain/entities/quize.dart';
 import 'package:edu_sphere/features/teacher/quiz/domain/usecases/add_quiz.dart';
 import 'package:edu_sphere/features/teacher/quiz/domain/usecases/delete_quiz.dart';
+import 'package:edu_sphere/features/teacher/quiz/domain/usecases/get_all_estimate_quiz.dart';
 import 'package:edu_sphere/features/teacher/quiz/domain/usecases/get_all_quiz.dart';
+import 'package:edu_sphere/features/teacher/quiz/domain/usecases/update_estimate_quiz.dart';
 import 'package:edu_sphere/features/teacher/quiz/domain/usecases/update_quiz.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
@@ -19,13 +22,40 @@ class QuizCubit extends Cubit<QuizState> {
   final AddQuizUseCase addQuizUseCase;
   final UpdateQuizUseCase updateQuizUseCase;
   final DeleteQuizUseCase deleteQuizUseCase;
+  final GetAllEstimateQuizUseCase getAllEstimateQuizUseCase;
+  final UpdateEstimateQuizUseCase updateEstimateQuizUseCase;
   QuizCubit({
     required this.getAllQuizUseCase,
     required this.addQuizUseCase,
     required this.updateQuizUseCase,
     required this.deleteQuizUseCase,
+    required this.updateEstimateQuizUseCase,
+    required this.getAllEstimateQuizUseCase
 }) : super(QuizInitial());
   List<Quize> listQuize = [];
+  List<EstimateQuiz> listEstimateQuiz= [];
+  /// emit get all Estimate Quiz
+  emitGetAllEstimateQuiz({required int idCourse,required int idQuiz})async{
+    emit(GetAllEstimateQuizLoadingState());
+    final failureOrAdvertisement = await getAllEstimateQuizUseCase(idCourse: idCourse,idQuiz: idQuiz);
+    failureOrAdvertisement.fold((failure)=>emit(QuizMessageErrorState(message: _mapFailureMessage(failure: failure))),
+            (estimateQuiz){
+          Logger().d('Estimate Quiz  list ---->   $estimateQuiz');
+          listEstimateQuiz = estimateQuiz;
+          emit(GetAllEstimateQuizLoadedState(listEstimateQuiz:listEstimateQuiz ));
+        });
+  }
+  /// emit update Estimate Quiz
+  emitUpdateEstimateQuiz({required int idCourse,required int idQuiz,required int grade,required int idEstimate,required int indexEstimateQuiz})async{
+    emit(AddOrUpdateOrDeleteLoadingState());
+    final failureOrAdvertisement = await updateEstimateQuizUseCase(idCourse:idCourse ,idQuiz: idQuiz,grade: grade,idEstimate:idEstimate );
+    failureOrAdvertisement.fold((failure)=>emit(QuizMessageErrorState(message: _mapFailureMessage(failure: failure))),
+            (unit){
+          listEstimateQuiz[indexEstimateQuiz].grade.result= grade;
+          Logger().d('Estimate Quiz  list ---->   ${listEstimateQuiz[indexEstimateQuiz].grade.result}');
+          emit(GetAllEstimateQuizLoadedState(listEstimateQuiz:listEstimateQuiz ));
+        });
+  }
   ///emit get all quiz from api
   emitGetAllQuiz({required int idCourse})async{
     emit(GetAllQuizLoadingState());
@@ -63,7 +93,8 @@ class QuizCubit extends Cubit<QuizState> {
       selectedEndDateQuiz = null;
 
       startDateTimeQuiz = null;
-
+      startTime=null;
+      endTime=null;
       endDateTimeQuiz = null;
       errorMessageQuiz = null;
       listQuize.add(quiz);
@@ -99,6 +130,8 @@ class QuizCubit extends Cubit<QuizState> {
       startDateTimeQuiz = null;
       endDateTimeQuiz = null;
       errorMessageQuiz = null;
+      startTime=null;
+      endTime=null;
       quize=listQuize[indexQuiz!];
       emit(QuizeSelected(quiz: listQuize[indexQuiz!]));
       emit(GetAllQuizLoadedState(listQuiz: listQuize));

@@ -32,7 +32,7 @@ class EduSphereApp extends StatelessWidget {
          BlocProvider(create: (context)=>CourseMainCubit()),
          BlocProvider(create: (context)=>di.sl<QuizCubit>()),
          BlocProvider(create: (context)=>di.sl<QuestionCubit>()),
-         BlocProvider(create: (context)=>AssessmentsCubit()),
+         BlocProvider(create: (context)=>di.sl<AssessmentsCubit>()),
          BlocProvider(create: (context)=>di.sl<CourseAdvertisementCubit>()),
          BlocProvider(create: (context)=>di.sl<CourseLectureCubit>()),
       ],

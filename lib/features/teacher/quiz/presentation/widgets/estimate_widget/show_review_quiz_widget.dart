@@ -47,11 +47,15 @@ class ShowReviewQuizWidget extends StatelessWidget {
                 ),
 
               ),
-              ShowEstimatePersonWidget(
-                  name: 'Nassem Ah Mubarak',
-                  grad: '10/10',
-                onTapListTail: (){},
-                  ),
+              // ShowEstimatePersonWidget(
+              //   indexEstimateQuiz: index,
+              //   idCourse: quiz.courseId,
+              //   estimateQuiz: state.listEstimateQuiz[index],
+              //     name: 'Nassem Ah Mubarak',
+              //     grad: '10/10',
+              //   email: '',
+              //   onTapListTail: (){},
+              //     ),
             ],
           ),
         ),

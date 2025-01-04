@@ -4,13 +4,17 @@ import 'package:edu_sphere/core/theming/styles.dart';
 import 'package:edu_sphere/core/widgets/app_text_button.dart';
 import 'package:edu_sphere/features/teacher/assessments/domain/entities/assessment.dart';
 import 'package:edu_sphere/features/teacher/assessments/presentation/bloc/assessments_cubit.dart';
+import 'package:edu_sphere/features/teacher/assessments/presentation/widgets/assessment_widget/loading_add_or_update_or_assessment_quiz_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../../domain/entities/assessment1.dart';
+
 class DeleteAssessmentsInfoDialog extends StatelessWidget {
   Assessment assessment;
-  DeleteAssessmentsInfoDialog({super.key, required this.assessment});
+  int idCourse;
+  DeleteAssessmentsInfoDialog({super.key, required this.assessment,required this.idCourse});
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -37,14 +41,15 @@ class DeleteAssessmentsInfoDialog extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           verticalSpace(24),
+          LoadingAddOrUpdateOrAssessmentQuizWidget(isDelete: true,message: 'The assessment has been delete successfully.'),
           Row(
             children: [
               Expanded(
                 child: AppTextButton(
                   onPressed: () {
-                    context.read<AssessmentsCubit>().emitDeleteAssessment(assessment: assessment);
-                    context.pop();
-                    context.pop();
+                    context.read<AssessmentsCubit>().emitDeleteAssessment(assessment: assessment,idCourse: idCourse);
+                    // context.pop();
+                    // context.pop();
                   },
                   buttonText: 'Delete Ass',
                   textStyle: TextStyles.font12White400Weight,

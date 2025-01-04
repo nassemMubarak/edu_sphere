@@ -21,6 +21,18 @@ class GetAllQuizLoadedState extends QuizState{
   @override
   List<Object> get props => [listQuiz];
 }
+class GetAllEstimateQuizLoadingState extends QuizState{}
+
+class GetAllEstimateQuizLoadedState extends QuizState{
+  final List<EstimateQuiz> listEstimateQuiz;
+
+  GetAllEstimateQuizLoadedState({required this.listEstimateQuiz});
+
+  @override
+  List<Object> get props => [listEstimateQuiz];
+}
+
+
 class QuizMessageErrorState extends QuizState{
   final String message;
 

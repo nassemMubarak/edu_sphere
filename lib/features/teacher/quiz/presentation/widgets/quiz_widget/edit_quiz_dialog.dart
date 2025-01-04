@@ -168,7 +168,7 @@ class EditQuizDialog extends StatelessWidget {
                 ],
               ),
             ),
-
+            LoadingAddOrUpdateOrDeleteQuizWidget(message: 'The quiz has been delete successfully.'),
             BlocBuilder<QuizCubit,QuizState>(
               builder: (context, state) {
                 if(state is ErrorMessageAddQuiz){

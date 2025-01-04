@@ -225,6 +225,11 @@ class TextStyles {
     fontWeight: FontWeight.w400,
     color: Colors.black,
     fontFamily: 'Poppins',
+  );static TextStyle font10NeutralGray400Weight = TextStyle(
+    fontSize: 10.sp,
+    fontWeight: FontWeight.w400,
+    color: ColorsManager.neutralGray,
+    fontFamily: 'Poppins',
   );
   static TextStyle font10White400Weight = TextStyle(
     fontSize: 10.sp,

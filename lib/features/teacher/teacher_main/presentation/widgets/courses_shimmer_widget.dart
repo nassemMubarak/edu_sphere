@@ -25,13 +25,19 @@ class CoursesShimmerWidget extends StatelessWidget {
           title: Container(
           height: 20,
           width: 200,
-          color: Colors.white,
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(5)
+            ),
         ),
             subtitle: Container(
               margin: EdgeInsetsDirectional.only(top: 5),
               height: 10,
               width: 0,
+              decoration: BoxDecoration(
               color: Colors.white,
+                  borderRadius: BorderRadius.circular(5)
+              ),
             ),
       ),
         ),

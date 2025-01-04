@@ -3,7 +3,6 @@ import 'package:edu_sphere/core/helpers/spacing.dart';
 import 'package:edu_sphere/core/widgets/bread_crumb_widget.dart';
 import 'package:edu_sphere/core/widgets/image_and_text_empty_data.dart';
 import 'package:edu_sphere/core/widgets/sliver_widget.dart';
-import 'package:edu_sphere/features/teacher/course_main/presentation/bloc/course_advertisement/course_advertisement_cubit.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/bloc/course_main_cubit.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/widgets/advertisements/add_advertisements_info_dialog.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/widgets/advertisements/advertisements_widget.dart';
@@ -136,7 +135,7 @@ class CourseMainScreen extends StatelessWidget {
                       verticalSpace(24),
                       QuizeWidget(idCourse: coursesModel.id,),
                       verticalSpace(24),
-                      AssessmentWidget(),
+                      AssessmentWidget(idCourse: coursesModel.id),
                       verticalSpace(24),
                     ],
                   ),
