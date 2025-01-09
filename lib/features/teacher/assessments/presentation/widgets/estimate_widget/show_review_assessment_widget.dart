@@ -4,16 +4,11 @@ import 'package:edu_sphere/core/theming/styles.dart';
 import 'package:edu_sphere/features/teacher/assessments/domain/entities/assessment.dart';
 import 'package:edu_sphere/features/teacher/assessments/presentation/bloc/assessments_cubit.dart';
 import 'package:edu_sphere/features/teacher/assessments/presentation/widgets/estimate_widget/show_estimate_person_assessment_widget.dart';
-import 'package:edu_sphere/features/teacher/quiz/domain/entities/quiz.dart';
-import 'package:edu_sphere/features/teacher/quiz/presentation/bloc/quiz_cubit.dart';
-import 'package:edu_sphere/features/teacher/quiz/presentation/widgets/estimate_widget/show_estimate_person_widget.dart';
-import 'package:edu_sphere/features/teacher/quiz/presentation/widgets/questions_widgets/show_question_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../domain/entities/assessment1.dart';
 import '../../../domain/entities/estimate_assessment.dart';
 class ShowReviewAssessmentWidget extends StatelessWidget {
   EstimateAssessment estimateAssessmentSelected;

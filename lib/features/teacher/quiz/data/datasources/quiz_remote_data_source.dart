@@ -6,16 +6,17 @@ import 'package:edu_sphere/core/error/exception.dart';
 import 'package:edu_sphere/core/networking/api_constants.dart';
 import 'package:edu_sphere/features/teacher/quiz/data/models/document_question_model.dart';
 import 'package:edu_sphere/features/teacher/quiz/data/models/estimate_quiz_models.dart';
+import 'package:edu_sphere/features/teacher/quiz/data/models/review_quiz_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 
 import '../models/question_model.dart';
-import '../models/quize_model.dart';
+import '../models/quiz_model.dart';
 
 abstract class QuizRemoteDataSource{
   /// quiz
-  Future<List<QuizeModel>> getAllQuiz({required int idCourse,required String token});
-  Future<QuizeModel> addQuiz({required String token,required Map data,required int idCourse});
+  Future<List<QuizModel>> getAllQuiz({required int idCourse,required String token});
+  Future<QuizModel> addQuiz({required String token,required Map data,required int idCourse});
   Future<Unit> updateQuiz({required int idQuiz, required int idCourse, required Map data,required String token});
   Future<Unit> deleteQuiz({required int idQuiz, required int idCourse,required String token});
   /// quiz question
@@ -26,6 +27,7 @@ abstract class QuizRemoteDataSource{
   /// Estimate Quiz
   Future<List<EstimateQuizModels>> getAllEstimateQuiz({required int idQuiz,required int idCourse,required String token});
   Future<Unit> updateEstimateQuiz({required int idQuiz,required int grade,required int idCourse,required String token,required int idEstimate});
+  Future<ReviewQuizModel> showEstimateQuiz({required int idQuiz, required int idCourse, required int idEstimate,required String token});
 
 }
 class QuizRemoteDataSourceImpl implements QuizRemoteDataSource{
@@ -34,13 +36,13 @@ class QuizRemoteDataSourceImpl implements QuizRemoteDataSource{
   /// quiz
   /// get all quiz
   @override
-  Future<List<QuizeModel>> getAllQuiz({required int idCourse, required String token}) async{
+  Future<List<QuizModel>> getAllQuiz({required int idCourse, required String token}) async{
     final header = {'Authorization': 'Bearer $token'};
     final response = await client.get(Uri.parse('${ApiConstants.apiBaseUrl}${ApiConstants.teacherCourses}/$idCourse/${ApiConstants.quiz}'),headers: header);
     Logger().w('$token---------${response.statusCode}----///////-------------->${ApiConstants.apiBaseUrl}${ApiConstants.teacherCourses}/$idCourse/${ApiConstants.quiz}');
     if(response.statusCode>=200&&response.statusCode<300){
       final List<dynamic> decodeJson = json.decode(response.body);
-      List<QuizeModel> listQuiz = decodeJson.map((course)=>QuizeModel.fromJson(course)).toList();
+      List<QuizModel> listQuiz = decodeJson.map((course)=>QuizModel.fromJson(course)).toList();
       Logger().w('list quiz----------------------$listQuiz');
       return listQuiz;
     }else if(response.statusCode >= 400 && response.statusCode < 500){
@@ -51,14 +53,14 @@ class QuizRemoteDataSourceImpl implements QuizRemoteDataSource{
   }
   /// add quiz
   @override
-  Future<QuizeModel> addQuiz({required String token, required Map data, required int idCourse}) async{
+  Future<QuizModel> addQuiz({required String token, required Map data, required int idCourse}) async{
     final header = {'Authorization': 'Bearer $token'};
     Logger().e('----------------------->$data');
     final response = await client.post(Uri.parse('${ApiConstants.apiBaseUrl}${ApiConstants.teacherCourses}/$idCourse/${ApiConstants.quiz}'),body: data,headers: header);
     Logger().e(response.body);
     if(response.statusCode>=200&&response.statusCode<300){
       var decodeJson = json.decode(response.body);
-      QuizeModel quizModel = QuizeModel.fromJson(decodeJson);
+      QuizModel quizModel = QuizModel.fromJson(decodeJson);
       Logger().w('quiz----------------------$quizModel');
       return quizModel;
     }else if(response.statusCode >= 400 && response.statusCode < 500){
@@ -250,6 +252,24 @@ class QuizRemoteDataSourceImpl implements QuizRemoteDataSource{
     final response = await client.put(Uri.parse(url),body: {'grade':'$grade'},headers: header);
     if(response.statusCode>=200&&response.statusCode<300){
       return unit;
+    }else if(response.statusCode >= 400 && response.statusCode < 500){
+      throw InvalidDataException();
+    }else{
+      throw ServerException();
+    }
+  }
+
+  @override
+  Future<ReviewQuizModel> showEstimateQuiz({required int idQuiz, required int idCourse, required int idEstimate, required String token}) async{
+    final header = {'Authorization': 'Bearer $token',
+    };
+    String url = '${ApiConstants.apiBaseUrl}${ApiConstants.teacherCourses}/$idCourse/${ApiConstants.quiz}/$idQuiz/${ApiConstants.quizAttempt}/$idEstimate';
+    final response = await client.get(Uri.parse(url),headers: header);
+    if(response.statusCode>=200&&response.statusCode<300){
+      var decodeJson = json.decode(response.body);
+      ReviewQuizModel reviewQuizModel = ReviewQuizModel.fromJson(decodeJson);
+      Logger().w('reviewQuizModel----------------------$reviewQuizModel');
+      return reviewQuizModel;
     }else if(response.statusCode >= 400 && response.statusCode < 500){
       throw InvalidDataException();
     }else{

@@ -10,7 +10,7 @@ import 'package:edu_sphere/features/teacher/course_main/presentation/bloc/course
 import 'package:edu_sphere/features/teacher/course_main/presentation/widgets/lecture_widgets/add_lectures_dilog.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/widgets/lecture_widgets/delete_lecture_info_dialog.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/widgets/lecture_widgets/edit_lectures_dilog.dart';
-import 'package:edu_sphere/features/teacher/course_main/presentation/widgets/lecture_widgets/shimmer_loading_lecture.dart';
+import 'package:edu_sphere/core/widgets/shimmer_loading_lecture.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/widgets/section_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

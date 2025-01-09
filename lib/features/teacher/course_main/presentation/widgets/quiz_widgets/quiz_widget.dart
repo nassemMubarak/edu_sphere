@@ -2,7 +2,7 @@ import 'package:edu_sphere/core/helpers/extenshions.dart';
 import 'package:edu_sphere/core/routing/routes.dart';
 import 'package:edu_sphere/core/theming/styles.dart';
 import 'package:edu_sphere/core/widgets/image_and_text_empty_data.dart';
-import 'package:edu_sphere/features/teacher/course_main/presentation/widgets/quiz_widgets/shimmer_loading_quiz_widget.dart';
+import 'package:edu_sphere/core/widgets/shimmer_loading_quiz_widget.dart';
 import 'package:edu_sphere/features/teacher/quiz/presentation/widgets/quiz_widget/add_quiz_dialog.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/widgets/section_card.dart';
 import 'package:edu_sphere/features/teacher/quiz/presentation/bloc/quiz_cubit.dart';
@@ -16,7 +16,7 @@ class QuizeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<QuizCubit>().emitGetAllQuiz(idCourse: 17);
+    context.read<QuizCubit>().emitGetAllQuiz(idCourse: idCourse);
     return BlocBuilder<QuizCubit,QuizState>(
       buildWhen: (previous, current) => current is GetAllQuizLoadedState,
         builder: (context, state) {
@@ -62,7 +62,7 @@ class QuizeWidget extends StatelessWidget {
                 icon: 'assets/svgs/quiz_on_computer_question_icon.svg',
                 infoDialog:  AddQuizDialog(idCourse: idCourse,),
                 widget: ListView.builder(
-                  itemCount: context.read<QuizCubit>().listQuiz.length,
+                  itemCount: context.read<QuizCubit>().listQuize.length,
                   physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemBuilder: (context, index) => ListTile(
@@ -73,7 +73,7 @@ class QuizeWidget extends StatelessWidget {
                     },
                     contentPadding: EdgeInsets.symmetric(horizontal: 16.w),
                     leading: SvgPicture.asset('assets/svgs/quiz_leading_icon.svg'),
-                    title: Text(context.read<QuizCubit>().listQuiz[index].quizTitle,style: TextStyles.font14Black500Weight),
+                    title: Text(context.read<QuizCubit>().listQuize[index].title,style: TextStyles.font14Black500Weight),
                   ),
                 ),
               );

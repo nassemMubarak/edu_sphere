@@ -20,7 +20,8 @@ class AppTextFormField extends StatelessWidget {
   final TextEditingController? controller;
   final Function(String?) validator;
   final TextInputType? textInputType;
-  const AppTextFormField({
+  Function(String)? onChanged;
+   AppTextFormField({
     super.key,
     this.contentPadding,
     this.focusedBorder,
@@ -33,6 +34,7 @@ class AppTextFormField extends StatelessWidget {
     this.prefixIcon,
     this.backgroundColor,
     this.controller,
+    this.onChanged,
     this.textInputType,
     this.maxLines,
     this.minLines,
@@ -43,6 +45,7 @@ class AppTextFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onChanged: onChanged,
       textAlignVertical: TextAlignVertical.top,
       minLines: isObscureText!=null?1:minLines,
       maxLines:isObscureText!=null?1:maxLines,

@@ -2,7 +2,7 @@ import 'package:edu_sphere/core/helpers/extenshions.dart';
 import 'package:edu_sphere/core/helpers/spacing.dart';
 import 'package:edu_sphere/core/theming/styles.dart';
 import 'package:edu_sphere/core/widgets/app_text_button.dart';
-import 'package:edu_sphere/features/teacher/quiz/domain/entities/quize.dart';
+import 'package:edu_sphere/features/teacher/quiz/domain/entities/quiz.dart';
 import 'package:edu_sphere/features/teacher/quiz/presentation/bloc/quiz_cubit.dart';
 import 'package:edu_sphere/features/teacher/quiz/presentation/widgets/quiz_widget/loading_add_or_update_or_delete_quiz_widget.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +13,7 @@ import 'package:logger/logger.dart';
 class DeleteQuizInfoDialog extends StatelessWidget {
 
   int idCourse;
-  Quize quiz;
+  Quiz quiz;
   DeleteQuizInfoDialog({super.key, required this.quiz,required this.idCourse});
   @override
   Widget build(BuildContext context) {

@@ -5,7 +5,7 @@ import 'package:edu_sphere/features/teacher/course_main/domain/entities/advertis
 import 'package:edu_sphere/features/teacher/course_main/presentation/bloc/course_advertisement/course_advertisement_cubit.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/widgets/advertisements/add_advertisements_info_dialog.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/widgets/advertisements/select_edit_and_remove_advertisements_info_dialog.dart';
-import 'package:edu_sphere/features/teacher/course_main/presentation/widgets/advertisements/shimmer_loading_advertisement.dart';
+import 'package:edu_sphere/core/widgets/shimmer_loading_advertisement.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/widgets/section_card.dart';
 import 'package:flutter/material.dart';

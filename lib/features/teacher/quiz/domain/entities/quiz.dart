@@ -1,23 +1,45 @@
-import 'package:edu_sphere/features/teacher/quiz/domain/entities/question1.dart';
-
-class Quiz {
-  String quizTitle;
-  String description;
-  int passingScore;
-  int timeLift;
-  DateTime startDateTime;
-  DateTime endDateTime;
-  bool isHideQuiz;
-   List<Question1>? questions;
-
+import 'package:equatable/equatable.dart';
+class Quiz extends Equatable{
+   int id;
+   String title;
+   String description;
+   int courseId;
+   String degree;
+   String time;
+   int visibility;
+   DateTime startIn; // DateTime instead of String
+   DateTime endIn; // DateTime instead of String
+   String? createdAt; // Nullable
+   String? updatedAt; // Nullable
+   int? resultVisible; // Optional field (nullable)
   Quiz({
-    required this.quizTitle,
+    required this.id,
+    required this.title,
     required this.description,
-    required this.passingScore,
-    required this.timeLift,
-    required this.startDateTime,
-    required this.endDateTime,
-    required this.isHideQuiz,
-     this.questions,
+    required this.time,
+    required this.degree,
+    required this.visibility,
+    required this.startIn,
+    required this.endIn,
+    required this.courseId,
+     this.createdAt,
+     this.updatedAt,
+    this.resultVisible
   });
+  @override
+  List<Object?> get props => [
+   id,
+    title,
+    description,
+    time,
+    degree,
+    visibility,
+    startIn,
+    endIn,
+    courseId,
+    createdAt,
+    updatedAt,
+    resultVisible
+
+  ];
 }

@@ -2,15 +2,19 @@ import 'package:edu_sphere/core/helpers/extenshions.dart';
 import 'package:edu_sphere/core/helpers/spacing.dart';
 import 'package:edu_sphere/core/theming/styles.dart';
 import 'package:edu_sphere/core/widgets/app_text_button.dart';
+import 'package:edu_sphere/features/teacher/assessments/domain/entities/document_assessment.dart';
 import 'package:edu_sphere/features/teacher/course_main/domain/entities/chapter.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/bloc/course_main_cubit.dart';
+import 'package:edu_sphere/features/teacher/course_main/presentation/bloc/document_course/document_course_cubit.dart';
+import 'package:edu_sphere/features/teacher/course_main/presentation/widgets/chapters_widgets/loading_add_or_delete_chapter_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DeleteChapterInfoDialog extends StatelessWidget {
-  Chapter chapter;
-  DeleteChapterInfoDialog({super.key, required this.chapter});
+  DocumentAssessment chapter;
+  int idCourse;
+  DeleteChapterInfoDialog({super.key, required this.chapter,required this.idCourse});
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -37,13 +41,14 @@ class DeleteChapterInfoDialog extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           verticalSpace(24),
+          LoadingAddOrDeleteChapterWidget(message: 'Successfully Deleted Chapter ${chapter.title}',),
+
           Row(
             children: [
               Expanded(
                 child: AppTextButton(
                   onPressed: () {
-                    context.read<CourseMainCubit>().emitDeleteChapter(chapter: chapter);
-                    context.pop();
+                    context.read<DocumentCourseCubit>().emitDeleteDocumentToCourse(idCourse: idCourse,document: chapter);
                   },
                   buttonText: 'Delete Chapter',
                   textStyle: TextStyles.font12White400Weight,

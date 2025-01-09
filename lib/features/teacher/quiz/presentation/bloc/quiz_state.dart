@@ -4,23 +4,24 @@ part of 'quiz_cubit.dart';
 sealed class QuizState {}
 
 final class QuizInitial extends QuizState {}
-final class QuizSelected extends QuizState{
+// final class QuizSelected extends QuizState{
+//    Quiz quiz;
+//   QuizSelected({required this.quiz});
+// }
+final class QuizeSelected extends QuizState{
    Quiz quiz;
-  QuizSelected({required this.quiz});
-}final class QuizeSelected extends QuizState{
-   Quize quiz;
   QuizeSelected({required this.quiz});
 }
 class GetAllQuizLoadingState extends QuizState{}
 class AddOrUpdateOrDeleteLoadingState extends QuizState{}
 class GetAllQuizLoadedState extends QuizState{
-  final List<Quize> listQuiz;
-
+  final List<Quiz> listQuiz;
   GetAllQuizLoadedState({required this.listQuiz});
 
   @override
   List<Object> get props => [listQuiz];
 }
+
 class GetAllEstimateQuizLoadingState extends QuizState{}
 
 class GetAllEstimateQuizLoadedState extends QuizState{
@@ -31,6 +32,14 @@ class GetAllEstimateQuizLoadedState extends QuizState{
   @override
   List<Object> get props => [listEstimateQuiz];
 }
+class ShowReviewQuizLoadedState extends QuizState{
+  ReviewQuizModel reviewQuizModel;
+  ShowReviewQuizLoadedState({required this.reviewQuizModel});
+  @override
+  List<Object> get props => [reviewQuizModel];
+
+}
+class ShowReviewQuizLoadingState extends QuizState{}
 
 
 class QuizMessageErrorState extends QuizState{
@@ -46,10 +55,10 @@ class ErrorMessageAddQuiz extends QuizState{
   final String message;
   ErrorMessageAddQuiz({required this.message});
 }
-class GetAllQuiz extends QuizState{
-  List<Quiz> listQuiz;
-  GetAllQuiz({required this.listQuiz});
-}
+// class GetAllQuiz extends QuizState{
+//   List<Quiz> listQuiz;
+//   GetAllQuiz({required this.listQuiz});
+// }
 final class AddOrRemoveNewOption extends QuizState{
   int numberOption;
   AddOrRemoveNewOption({required this.numberOption});

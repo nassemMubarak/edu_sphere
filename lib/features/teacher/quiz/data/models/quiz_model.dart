@@ -1,9 +1,9 @@
 import 'package:logger/logger.dart';
 
-import '../../domain/entities/quize.dart';
+import '../../domain/entities/quiz.dart';
 
-class QuizeModel extends Quize {
-  QuizeModel({
+class QuizModel extends Quiz {
+  QuizModel({
     required super.id,
     required super.title,
     required super.description,
@@ -18,8 +18,8 @@ class QuizeModel extends Quize {
     super.resultVisible,
   });
 
-  factory QuizeModel.fromJson(Map<String, dynamic> json) {
-    return QuizeModel(
+  factory QuizModel.fromJson(Map<String, dynamic> json) {
+    return QuizModel(
       id: json['id'],
       title: json['title'],
       description: json['description'],

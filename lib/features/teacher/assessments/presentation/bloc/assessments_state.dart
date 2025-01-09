@@ -49,10 +49,7 @@ class QuizMessageErrorState extends AssessmentsState{
   @override
   List<Object> get props => [message];
 }
-class GetAllAssessment extends AssessmentsState{
-  List<Assessment1> assessment;
-  GetAllAssessment({required this.assessment});
-}
+
 class SelectedAssessment extends AssessmentsState{
   Assessment assessment;
   SelectedAssessment({required this.assessment});

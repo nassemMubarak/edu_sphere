@@ -29,11 +29,10 @@ class CourseMainScreen extends StatelessWidget {
       backgroundColor: Colors.white,
       extendBodyBehindAppBar: true,
       body: SliverWidget(
-        leading: IconButton(
-            onPressed: () {
-              context.pop();
-            },
-            icon: Icon(Icons.arrow_back)),
+
+        leading: IconButton(onPressed: (){
+          context.pop();
+        }, icon: Icon(Icons.arrow_back_ios),),
         widget: BlocBuilder<CourseMainCubit,CourseMainState>(
           builder: (context, state) {
             if(state is EditCourseDescription){
@@ -131,7 +130,7 @@ class CourseMainScreen extends StatelessWidget {
                       verticalSpace(24),
                       LecturesWidget(idCourse: coursesModel.id),
                       verticalSpace(24),
-                      ChaptersWidget(),
+                      ChaptersWidget(idCourse: coursesModel.id),
                       verticalSpace(24),
                       QuizeWidget(idCourse: coursesModel.id,),
                       verticalSpace(24),

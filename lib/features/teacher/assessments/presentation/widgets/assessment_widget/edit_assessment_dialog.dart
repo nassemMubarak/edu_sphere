@@ -10,16 +10,12 @@ import 'package:edu_sphere/features/teacher/assessments/presentation/bloc/assess
 import 'package:edu_sphere/features/teacher/assessments/presentation/widgets/assessment_widget/date_assessment_widget.dart';
 import 'package:edu_sphere/features/teacher/assessments/presentation/widgets/assessment_widget/loading_add_or_update_or_assessment_quiz_widget.dart';
 import 'package:edu_sphere/features/teacher/assessments/presentation/widgets/assessment_widget/time_assessment_widget.dart';
-import 'package:edu_sphere/features/teacher/quiz/domain/entities/quiz.dart';
-import 'package:edu_sphere/features/teacher/quiz/presentation/bloc/quiz_cubit.dart';
-import 'package:edu_sphere/features/teacher/quiz/presentation/widgets/quiz_widget/date_quiz_widget.dart';
-import 'package:edu_sphere/features/teacher/quiz/presentation/widgets/quiz_widget/time_quiz_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../domain/entities/assessment1.dart';
+
 
 class EditAssessmentDialog extends StatelessWidget {
   Assessment assessment;

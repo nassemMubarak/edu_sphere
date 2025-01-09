@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
 import 'package:edu_sphere/core/error/exception.dart';
 import 'package:edu_sphere/core/error/failure.dart';
 import 'package:edu_sphere/core/helpers/constants.dart';
 import 'package:edu_sphere/core/helpers/shared_pref_helper.dart';
 import 'package:edu_sphere/core/networking/network_info.dart';
+import 'package:edu_sphere/features/teacher/assessments/domain/entities/document_assessment.dart';
 import 'package:edu_sphere/features/teacher/course_main/data/datasources/course_main_local_data_source.dart';
 import 'package:edu_sphere/features/teacher/course_main/data/datasources/course_main_remote_data_source.dart';
 import 'package:edu_sphere/features/teacher/course_main/domain/entities/advertisement.dart';
@@ -146,6 +149,72 @@ class CourseMainRepositoryImpl implements CourseMainRepository{
       return Left(OfflineFailure());
     }
   }
+
+  @override
+  Future<Either<Failure, List<DocumentAssessment>>> getAllDocumentToCourse({required int idCourse}) async{
+    if(await networkInfo.isConnected){
+      try{
+        final String token = await SharedPrefHelper.getString(SharedPrefKeys.cachedToken);
+        final listDocument = await remoteDataSourceImpl.getAllDocumentToCourse(idCourse: idCourse, token: token);
+        return Right(listDocument);
+      }on ServerException{
+        return Left(ServerFailure());
+      }
+    }else{
+      return Left(OfflineFailure());
+    }
+  }
+  @override
+  Future<Either<Failure, List<DocumentAssessment>>> addDocumentToCourse({required int idCourse, required List<File> files})async {
+    if(await networkInfo.isConnected){
+      try{
+        final String token = await SharedPrefHelper.getString(SharedPrefKeys.cachedToken);
+        final listDocuments = await remoteDataSourceImpl.addDocumentToCourse(token: token,files: files, idCourse: idCourse);
+        return Right(listDocuments);
+      }on InvalidDataException{
+        return Left(InvalidDataFailure());
+      }on ServerException{
+        return Left(ServerFailure());
+      }
+    }else{
+      return Left(OfflineFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> deleteDocumentToCourse({required int idCourse, required int idDocument}) async{
+    if(await networkInfo.isConnected){
+      try{
+        final String token = await SharedPrefHelper.getString(SharedPrefKeys.cachedToken);
+        final lecture = await remoteDataSourceImpl.deleteDocumentToCourse(token: token, idCourse: idCourse, idDocument: idDocument);
+        return Right(lecture);
+      }on InvalidDataException{
+        return Left(InvalidDataFailure());
+      }on ServerException{
+        return Left(ServerFailure());
+      }
+    }else{
+      return Left(OfflineFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> downloadDocumentToCourse({required int idCourse, required int idDocument}) async{
+    if(await networkInfo.isConnected){
+      try{
+        final String token = await SharedPrefHelper.getString(SharedPrefKeys.cachedToken);
+        final lecture = await remoteDataSourceImpl.downloadDocumentToCourse(token: token, idCourse: idCourse, idDocument: idDocument);
+        return Right(lecture);
+      }on InvalidDataException{
+        return Left(InvalidDataFailure());
+      }on ServerException{
+        return Left(ServerFailure());
+      }
+    }else{
+      return Left(OfflineFailure());
+    }
+  }
+
 
 
 

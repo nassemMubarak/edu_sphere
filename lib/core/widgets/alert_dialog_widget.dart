@@ -9,6 +9,7 @@ class AlertDialogWidget extends StatelessWidget {
   String title;
   String textButton;
   Widget widget;
+  TextStyle? styleTitle;
   Function() onTapButton;
   bool showCancel;
    AlertDialogWidget({
@@ -17,6 +18,7 @@ class AlertDialogWidget extends StatelessWidget {
      required this.textButton,
      required this.widget,
      required this.onTapButton,
+      this.styleTitle,
       this.showCancel=true
   });
 
@@ -33,7 +35,7 @@ class AlertDialogWidget extends StatelessWidget {
       scrollable: true,
       title: Text(
         title,
-        style: TextStyles.font16Black600Weight,
+        style: styleTitle??TextStyles.font16Black600Weight,
         textAlign: TextAlign.center,
       ),
       content: Column(

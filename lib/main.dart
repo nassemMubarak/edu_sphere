@@ -11,40 +11,28 @@ import 'injection_container.dart' as di;
 
 bool isShowOnBoarding = false;
 bool isUserLogIn = false;
+String typeUser = 'Student';
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await ScreenUtil.ensureScreenSize();
   await di.init();
   await checkIfShowOnboarding();
   await checkIfUserLogIn();
-  // SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-  //   // statusBarColor: ColorsManager.mainBlue,
-  //   // systemNavigationBarDividerColor: ColorsManager.mainBlue,
-  //   // systemNavigationBarColor: ColorsManager.mainBlue,
-  //
-  // ),);
+  await getTypeUserLogIn();
+
   runApp(EduSphereApp(appRouter: AppRouter()));
 }
-checkIfShowOnboarding() async{
-  bool? isShow = await SharedPrefHelper.getBool(SharedPrefKeys.isShowOnboarding);
-  print(isShow);
-  if(isShow==null){
-    isShowOnBoarding = false;
-  }else if(isShow==false){
-    isShowOnBoarding = false;
-  }else{
 
-    isShowOnBoarding = true;
-  }
+Future<void> checkIfShowOnboarding() async {
+  bool? isShow = await SharedPrefHelper.getBool(SharedPrefKeys.isShowOnboarding);
+  isShowOnBoarding = isShow ?? false;
 }
-checkIfUserLogIn() async{
-  String? isShowUser = await SharedPrefHelper.getString(SharedPrefKeys.cachedUser);
-  print(isShowUser);
-  if(isShowUser==null){
-    isUserLogIn = false;
-  }else if(isShowUser.isEmpty){
-    isUserLogIn = false;
-  }
-  else{
-    isUserLogIn = true;
-  }
+
+Future<void> checkIfUserLogIn() async {
+  String? cachedUser = await SharedPrefHelper.getString(SharedPrefKeys.cachedUser);
+  isUserLogIn = cachedUser?.isNotEmpty ?? false;
+}
+Future<void> getTypeUserLogIn() async {
+  String? cachedUser = await SharedPrefHelper.getString(SharedPrefKeys.cachedUser);
+  typeUser = cachedUser??'Student';
 }

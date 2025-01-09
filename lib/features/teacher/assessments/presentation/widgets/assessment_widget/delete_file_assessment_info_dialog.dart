@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../../../domain/entities/assessment1.dart';
+
 import 'loading_add_or_update_or_assessment_quiz_widget.dart';
 
 class DeleteFileAssessmentInfoDialog extends StatelessWidget {

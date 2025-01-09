@@ -7,7 +7,6 @@ import 'package:edu_sphere/core/widgets/app_text_form_field.dart';
 import 'package:edu_sphere/core/widgets/label_and_widget.dart';
 import 'package:edu_sphere/edu_sphere_app.dart';
 import 'package:edu_sphere/features/teacher/quiz/domain/entities/question.dart';
-import 'package:edu_sphere/features/teacher/quiz/domain/entities/question1.dart';
 import 'package:edu_sphere/features/teacher/quiz/presentation/bloc/question/question_cubit.dart';
 import 'package:edu_sphere/features/teacher/quiz/presentation/bloc/quiz_cubit.dart';
 import 'package:edu_sphere/features/teacher/quiz/presentation/widgets/questions_widgets/add_options_widget.dart';

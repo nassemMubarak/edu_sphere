@@ -45,13 +45,16 @@ class AuthCubit extends Cubit<AuthState> {
       required this.getAllCampUserUseCase,
       })
       : super(AuthInitial());
-
+  User? user;
   emitGetCurrentUser() async {
     emit(AuthLoadingState());
     final failureOrUser = await getCurrentUserUseCase();
     emit(failureOrUser.fold(
       (_) => AuthInitial(),
-      (user) => AuthLoadedState(user: user),
+      (user) {
+        this.user = user;
+        return AuthLoadedState(user: user);
+      },
     ));
   }
 
@@ -147,7 +150,22 @@ class AuthCubit extends Cubit<AuthState> {
     return either.fold(
       (failure) =>
           AuthMessageErrorState(message: _mapFailureMessage(failure: failure)),
-      (user) => AuthLoadedState(user: user),
+      (user){
+        emailController=TextEditingController();
+        emailRegisterController=TextEditingController();
+        passwordController=TextEditingController();
+        passwordRegisterController=TextEditingController();
+        nameController=TextEditingController();
+        confirmPasswordController=TextEditingController();
+        campStudentId=null;
+        studentEducationStage=null;
+        campTeacherId=null;
+        ageStudentTextEditingController  =TextEditingController();
+        teacherUniversityMajor  =TextEditingController();
+        ageTeacherTextEditingController  =TextEditingController();
+        return AuthLoadedState(user: user);
+      }
+
     );
   }
 
