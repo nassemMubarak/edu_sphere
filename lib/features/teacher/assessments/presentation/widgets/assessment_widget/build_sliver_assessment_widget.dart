@@ -28,7 +28,6 @@ import 'package:logger/logger.dart';
 import 'package:slide_countdown/slide_countdown.dart';
 
 import '../../../../../../core/widgets/sliver_widget.dart';
-import '../../../domain/entities/assessment1.dart';
 class BuildSliverAssessmentWidget extends StatelessWidget {
   Assessment assessment;
    BuildSliverAssessmentWidget({super.key,required this.assessment});

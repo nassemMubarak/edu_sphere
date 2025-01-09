@@ -1,11 +1,11 @@
+import 'package:edu_sphere/features/teacher/quiz/data/models/review_quiz_model.dart';
 import 'package:edu_sphere/features/teacher/quiz/domain/entities/estimate_quiz.dart';
-import 'package:edu_sphere/features/teacher/quiz/domain/entities/question1.dart';
 import 'package:edu_sphere/features/teacher/quiz/domain/entities/quiz.dart';
-import 'package:edu_sphere/features/teacher/quiz/domain/entities/quize.dart';
 import 'package:edu_sphere/features/teacher/quiz/domain/usecases/add_quiz.dart';
 import 'package:edu_sphere/features/teacher/quiz/domain/usecases/delete_quiz.dart';
 import 'package:edu_sphere/features/teacher/quiz/domain/usecases/get_all_estimate_quiz.dart';
 import 'package:edu_sphere/features/teacher/quiz/domain/usecases/get_all_quiz.dart';
+import 'package:edu_sphere/features/teacher/quiz/domain/usecases/show_estimate_quiz.dart';
 import 'package:edu_sphere/features/teacher/quiz/domain/usecases/update_estimate_quiz.dart';
 import 'package:edu_sphere/features/teacher/quiz/domain/usecases/update_quiz.dart';
 import 'package:flutter/material.dart';
@@ -24,16 +24,20 @@ class QuizCubit extends Cubit<QuizState> {
   final DeleteQuizUseCase deleteQuizUseCase;
   final GetAllEstimateQuizUseCase getAllEstimateQuizUseCase;
   final UpdateEstimateQuizUseCase updateEstimateQuizUseCase;
+  final ShowEstimateQuizUseCase showEstimateQuizUseCase;
   QuizCubit({
     required this.getAllQuizUseCase,
     required this.addQuizUseCase,
     required this.updateQuizUseCase,
     required this.deleteQuizUseCase,
     required this.updateEstimateQuizUseCase,
-    required this.getAllEstimateQuizUseCase
+    required this.getAllEstimateQuizUseCase,
+    required this.showEstimateQuizUseCase
 }) : super(QuizInitial());
-  List<Quize> listQuize = [];
+  List<Quiz> listQuize = [];
   List<EstimateQuiz> listEstimateQuiz= [];
+  int selectedEstimateQuiz = 0;
+   ReviewQuizModel? reviewQuizModel;
   /// emit get all Estimate Quiz
   emitGetAllEstimateQuiz({required int idCourse,required int idQuiz})async{
     emit(GetAllEstimateQuizLoadingState());
@@ -43,6 +47,17 @@ class QuizCubit extends Cubit<QuizState> {
           Logger().d('Estimate Quiz  list ---->   $estimateQuiz');
           listEstimateQuiz = estimateQuiz;
           emit(GetAllEstimateQuizLoadedState(listEstimateQuiz:listEstimateQuiz ));
+        });
+  }
+  /// emit show Estimate Quiz
+  emitShowEstimateQuiz({required int idCourse,required int idQuiz,required int idEstimate})async{
+    emit(ShowReviewQuizLoadingState());
+    final failureOrAdvertisement = await showEstimateQuizUseCase(idCourse: idCourse,idQuiz: idQuiz,idEstimate: idEstimate);
+    failureOrAdvertisement.fold((failure)=>emit(QuizMessageErrorState(message: _mapFailureMessage(failure: failure))),
+            (reviewQuiz){
+          Logger().d('reviewQuiz  ---->   $reviewQuiz');
+          reviewQuizModel = reviewQuiz;
+          emit(ShowReviewQuizLoadedState(reviewQuizModel: reviewQuiz ));
         });
   }
   /// emit update Estimate Quiz
@@ -58,6 +73,7 @@ class QuizCubit extends Cubit<QuizState> {
   }
   ///emit get all quiz from api
   emitGetAllQuiz({required int idCourse})async{
+    Logger().e('id Course $idCourse');
     emit(GetAllQuizLoadingState());
     final failureOrAdvertisement = await getAllQuizUseCase(idCourse:idCourse);
     failureOrAdvertisement.fold((failure)=>emit(QuizMessageErrorState(message: _mapFailureMessage(failure: failure))),
@@ -152,7 +168,7 @@ class QuizCubit extends Cubit<QuizState> {
       emit(GetAllQuizLoadedState(listQuiz: listQuize));
     }) ;
   }
-  emitDeleteQuize({required Quize quiz,required int idCourse}) async{
+  emitDeleteQuize({required Quiz quiz,required int idCourse}) async{
     Logger().d('course id ----->    $idCourse');
     emit(AddOrUpdateOrDeleteLoadingState());
     final failureOrAdvertisement = await deleteQuizUseCase(idCourse: idCourse,idQuiz: quiz.id);
@@ -162,7 +178,7 @@ class QuizCubit extends Cubit<QuizState> {
     }) ;
   }
 
-  emitSelectQuize({required Quize quiz, required int indexQuiz}) {
+  emitSelectQuize({required Quiz quiz, required int indexQuiz}) {
     this.quize = quiz;
     this.indexQuiz = indexQuiz;
     emit(QuizeSelected(quiz: quiz));
@@ -174,8 +190,7 @@ class QuizCubit extends Cubit<QuizState> {
 
   }
   final globalQuizKey = GlobalKey<FormState>();
-  Quiz? quiz;
-  Quize? quize;
+  Quiz? quize;
   int? indexQuiz;
   final formQuestionKey = GlobalKey<FormState>();
   final formOption1Key = GlobalKey<FormState>();
@@ -284,7 +299,7 @@ class QuizCubit extends Cubit<QuizState> {
   bool? isSuccessSelectDateTime;
   int? indexQuizSelected;
 // add Quiz
-  List<Quiz> listQuiz = [];
+//   List<Quiz> listQuiz = [];
   // emitEditQuiz(BuildContext context) {
   //   listQuiz[indexQuizSelected!].quizTitle =  quizTitleTextEditionController.text;
   //   listQuiz[indexQuizSelected!].description = quizDescriptionTextEditionController.text;
@@ -376,91 +391,91 @@ class QuizCubit extends Cubit<QuizState> {
     emit(AddOrRemoveNewOption(numberOption: addOrRemoveNumberOption));
   }
 
-  emitDeleteQuestion(
-      {required BuildContext context, required Question1 question}) {
-    quiz!.questions!.remove(question);
-    listQuiz[indexQuiz!] = quiz!;
-    emit(GetAllQuiz(listQuiz: listQuiz));
-    emit(QuizSelected(quiz: quiz!));
-  }
-  emitEditQuestionToQuiz(BuildContext context,int index) {
-    Question1 question = Question1(
-        questionText: questionTitle.text,
-        correctAnswer: correctChoice!,
-        questionPathImage: questionPathImage,
-        questionScore: questionScore!,
-        options: addOrRemoveNumberOption >= 2
-            ? [
-          firstChoice.text,
-          secondChoice.text,
-          thirdChoice.text,
-          forthChoice.text
-        ]
-            : addOrRemoveNumberOption == 1
-            ? [
-          firstChoice.text,
-          secondChoice.text,
-          thirdChoice.text,
-        ]
-            : [
-          firstChoice.text,
-          secondChoice.text,
-        ]);
-    quiz!.questions == null
-        ? quiz!.questions = [question]
-        : quiz!.questions![index] = question;
-    listQuiz[indexQuiz!] = quiz!;
-    emit(GetAllQuiz(listQuiz: listQuiz));
-    emit(QuizSelected(quiz: quiz!));
-    questionTitle = TextEditingController();
-    firstChoice = TextEditingController();
-    secondChoice = TextEditingController();
-    thirdChoice = TextEditingController();
-    forthChoice = TextEditingController();
-    correctChoice = null;
-    questionScore = null;
-    questionPathImage = null;
-    addOrRemoveNumberOption = 0;
-  }
-  emitAddQuestionToQuiz(BuildContext context) {
-    Question1 question = Question1(
-        questionText: questionTitle.text,
-        correctAnswer: correctChoice!,
-        questionPathImage: questionPathImage,
-        questionScore: questionScore!,
-        options: addOrRemoveNumberOption >= 2
-            ? [
-                firstChoice.text,
-                secondChoice.text,
-                thirdChoice.text,
-                forthChoice.text
-              ]
-            : addOrRemoveNumberOption == 1
-                ? [
-                    firstChoice.text,
-                    secondChoice.text,
-                    thirdChoice.text,
-                  ]
-                : [
-                    firstChoice.text,
-                    secondChoice.text,
-                  ]);
-    quiz!.questions == null
-        ? quiz!.questions = [question]
-        : quiz!.questions!.add(question);
-    listQuiz[indexQuiz!] = quiz!;
-    emit(GetAllQuiz(listQuiz: listQuiz));
-    emit(QuizSelected(quiz: quiz!));
-    questionTitle = TextEditingController();
-    firstChoice = TextEditingController();
-    secondChoice = TextEditingController();
-    thirdChoice = TextEditingController();
-    forthChoice = TextEditingController();
-    correctChoice = null;
-    questionScore = null;
-    questionPathImage = null;
-    addOrRemoveNumberOption = 0;
-  }
+  // emitDeleteQuestion(
+  //     {required BuildContext context, required Question1 question}) {
+  //   quiz!.questions!.remove(question);
+  //   listQuiz[indexQuiz!] = quiz!;
+  //   emit(GetAllQuiz(listQuiz: listQuiz));
+  //   emit(QuizSelected(quiz: quiz!));
+  // }
+  // emitEditQuestionToQuiz(BuildContext context,int index) {
+  //   Question1 question = Question1(
+  //       questionText: questionTitle.text,
+  //       correctAnswer: correctChoice!,
+  //       questionPathImage: questionPathImage,
+  //       questionScore: questionScore!,
+  //       options: addOrRemoveNumberOption >= 2
+  //           ? [
+  //         firstChoice.text,
+  //         secondChoice.text,
+  //         thirdChoice.text,
+  //         forthChoice.text
+  //       ]
+  //           : addOrRemoveNumberOption == 1
+  //           ? [
+  //         firstChoice.text,
+  //         secondChoice.text,
+  //         thirdChoice.text,
+  //       ]
+  //           : [
+  //         firstChoice.text,
+  //         secondChoice.text,
+  //       ]);
+  //   quiz!.questions == null
+  //       ? quiz!.questions = [question]
+  //       : quiz!.questions![index] = question;
+  //   listQuiz[indexQuiz!] = quiz!;
+  //   emit(GetAllQuiz(listQuiz: listQuiz));
+  //   emit(QuizSelected(quiz: quiz!));
+  //   questionTitle = TextEditingController();
+  //   firstChoice = TextEditingController();
+  //   secondChoice = TextEditingController();
+  //   thirdChoice = TextEditingController();
+  //   forthChoice = TextEditingController();
+  //   correctChoice = null;
+  //   questionScore = null;
+  //   questionPathImage = null;
+  //   addOrRemoveNumberOption = 0;
+  // }
+  // emitAddQuestionToQuiz(BuildContext context) {
+  //   Question1 question = Question1(
+  //       questionText: questionTitle.text,
+  //       correctAnswer: correctChoice!,
+  //       questionPathImage: questionPathImage,
+  //       questionScore: questionScore!,
+  //       options: addOrRemoveNumberOption >= 2
+  //           ? [
+  //               firstChoice.text,
+  //               secondChoice.text,
+  //               thirdChoice.text,
+  //               forthChoice.text
+  //             ]
+  //           : addOrRemoveNumberOption == 1
+  //               ? [
+  //                   firstChoice.text,
+  //                   secondChoice.text,
+  //                   thirdChoice.text,
+  //                 ]
+  //               : [
+  //                   firstChoice.text,
+  //                   secondChoice.text,
+  //                 ]);
+  //   quiz!.questions == null
+  //       ? quiz!.questions = [question]
+  //       : quiz!.questions!.add(question);
+  //   listQuiz[indexQuiz!] = quiz!;
+  //   emit(GetAllQuiz(listQuiz: listQuiz));
+  //   emit(QuizSelected(quiz: quiz!));
+  //   questionTitle = TextEditingController();
+  //   firstChoice = TextEditingController();
+  //   secondChoice = TextEditingController();
+  //   thirdChoice = TextEditingController();
+  //   forthChoice = TextEditingController();
+  //   correctChoice = null;
+  //   questionScore = null;
+  //   questionPathImage = null;
+  //   addOrRemoveNumberOption = 0;
+  // }
 
   emitClearOptions() {
     addOrRemoveNumberOption = 0;

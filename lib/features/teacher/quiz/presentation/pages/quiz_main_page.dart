@@ -8,12 +8,11 @@ import 'package:edu_sphere/core/widgets/bread_crumb_widget.dart';
 import 'package:edu_sphere/core/widgets/sliver_widget.dart';
 import 'package:edu_sphere/core/widgets/toggle_text_widget.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/bloc/course_main_cubit.dart';
-import 'package:edu_sphere/features/teacher/quiz/domain/entities/quize.dart';
+import 'package:edu_sphere/features/teacher/quiz/domain/entities/quiz.dart';
 import 'package:edu_sphere/features/teacher/quiz/presentation/bloc/question/question_cubit.dart';
 import 'package:edu_sphere/features/teacher/quiz/presentation/widgets/quiz_widget/delete_quiz_info_dialog.dart';
 import 'package:edu_sphere/features/teacher/quiz/presentation/widgets/quiz_widget/edit_quiz_dialog.dart';
 import 'package:edu_sphere/features/teacher/quiz/presentation/widgets/quiz_widget/show_or_hid_quiz_info_dialog.dart';
-import 'package:edu_sphere/features/teacher/quiz/domain/entities/quiz.dart';
 import 'package:edu_sphere/features/teacher/quiz/presentation/bloc/quiz_cubit.dart';
 import 'package:edu_sphere/features/teacher/quiz/presentation/widgets/questions_widgets/add_question_dialog.dart';
 import 'package:edu_sphere/features/teacher/quiz/presentation/widgets/questions_widgets/show_question_widget.dart';
@@ -21,7 +20,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
-import 'package:logger/logger.dart';
 import 'package:slide_countdown/slide_countdown.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -32,21 +30,21 @@ class QuizMainPage extends StatelessWidget {
   Widget build(BuildContext context) {
    int idCourse = context.read<CourseMainCubit>().coursesModel.id;
 
-    return BlocBuilder<QuizCubit, QuizState>(
-      builder: (context, state) {
-        if (state is QuizeSelected) {
-          return buildSliverWidget(context, state.quiz,idCourse: idCourse);
-        }else if(state is GetAllQuizLoadedState){
-          return buildSliverWidget(context, context.read<QuizCubit>().quize!,idCourse: idCourse);
+      return BlocBuilder<QuizCubit, QuizState>(
+        builder: (context, state) {
+          if (state is QuizeSelected) {
+            return buildSliverWidget(context, state.quiz,idCourse: idCourse);
+          }else if(state is GetAllQuizLoadedState){
+            return buildSliverWidget(context, context.read<QuizCubit>().quize!,idCourse: idCourse);
 
-        }
-        else {
-          return context.read<QuizCubit>().quize!=null?buildSliverWidget(context, context.read<QuizCubit>().quize!,idCourse: idCourse):const SizedBox.shrink();
-        }
-      },
-    );
+          }
+          else {
+            return context.read<QuizCubit>().quize!=null?buildSliverWidget(context, context.read<QuizCubit>().quize!,idCourse: idCourse):const SizedBox.shrink();
+          }
+        },
+      );
   }
-  SliverWidget buildSliverWidget(BuildContext context, Quize quiz,{required int idCourse}) {
+    SliverWidget buildSliverWidget(BuildContext context, Quiz quiz,{required int idCourse}) {
     context.read<QuestionCubit>().emitGetAllQuestion(idQuiz: quiz.id, idCourse: idCourse);
     var coursesModel = context
         .read<CourseMainCubit>()

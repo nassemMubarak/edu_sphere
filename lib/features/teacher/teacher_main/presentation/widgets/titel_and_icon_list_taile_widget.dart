@@ -19,6 +19,7 @@ class TitelAndIconListTaileWidget extends StatelessWidget {
   final int? indexCourse;
   final bool isShowEditButton;
   final Function()? onTap;
+  final Function()? onDeleteIconTap;
   const TitelAndIconListTaileWidget(
       {super.key,
       required this.title,
@@ -31,6 +32,7 @@ class TitelAndIconListTaileWidget extends StatelessWidget {
       this.coursesModel,
       this.indexCourse,
       this.onTap,
+      this.onDeleteIconTap,
       });
 
   @override
@@ -90,7 +92,7 @@ class TitelAndIconListTaileWidget extends StatelessWidget {
                 ),
                 horizontalSpace(8),
                 GestureDetector(
-                  onTap: () {
+                  onTap:onDeleteIconTap?? () {
                     showDialog(
                       context: context,
                       builder: (context) => WarningMessageTeacherInfoDialog(

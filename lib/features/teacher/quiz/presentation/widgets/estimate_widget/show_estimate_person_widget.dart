@@ -4,7 +4,7 @@ import 'package:edu_sphere/core/theming/colors.dart';
 import 'package:edu_sphere/core/theming/styles.dart';
 import 'package:edu_sphere/features/teacher/assessments/presentation/widgets/estimate_widget/edit_assessment_evaluation_dialog.dart';
 import 'package:edu_sphere/features/teacher/quiz/domain/entities/estimate_quiz.dart';
-import 'package:edu_sphere/features/teacher/quiz/domain/entities/quize.dart';
+import 'package:edu_sphere/features/teacher/quiz/domain/entities/quiz.dart';
 import 'package:edu_sphere/features/teacher/quiz/presentation/widgets/estimate_widget/edit_quiz_evaluation_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -15,13 +15,14 @@ class ShowEstimatePersonWidget extends StatelessWidget {
   String grad;
   String email;
   int indexEstimateQuiz;
-  Quize quize;
+  Quiz quize;
   EstimateQuiz estimateQuiz;
   Function()? onTapListTail;
+  bool isHideUpdate;
    ShowEstimatePersonWidget({super.key,
   required this.estimateQuiz,
   required this.indexEstimateQuiz
-  ,required this.name,required this.grad,this.onTapListTail,required this.email,required this.quize});
+  ,required this.name,required this.grad,this.onTapListTail,required this.email,required this.quize,this.isHideUpdate=false});
 
   @override
   Widget build(BuildContext context) {
@@ -48,22 +49,25 @@ class ShowEstimatePersonWidget extends StatelessWidget {
           children: [
             Text(grad,style: TextStyles.font10Black400Weight,),
             horizontalSpace(5),
-            GestureDetector(
-              onTap: (){
-                showDialog(context: context, builder: (context) => EditQuizEvaluationDialog(
-                  idCourse: quize.courseId,
-                  idQuiz:estimateQuiz.quizId ,
-                  grade:int.parse(quize.degree) ,
-                  idEstimate: estimateQuiz.id,
-                  indexEstimateQuiz:indexEstimateQuiz ,
-                ));
-              },
-              // child: Icon(quiz.isHideQuiz?Icons.visibility_off_outlined:Icons.visibility_outlined,
-              child: SvgPicture.asset(
-                'assets/svgs/edite_icon.svg',
-                height: 18,
-                width: 18,
-                color: Colors.black,
+            Visibility(
+              visible: !isHideUpdate,
+              child: GestureDetector(
+                onTap: (){
+                  showDialog(context: context, builder: (context) => EditQuizEvaluationDialog(
+                    idCourse: quize.courseId,
+                    idQuiz:estimateQuiz.quizId ,
+                    grade:int.parse(quize.degree) ,
+                    idEstimate: estimateQuiz.id,
+                    indexEstimateQuiz:indexEstimateQuiz ,
+                  ));
+                },
+                // child: Icon(quiz.isHideQuiz?Icons.visibility_off_outlined:Icons.visibility_outlined,
+                child: SvgPicture.asset(
+                  'assets/svgs/edite_icon.svg',
+                  height: 18,
+                  width: 18,
+                  color: Colors.black,
+                ),
               ),
             ),
           ],

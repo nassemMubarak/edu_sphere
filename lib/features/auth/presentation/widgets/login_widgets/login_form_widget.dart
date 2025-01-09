@@ -60,11 +60,9 @@ class LoginFormWidget extends StatelessWidget {
                     AppTextButton(buttonText: AppLocalizations.of(context)!.login,onPressed: (){
                       // context.pushNamed(Routes.studentRequestWidget);
                       if(context.read<AuthCubit>().globalKey.currentState!.validate()){
-                      //
                         context.read<AuthCubit>().emitLoginUser();
                       }
                         // context.read<AuthCubit>().emitLoginUser();
-                      // context.pushNamed(Routes.teacherMainScreen);
                     },),
                     verticalSpace(35),
                     const TextAccountSignupWidget(),

@@ -10,7 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:logger/logger.dart';
 
-import '../../../domain/entities/assessment1.dart';
+
 
 class ShowOrHidAssessmentInfoDialog extends StatelessWidget {
   int idCourse;

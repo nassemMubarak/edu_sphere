@@ -32,11 +32,11 @@ class RepositoryImpl implements AuthRepository {
   Future<Either<Failure, User>> loginUser({required Map authData}) async {
     if (await networkInfo.isConnected) {
       try {
-        final userResponseModel = await remoteDataSource.loginUser(authData: authData);
-        UserModel user = userResponseModel.user;
-        await localDataSource.saveToken(token: userResponseModel.token);
-        await localDataSource.saveUserType(type: userResponseModel.type??' ');
+        final user = await remoteDataSource.loginUser(authData: authData);
+        await localDataSource.saveToken(token: user.token);
+        await localDataSource.saveUserType(type: user.type??' ');
         await localDataSource.saveUser(userModel: user);
+
         return Right(user);
       } on InvalidDataExceptionMessage catch (e){
         return Left(InvalidDataFailureMessage(message:e.message ));
@@ -51,10 +51,9 @@ class RepositoryImpl implements AuthRepository {
   Future<Either<Failure, User>> registerUser({required Map authData}) async{
     if(await networkInfo.isConnected){
       try{
-        final userResponseModel = await remoteDataSource.registerUser(authData: authData);
-        UserModel user = userResponseModel.user;
-        await localDataSource.saveToken(token: userResponseModel.token);
-        await localDataSource.saveUserType(type: userResponseModel.type??' ');
+        final user = await remoteDataSource.registerUser(authData: authData);
+        await localDataSource.saveToken(token: user.token);
+        await localDataSource.saveUserType(type: user.type??' ');
         await localDataSource.saveUser(userModel: user);
         return Right(user);
       }on InvalidDataExceptionMessage catch (e){

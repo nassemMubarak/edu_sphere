@@ -2,9 +2,7 @@ import 'dart:io';
 
 import 'package:edu_sphere/core/error/failure.dart';
 import 'package:edu_sphere/core/string/failure.dart';
-import 'package:edu_sphere/features/teacher/assessments/data/models/EstimateAssessmentModel.dart';
 import 'package:edu_sphere/features/teacher/assessments/domain/entities/assessment.dart';
-import 'package:edu_sphere/features/teacher/assessments/domain/entities/assessment1.dart';
 import 'package:edu_sphere/features/teacher/assessments/domain/entities/estimate_assessment.dart';
 import 'package:edu_sphere/features/teacher/assessments/domain/usecases/add_assessment.dart';
 import 'package:edu_sphere/features/teacher/assessments/domain/usecases/add_document_to_assessment.dart';
@@ -217,18 +215,18 @@ class AssessmentsCubit extends Cubit<AssessmentsState> {
     indexAssessmentSelected = indexAssessments;
     emit(SelectedAssessment(assessment: assessment));
   }
-  emitAddAssessmentFile({required List<AssessmentFile> listAssessmentFile}){
-    listAssessment1[indexAssessmentSelected!].listFilesUrl==null?listAssessment1[indexAssessmentSelected!].listFilesUrl = listAssessmentFile:listAssessment1[indexAssessmentSelected!].listFilesUrl!.addAll(listAssessmentFile);
-    assessment = listAssessment[indexAssessmentSelected!];
-    emit(GetAllAssessment(assessment: listAssessment1));
-    emit(SelectedAssessment(assessment: listAssessment[indexAssessmentSelected!]));
-  }
-  emitDeleteAssessmentFile({required AssessmentFile assessmentFile}){
-    listAssessment1[indexAssessmentSelected!].listFilesUrl!.remove(assessmentFile);
-    assessment = listAssessment[indexAssessmentSelected!];
-    emit(GetAllAssessment(assessment: listAssessment1));
-    emit(SelectedAssessment(assessment: listAssessment[indexAssessmentSelected!]));
-  }
+  // emitAddAssessmentFile({required List<AssessmentFile> listAssessmentFile}){
+  //   listAssessment1[indexAssessmentSelected!].listFilesUrl==null?listAssessment1[indexAssessmentSelected!].listFilesUrl = listAssessmentFile:listAssessment1[indexAssessmentSelected!].listFilesUrl!.addAll(listAssessmentFile);
+  //   assessment = listAssessment[indexAssessmentSelected!];
+  //   emit(GetAllAssessment(assessment: listAssessment1));
+  //   emit(SelectedAssessment(assessment: listAssessment[indexAssessmentSelected!]));
+  // }
+  // emitDeleteAssessmentFile({required AssessmentFile assessmentFile}){
+  //   listAssessment1[indexAssessmentSelected!].listFilesUrl!.remove(assessmentFile);
+  //   assessment = listAssessment[indexAssessmentSelected!];
+  //   emit(GetAllAssessment(assessment: listAssessment1));
+  //   emit(SelectedAssessment(assessment: listAssessment[indexAssessmentSelected!]));
+  // }
   // Assessment
   TextEditingController assessmentTitleTextEditionController = TextEditingController();
   TextEditingController assessmentTimeLiftTextEditionController =
@@ -320,7 +318,7 @@ class AssessmentsCubit extends Cubit<AssessmentsState> {
 
   bool? isSuccessSelectDateTime;
 // add Quiz
-  List<Assessment1> listAssessment1 = [];
+//   List<Assessment1> listAssessment1 = [];
 
 // emitEditQuiz(BuildContext context) {
 //   listAssessment[indexQuizSelected!].title = quizTitleTextEditionController.text;
@@ -363,67 +361,67 @@ class AssessmentsCubit extends Cubit<AssessmentsState> {
 //     listAssessment1.remove(assessment);
 //     emit(GetAllAssessment(assessment: listAssessment1));
 //   }
-  emitChangShoeOrHidAssessment({required Assessment1 assessment}) {
-    listAssessment1[indexAssessmentSelected!].isHideAssessment= !listAssessment[indexAssessmentSelected!].visibility;
-    emit(SelectedAssessment(assessment: listAssessment[indexAssessmentSelected!]));
-    emit(GetAllAssessment(assessment: listAssessment1));
-
-  }
-  emitEditAssessments() {
-    listAssessment1[indexAssessmentSelected!].title= assessmentTitleTextEditionController.text;
-    listAssessment1[indexAssessmentSelected!].description= assessmentDescriptionTextEditionController.text;
-    listAssessment1[indexAssessmentSelected!].passingScore= int.parse(assessmentScoreTextEditionController.text);
-    listAssessment1[indexAssessmentSelected!].startDateTime= startDateTimeAssessment!;
-    listAssessment1[indexAssessmentSelected!].endDateTime= endDateTimeAssessment!;
-    listAssessment1[indexAssessmentSelected!].isHideAssessment= true;
-    emit(SelectedAssessment(assessment: listAssessment[indexAssessmentSelected!]));
-    emit(GetAllAssessment(assessment: listAssessment1));
-    assessmentTitleTextEditionController = TextEditingController();
-
-    assessmentDescriptionTextEditionController = TextEditingController();
-
-    assessmentScoreTextEditionController = TextEditingController();
-
-    selectedStartDateAssessment = null;
-
-    selectedEndDateAssessment = null;
-
-    startDateTimeAssessment = null;
-
-    endDateTimeAssessment = null;
-    errorMessageAssessment = null;
-
-  }
-
-  emitAddAssessments() {
-    listAssessment1.add(
-      Assessment1(
-        title: assessmentTitleTextEditionController.text,
-        description: assessmentDescriptionTextEditionController.text,
-        passingScore: int.parse(assessmentScoreTextEditionController.text),
-        startDateTime: startDateTimeAssessment!,
-        endDateTime: endDateTimeAssessment!,
-        isHideAssessment: true,
-      ),
-    );
-    emit(GetAllAssessment(assessment: listAssessment1));
-    print('---------------------${listAssessment1[0]}');
-    assessmentTitleTextEditionController = TextEditingController();
-
-    assessmentDescriptionTextEditionController = TextEditingController();
-
-    assessmentScoreTextEditionController = TextEditingController();
-
-    selectedStartDateAssessment = null;
-
-    selectedEndDateAssessment = null;
-
-    startDateTimeAssessment = null;
-
-    endDateTimeAssessment = null;
-    errorMessageAssessment = null;
-
-  }
+//   emitChangShoeOrHidAssessment({required Assessment1 assessment}) {
+//     listAssessment1[indexAssessmentSelected!].isHideAssessment= !listAssessment[indexAssessmentSelected!].visibility;
+//     emit(SelectedAssessment(assessment: listAssessment[indexAssessmentSelected!]));
+//     emit(GetAllAssessment(assessment: listAssessment1));
+//
+//   }
+//   emitEditAssessments() {
+//     listAssessment1[indexAssessmentSelected!].title= assessmentTitleTextEditionController.text;
+//     listAssessment1[indexAssessmentSelected!].description= assessmentDescriptionTextEditionController.text;
+//     listAssessment1[indexAssessmentSelected!].passingScore= int.parse(assessmentScoreTextEditionController.text);
+//     listAssessment1[indexAssessmentSelected!].startDateTime= startDateTimeAssessment!;
+//     listAssessment1[indexAssessmentSelected!].endDateTime= endDateTimeAssessment!;
+//     listAssessment1[indexAssessmentSelected!].isHideAssessment= true;
+//     emit(SelectedAssessment(assessment: listAssessment[indexAssessmentSelected!]));
+//     emit(GetAllAssessment(assessment: listAssessment1));
+//     assessmentTitleTextEditionController = TextEditingController();
+//
+//     assessmentDescriptionTextEditionController = TextEditingController();
+//
+//     assessmentScoreTextEditionController = TextEditingController();
+//
+//     selectedStartDateAssessment = null;
+//
+//     selectedEndDateAssessment = null;
+//
+//     startDateTimeAssessment = null;
+//
+//     endDateTimeAssessment = null;
+//     errorMessageAssessment = null;
+//
+//   }
+//
+//   emitAddAssessments() {
+//     listAssessment1.add(
+//       Assessment1(
+//         title: assessmentTitleTextEditionController.text,
+//         description: assessmentDescriptionTextEditionController.text,
+//         passingScore: int.parse(assessmentScoreTextEditionController.text),
+//         startDateTime: startDateTimeAssessment!,
+//         endDateTime: endDateTimeAssessment!,
+//         isHideAssessment: true,
+//       ),
+//     );
+//     emit(GetAllAssessment(assessment: listAssessment1));
+//     print('---------------------${listAssessment1[0]}');
+//     assessmentTitleTextEditionController = TextEditingController();
+//
+//     assessmentDescriptionTextEditionController = TextEditingController();
+//
+//     assessmentScoreTextEditionController = TextEditingController();
+//
+//     selectedStartDateAssessment = null;
+//
+//     selectedEndDateAssessment = null;
+//
+//     startDateTimeAssessment = null;
+//
+//     endDateTimeAssessment = null;
+//     errorMessageAssessment = null;
+//
+//   }
   String _mapFailureMessage({required Failure failure}) {
     switch (failure.runtimeType) {
       case OfflineFailure:

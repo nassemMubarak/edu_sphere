@@ -6,13 +6,14 @@ import 'package:edu_sphere/core/networking/api_constants.dart';
 import 'package:edu_sphere/features/auth/data/models/camp_model.dart';
 import 'package:edu_sphere/features/auth/data/models/user_model.dart';
 import 'package:edu_sphere/features/auth/data/models/user_response_model.dart';
+import 'package:edu_sphere/features/auth/domain/entities/user.dart';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 
 abstract class AuthRemoteDataSource {
-  Future<UserResponseModel> loginUser({required Map authData});
+  Future<UserModel> loginUser({required Map authData});
 
-  Future<UserResponseModel> registerUser({required Map authData});
+  Future<UserModel> registerUser({required Map authData});
 
   Future<Unit> sendCodeToForgetPassword({required String email});
 
@@ -30,7 +31,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   AuthRemoteDataSourceImpl({required this.client});
 
   @override
-  Future<UserResponseModel> registerUser({required Map authData}) async {
+  Future<UserModel> registerUser({required Map authData}) async {
     Logger().f(authData);
     final body = authData['level']!=null?{
       "name": authData['name'],
@@ -50,7 +51,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       "age": authData['age'],
       "sex": authData['sex'],
       "phone_number": authData['phone_number'],
-      "specialization": authData['specialization']
+      "specialization": authData['specialization'],
+      "camp_id": authData['camp_id']
     };
 
         late var response;
@@ -63,8 +65,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       };
     if (response.statusCode >= 200 && response.statusCode < 300) {
       final decodeJson = json.decode(response.body);
-      UserResponseModel userResponseModel = UserResponseModel.fromJson(decodeJson);
-      return userResponseModel;
+      UserModel user = UserModel.fromJson(decodeJson);
+      user = user.copyWith(type: authData['level'] != null ? 'Student' : 'Teacher');
+
+      return user;
     } else if (response.statusCode >= 400 && response.statusCode < 500) {
       throw InvalidDataExceptionMessage(message: json.decode(response.body)['message']);
     } else {
@@ -74,15 +78,15 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<UserResponseModel> loginUser({required Map authData}) async {
+  Future<UserModel> loginUser({required Map authData}) async {
     final body = {"email": authData['email'], "password": authData['password']};
     final response =
         await client.post(Uri.parse('${ApiConstants.apiBaseUrl}/login'), body: body);
 
     if (response.statusCode >= 200 && response.statusCode < 300) {
       final decodeJson = json.decode(response.body);
-      UserResponseModel userResponseModel = UserResponseModel.fromJson(decodeJson);
-      return userResponseModel;
+      UserModel userModel = UserModel.fromJson(decodeJson);
+      return userModel;
     }else if (response.statusCode >= 400 && response.statusCode < 500) {
       throw InvalidDataExceptionMessage(message: json.decode(response.body)['message']);
     } else {

@@ -1,7 +1,5 @@
 import 'package:edu_sphere/features/auth/data/models/user_model.dart';
-import 'package:edu_sphere/features/auth/domain/entities/user.dart';
 import 'package:edu_sphere/features/auth/domain/entities/user_response.dart';
-import 'package:equatable/equatable.dart';
 
 class UserResponseModel extends UserResponse{
   UserResponseModel({required super.user, required super.type, required super.token});

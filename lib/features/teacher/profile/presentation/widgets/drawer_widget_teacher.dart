@@ -57,7 +57,7 @@ class _DrawerWidgetTeacherState extends State<DrawerWidgetTeacher> {
     return Drawer(
       child: Column(
         children: <Widget>[
-          const ImageAndNameDrawer(),
+           ImageAndNameDrawer(),
           Expanded(
             child: ListView.builder(
               padding: EdgeInsets.zero,

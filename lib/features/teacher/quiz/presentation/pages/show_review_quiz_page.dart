@@ -14,7 +14,7 @@ class ShowReviewQuizPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var coursesModel = context.read<CourseMainCubit>().coursesModel;
-    var quiz = context.read<QuizCubit>().quiz;
+    var quiz = context.read<QuizCubit>().quize;
     return Scaffold(
       body: SliverWidget(
         leading: IconButton(
@@ -31,7 +31,7 @@ class ShowReviewQuizPage extends StatelessWidget {
                 items: [
                   'Home',
                   coursesModel.title,
-                  quiz!.quizTitle,
+                  quiz!.title,
                   'Estimate',
                   'Nassem Ah Mubarak'
                 ],

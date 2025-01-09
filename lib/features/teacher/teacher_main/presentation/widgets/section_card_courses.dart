@@ -9,7 +9,7 @@ import 'package:edu_sphere/features/teacher/course_main/presentation/pages/cours
 import 'package:edu_sphere/features/teacher/teacher_main/presentation/logic/teacher_main_cubit.dart';
 import 'package:edu_sphere/features/teacher/teacher_main/presentation/logic/teacher_main_state.dart';
 import 'package:edu_sphere/features/teacher/teacher_main/presentation/widgets/course_info_dialog.dart';
-import 'package:edu_sphere/features/teacher/teacher_main/presentation/widgets/courses_shimmer_widget.dart';
+import 'package:edu_sphere/core/widgets/courses_shimmer_widget.dart';
 import 'package:edu_sphere/features/teacher/teacher_main/presentation/widgets/section_card.dart';
 import 'package:edu_sphere/core/widgets/image_and_text_empty_data.dart';
 import 'package:edu_sphere/features/teacher/teacher_main/presentation/widgets/show_message_pinding_or_rejected_course_info_dialog.dart';
@@ -24,7 +24,6 @@ class SectionCardCourses extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<TeacherMainCubit, TeacherMainState>(
       listener: (context, state) {
-        // TODO: implement listener
       },
       builder: (context, state) {
         if(state is TeacherMainLoadingState){

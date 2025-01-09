@@ -1,7 +1,9 @@
+import 'package:edu_sphere/core/helpers/extenshions.dart';
+import 'package:edu_sphere/core/routing/routes.dart';
 import 'package:edu_sphere/core/theming/colors.dart';
 import 'package:edu_sphere/core/theming/styles.dart';
 import 'package:edu_sphere/core/widgets/image_and_text_empty_data.dart';
-import 'package:edu_sphere/features/teacher/quiz/domain/entities/quize.dart';
+import 'package:edu_sphere/features/teacher/quiz/domain/entities/quiz.dart';
 import 'package:edu_sphere/features/teacher/quiz/presentation/bloc/quiz_cubit.dart';
 import 'package:edu_sphere/features/teacher/quiz/presentation/widgets/estimate_widget/shimmer_loading_estimate_quiz_widget.dart';
 import 'package:edu_sphere/features/teacher/quiz/presentation/widgets/estimate_widget/show_estimate_person_widget.dart';
@@ -14,7 +16,7 @@ import 'package:edu_sphere/features/teacher/teacher_main/presentation/widgets/se
 
 
 class EstimateQuizWidget extends StatelessWidget {
-  Quize quiz;
+  Quiz quiz;
    EstimateQuizWidget({super.key,required this.quiz});
 
   @override
@@ -83,7 +85,8 @@ class EstimateQuizWidget extends StatelessWidget {
                       grad: '${state.listEstimateQuiz[index].grade.result}/${quiz.degree}',
                       email: state.listEstimateQuiz[index].student.email,
                       onTapListTail: () {
-                        // context.pushNamed(Routes.showReviewQuizPage);
+                      context.read<QuizCubit>().selectedEstimateQuiz = index;
+                        context.pushNamed(Routes.showReviewQuizPage);
                       });
                 },)
               ],
@@ -156,7 +159,8 @@ class EstimateQuizWidget extends StatelessWidget {
                         grad: '${context.read<QuizCubit>().listEstimateQuiz[index].grade.result}/10',
                         email: context.read<QuizCubit>().listEstimateQuiz[index].student.email,
                         onTapListTail: () {
-                          // context.pushNamed(Routes.showReviewQuizPage);
+                          context.read<QuizCubit>().selectedEstimateQuiz = index;
+                          context.pushNamed(Routes.showReviewQuizPage);
                         });
                   },)
               ],
