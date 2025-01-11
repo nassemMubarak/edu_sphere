@@ -12,8 +12,9 @@ class QuestionStudentQuiz extends Equatable {
   final DateTime createdAt;
   final DateTime updatedAt;
   final List<Document> documents;
+  int? isSelectedOption;
 
-  const QuestionStudentQuiz({
+   QuestionStudentQuiz({
     required this.id,
     required this.quizId,
     required this.title,
@@ -23,10 +24,11 @@ class QuestionStudentQuiz extends Equatable {
     required this.createdAt,
     required this.updatedAt,
     required this.documents,
+     this.isSelectedOption,
   });
 
   @override
-  List<Object?> get props => [id, quizId, title, type, options, mark, createdAt, updatedAt, documents];
+  List<Object?> get props => [id, quizId, title, type, options, mark, createdAt, updatedAt, documents,isSelectedOption];
 
 }
 

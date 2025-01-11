@@ -74,6 +74,11 @@ class TextStyles {
     fontWeight: FontWeight.w600,
     color: ColorsManager.red,
     fontFamily: 'Poppins',
+  ); static TextStyle font14Red400Weight = TextStyle(
+    fontSize: 14.sp,
+    fontWeight: FontWeight.w400,
+    color: ColorsManager.red,
+    fontFamily: 'Poppins',
   );
   static TextStyle font12White400Weight = TextStyle(
     fontSize: 12.sp,
@@ -86,7 +91,14 @@ class TextStyles {
     fontWeight: FontWeight.w600,
     color: Colors.white,
     fontFamily: 'Poppins',
-  ); static TextStyle font15White500Weight = TextStyle(
+  );
+  static TextStyle font16White500Weight = TextStyle(
+    fontSize: 16.sp,
+    fontWeight: FontWeight.w500,
+    color: Colors.white,
+    fontFamily: 'Poppins',
+  );
+  static TextStyle font15White500Weight = TextStyle(
     fontSize: 15.sp,
     fontWeight: FontWeight.w500,
     color: Colors.white,
@@ -139,10 +151,20 @@ class TextStyles {
     fontWeight: FontWeight.w500,
     color: Colors.black,
     fontFamily: 'Poppins',
+  );static TextStyle font16Blue500Weight = TextStyle(
+    fontSize: 16.sp,
+    fontWeight: FontWeight.w500,
+    color: Colors.blue,
+    fontFamily: 'Poppins',
   );
   static TextStyle font16MainBlue500Weight = TextStyle(
     fontSize: 16.sp,
     fontWeight: FontWeight.w500,
+    color: ColorsManager.mainBlue,
+    fontFamily: 'Poppins',
+  );static TextStyle font16MainBlue400Weight = TextStyle(
+    fontSize: 16.sp,
+    fontWeight: FontWeight.w400,
     color: ColorsManager.mainBlue,
     fontFamily: 'Poppins',
   );
@@ -164,10 +186,20 @@ class TextStyles {
     fontWeight: FontWeight.w400,
     color: Colors.black,
     fontFamily: 'Poppins',
+  );static TextStyle font14White400Weight = TextStyle(
+    fontSize: 14.sp,
+    fontWeight: FontWeight.w400,
+    color: Colors.white,
+    fontFamily: 'Poppins',
   );
   static TextStyle font16Red600Weight = TextStyle(
     fontSize: 16.sp,
     fontWeight: FontWeight.w600,
+    color: Colors.red,
+    fontFamily: 'Poppins',
+  ); static TextStyle font14Red500Weight = TextStyle(
+    fontSize: 14.sp,
+    fontWeight: FontWeight.w500,
     color: Colors.red,
     fontFamily: 'Poppins',
   );

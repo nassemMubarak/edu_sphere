@@ -7,7 +7,7 @@ import 'package:edu_sphere/features/teacher/quiz/domain/entities/quiz.dart';
 class SubmitAnswerQuizUseCase{
   final StudentQuizRepository repository;
   SubmitAnswerQuizUseCase({required this.repository});
-  Future<Either<Failure,Unit>> call({required int idQuiz,required int idCourse,required Map data})async{
+  Future<Either<Failure,Unit>> call({required int idQuiz,required int idCourse,required Map<int, String?> data})async{
     return await repository.submitAnswerQuiz(idQuiz: idQuiz, idCourse: idCourse, data: data);
   }
 }
