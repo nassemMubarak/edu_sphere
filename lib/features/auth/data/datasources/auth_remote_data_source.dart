@@ -5,8 +5,6 @@ import 'package:edu_sphere/core/error/exception.dart';
 import 'package:edu_sphere/core/networking/api_constants.dart';
 import 'package:edu_sphere/features/auth/data/models/camp_model.dart';
 import 'package:edu_sphere/features/auth/data/models/user_model.dart';
-import 'package:edu_sphere/features/auth/data/models/user_response_model.dart';
-import 'package:edu_sphere/features/auth/domain/entities/user.dart';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 

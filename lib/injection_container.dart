@@ -34,6 +34,7 @@ import 'package:edu_sphere/features/student/student_quiz/data/repository/student
 import 'package:edu_sphere/features/student/student_quiz/domain/repositorises/student_quiz_repository.dart';
 import 'package:edu_sphere/features/student/student_quiz/domain/usecases/get_all_student_quiz.dart';
 import 'package:edu_sphere/features/student/student_quiz/domain/usecases/get_attempt_student_quiz.dart';
+import 'package:edu_sphere/features/student/student_quiz/domain/usecases/show_attempt_quiz.dart';
 import 'package:edu_sphere/features/student/student_quiz/domain/usecases/submit_answer_quiz.dart';
 import 'package:edu_sphere/features/student/student_quiz/presentation/bloc/student_quiz_cubit.dart';
 import 'package:edu_sphere/features/teacher/assessments/data/datasources/assessment_remote_data_source.dart';
@@ -126,7 +127,7 @@ Future<void> init() async {
   sl.registerFactory(()=>StudentLectureCubit(getAllStudentLectureCourseUseCase: sl()));
   sl.registerFactory(()=>StudentDocumentCourseCubit(getAllStudentDocumentCourseUseCase: sl()));
   sl.registerFactory(()=>StudentSearchCourseCubit(getAllStudentCoursesUseCase: sl(),subscribeStudentCourse: sl()));
-  sl.registerFactory(()=>StudentQuizCubit(submitAnswerQuizUseCase: sl(), getAttemptStudentQuizUseCase: sl(), getAllStudentQuizUseCase: sl()));
+  sl.registerFactory(()=>StudentQuizCubit(showAttemptQuizUseCase: sl(),submitAnswerQuizUseCase: sl(), getAttemptStudentQuizUseCase: sl(), getAllStudentQuizUseCase: sl()));
 
   // Use Cases
   sl.registerLazySingleton(()=>CodeCheckForgetPasswordUseCase(authRepository: sl()));
@@ -195,6 +196,7 @@ Future<void> init() async {
   sl.registerLazySingleton(()=>GetAllStudentQuizUseCase(repository: sl()));
   sl.registerLazySingleton(()=>GetAttemptStudentQuizUseCase(repository: sl()));
   sl.registerLazySingleton(()=>SubmitAnswerQuizUseCase(repository: sl()));
+  sl.registerLazySingleton(()=>ShowAttemptQuizUseCase(repository: sl()));
 
 
 

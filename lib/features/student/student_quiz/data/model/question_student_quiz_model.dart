@@ -16,12 +16,21 @@ class QuestionStudentQuizModel extends QuestionStudentQuiz {
   });
 
   factory QuestionStudentQuizModel.fromJson(Map<String, dynamic> json) {
+    // Fix malformed options
+    List<String> parseOptions(String optionsString) {
+      // Replace single quotes with double quotes and decode
+      final validJson = optionsString.replaceAll("'", "\"");
+      return List<String>.from(jsonDecode(validJson));
+    }
+
     return QuestionStudentQuizModel(
       id: json['id'],
       quizId: json['quiz_id'],
       title: json['title'],
       type: json['type'],
-      options: List<String>.from(jsonDecode(json['options'])),
+      options: json['options'] is String
+          ? parseOptions(json['options'])
+          : List<String>.from(json['options']),
       mark: json['mark'],
       createdAt: DateTime.parse(json['created_at']),
       updatedAt: DateTime.parse(json['updated_at']),

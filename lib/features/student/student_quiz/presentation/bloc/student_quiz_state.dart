@@ -6,6 +6,21 @@ sealed class StudentQuizState {}
 final class StudentQuizInitial extends StudentQuizState {}
 class GetAllStudentQuizLoadingState extends StudentQuizState{}
 class GetAttemptStudentQuizLoadingState extends StudentQuizState{}
+class IsShowStudentQuizLoadingState extends StudentQuizState{}
+class SubmitAnswerQuizLoadingState extends StudentQuizState{}
+class SubmitAnswerQuizLoadedState extends StudentQuizState{}
+class IsShowStudentQuizErrorState extends StudentQuizState{
+  final String message;
+  IsShowStudentQuizErrorState({required this.message});
+}
+class SubmitAnswerQuizErrorState extends StudentQuizState{
+  final String message;
+  SubmitAnswerQuizErrorState({required this.message});
+}
+class IsShowStudentQuizLoadedState extends StudentQuizState{
+  final EstimateStudentQuiz estimateQuiz;
+  IsShowStudentQuizLoadedState({required this.estimateQuiz});
+}
 class GetAttemptStudentQuizUseCaseLoadedState extends StudentQuizState{
   final List<QuestionStudentQuiz> listQuestionStudentQuiz;
   GetAttemptStudentQuizUseCaseLoadedState({required this.listQuestionStudentQuiz});
@@ -27,4 +42,15 @@ class StudentQuizMessageErrorState extends StudentQuizState{
 
   @override
   List<Object> get props => [message];
+}
+class SelectStudentChoiceQuestionToQuiz extends StudentQuizState{
+  final List<QuestionStudentQuiz> listQuestionStudentQuiz;
+  SelectStudentChoiceQuestionToQuiz({required this.listQuestionStudentQuiz});
+
+  @override
+  List<Object> get props => [listQuestionStudentQuiz];
+}
+class ChangCurrentPageQuestionState extends StudentQuizState{
+  int currentPage;
+  ChangCurrentPageQuestionState({required this.currentPage});
 }

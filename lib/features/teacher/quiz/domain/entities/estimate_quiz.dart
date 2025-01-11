@@ -52,7 +52,7 @@ class Student {
       id: json['id'],
       name: json['name'],
       email: json['email'],
-      campId: json['camp_id'],
+      campId: json['camp_id']?.toString(),
       sex: json['sex'],
       phoneNumber: json['phone_number'],
       age: json['age'],
