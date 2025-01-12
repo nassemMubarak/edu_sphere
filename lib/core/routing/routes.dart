@@ -24,5 +24,6 @@ class Routes {
   static const String courseStudentMainScreen = '/courseStudentMainScreen';
   static const String studentQuizMainPage = '/studentQuizMainPage';
   static const String showStudentQuizPage = '/showStudentQuizPage';
+  static const String reviewStudentQuizPage = '/reviewStudentQuizPage';
 
 }

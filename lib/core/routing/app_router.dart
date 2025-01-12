@@ -12,6 +12,7 @@ import 'package:edu_sphere/features/auth/presentation/pages/signup_screen.dart';
 import 'package:edu_sphere/features/student/student_main/presentations/pages/add_course_student_search.dart';
 import 'package:edu_sphere/features/student/student_main/presentations/pages/course_student_main_screen.dart';
 import 'package:edu_sphere/features/student/student_main/presentations/pages/student_main_page.dart';
+import 'package:edu_sphere/features/student/student_quiz/presentation/pages/review_student_quiz_page.dart';
 import 'package:edu_sphere/features/student/student_quiz/presentation/pages/show_student_quiz_page.dart';
 import 'package:edu_sphere/features/student/student_quiz/presentation/pages/student_quiz_main_page.dart';
 import 'package:edu_sphere/features/teacher/assessments/presentation/pages/assessments_page.dart';
@@ -40,6 +41,8 @@ class AppRouter {
             builder: (_) => const SignupScreen());
       case Routes.forgetPasswordScreen:
         return MaterialPageRoute(builder: (_) => ForgetPasswordScreen());
+      case Routes.reviewStudentQuizPage:
+        return MaterialPageRoute(builder: (_) => ReviewStudentQuizPage());
       case Routes.estimateQuizPage:
         return MaterialPageRoute(builder: (_) => EstimateQuizPage());
       case Routes.studentMainPage:

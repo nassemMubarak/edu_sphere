@@ -122,10 +122,21 @@
                                           style: TextStyles.font14Black500Weight,
                                         ),
                                         verticalSpace(16),
-                                        Text(
-                                          state.estimateQuiz.quizAttempts.first.grade==null?'Not Rated':'${state.estimateQuiz.quizAttempts.first.grade!.result}/${quiz.degree}',
-                                          style:
-                                              TextStyles.font12NeutralGray400Weight,
+                                        Row(
+                                          children: [
+                                            Text(
+                                              state.estimateQuiz.quizAttempts.first.grade==null?'Not Rated':'${state.estimateQuiz.quizAttempts.first.grade!.result}/${quiz.degree}',
+                                              style:
+                                                  TextStyles.font12NeutralGray400Weight,
+                                            ),
+                                            horizontalSpace(8),
+                                            Visibility(
+                                                visible: state.estimateQuiz.quizAttempts.first.grade!=null,
+                                                child: TextButton(onPressed: (){
+                                                  context.pushNamed(Routes.reviewStudentQuizPage);
+                                                  context.read<StudentQuizCubit>().emitReviewStudentQuizUseCase();
+                                                }, child: Text('review',style: TextStyles.font12SecondaryColor400Weight)))
+                                          ],
                                         ),
                                       ],
                                     ),

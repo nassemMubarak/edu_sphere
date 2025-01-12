@@ -1,8 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:edu_sphere/features/student/student_quiz/domain/entities/estimate_student_quiz.dart';
 import 'package:edu_sphere/features/student/student_quiz/domain/entities/question_student_quiz.dart';
+import 'package:edu_sphere/features/student/student_quiz/domain/entities/review_student_quiz.dart';
 import 'package:edu_sphere/features/student/student_quiz/domain/usecases/get_all_student_quiz.dart';
 import 'package:edu_sphere/features/student/student_quiz/domain/usecases/get_attempt_student_quiz.dart';
+import 'package:edu_sphere/features/student/student_quiz/domain/usecases/review_student_quiz.dart';
 import 'package:edu_sphere/features/student/student_quiz/domain/usecases/show_attempt_quiz.dart';
 import 'package:edu_sphere/features/student/student_quiz/domain/usecases/submit_answer_quiz.dart';
 import 'package:edu_sphere/features/teacher/quiz/domain/entities/estimate_quiz.dart';
@@ -20,14 +22,17 @@ class StudentQuizCubit extends Cubit<StudentQuizState> {
   final GetAttemptStudentQuizUseCase getAttemptStudentQuizUseCase;
   final SubmitAnswerQuizUseCase submitAnswerQuizUseCase;
   final ShowAttemptQuizUseCase showAttemptQuizUseCase;
+  final ReviewStudentQuizUseCase reviewStudentQuizUseCase;
   StudentQuizCubit({
     required this.submitAnswerQuizUseCase,
     required this.getAttemptStudentQuizUseCase,
     required this.getAllStudentQuizUseCase,
     required this.showAttemptQuizUseCase,
+    required this.reviewStudentQuizUseCase,
 
 }) : super(StudentQuizInitial());
   List<Quiz> listQuiz=[];
+  ReviewQuiz? reviewQuiz;
   int currentPage = 0;
   emitChangeCurrentPage(int currentPage){
     Logger().f(currentPage);
@@ -51,6 +56,20 @@ class StudentQuizCubit extends Cubit<StudentQuizState> {
     // // QuestionStudentQuiz(id: 1, quizId: 1, title: 'Question 15', type: 'chois', options: ['sq','fef','dfefg','wewg'], mark: 10, createdAt: DateTime.now(), updatedAt: DateTime.now(), documents: [Document(id: 1, documentableType: 'documentableType', documentableId: 1, type: 'dw', createdAt: DateTime.now()  , updatedAt: DateTime.now(), url: 'url')]),
   ];
   Quiz? quizSelected;
+  emitReviewStudentQuizUseCase()async{
+    emit(ReviewStudentQuizLoadingState());
+    final failureOrAttemptStudentQuiz = await reviewStudentQuizUseCase(idCourse: quizSelected!.courseId,idQuiz: quizSelected!.id);
+    failureOrAttemptStudentQuiz.fold((failure){
+      emit(ReviewStudentQuizMessageErrorState(message: _mapFailureMessage(failure: failure)));
+      Logger().e('failureOrAdvertisement-----${_mapFailureMessage(failure: failure)}');
+    },
+            (reviewQuiz){
+          Logger().d('reviewQuiz   ---->   $reviewQuiz');
+          this.reviewQuiz = reviewQuiz;
+          emit(ReviewStudentQuizLoadedState(reviewQuiz: reviewQuiz));
+        });
+  }
+
   emitGetAllStudentQuiz({required int idCourse})async{
     emit(GetAllStudentQuizLoadingState());
     final failureOrAdvertisement = await getAllStudentQuizUseCase(idCourse: idCourse);
@@ -73,7 +92,7 @@ class StudentQuizCubit extends Cubit<StudentQuizState> {
         },
     );
   }
-
+  EstimateStudentQuiz? estimateStudentQuiz;
   emitGetAttemptStudentQuizUseCase({required int idCourse,required int idQuiz})async{
     Logger().e('------------------emitGetAttemptStudentQuizUseCase-------------------');
     emit(GetAttemptStudentQuizLoadingState());
@@ -99,6 +118,7 @@ class StudentQuizCubit extends Cubit<StudentQuizState> {
     },
             (estimate){
           Logger().d('estimate ---->   $estimate');
+          estimateStudentQuiz = estimate;
           emit(IsShowStudentQuizLoadedState(estimateQuiz: estimate));
         });
   }
