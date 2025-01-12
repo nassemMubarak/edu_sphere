@@ -53,6 +53,7 @@ class StudentQuizRemoteDataSourceImpl implements StudentQuizRemoteDataSource{
 
   @override
   Future<Unit> submitAnswerQuiz({required int idQuiz, required int idCourse, required String token,required Map<int, String?> data}) async{
+    Logger().e('data-------------->$data');
     final header = {
       'Authorization': 'Bearer $token',
       'Content-Type': 'application/x-www-form-urlencoded', // Use form-urlencoded format
@@ -70,6 +71,7 @@ class StudentQuizRemoteDataSourceImpl implements StudentQuizRemoteDataSource{
       body: requestBody, // Send the manually formatted request body
       headers: header,
     );
+    Logger().f('response--------->${response.statusCode}---------------response-------->${response.body}');
     if (response.statusCode >= 200 && response.statusCode < 300) {
       return unit;
     } else if (response.statusCode >= 400 && response.statusCode < 500) {

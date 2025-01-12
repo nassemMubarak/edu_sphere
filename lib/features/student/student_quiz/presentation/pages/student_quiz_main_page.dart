@@ -54,84 +54,104 @@
               verticalSpace(24),
               _buildQuizDetailsCard(context, quiz),
               verticalSpace(24),
-              BlocBuilder<StudentQuizCubit, StudentQuizState>(
-                buildWhen: (previous, current) =>
-                    current is IsShowStudentQuizLoadedState ||
-                    current is IsShowStudentQuizLoadingState,
-                builder: (context, state) {
-                  if (state is IsShowStudentQuizLoadedState) {
-                    return state.estimateQuiz.quizAttempts.isEmpty
-                        ? SectionCard(
-                            title: 'Quiz status',
-                            icon: 'assets/svgs/flag_quiz_status.svg',
-                            widget: Container(
-                              width: double.infinity,
-                              alignment: Alignment.center,
-                              margin: EdgeInsetsDirectional.only(top: 20,bottom: 20),
-                              child: AppTextButton(
-                                buttonText: 'Start Quiz',
-                                onPressed: () => showDialog(
-                                  context: context,
-                                  builder: (context) => AlertDialogWidget(
-                                    title: 'Start Quiz',
-                                    textButton: 'Start Quiz',
-                                    widget: Text(
-                                      'Do you really want to start quiz?',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyles.font14Black400Weight,
+              Visibility(
+                visible: quiz.startIn.isBefore(DateTime.now()),
+                child: BlocBuilder<StudentQuizCubit, StudentQuizState>(
+                  buildWhen: (previous, current) =>
+                      current is IsShowStudentQuizLoadedState ||
+                      current is IsShowStudentQuizLoadingState,
+                  builder: (context, state) {
+                    if (state is IsShowStudentQuizLoadedState) {
+                      return state.estimateQuiz.quizAttempts.isEmpty
+                          ? SectionCard(
+                              title: 'Quiz status',
+                              icon: 'assets/svgs/flag_quiz_status.svg',
+                              widget: Container(
+                                width: double.infinity,
+                                alignment: Alignment.center,
+                                margin: EdgeInsetsDirectional.only(top: 20,bottom: 20),
+                                child: AppTextButton(
+                                  buttonText: 'Start Quiz',
+                                  onPressed: () => showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialogWidget(
+                                      title: 'Start Quiz',
+                                      textButton: 'Start Quiz',
+                                      widget: Text(
+                                        'Do you really want to start quiz?',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyles.font14Black400Weight,
+                                      ),
+                                      onTapButton: () {
+                                        context.pop();
+                                        context
+                                            .pushNamed(Routes.showStudentQuizPage);
+                                      },
                                     ),
-                                    onTapButton: () {
-                                      context.pop();
-                                      context
-                                          .pushNamed(Routes.showStudentQuizPage);
-                                    },
                                   ),
                                 ),
                               ),
+                            )
+                          : SectionCard(
+                              title: 'Quiz status',
+                              icon: 'assets/svgs/flag_quiz_status.svg',
+                              widget: Container(
+                                margin: EdgeInsetsDirectional.only(top: 24),
+                                child: Row(
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          'Quiz status',
+                                          style: TextStyles.font14Black500Weight,
+                                        ),
+                                        verticalSpace(16),
+                                        Text(
+                                          'Finished',
+                                          style: TextStyles.font12Black400Weight,
+                                        ),
+                                      ],
+                                    ),
+                                    Spacer(),
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          'Quiz mark',
+                                          style: TextStyles.font14Black500Weight,
+                                        ),
+                                        verticalSpace(16),
+                                        Text(
+                                          state.estimateQuiz.quizAttempts.first.grade==null?'Not Rated':'${state.estimateQuiz.quizAttempts.first.grade!.result}/${quiz.degree}',
+                                          style:
+                                              TextStyles.font12NeutralGray400Weight,
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ));
+                    }
+                    if (state is IsShowStudentQuizLoadingState) {
+                      return SectionCard(
+                        title: 'Quiz status',
+                        icon: 'assets/svgs/flag_quiz_status.svg',
+                        widget: SizedBox(
+                          width: 143.w,
+                          child: Container(
+                            width: double.infinity,
+                            margin: EdgeInsetsDirectional.only(top: 20,bottom: 20),
+                            alignment: Alignment.center,
+                            child: Text(
+                              'Please Wait...',
+                              textAlign: TextAlign.center,
+                              style: TextStyles.font14Black400Weight,
                             ),
-                          )
-                        : SectionCard(
-                            title: 'Quiz status',
-                            icon: 'assets/svgs/flag_quiz_status.svg',
-                            widget: Container(
-                              margin: EdgeInsetsDirectional.only(top: 24),
-                              child: Row(
-                                children: [
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        'Quiz status',
-                                        style: TextStyles.font14Black500Weight,
-                                      ),
-                                      verticalSpace(16),
-                                      Text(
-                                        'Finished',
-                                        style: TextStyles.font12Black400Weight,
-                                      ),
-                                    ],
-                                  ),
-                                  Spacer(),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        'Quiz mark',
-                                        style: TextStyles.font14Black500Weight,
-                                      ),
-                                      verticalSpace(16),
-                                      Text(
-                                        state.estimateQuiz.quizAttempts.first.grade==null?'Not Rated':'${state.estimateQuiz.quizAttempts.first.grade!.result}/${quiz.degree}',
-                                        style:
-                                            TextStyles.font12NeutralGray400Weight,
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ));
-                  }
-                  if (state is IsShowStudentQuizLoadingState) {
+                          ),
+                        ),
+                      );
+                    }
                     return SectionCard(
                       title: 'Quiz status',
                       icon: 'assets/svgs/flag_quiz_status.svg',
@@ -139,8 +159,8 @@
                         width: 143.w,
                         child: Container(
                           width: double.infinity,
-                          margin: EdgeInsetsDirectional.only(top: 20,bottom: 20),
                           alignment: Alignment.center,
+                          margin: EdgeInsetsDirectional.only(top: 20,bottom: 20),
                           child: Text(
                             'Please Wait...',
                             textAlign: TextAlign.center,
@@ -149,25 +169,8 @@
                         ),
                       ),
                     );
-                  }
-                  return SectionCard(
-                    title: 'Quiz status',
-                    icon: 'assets/svgs/flag_quiz_status.svg',
-                    widget: SizedBox(
-                      width: 143.w,
-                      child: Container(
-                        width: double.infinity,
-                        alignment: Alignment.center,
-                        margin: EdgeInsetsDirectional.only(top: 20,bottom: 20),
-                        child: Text(
-                          'Please Wait...',
-                          textAlign: TextAlign.center,
-                          style: TextStyles.font14Black400Weight,
-                        ),
-                      ),
-                    ),
-                  );
-                },
+                  },
+                ),
               ),
             ],
           ),

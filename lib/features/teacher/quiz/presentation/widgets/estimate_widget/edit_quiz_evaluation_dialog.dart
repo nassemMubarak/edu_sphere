@@ -74,7 +74,7 @@ class _EditQuizEvaluationDialogState extends State<EditQuizEvaluationDialog> {
               context.pop();
             } else if (state is GetAllEstimateQuizLoadedState) {
               ToastNotificationMessage().showNotificationSuccess(
-                  message: 'The estimate has been delete successfully.',
+                  message: 'The grade has been delete successfully.',
                   context: context);
               context.pop();
               context.pop();

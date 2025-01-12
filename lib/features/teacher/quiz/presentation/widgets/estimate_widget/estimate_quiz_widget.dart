@@ -52,7 +52,7 @@ class EstimateQuizWidget extends StatelessWidget {
                     color: ColorsManager.mainBlue,
                   ),
                   title: Text(
-                    'Quiz Estimates',
+                    'Quiz Grade',
                     style: TextStyles.font14Black500Weight,
                   ),
                   trailing: GestureDetector(
@@ -60,15 +60,14 @@ class EstimateQuizWidget extends StatelessWidget {
                       showDialog(
                         context: context,
                         builder: (context) =>
-                            ShowOrHidEstimateInfoDialog(isHide: context.read<QuizCubit>().isisHideEstimation),
+                            ShowOrHidEstimateInfoDialog(isHide: quiz.resultVisible==0?true:false,quiz: quiz,),
                       );
                     },
                     // child: Icon(quiz.isHideQuiz?Icons.visibility_off_outlined:Icons.visibility_outlined,
                     child: Icon(
-                        context.read<QuizCubit>().isisHideEstimation
-                            ? Icons.visibility_off_outlined
-                            : Icons.visibility_outlined,
-                        color: Colors.black),
+                        quiz.resultVisible==0?Icons.visibility_off_outlined:
+                        Icons.visibility_outlined,
+                        color: Colors.black,),
                   ),
                 ),
                 ListView.builder(
@@ -92,13 +91,13 @@ class EstimateQuizWidget extends StatelessWidget {
               ],
             ),
           ): SectionCard(
-            title: 'Quiz Estimates',
+            title: 'Quiz Grade',
             icon: 'assets/svgs/assessment_estimates_icon.svg',
             widget: ImageAndTextEmptyData(
               message: 'No quizzes have been submitted yet.',
             ),
           );
-        } else {
+        } else if(state is QuizeSelected){
           return Container(
             padding: const EdgeInsets.all(16.0),
             decoration: BoxDecoration(
@@ -124,7 +123,7 @@ class EstimateQuizWidget extends StatelessWidget {
                     color: ColorsManager.mainBlue,
                   ),
                   title: Text(
-                    'Quiz Estimates',
+                    'Quiz Grade',
                     style: TextStyles.font14Black500Weight,
                   ),
                   trailing: GestureDetector(
@@ -133,13 +132,81 @@ class EstimateQuizWidget extends StatelessWidget {
                         context: context,
                         builder: (context) => ShowOrHidEstimateInfoDialog(
                             isHide:
-                                context.read<QuizCubit>().isisHideEstimation),
+                            state.quiz.resultVisible==0?true:false,quiz: state.quiz,),
                       );
                     },
                     // child: Icon(quiz.isHideQuiz?Icons.visibility_off_outlined:Icons.visibility_outlined,
                     child: Icon(
-                        context.read<QuizCubit>().isisHideEstimation
-                            ? Icons.visibility_off_outlined
+                        state.quiz.resultVisible==0?
+                            Icons.visibility_off_outlined
+                            : Icons.visibility_outlined,
+                        color: Colors.black),
+                  ),
+                ),
+                // verticalSpace(24),
+                ListView.builder(
+                  shrinkWrap: true,
+                  padding: EdgeInsets.zero,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: context.read<QuizCubit>().listEstimateQuiz.length,
+                  itemBuilder: (context, index) {
+                    return ShowEstimatePersonWidget(
+                        indexEstimateQuiz: index,
+                        quize:quiz ,
+                        estimateQuiz: context.read<QuizCubit>().listEstimateQuiz[index],
+                        name: context.read<QuizCubit>().listEstimateQuiz[index].student.name,
+                        grad: '${context.read<QuizCubit>().listEstimateQuiz[index].grade.result}/10',
+                        email: context.read<QuizCubit>().listEstimateQuiz[index].student.email,
+                        onTapListTail: () {
+                          context.read<QuizCubit>().selectedEstimateQuiz = index;
+                          context.pushNamed(Routes.showReviewQuizPage);
+                        });
+                  },)
+              ],
+            ),
+          );
+        }else{
+          return Container(
+            padding: const EdgeInsets.all(16.0),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(4),
+              boxShadow: [
+                BoxShadow(
+                  spreadRadius: 2,
+                  blurRadius: 4,
+                  color: ColorsManager.shadowColor.withOpacity(0.3),
+                ),
+              ],
+            ),
+            child: Column(
+              children: [
+                ListTile(
+                  titleAlignment: ListTileTitleAlignment.center,
+                  contentPadding: EdgeInsetsDirectional.zero,
+                  leading: SvgPicture.asset(
+                    'assets/svgs/assessment_estimates_icon.svg',
+                    width: 24.w,
+                    height: 24.h,
+                    color: ColorsManager.mainBlue,
+                  ),
+                  title: Text(
+                    'Quiz Grade',
+                    style: TextStyles.font14Black500Weight,
+                  ),
+                  trailing: GestureDetector(
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => ShowOrHidEstimateInfoDialog(
+                          isHide:
+                          quiz.resultVisible==0?true:false,quiz: quiz,),
+                      );
+                    },
+                    // child: Icon(quiz.isHideQuiz?Icons.visibility_off_outlined:Icons.visibility_outlined,
+                    child: Icon(
+                        quiz.resultVisible==0?
+                        Icons.visibility_off_outlined
                             : Icons.visibility_outlined,
                         color: Colors.black),
                   ),

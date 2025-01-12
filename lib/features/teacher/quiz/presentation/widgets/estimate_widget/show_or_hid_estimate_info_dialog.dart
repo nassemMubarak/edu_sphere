@@ -2,15 +2,18 @@ import 'package:edu_sphere/core/helpers/extenshions.dart';
 import 'package:edu_sphere/core/helpers/spacing.dart';
 import 'package:edu_sphere/core/theming/styles.dart';
 import 'package:edu_sphere/core/widgets/app_text_button.dart';
+import 'package:edu_sphere/features/teacher/quiz/domain/entities/quiz.dart';
 import 'package:edu_sphere/features/teacher/quiz/presentation/bloc/quiz_cubit.dart';
+import 'package:edu_sphere/features/teacher/quiz/presentation/widgets/quiz_widget/loading_add_or_update_or_delete_quiz_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ShowOrHidEstimateInfoDialog extends StatelessWidget {
   bool isHide;
+  Quiz quiz;
 
-  ShowOrHidEstimateInfoDialog({super.key, required this.isHide});
+  ShowOrHidEstimateInfoDialog({super.key, required this.isHide,required this.quiz});
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +43,7 @@ class ShowOrHidEstimateInfoDialog extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           verticalSpace(16),
+          LoadingAddOrUpdateOrDeleteQuizWidget(message: 'Update Estimate'),
           Text(
             isHide
                 ? 'Do you want to show the Estimate to students?'
@@ -55,8 +59,7 @@ class ShowOrHidEstimateInfoDialog extends StatelessWidget {
                   onPressed: () {
                     context
                         .read<QuizCubit>()
-                        .emitIsHideEstimation(!isHide);
-                    context.pop();
+                        .emitUpdateVisibilityEstimateQuiz(idQuiz: quiz.id,idCourse: quiz.courseId,visibility:!isHide==true?0:1 );
                   },
                   buttonText: isHide ? 'Show Evaluation' : 'Hide Evaluation',
                   textStyle: TextStyles.font12White400Weight,

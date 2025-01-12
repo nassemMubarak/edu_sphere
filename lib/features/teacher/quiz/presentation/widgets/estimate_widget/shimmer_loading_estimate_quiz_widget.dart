@@ -8,7 +8,7 @@ class ShimmerLoadingEstimateQuizWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SectionCard(
-      title: 'Quiz Estimates',
+      title: 'Quiz Grade',
       icon: 'assets/svgs/assessment_estimates_icon.svg',
       widget: Shimmer.fromColors(
         baseColor: Colors.grey[300]!,
