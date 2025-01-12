@@ -86,7 +86,7 @@ class ShowquestiontoReviewstudentquiz extends StatelessWidget {
             ],
           ),
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(2.0),
             child: Column(
               children: [
                 ListTile(
@@ -96,6 +96,7 @@ class ShowquestiontoReviewstudentquiz extends StatelessWidget {
                       style: TextStyles.font14Black500Weight),
                 ),
                 ListTile(
+                  contentPadding: EdgeInsets.zero,
                   titleAlignment: ListTileTitleAlignment.top,
                   leading: Container(
                     margin: EdgeInsets.only(top: 15.h),

@@ -158,7 +158,7 @@ class ShowReviewQuizWidget extends StatelessWidget {
                         color: Colors.black,
                       ),
                     ),
-                    title: Text(answerStudent ?? 'N/A', style: TextStyles.font14Black400Weight),
+                    title: Text(answerStudent ?? '', style: TextStyles.font14Black400Weight),
                   ),
                   ListTile(
                     contentPadding: EdgeInsets.zero,
