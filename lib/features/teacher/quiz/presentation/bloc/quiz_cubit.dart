@@ -177,6 +177,22 @@ class QuizCubit extends Cubit<QuizState> {
       emit(GetAllQuizLoadedState(listQuiz: listQuize));
     }) ;
   }
+  emitUpdateVisibilityEstimateQuiz({required int idCourse,required int idQuiz,required int visibility})async{
+    Logger().e('-------------------------------------------$visibility');
+    Logger().w('emitUpdateVisibilityEstimateQuiz -----------> ${visibility}');
+    Logger().w('emitUpdateVisibilityEstimateQuiz -----------> ${visibility==0?1:0}');
+
+    emit(AddOrUpdateOrDeleteLoadingState());
+    final failureOrAdvertisement = await updateQuizUseCase(idCourse: idCourse,idQuiz: idQuiz,data:{
+      'result_visible':'${visibility}',
+    });
+    failureOrAdvertisement.fold((failure)=>emit(QuizMessageErrorState(message: _mapFailureMessage(failure: failure))), (quiz){
+      listQuize[indexQuiz!].resultVisible = visibility;
+      quize = listQuize[indexQuiz!];
+      emit(GetAllQuizLoadedState(listQuiz: listQuize));
+      emit(QuizeSelected(quiz: listQuize[indexQuiz!]));
+    }) ;
+  }
 
   emitSelectQuize({required Quiz quiz, required int indexQuiz}) {
     this.quize = quiz;

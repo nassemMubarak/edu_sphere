@@ -37,7 +37,7 @@ class ShowStudentQuizWidget extends StatelessWidget {
                 _buildPaginationControls(context, listQuestions,quiz),
                 verticalSpace(24),
                 // _buildBottomSection(listQuestions, int.parse('50')),
-                _buildBottomSection(listQuestions, int.parse(quiz.time)),
+                _buildBottomSection(listQuestions, int.parse(quiz.time),quiz),
               ],
             );
           },
@@ -57,7 +57,6 @@ class ShowStudentQuizWidget extends StatelessWidget {
         final start = currentPage * 3;
         final end = (start + 3).clamp(0, questions.length);
         final paginatedQuestions = questions.sublist(start, end);
-
         return ListView.builder(
           itemCount: paginatedQuestions.length,
           shrinkWrap: true,
@@ -127,7 +126,7 @@ class ShowStudentQuizWidget extends StatelessWidget {
   }
 
   /// Builds the bottom section with avatar and button grid
-  Widget _buildBottomSection(List<dynamic> questions, int timeQuiz) {
+  Widget _buildBottomSection(List<dynamic> questions, int timeQuiz,Quiz quiz) {
     return Container(
       width: double.infinity,
       margin: EdgeInsetsDirectional.only(bottom: 25.h),
@@ -148,7 +147,7 @@ class ShowStudentQuizWidget extends StatelessWidget {
           children: [
             _buildAvatar(),
             verticalSpace(24),
-            _buildButtonGrid(questions, timeQuiz),
+            _buildButtonGrid(questions, timeQuiz-1,quiz: quiz),
           ],
         ),
       ),
@@ -172,7 +171,7 @@ class ShowStudentQuizWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildButtonGrid(List<dynamic> questions, int timeQuiz,{Quiz? quiz}) {
+  Widget _buildButtonGrid(List<dynamic> questions, int timeQuiz,{ Quiz? quiz}) {
     return BlocBuilder<StudentQuizCubit, StudentQuizState>(
       builder: (context, state) {
         final totalPages = (questions.length / 3).ceil();
@@ -241,24 +240,33 @@ class ShowStudentQuizWidget extends StatelessWidget {
         shouldShowDays: (v) => Duration(minutes: 68).inDays > 0, // Only show days if there are any
         shouldShowHours: (v) => Duration(minutes: 68).inHours > 0, // Only show hours if there are any
           onDone: () {
-            // Optional: Trigger an action when the countdown reaches zero
-            print("Timer completed!");
+          context.pop();
+            submitQuiz(context, quiz!,isTimeFinish: true);
+          context.read<StudentQuizCubit>().emitIsShowStudentQuizUseCase(
+            idCourse: quiz.courseId,
+            idQuiz: quiz.id,
+          );
           },
         ),
               ],
             ),
 
             verticalSpace(24),
-            Text(
-              'Finish & submit Quiz...',
-              style: TextStyles.font16MainBlue400Weight,
+            GestureDetector(
+              onTap: (){
+                submitQuiz(context, quiz!);
+              },
+              child: Text(
+                'Finish & submit Quiz...',
+                style: TextStyles.font16MainBlue400Weight,
+              ),
             ),
           ],
         );
       },
     );
   }
-  void submitQuiz(BuildContext context,Quiz quiz) {
+  void submitQuiz(BuildContext context,Quiz quiz, {bool isTimeFinish = false}) {
     final quizCubit = context.read<StudentQuizCubit>();
     final questions = quizCubit.listQuestionStudentQuiz;
     final Map<int, String?> answerData = {}; // Map to store question ID and selected option
@@ -270,7 +278,7 @@ class ShowStudentQuizWidget extends StatelessWidget {
 
       Logger().f('${question.id} -----> ${selectedOption ?? 'null'}');
 
-      if (selectedOption == null) {
+      if (isTimeFinish==false&&selectedOption == null) {
         showDialog(
           context: context,
           builder: (context) => AlertDialogWidget(
@@ -297,11 +305,9 @@ class ShowStudentQuizWidget extends StatelessWidget {
     }
 
     // Show confirmation dialog for quiz submission
-    showDialog(
+   isTimeFinish? context.read<StudentQuizCubit>().emitSubmitAnswerQuizUseCaseUseCase(data: answerData): showDialog(
       context: context,
       builder: (context) => SubmitStudentQuizDialog(answerData: answerData, quiz: quiz),
     );
-
-    Logger().f('All questions have been answered. Proceeding with submission...');
   }
 }

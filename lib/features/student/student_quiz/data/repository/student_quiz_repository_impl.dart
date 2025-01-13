@@ -4,8 +4,10 @@ import 'package:edu_sphere/core/helpers/constants.dart';
 import 'package:edu_sphere/core/helpers/shared_pref_helper.dart';
 import 'package:edu_sphere/features/student/student_quiz/data/datasources/student_quiz_remote_data_source.dart';
 import 'package:edu_sphere/features/student/student_quiz/data/model/estimate_student_quiz_model.dart';
+import 'package:edu_sphere/features/student/student_quiz/data/model/review_quiz_model.dart';
 import 'package:edu_sphere/features/student/student_quiz/domain/entities/estimate_student_quiz.dart';
 import 'package:edu_sphere/features/student/student_quiz/domain/entities/question_student_quiz.dart';
+import 'package:edu_sphere/features/student/student_quiz/domain/entities/review_student_quiz.dart';
 import 'package:edu_sphere/features/student/student_quiz/domain/repositorises/student_quiz_repository.dart';
 import 'package:edu_sphere/features/teacher/quiz/domain/entities/estimate_quiz.dart';
 import 'package:edu_sphere/features/teacher/quiz/domain/entities/quiz.dart';
@@ -90,6 +92,25 @@ class StudentQuizRepositoryImpl implements StudentQuizRepository {
         EstimateStudentQuizModel estimateQuiz =  await remoteDataSourceImpl.showAttemptQuiz(
             idQuiz: idQuiz, idCourse: idCourse, token: token);
         return Right(estimateQuiz);
+      } on InvalidDataExceptionMessage catch (e) {
+        return Left(InvalidDataFailureMessage(message: e.message));
+      } on ServerException {
+        return Left(ServerFailure());
+      }
+    } else {
+      return Left(OfflineFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, ReviewQuiz>> reviewStudentQuiz({required int idQuiz, required int idCourse}) async{
+    if (await networkInfo.isConnected) {
+      try {
+        final String token =
+            await SharedPrefHelper.getString(SharedPrefKeys.cachedToken);
+        ReviewQuizModel reviewQuizModel =  await remoteDataSourceImpl.reviewStudentQuiz(
+            idQuiz: idQuiz, idCourse: idCourse, token: token);
+        return Right(reviewQuizModel);
       } on InvalidDataExceptionMessage catch (e) {
         return Left(InvalidDataFailureMessage(message: e.message));
       } on ServerException {

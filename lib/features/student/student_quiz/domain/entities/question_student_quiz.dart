@@ -86,3 +86,56 @@ class Document extends Equatable {
     };
   }
 }
+class QuestionData {
+  final int questionId;
+  final String title;
+  final String type;
+  final List<String> options;
+  final String correctAnswer;
+  final int mark;
+  final String studentAnswer;
+  final bool isCorrect;
+  final List<Document> documents;
+
+  QuestionData({
+    required this.questionId,
+    required this.title,
+    required this.type,
+    required this.options,
+    required this.correctAnswer,
+    required this.mark,
+    required this.studentAnswer,
+    required this.isCorrect,
+    required this.documents,
+  });
+
+  factory QuestionData.fromJson(Map<String, dynamic> json) {
+    return QuestionData(
+      questionId: json['question_id'],
+      title: json['title'],
+      type: json['type'],
+      options: List<String>.from(jsonDecode(json['options'])),
+      correctAnswer: json['correct_answer'],
+      mark: json['mark'],
+      studentAnswer: json['student_answer'],
+      isCorrect: json['is_correct'],
+      documents: (json['documents'] as List)
+          .map((item) => Document.fromJson(item))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'question_id': questionId,
+      'title': title,
+      'type': type,
+      'options': jsonEncode(options),
+      'correct_answer': correctAnswer,
+      'mark': mark,
+      'student_answer': studentAnswer,
+      'is_correct': isCorrect,
+      'documents': documents.map((item) => item.toJson()).toList(),
+    };
+  }
+}

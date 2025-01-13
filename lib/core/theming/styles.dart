@@ -62,6 +62,11 @@ class TextStyles {
     fontWeight: FontWeight.w400,
     color: ColorsManager.red,
     fontFamily: 'Poppins',
+  );static TextStyle font12SecondaryColor400Weight = TextStyle(
+    fontSize: 12.sp,
+    fontWeight: FontWeight.w400,
+    color: ColorsManager.secondaryColor,
+    fontFamily: 'Poppins',
   );
   static TextStyle font10Red400Weight = TextStyle(
     fontSize: 10.sp,

@@ -5,10 +5,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:edu_sphere/core/theming/styles.dart';
 import 'package:edu_sphere/core/widgets/image_and_text_empty_data.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:edu_sphere/features/teacher/course_main/presentation/widgets/section_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import '../../../../teacher/teacher_main/presentation/widgets/section_card.dart';
 class StudentDocumentToCourseWidget extends StatelessWidget {
   int idCourse;
 
@@ -28,17 +29,11 @@ class StudentDocumentToCourseWidget extends StatelessWidget {
               return SectionCard(
                   title: 'Chapters',
                   icon: 'assets/svgs/chapter_icon.svg',
-                  infoDialog: Container(),
-                  onTap: () {
-                  },
                   widget: buildListView(listChapter: state.documents));
             } else {
               return SectionCard(
                 title: 'Chapters',
                 icon: 'assets/svgs/chapter_icon.svg',
-                infoDialog: Container(),
-                onTap: () {
-                },
                 widget: ImageAndTextEmptyData(
                   message: 'You have not added any chapters yet.',
                 ),
@@ -49,15 +44,12 @@ class StudentDocumentToCourseWidget extends StatelessWidget {
             SectionCard(
                 title: 'Chapters',
                 icon: 'assets/svgs/chapter_icon.svg',
-                infoDialog: Container(),
-                onTap: () {
-                },
+
                 widget: buildListView(listChapter: context.read<StudentDocumentCourseCubit>().documentList))
                 :
             SectionCard(
               title: 'Chapters',
               icon: 'assets/svgs/chapter_icon.svg',
-              infoDialog: Container(),
               widget: ImageAndTextEmptyData(
                 message: 'You have not added any chapters yet.',
               ),

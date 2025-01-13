@@ -29,7 +29,7 @@ class EstimateQuizPage extends StatelessWidget {
       child: Column(
         children: [
           BreadCrumbWidget(
-            items: ['Home', coursesModel.title, quiz.title,'Estimate'],
+            items: ['Home', coursesModel.title, quiz.title,'Quiz Grade'],
 
           ),
           verticalSpace(24),
