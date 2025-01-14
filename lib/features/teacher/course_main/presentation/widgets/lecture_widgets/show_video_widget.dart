@@ -6,9 +6,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 class ShowVideoWidget extends StatelessWidget {
   ShowVideoWidget({Key? key}) : super(key: key);
-
-
-
   @override
   Widget build(BuildContext context) {
     final YoutubePlayerController _controller = YoutubePlayerController(

@@ -15,8 +15,8 @@ class DocumentAssessmentModel extends DocumentAssessment {
   factory DocumentAssessmentModel.fromJson(Map<String, dynamic> json) {
     return DocumentAssessmentModel(
       id: json['id'],
-      documentableType: json['documentable_type'],
-      documentableId: json['documentable_id'],
+      documentableType: json['documentable_type']??'',
+      documentableId: json['documentable_id']??1,
       title: json['title'],
       description: json['description'],
       type: json['type'],

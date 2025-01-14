@@ -13,6 +13,15 @@ import 'package:edu_sphere/features/auth/domain/usecases/register_user.dart';
 import 'package:edu_sphere/features/auth/domain/usecases/send_code_to_forget_password.dart';
 import 'package:edu_sphere/features/auth/domain/usecases/update_password.dart';
 import 'package:edu_sphere/features/auth/presentation/bloc/auth/auth_cubit.dart';
+import 'package:edu_sphere/features/student/assessment_student/data/datasources/student_assessment_remote_data_source.dart';
+import 'package:edu_sphere/features/student/assessment_student/data/repository/student_assesment_repository_impl.dart';
+import 'package:edu_sphere/features/student/assessment_student/domain/repositorises/student_assessment_repository.dart';
+import 'package:edu_sphere/features/student/assessment_student/domain/usecases/delete_submit_student_document_to_assessment.dart';
+import 'package:edu_sphere/features/student/assessment_student/domain/usecases/get_all_student_assessment.dart';
+import 'package:edu_sphere/features/student/assessment_student/domain/usecases/get_all_submit_student_document_to_assessment.dart';
+import 'package:edu_sphere/features/student/assessment_student/domain/usecases/show_student_assessment.dart';
+import 'package:edu_sphere/features/student/assessment_student/domain/usecases/submit_student_document_to_assessment.dart';
+import 'package:edu_sphere/features/student/assessment_student/presesntations/bloc/student_assessment_cubit.dart';
 import 'package:edu_sphere/features/student/student_main/data/datasources/student_main_local_data_source.dart';
 import 'package:edu_sphere/features/student/student_main/data/datasources/student_main_remote_data_source.dart';
 import 'package:edu_sphere/features/student/student_main/data/repositorises/student_main_repository_impl.dart';
@@ -129,6 +138,8 @@ Future<void> init() async {
   sl.registerFactory(()=>StudentDocumentCourseCubit(getAllStudentDocumentCourseUseCase: sl()));
   sl.registerFactory(()=>StudentSearchCourseCubit(getAllStudentCoursesUseCase: sl(),subscribeStudentCourse: sl()));
   sl.registerFactory(()=>StudentQuizCubit(reviewStudentQuizUseCase: sl(),showAttemptQuizUseCase: sl(),submitAnswerQuizUseCase: sl(), getAttemptStudentQuizUseCase: sl(), getAllStudentQuizUseCase: sl()));
+  /// get assessment to course student
+  sl.registerFactory(()=>StudentAssessmentCubit(getAllSubmitStudentDocumentToAssessmentUseCase: sl(),deleteSubmitStudentDocumentToAssessmentUseCase: sl(), getAllStudentAssessmentUseCase: sl(), submitStudentDocumentToAssessmentUseCase: sl(), showStudentAssessmentUseCase: sl()));
 
   // Use Cases
   sl.registerLazySingleton(()=>CodeCheckForgetPasswordUseCase(authRepository: sl()));
@@ -199,6 +210,12 @@ Future<void> init() async {
   sl.registerLazySingleton(()=>SubmitAnswerQuizUseCase(repository: sl()));
   sl.registerLazySingleton(()=>ShowAttemptQuizUseCase(repository: sl()));
   sl.registerLazySingleton(()=>ReviewStudentQuizUseCase(repository: sl()));
+      /// use  case student assessment
+  sl.registerLazySingleton(()=>DeleteSubmitStudentDocumentToAssessmentUseCase(repository: sl()));
+  sl.registerLazySingleton(()=>ShowStudentAssessmentUseCase(repository: sl()));
+  sl.registerLazySingleton(()=>SubmitStudentDocumentToAssessmentUseCase(repository: sl()));
+  sl.registerLazySingleton(()=>GetAllStudentAssessmentUseCase(repository: sl()));
+  sl.registerLazySingleton(()=>GetAllSubmitStudentDocumentToAssessmentUseCase(repository: sl()));
 
 
 
@@ -218,7 +235,8 @@ Future<void> init() async {
   sl.registerLazySingleton<StudentMainRepository>(()=>StudentMainRepositoryImpl(remoteDataSource: sl(), localDataSource: sl(), networkInfo: sl()));
   /// feature student quiz repository
   sl.registerLazySingleton<StudentQuizRepository>(()=>StudentQuizRepositoryImpl(networkInfo: sl(),remoteDataSourceImpl: sl()));
-
+  /// feature student assessment repository
+  sl.registerLazySingleton<StudentAssessmentRepository>(()=>StudentAssessmentRepositoryImpl(networkInfo: sl(),remoteDataSourceImpl: sl()));
 
 
   /// Data Sources
@@ -242,7 +260,8 @@ Future<void> init() async {
   sl.registerLazySingleton<StudentMainRemoteDataSource>(()=>StudentMainRemoteDataSourceImpl(client: sl()));
   /// feature student quiz repository
   sl.registerLazySingleton<StudentQuizRemoteDataSource>(()=>StudentQuizRemoteDataSourceImpl(client: sl()));
-
+  /// feature student assessment repository
+  sl.registerLazySingleton<StudentAssessmentRemoteDataSource>(()=>StudentAssessmentRemoteDataSourceImpl(client: sl()));
   // Network
   sl.registerLazySingleton<NetworkInfo>(()=>NetworkInfoImpl(connectionChecker: sl()));
 

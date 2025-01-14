@@ -4,6 +4,7 @@ import 'package:edu_sphere/core/widgets/bread_crumb_widget.dart';
 import 'package:edu_sphere/core/widgets/sliver_widget.dart';
 import 'package:edu_sphere/features/student/student_main/presentations/bloc/subscribe_student_courses/subscribe_student_courses_cubit.dart';
 import 'package:edu_sphere/features/student/student_main/presentations/widgets/student_advertisements_widget.dart';
+import 'package:edu_sphere/features/student/student_main/presentations/widgets/student_assessment_widget.dart';
 import 'package:edu_sphere/features/student/student_main/presentations/widgets/student_document_to_course_widget.dart';
 import 'package:edu_sphere/features/student/student_main/presentations/widgets/student_lecture_widget.dart';
 import 'package:edu_sphere/features/student/student_main/presentations/widgets/student_quiz_widget.dart';
@@ -66,6 +67,8 @@ class CourseStudentMainScreen extends StatelessWidget {
             // ),
             verticalSpace(24),
             StudentDocumentToCourseWidget(idCourse: coursesModel.id),
+            verticalSpace(24),
+            StudentAssessmentWidget(idCourse:coursesModel.id),
             verticalSpace(24),
           ],
         ),
