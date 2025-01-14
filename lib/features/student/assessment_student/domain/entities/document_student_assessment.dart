@@ -91,7 +91,7 @@ class Document extends Equatable {
       type: json['type'],
       createdAt: DateTime.parse(json['created_at']),
       updatedAt: DateTime.parse(json['updated_at']),
-      url: json['url'],
+      url: json['url']??'',
     );
   }
 
