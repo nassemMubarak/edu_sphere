@@ -86,7 +86,7 @@ class ShowquestiontoReviewstudentquiz extends StatelessWidget {
             ],
           ),
           child: Padding(
-            padding: const EdgeInsets.all(2.0),
+            padding: const EdgeInsets.all(10.0),
             child: Column(
               children: [
                 ListTile(
@@ -97,9 +97,9 @@ class ShowquestiontoReviewstudentquiz extends StatelessWidget {
                 ),
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  titleAlignment: ListTileTitleAlignment.top,
+                  // titleAlignment: ListTileTitleAlignment.top,
                   leading: Container(
-                    margin: EdgeInsets.only(top: 15.h),
+                    margin: REdgeInsetsDirectional.only(start: 10),
                     height: 4.h,
                     width: 4.w,
                     decoration: BoxDecoration(
@@ -117,7 +117,7 @@ class ShowquestiontoReviewstudentquiz extends StatelessWidget {
                       style: TextStyles.font14Black500Weight),
                 ),
                 ListTile(
-                  contentPadding: EdgeInsetsDirectional.only(start: 48.w),
+                  contentPadding: EdgeInsetsDirectional.only(start: 48.w,bottom: 0,top: 0),
                   title: Text(question.isCorrect?question.mark.toString():'0',
                       style: TextStyles.font14Black500Weight),
                 ),
@@ -173,7 +173,7 @@ class ShowquestiontoReviewstudentquiz extends StatelessWidget {
                         child: CircleAvatar(
                           radius: 8,
                           backgroundColor: isSelected && !isFirstRow
-                              ? Colors.green
+                              ? Colors.grey
                               : Colors.transparent,
                         ),
                       ),
