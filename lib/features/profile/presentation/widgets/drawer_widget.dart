@@ -5,20 +5,23 @@ import 'package:edu_sphere/core/helpers/spacing.dart';
 import 'package:edu_sphere/core/routing/routes.dart';
 import 'package:edu_sphere/core/theming/colors.dart';
 import 'package:edu_sphere/core/theming/styles.dart';
-import 'package:edu_sphere/features/teacher/profile/presentation/widgets/image_and_name_drawer.dart';
+import 'package:edu_sphere/features/auth/domain/entities/user.dart';
+import 'package:edu_sphere/features/auth/presentation/bloc/auth/auth_cubit.dart';
+import 'package:edu_sphere/features/profile/presentation/widgets/image_and_name_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-class DrawerWidgetTeacher extends StatefulWidget {
-  const DrawerWidgetTeacher({Key? key}) : super(key: key);
+import 'package:flutter_bloc/flutter_bloc.dart';
+class DrawerWidget extends StatefulWidget {
+  User user;
+   DrawerWidget({Key? key,required this.user}) : super(key: key);
 
   @override
-  State<DrawerWidgetTeacher> createState() => _DrawerWidgetTeacherState();
+  State<DrawerWidget> createState() => _DrawerWidgetState();
 }
 
-class _DrawerWidgetTeacherState extends State<DrawerWidgetTeacher> {
-  final List<Map<String, dynamic>> iconAndLabel = [
+class _DrawerWidgetState extends State<DrawerWidget> {
+  final List<Map<String, dynamic>> iconAndLabelTeacher = [
     {
       'icon': 'assets/svgs/home_icon.svg',
       'label': 'Home',
@@ -49,6 +52,35 @@ class _DrawerWidgetTeacherState extends State<DrawerWidgetTeacher> {
       },
     },
   ];
+  final List<Map<String, dynamic>> iconAndLabelStudent = [
+    {
+      'icon': 'assets/svgs/home_icon.svg',
+      'label': 'Home',
+      'onTap': (BuildContext context) =>
+          context.pushNamed(Routes.studentMainPage),
+    },
+    {
+      'icon': 'assets/svgs/profile_icon.svg',
+      'label': 'Your Profile',
+      'onTap': (BuildContext context) => context.pushNamed(Routes.profilePage),
+    },
+    {'icon': 'assets/svgs/request_icon.svg', 'label': 'Withdrawal requests'},
+    {'icon': 'assets/svgs/assessment_estimates_icon.svg', 'label': 'Estimates'},
+    {'icon': 'assets/svgs/type_of_teaching.svg', 'label': 'Course teachers'},
+    {'icon': 'assets/svgs/communication_icon.svg', 'label': 'Communication'},
+    {'icon': 'assets/svgs/contact_us_icon.svg', 'label': 'Contact us'},
+    {'icon': 'assets/svgs/language_icon.svg', 'label': 'Change language'},
+    {'icon': 'assets/svgs/about_program_icon.svg', 'label': 'About program'},
+    {
+      'icon': 'assets/svgs/logout_icon.svg',
+      'label': 'Logout',
+      'onTap': (BuildContext context) async {
+        await SharedPrefHelper.removeData(SharedPrefKeys.cachedUser);
+        context.pushReplacementNamed(Routes.loginScreen);
+      },
+    },
+  ];
+
 
   int indexSelected = 0;
 
@@ -61,7 +93,7 @@ class _DrawerWidgetTeacherState extends State<DrawerWidgetTeacher> {
           Expanded(
             child: ListView.builder(
               padding: EdgeInsets.zero,
-              itemCount: iconAndLabel.length,
+              itemCount:widget.user.type!.toUpperCase()=='STUDENT'?iconAndLabelStudent.length:iconAndLabelTeacher.length,
               itemBuilder: (context, index) => buildListTile(index, context),
             ),
           ),
@@ -80,7 +112,7 @@ class _DrawerWidgetTeacherState extends State<DrawerWidgetTeacher> {
   }
 
   Widget buildListTile(int index, BuildContext context) {
-    final item = iconAndLabel[index];
+    final item = widget.user.type!.toUpperCase()=='STUDENT'?iconAndLabelStudent[index]:iconAndLabelTeacher[index];
     final iconPath = item['icon'] as String?;
     final label = item['label'] as String?;
     final onTap = item['onTap'] as Function(BuildContext)?; // Specific callback type.

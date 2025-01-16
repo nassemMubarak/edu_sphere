@@ -20,15 +20,16 @@ import 'package:edu_sphere/features/teacher/assessments/presentation/pages/asses
 import 'package:edu_sphere/features/teacher/assessments/presentation/pages/estimate_assessment_page.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/pages/course_main_screen.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/widgets/lecture_widgets/show_video_widget.dart';
-import 'package:edu_sphere/features/teacher/profile/presentation/pages/accept_request_student_page.dart';
-import 'package:edu_sphere/features/teacher/profile/presentation/pages/profile_page.dart';
-import 'package:edu_sphere/features/teacher/profile/presentation/pages/requests_teacher_page.dart';
 import 'package:edu_sphere/features/teacher/quiz/presentation/pages/estimate_quiz_page.dart';
 import 'package:edu_sphere/features/teacher/quiz/presentation/pages/quiz_main_page.dart';
 import 'package:edu_sphere/features/teacher/assessments/presentation/pages/show_review_assessment_page.dart';
 import 'package:edu_sphere/features/teacher/quiz/presentation/pages/show_review_quiz_page.dart';
 import 'package:edu_sphere/features/teacher/teacher_main/presentation/pages/teacher_main_screen.dart';
 import 'package:flutter/material.dart';
+
+import '../../features/profile/presentation/pages/accept_request_student_page.dart';
+import '../../features/profile/presentation/pages/profile_page.dart';
+import '../../features/profile/presentation/pages/requests_teacher_page.dart';
 
 class AppRouter {
   Route generateRoute(RouteSettings settings) {

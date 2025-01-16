@@ -1,11 +1,11 @@
+import 'package:edu_sphere/features/auth/domain/entities/user.dart';
+import 'package:edu_sphere/features/auth/presentation/bloc/auth/auth_cubit.dart';
+import 'package:edu_sphere/features/profile/presentation/widgets/drawer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:edu_sphere/core/theming/colors.dart';
 import 'package:edu_sphere/core/theming/styles.dart';
-import 'package:edu_sphere/features/teacher/profile/presentation/widgets/drawer_widget_teacher.dart';
-import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
 class SliverWidget extends StatelessWidget {
   final Widget widget;
   final Widget? leading;
@@ -20,9 +20,10 @@ class SliverWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+   User? user = context.read<AuthCubit>().user;
     return Scaffold(
       backgroundColor: Colors.white,
-      drawer: const DrawerWidgetTeacher(),
+      drawer:DrawerWidget(user:user!),
       body: CustomScrollView(
         slivers: [
           SliverAppBar(

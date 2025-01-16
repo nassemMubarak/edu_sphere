@@ -9,7 +9,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class GenderWidget extends StatefulWidget {
-  Function()? onSelectGender;
+  Function(bool isGender)? onSelectGender;
 
   GenderWidget({super.key, this.onSelectGender});
 
@@ -47,7 +47,7 @@ class _GenderWidgetState extends State<GenderWidget> {
                   isFemale = false;
                   isMale = true;
                   if (widget.onSelectGender != null) {
-                    widget.onSelectGender;
+                    widget.onSelectGender!(true);
                   } else {
                     context.read<AuthCubit>().genderIsMale = true;
                   }
@@ -63,7 +63,7 @@ class _GenderWidgetState extends State<GenderWidget> {
                   isFemale = true;
                   isMale = false;
                   if (widget.onSelectGender != null) {
-                    widget.onSelectGender;
+                    widget.onSelectGender!(false);
                   } else {
                     context.read<AuthCubit>().genderIsMale = false;
                   }
