@@ -9,11 +9,17 @@ import 'package:edu_sphere/core/widgets/app_text_form_field.dart';
 import 'package:edu_sphere/core/widgets/dropdown_widget.dart';
 import 'package:edu_sphere/core/widgets/label_and_widget.dart';
 import 'package:edu_sphere/core/widgets/password_validations.dart';
+import 'package:edu_sphere/features/auth/domain/entities/user.dart';
+import 'package:edu_sphere/features/profile/presentation/bloc/profile_cubit.dart';
+import 'package:edu_sphere/features/profile/presentation/widgets/loading_profile_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 class EditPasswordDialog extends StatefulWidget {
-  EditPasswordDialog({super.key});
+  User user;
+
+  EditPasswordDialog({super.key,required this.user});
 
   @override
   State<EditPasswordDialog> createState() => _EditPasswordDialogState();
@@ -127,6 +133,8 @@ class _EditPasswordDialogState extends State<EditPasswordDialog> {
               ),
             ),
           ),
+          LoadingProfileWidget(message: 'Update password Successfully'),
+
           Visibility(
             visible: isVisiblePasswordValidator,
             child: PasswordValidations(
@@ -141,6 +149,7 @@ class _EditPasswordDialogState extends State<EditPasswordDialog> {
       ),
     ), onTapButton: (){
       if(formKey.currentState!.validate()){
+          context.read<ProfileCubit>().emitUpdateUser(data: {'password':newPasswordTextEditingController.text,'password_confirmation':confirmPewPasswordTextEditingController.text},type: widget.user.type!);
       }
       // context.pop();
     });

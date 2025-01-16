@@ -11,6 +11,9 @@ class ApiConstants {
   static const String quizAttempt = "quizAttempt";
   static const String documents = "documents";
   static const String lectures = "lectures";
+  static const String authInfo = "authInfo";
+  static const String studentUpdate = "/student/update";
+  static const String teacherUpdate = "/teacher/update";
 
 
 }

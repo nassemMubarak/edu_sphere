@@ -13,6 +13,13 @@ import 'package:edu_sphere/features/auth/domain/usecases/register_user.dart';
 import 'package:edu_sphere/features/auth/domain/usecases/send_code_to_forget_password.dart';
 import 'package:edu_sphere/features/auth/domain/usecases/update_password.dart';
 import 'package:edu_sphere/features/auth/presentation/bloc/auth/auth_cubit.dart';
+import 'package:edu_sphere/features/profile/data/datasource/profile_local_data_source.dart';
+import 'package:edu_sphere/features/profile/data/datasource/profile_remote_datasource.dart';
+import 'package:edu_sphere/features/profile/data/repositorises/profile_repository_impl.dart';
+import 'package:edu_sphere/features/profile/domain/repositorises/profile_repository.dart';
+import 'package:edu_sphere/features/profile/domain/usecases/get_info_user.dart';
+import 'package:edu_sphere/features/profile/domain/usecases/update_user.dart';
+import 'package:edu_sphere/features/profile/presentation/bloc/profile_cubit.dart';
 import 'package:edu_sphere/features/student/assessment_student/data/datasources/student_assessment_remote_data_source.dart';
 import 'package:edu_sphere/features/student/assessment_student/data/repository/student_assesment_repository_impl.dart';
 import 'package:edu_sphere/features/student/assessment_student/domain/repositorises/student_assessment_repository.dart';
@@ -140,6 +147,8 @@ Future<void> init() async {
   sl.registerFactory(()=>StudentQuizCubit(reviewStudentQuizUseCase: sl(),showAttemptQuizUseCase: sl(),submitAnswerQuizUseCase: sl(), getAttemptStudentQuizUseCase: sl(), getAllStudentQuizUseCase: sl()));
   /// get assessment to course student
   sl.registerFactory(()=>StudentAssessmentCubit(getAllSubmitStudentDocumentToAssessmentUseCase: sl(),deleteSubmitStudentDocumentToAssessmentUseCase: sl(), getAllStudentAssessmentUseCase: sl(), submitStudentDocumentToAssessmentUseCase: sl(), showStudentAssessmentUseCase: sl()));
+/// feature profile
+  sl.registerFactory(()=>ProfileCubit(updateUserUseCase: sl(), getInfoUserUseCase: sl()));
 
   // Use Cases
   sl.registerLazySingleton(()=>CodeCheckForgetPasswordUseCase(authRepository: sl()));
@@ -216,6 +225,9 @@ Future<void> init() async {
   sl.registerLazySingleton(()=>SubmitStudentDocumentToAssessmentUseCase(repository: sl()));
   sl.registerLazySingleton(()=>GetAllStudentAssessmentUseCase(repository: sl()));
   sl.registerLazySingleton(()=>GetAllSubmitStudentDocumentToAssessmentUseCase(repository: sl()));
+/// feature profile use case
+  sl.registerLazySingleton(()=>GetInfoUserUseCase(profileRepository: sl()));
+  sl.registerLazySingleton(()=>UpdateUserUseCase(profileRepository: sl()));
 
 
 
@@ -237,6 +249,8 @@ Future<void> init() async {
   sl.registerLazySingleton<StudentQuizRepository>(()=>StudentQuizRepositoryImpl(networkInfo: sl(),remoteDataSourceImpl: sl()));
   /// feature student assessment repository
   sl.registerLazySingleton<StudentAssessmentRepository>(()=>StudentAssessmentRepositoryImpl(networkInfo: sl(),remoteDataSourceImpl: sl()));
+  /// feature profile repository
+  sl.registerLazySingleton<ProfileRepository>(()=>ProfileRepositoryImpl( profileLocalDataSource: sl(),networkInfo: sl(), profileRemoteDataSource: sl()));
 
 
   /// Data Sources
@@ -262,6 +276,10 @@ Future<void> init() async {
   sl.registerLazySingleton<StudentQuizRemoteDataSource>(()=>StudentQuizRemoteDataSourceImpl(client: sl()));
   /// feature student assessment repository
   sl.registerLazySingleton<StudentAssessmentRemoteDataSource>(()=>StudentAssessmentRemoteDataSourceImpl(client: sl()));
+  /// feature profile repository
+   sl.registerLazySingleton<ProfileRemoteDataSource>(()=>ProfileRemoteDataSourceImpl(client: sl()));
+   sl.registerLazySingleton<ProfileLocalDataSourceImpl>(()=>ProfileLocalDataSourceImpl());
+
   // Network
   sl.registerLazySingleton<NetworkInfo>(()=>NetworkInfoImpl(connectionChecker: sl()));
 

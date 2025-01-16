@@ -3,6 +3,7 @@ import 'package:edu_sphere/core/routing/routes.dart';
 import 'package:edu_sphere/core/theming/colors.dart';
 import 'package:edu_sphere/features/auth/presentation/bloc/auth/auth_cubit.dart';
 import 'package:edu_sphere/features/auth/presentation/bloc/changTypSignUp/auth_type_cubit.dart';
+import 'package:edu_sphere/features/profile/presentation/bloc/profile_cubit.dart';
 import 'package:edu_sphere/features/student/assessment_student/presesntations/bloc/student_assessment_cubit.dart';
 import 'package:edu_sphere/features/student/student_main/presentations/bloc/student_advertisements/student_advertisements_cubit.dart';
 import 'package:edu_sphere/features/student/student_main/presentations/bloc/student_document_course/student_document_course_cubit.dart';
@@ -25,6 +26,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:logger/logger.dart';
 import 'injection_container.dart' as di;
 
 class EduSphereApp extends StatelessWidget {
@@ -53,6 +55,7 @@ class EduSphereApp extends StatelessWidget {
         BlocProvider(create: (context) => di.sl<StudentSearchCourseCubit>()),
         BlocProvider(create: (context) => di.sl<StudentQuizCubit>()),
         BlocProvider(create: (context) => di.sl<StudentAssessmentCubit>()),
+        BlocProvider(create: (context) => di.sl<ProfileCubit>()),
       ],
       child: ScreenUtilInit(
         designSize: const Size(375, 812),
@@ -88,13 +91,13 @@ class EduSphereApp extends StatelessWidget {
     );
   }
 
-  String _getInitialRoute(BuildContext context) {
+  String _getInitialRoute(BuildContext context){
     if (isShowOnBoarding) {
       if (isUserLogIn) {
         if (isUserLogIn) {
-          return Routes.loginScreen;
-        } else {
           return typeUser.toUpperCase() == 'STUDENT' ? Routes.studentMainPage : Routes.teacherMainScreen;
+        } else {
+          return Routes.loginScreen;
         }
       } else {
         return Routes.loginScreen;

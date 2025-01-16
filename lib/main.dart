@@ -33,6 +33,6 @@ Future<void> checkIfUserLogIn() async {
   isUserLogIn = cachedUser?.isNotEmpty ?? false;
 }
 Future<void> getTypeUserLogIn() async {
-  String? cachedUser = await SharedPrefHelper.getString(SharedPrefKeys.cachedUser);
+  String? cachedUser = await SharedPrefHelper.getString(SharedPrefKeys.cachedTypeUser);
   typeUser = cachedUser??'Student';
 }
