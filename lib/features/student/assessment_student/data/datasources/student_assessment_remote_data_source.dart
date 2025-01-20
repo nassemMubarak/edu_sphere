@@ -45,7 +45,7 @@ class StudentAssessmentRemoteDataSourceImpl implements StudentAssessmentRemoteDa
     Logger().w('$token---------${response.statusCode}----///////-------------->${ApiConstants.apiBaseUrl}${ApiConstants.studentCourses}/$idCourse/${ApiConstants.assignments}/$idAssessment/submit');
     if(response.statusCode>=200&&response.statusCode<300){
       return unit;
-    }else if(response.statusCode >= 400 && response.statusCode < 500){
+    }else if(response.statusCode >= 400 && response.statusCode <= 500){
       throw InvalidDataExceptionMessage(message:json.decode(response.body)['message']);
     }else{
       throw ServerException();

@@ -7,9 +7,13 @@ import 'package:edu_sphere/features/auth/presentation/pages/student_request_page
 import 'package:edu_sphere/features/auth/presentation/pages/verify_password_screen.dart';
 import 'package:edu_sphere/features/auth/presentation/widgets/signup_widgets/sign_up_or_student_teacher_widget.dart';
 import 'package:edu_sphere/features/auth/presentation/widgets/student_request_widget.dart';
+import 'package:edu_sphere/features/communication/presentation/pages/communication_main_page.dart';
 import 'package:edu_sphere/features/onboarding/ui/onboarding_screen.dart';
 import 'package:edu_sphere/features/auth/presentation/pages/signup_screen.dart';
 import 'package:edu_sphere/features/student/assessment_student/presesntations/pages/student_assessment_page.dart';
+import 'package:edu_sphere/features/student/estimates_students/presentations/pages/estimate_student_main_page.dart';
+import 'package:edu_sphere/features/student/show_studetn_course_teachers/presentations/pages/show_student_detail_teacher_main_page.dart';
+import 'package:edu_sphere/features/student/show_studetn_course_teachers/presentations/pages/show_student_teacher_main_page.dart';
 import 'package:edu_sphere/features/student/student_main/presentations/pages/add_course_student_search.dart';
 import 'package:edu_sphere/features/student/student_main/presentations/pages/course_student_main_screen.dart';
 import 'package:edu_sphere/features/student/student_main/presentations/pages/student_main_page.dart';
@@ -43,6 +47,14 @@ class AppRouter {
             builder: (_) => const SignupScreen());
       case Routes.forgetPasswordScreen:
         return MaterialPageRoute(builder: (_) => ForgetPasswordScreen());
+      case Routes.showStudentTeacherMainPage:
+        return MaterialPageRoute(builder: (_) => ShowStudentTeacherMainPage());
+      case Routes.showStudentDetailTeacherMainPage:
+        return MaterialPageRoute(builder: (_) => ShowStudentDetailTeacherMainPage());
+      case Routes.estimateStudentMainPage:
+        return MaterialPageRoute(builder: (_) => EstimateStudentMainPage());
+      case Routes.communicationMainPage:
+        return MaterialPageRoute(builder: (_) => CommunicationMainPage());
       case Routes.reviewStudentQuizPage:
         return MaterialPageRoute(builder: (_) => ReviewStudentQuizPage());
       case Routes.studentAssessmentPage:

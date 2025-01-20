@@ -13,6 +13,13 @@ import 'package:edu_sphere/features/auth/domain/usecases/register_user.dart';
 import 'package:edu_sphere/features/auth/domain/usecases/send_code_to_forget_password.dart';
 import 'package:edu_sphere/features/auth/domain/usecases/update_password.dart';
 import 'package:edu_sphere/features/auth/presentation/bloc/auth/auth_cubit.dart';
+import 'package:edu_sphere/features/communication/data/datasource/communication_remote_data_source.dart';
+import 'package:edu_sphere/features/communication/data/repositorises/communication_repository_impl.dart';
+import 'package:edu_sphere/features/communication/domain/repositorises/communication_repository.dart';
+import 'package:edu_sphere/features/communication/domain/usecases/add_communication.dart';
+import 'package:edu_sphere/features/communication/domain/usecases/get_all_communication.dart';
+import 'package:edu_sphere/features/communication/domain/usecases/update_communication.dart';
+import 'package:edu_sphere/features/communication/presentation/bloc/communication_cubit.dart';
 import 'package:edu_sphere/features/profile/data/datasource/profile_local_data_source.dart';
 import 'package:edu_sphere/features/profile/data/datasource/profile_remote_datasource.dart';
 import 'package:edu_sphere/features/profile/data/repositorises/profile_repository_impl.dart';
@@ -29,6 +36,12 @@ import 'package:edu_sphere/features/student/assessment_student/domain/usecases/g
 import 'package:edu_sphere/features/student/assessment_student/domain/usecases/show_student_assessment.dart';
 import 'package:edu_sphere/features/student/assessment_student/domain/usecases/submit_student_document_to_assessment.dart';
 import 'package:edu_sphere/features/student/assessment_student/presesntations/bloc/student_assessment_cubit.dart';
+import 'package:edu_sphere/features/student/show_studetn_course_teachers/data/datasource/show_student_teacher_remote_datasource.dart';
+import 'package:edu_sphere/features/student/show_studetn_course_teachers/data/repositorises/show_repository_student_teacher_impl.dart';
+import 'package:edu_sphere/features/student/show_studetn_course_teachers/domain/repositorises/show_repository_student_teature.dart';
+import 'package:edu_sphere/features/student/show_studetn_course_teachers/domain/usecases/get_all_student_teacher.dart';
+import 'package:edu_sphere/features/student/show_studetn_course_teachers/domain/usecases/show_teacher_information.dart';
+import 'package:edu_sphere/features/student/show_studetn_course_teachers/presentations/bloc/show_student_teacher_cubit.dart';
 import 'package:edu_sphere/features/student/student_main/data/datasources/student_main_local_data_source.dart';
 import 'package:edu_sphere/features/student/student_main/data/datasources/student_main_remote_data_source.dart';
 import 'package:edu_sphere/features/student/student_main/data/repositorises/student_main_repository_impl.dart';
@@ -147,9 +160,15 @@ Future<void> init() async {
   sl.registerFactory(()=>StudentQuizCubit(reviewStudentQuizUseCase: sl(),showAttemptQuizUseCase: sl(),submitAnswerQuizUseCase: sl(), getAttemptStudentQuizUseCase: sl(), getAllStudentQuizUseCase: sl()));
   /// get assessment to course student
   sl.registerFactory(()=>StudentAssessmentCubit(getAllSubmitStudentDocumentToAssessmentUseCase: sl(),deleteSubmitStudentDocumentToAssessmentUseCase: sl(), getAllStudentAssessmentUseCase: sl(), submitStudentDocumentToAssessmentUseCase: sl(), showStudentAssessmentUseCase: sl()));
-/// feature profile
-  sl.registerFactory(()=>ProfileCubit(updateUserUseCase: sl(), getInfoUserUseCase: sl()));
+  /// student show student teacher cubit
+  sl.registerFactory(()=>ShowStudentTeacherCubit(getAllStudentTeacherUseCase: sl(),showTeacherInformationUseCase: sl()));
 
+  /// feature profile
+  sl.registerFactory(()=>ProfileCubit(updateUserUseCase: sl(), getInfoUserUseCase: sl()));
+  /// feature communication
+  sl.registerFactory(()=>CommunicationCubit(updateCommunicationUseCase: sl(), addCommunicationUseCase: sl(), getAllCommunicationUseCase: sl()));
+
+  
   // Use Cases
   sl.registerLazySingleton(()=>CodeCheckForgetPasswordUseCase(authRepository: sl()));
   sl.registerLazySingleton(()=>GetCurrentUserUseCase(repository: sl()));
@@ -225,10 +244,18 @@ Future<void> init() async {
   sl.registerLazySingleton(()=>SubmitStudentDocumentToAssessmentUseCase(repository: sl()));
   sl.registerLazySingleton(()=>GetAllStudentAssessmentUseCase(repository: sl()));
   sl.registerLazySingleton(()=>GetAllSubmitStudentDocumentToAssessmentUseCase(repository: sl()));
-/// feature profile use case
+  /// student show student teacher cubit
+  sl.registerLazySingleton(()=>GetAllStudentTeacherUseCase(repository: sl()));
+  sl.registerLazySingleton(()=>ShowTeacherInformationUseCase(repository: sl()));
+
+  /// feature profile use case
   sl.registerLazySingleton(()=>GetInfoUserUseCase(profileRepository: sl()));
   sl.registerLazySingleton(()=>UpdateUserUseCase(profileRepository: sl()));
-
+  /// feature communication
+  sl.registerLazySingleton(()=>GetAllCommunicationUseCase(repository: sl()));
+  sl.registerLazySingleton(()=>AddCommunicationUseCase(repository: sl()));
+  sl.registerLazySingleton(()=>UpdateCommunicationUseCase(repository: sl()));
+  
 
 
   // Repository
@@ -251,6 +278,13 @@ Future<void> init() async {
   sl.registerLazySingleton<StudentAssessmentRepository>(()=>StudentAssessmentRepositoryImpl(networkInfo: sl(),remoteDataSourceImpl: sl()));
   /// feature profile repository
   sl.registerLazySingleton<ProfileRepository>(()=>ProfileRepositoryImpl( profileLocalDataSource: sl(),networkInfo: sl(), profileRemoteDataSource: sl()));
+  /// feature communication repository
+  sl.registerLazySingleton<CommunicationRepository>(()=>CommunicationRepositoryImpl(networkInfo: sl(), remoteDataSourceImpl: sl()));
+  /// student show student teacher repository
+  sl.registerLazySingleton<ShowRepositoryStudentTeacher>(()=>ShowRepositoryStudentTeacherImpl(networkInfo: sl(), remoteDataSourceImpl: sl()));
+
+
+
 
 
   /// Data Sources
@@ -272,14 +306,17 @@ Future<void> init() async {
   /// feature student main data sources
   sl.registerLazySingleton<StudentMainLocalDataSource>(()=>StudentMainLocalDataSourceImpl());
   sl.registerLazySingleton<StudentMainRemoteDataSource>(()=>StudentMainRemoteDataSourceImpl(client: sl()));
-  /// feature student quiz repository
+  /// feature student quiz main data sources
   sl.registerLazySingleton<StudentQuizRemoteDataSource>(()=>StudentQuizRemoteDataSourceImpl(client: sl()));
-  /// feature student assessment repository
+  /// feature student assessment main data sources
   sl.registerLazySingleton<StudentAssessmentRemoteDataSource>(()=>StudentAssessmentRemoteDataSourceImpl(client: sl()));
-  /// feature profile repository
+  /// feature profile main data main data sources
    sl.registerLazySingleton<ProfileRemoteDataSource>(()=>ProfileRemoteDataSourceImpl(client: sl()));
    sl.registerLazySingleton<ProfileLocalDataSourceImpl>(()=>ProfileLocalDataSourceImpl());
-
+  /// feature communication main data sources
+   sl.registerLazySingleton<CommunicationRemoteDataSource>(()=>CommunicationRemoteDataSourceImpl(client: sl()));
+  /// student show student teacher data sources
+   sl.registerLazySingleton<ShowStudentTeacherRemoteDatasource>(()=>ShowStudentTeacherRemoteDatasourceImpl(client: sl()));
   // Network
   sl.registerLazySingleton<NetworkInfo>(()=>NetworkInfoImpl(connectionChecker: sl()));
 

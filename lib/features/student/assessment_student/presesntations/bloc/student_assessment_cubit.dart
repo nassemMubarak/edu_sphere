@@ -60,6 +60,7 @@ class StudentAssessmentCubit extends Cubit<StudentAssessmentState> {
     final failureOrAdvertisement = await getAllSubmitStudentDocumentToAssessmentUseCase(idCourse:idCourse,idAssessment: idAssessment);
     failureOrAdvertisement.fold((failure){
           Logger().e('documentAssessment==-----------------------');
+          documentAssessment=null;
       emit(ErrorMessageGetDocumentSubmitAssessmentState(message: _mapFailureMessage(failure: failure)));
     },
             (document){
@@ -83,7 +84,7 @@ class StudentAssessmentCubit extends Cubit<StudentAssessmentState> {
     emit(AddOrDeleteDocumentSubmitAssessmentLoadingState());
     final failureOrDocuments = await deleteSubmitStudentDocumentToAssessmentUseCase(idAssessment: idAssessment,idCourse: idCourse);
       failureOrDocuments.fold((failure)=>emit(ErrorMessageGetDocumentSubmitAssessmentState(message: _mapFailureMessage(failure: failure))), (unit){
-      documentAssessment = null;
+        documentAssessment = null;
       emit(GetDocumentSubmitAssessmentLoadedState(documentAssessment: documentAssessment));
     }
     );

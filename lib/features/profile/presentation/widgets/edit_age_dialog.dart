@@ -16,7 +16,7 @@ class EditAgeDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ageTextEditingController = TextEditingController(text: user.age);
+    ageTextEditingController = TextEditingController(text: user.age.toString());
 
     return AlertDialogWidget(title: 'Edit Age', textButton: 'Edit',
       widget: Form(

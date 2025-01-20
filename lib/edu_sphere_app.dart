@@ -3,8 +3,10 @@ import 'package:edu_sphere/core/routing/routes.dart';
 import 'package:edu_sphere/core/theming/colors.dart';
 import 'package:edu_sphere/features/auth/presentation/bloc/auth/auth_cubit.dart';
 import 'package:edu_sphere/features/auth/presentation/bloc/changTypSignUp/auth_type_cubit.dart';
+import 'package:edu_sphere/features/communication/presentation/bloc/communication_cubit.dart';
 import 'package:edu_sphere/features/profile/presentation/bloc/profile_cubit.dart';
 import 'package:edu_sphere/features/student/assessment_student/presesntations/bloc/student_assessment_cubit.dart';
+import 'package:edu_sphere/features/student/show_studetn_course_teachers/presentations/bloc/show_student_teacher_cubit.dart';
 import 'package:edu_sphere/features/student/student_main/presentations/bloc/student_advertisements/student_advertisements_cubit.dart';
 import 'package:edu_sphere/features/student/student_main/presentations/bloc/student_document_course/student_document_course_cubit.dart';
 import 'package:edu_sphere/features/student/student_main/presentations/bloc/student_lecture/student_lecture_cubit.dart';
@@ -56,6 +58,8 @@ class EduSphereApp extends StatelessWidget {
         BlocProvider(create: (context) => di.sl<StudentQuizCubit>()),
         BlocProvider(create: (context) => di.sl<StudentAssessmentCubit>()),
         BlocProvider(create: (context) => di.sl<ProfileCubit>()),
+        BlocProvider(create: (context) => di.sl<CommunicationCubit>()),
+        BlocProvider(create: (context) => di.sl<ShowStudentTeacherCubit>()),
       ],
       child: ScreenUtilInit(
         designSize: const Size(375, 812),

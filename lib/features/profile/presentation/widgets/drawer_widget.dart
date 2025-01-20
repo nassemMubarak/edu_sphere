@@ -8,6 +8,7 @@ import 'package:edu_sphere/core/theming/styles.dart';
 import 'package:edu_sphere/features/auth/domain/entities/user.dart';
 import 'package:edu_sphere/features/auth/presentation/bloc/auth/auth_cubit.dart';
 import 'package:edu_sphere/features/profile/presentation/widgets/image_and_name_drawer.dart';
+import 'package:edu_sphere/features/profile/presentation/widgets/logout_alert_dialog_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -37,7 +38,9 @@ class _DrawerWidgetState extends State<DrawerWidget> {
     },
     {'icon': 'assets/svgs/assessment_estimates_icon.svg', 'label': 'Student Estimates'},
     {'icon': 'assets/svgs/university_teacher.svg', 'label': 'Course Students'},
-    {'icon': 'assets/svgs/communication_icon.svg', 'label': 'Communication'},
+    {'icon': 'assets/svgs/communication_icon.svg', 'label': 'Communication',
+      'onTap': (BuildContext context) => context.pushNamed(Routes.communicationMainPage),
+    },
     {'icon': 'assets/svgs/contact_us_icon.svg', 'label': 'Contact Us'},
     {'icon': 'assets/svgs/course_subscription_icon.svg', 'label': 'Course subscription'},
     {'icon': 'assets/svgs/language_icon.svg', 'label': 'Change language'},
@@ -46,8 +49,8 @@ class _DrawerWidgetState extends State<DrawerWidget> {
       'icon': 'assets/svgs/logout_icon.svg',
       'label': 'Logout',
       'onTap': (BuildContext context) async {
-        await SharedPrefHelper.removeData(SharedPrefKeys.cachedUser);
-        context.pushReplacementNamed(Routes.loginScreen);
+        showDialog(context: context, builder: (context) => LogoutAlertDialogWidget());
+
       },
     },
   ];
@@ -64,9 +67,18 @@ class _DrawerWidgetState extends State<DrawerWidget> {
       'onTap': (BuildContext context) => context.pushNamed(Routes.profilePage),
     },
     {'icon': 'assets/svgs/request_icon.svg', 'label': 'Withdrawal requests'},
-    {'icon': 'assets/svgs/assessment_estimates_icon.svg', 'label': 'Estimates'},
-    {'icon': 'assets/svgs/type_of_teaching.svg', 'label': 'Course teachers'},
-    {'icon': 'assets/svgs/communication_icon.svg', 'label': 'Communication'},
+    {'icon': 'assets/svgs/assessment_estimates_icon.svg', 'label': 'Estimates',
+      'onTap': (BuildContext context) => context.pushNamed(Routes.estimateStudentMainPage),
+
+    },
+    {'icon': 'assets/svgs/type_of_teaching.svg', 'label': 'Course teachers',
+
+      'onTap': (BuildContext context) => context.pushNamed(Routes.showStudentTeacherMainPage),
+    },
+    {'icon': 'assets/svgs/communication_icon.svg', 'label': 'Communication',
+      'onTap': (BuildContext context) => context.pushNamed(Routes.communicationMainPage),
+
+    },
     {'icon': 'assets/svgs/contact_us_icon.svg', 'label': 'Contact us'},
     {'icon': 'assets/svgs/language_icon.svg', 'label': 'Change language'},
     {'icon': 'assets/svgs/about_program_icon.svg', 'label': 'About program'},
@@ -74,8 +86,8 @@ class _DrawerWidgetState extends State<DrawerWidget> {
       'icon': 'assets/svgs/logout_icon.svg',
       'label': 'Logout',
       'onTap': (BuildContext context) async {
-        await SharedPrefHelper.removeData(SharedPrefKeys.cachedUser);
-        context.pushReplacementNamed(Routes.loginScreen);
+        showDialog(context: context, builder: (context) => LogoutAlertDialogWidget());
+
       },
     },
   ];

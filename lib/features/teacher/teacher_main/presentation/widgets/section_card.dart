@@ -12,11 +12,12 @@ class SectionCard extends StatelessWidget {
   final String icon;
   final Widget widget;
   final TextStyle? textStyle;
-
+  bool? isNotShowColorSvg ;
   SectionCard({
     required this.title,
     this.showAddButton = false,
     this.textStyle,
+    this.isNotShowColorSvg,
     required this.icon,
     required this.widget,
   });
@@ -47,7 +48,7 @@ class SectionCard extends StatelessWidget {
                   icon,
                   width: 24.w,
                   height: 24.h,
-                  color: ColorsManager.mainBlue,
+                  color:isNotShowColorSvg==null?ColorsManager.mainBlue:null ,
                 ),
                 horizontalSpace(8.w),
                 Text(

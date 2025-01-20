@@ -26,5 +26,9 @@ class Routes {
   static const String studentAssessmentPage = '/studentAssessmentPage';
   static const String showStudentQuizPage = '/showStudentQuizPage';
   static const String reviewStudentQuizPage = '/reviewStudentQuizPage';
+  static const String communicationMainPage = '/communicationMainPage';
+  static const String estimateStudentMainPage = '/estimateStudentMainPage';
+  static const String showStudentTeacherMainPage = '/showStudentTeacherMainPage';
+  static const String showStudentDetailTeacherMainPage = '/showStudentDetailTeacherMainPage';
 
 }

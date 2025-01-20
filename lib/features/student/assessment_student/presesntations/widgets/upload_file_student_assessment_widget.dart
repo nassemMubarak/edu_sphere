@@ -32,7 +32,29 @@ class UploadFileStudentAssessmentWidget extends StatelessWidget {
           // buildWhen: (previous, current) => current is GetDocumentSubmitAssessmentLoadedState,
           builder: (context, state) {
             if(state is ErrorMessageGetDocumentSubmitAssessmentState){
-              return Container(
+              return context.read<StudentAssessmentCubit>().documentAssessment!=null? Container(
+                width: double.infinity,
+                padding:  EdgeInsetsDirectional.only(start: 10),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(4),
+                  boxShadow: [
+                    BoxShadow(
+                      spreadRadius: 2,
+                      blurRadius: 4,
+                      color: ColorsManager.shadowColor.withOpacity(0.3),
+                    ),
+                  ],
+                ),
+                child: ListTile(
+                  trailing:assessment.endIn.isBefore(DateTime.now())?null: IconButton(onPressed: (){
+                    showDialog(context: context, builder: (context) => DeleteSubmitDocumentAlert(idCourse: idCourse, idAssessment: assessment.id));
+                  }, icon: SvgPicture.asset('assets/svgs/delete_icon.svg')),
+                  contentPadding: EdgeInsets.zero,
+                  leading: SvgPicture.asset('assets/svgs/pdf_icon.svg'),
+                  title: Text(context.read<StudentAssessmentCubit>().documentAssessment!.title??'Assessment ',style: TextStyles.font14Black400Weight),
+                ),
+              ):Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(16.0),
                 decoration: BoxDecoration(
@@ -126,7 +148,29 @@ class UploadFileStudentAssessmentWidget extends StatelessWidget {
                 ),
               );
             }else{
-              return Container(
+              return context.read<StudentAssessmentCubit>().documentAssessment!=null? Container(
+                width: double.infinity,
+                padding:  EdgeInsetsDirectional.only(start: 10),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(4),
+                  boxShadow: [
+                    BoxShadow(
+                      spreadRadius: 2,
+                      blurRadius: 4,
+                      color: ColorsManager.shadowColor.withOpacity(0.3),
+                    ),
+                  ],
+                ),
+                child: ListTile(
+                  trailing:assessment.endIn.isBefore(DateTime.now())?null: IconButton(onPressed: (){
+                    showDialog(context: context, builder: (context) => DeleteSubmitDocumentAlert(idCourse: idCourse, idAssessment: assessment.id));
+                  }, icon: SvgPicture.asset('assets/svgs/delete_icon.svg')),
+                  contentPadding: EdgeInsets.zero,
+                  leading: SvgPicture.asset('assets/svgs/pdf_icon.svg'),
+                  title: Text(context.read<StudentAssessmentCubit>().documentAssessment!.title??'Assessment ',style: TextStyles.font14Black400Weight),
+                ),
+              ):Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(16.0),
                 decoration: BoxDecoration(
@@ -158,6 +202,39 @@ class UploadFileStudentAssessmentWidget extends StatelessWidget {
                   ],
                 ),
               );
+
+              // return Container(
+              //   width: double.infinity,
+              //   padding: const EdgeInsets.all(16.0),
+              //   decoration: BoxDecoration(
+              //     color: Colors.white,
+              //     borderRadius: BorderRadius.circular(4),
+              //     boxShadow: [
+              //       BoxShadow(
+              //         spreadRadius: 2,
+              //         blurRadius: 4,
+              //         color: ColorsManager.shadowColor.withOpacity(0.3),
+              //       ),
+              //     ],
+              //   ),
+              //   child: Column(
+              //     children: [
+              //       Column(
+              //         children: [
+              //           Image.asset('assets/images/upload_file_image.png',width: 70.w,height: 70.h,),
+              //           verticalSpace(8),
+              //           Text('Upload images and files',style: TextStyles.font12Black400Weight),
+              //           verticalSpace(8),
+              //         ],
+              //       ),
+              //       verticalSpace(24),
+              //       Visibility(
+              //           visible: assessment.endIn.isAfter(DateTime.now())&&assessment.startIn.isBefore(DateTime.now()),
+              //           child: AppTextButton(buttonText: 'Submit File',onPressed:()=> _showBottomSheet(context,idAssessment: assessment.id,idCourse: idCourse),)),
+              //
+              //     ],
+              //   ),
+              // );
             }
               return  SizedBox.shrink();
           },
