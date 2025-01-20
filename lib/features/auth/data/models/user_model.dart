@@ -1,4 +1,5 @@
 import 'package:edu_sphere/features/auth/domain/entities/user.dart';
+import 'package:logger/logger.dart';
 
 class UserModel extends User {
   UserModel({
@@ -12,65 +13,100 @@ class UserModel extends User {
     required super.updatedAt,
     required super.createdAt,
     super.imageUrl,
-    super.type, // Nullable type
     required super.token,
+    super.campId,
+    super.campName,
+    super.deletedAt,
+    required super.id,
+    super.status,
+    required super.type,
   });
-// Factory method to create a UserModel from a JSON Map
+
+  // Factory method to create a UserModel from a JSON Map (with logging)
   factory UserModel.fromJsonUpdate(Map<String, dynamic> json) {
+    Logger().e(json); // Log the JSON for debugging
     return UserModel(
+      id: json['id'] ?? '',
       name: json['name'],
       email: json['email'],
+      specialization: json['specialization'],
       sex: json['sex'],
-      phoneNumber: json['phone_number'],
-      age: json['age'].toString(),
-      level: json['level'].toString(),
+      phoneNumber: json['phone_number'] ?? '', // Handle missing field
+      age: int.parse(json['age'].toString()),
+      campId: json['camp_id'],
+      level:json['level']==null?null:int.parse(json['level'].toString()),
       createdAt: DateTime.parse(json['created_at']),
       updatedAt: DateTime.parse(json['updated_at']),
+      deletedAt: json['deleted_at'],
+      campName: json['camp_name'],
+      status: json['status'],
+      type: json['type']??'',
       token: json['token']??'',
+      imageUrl: json['image_url'],
     );
   }
-  // Method to convert from JSON to UserModel object
+
+  // Factory method to create a UserModel from a JSON Map
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
+      id: json['user']['id'],
       name: json['user']['name'],
       email: json['user']['email'],
-      age: json['user']['age'].toString(), // Ensure age is a string
-      sex: json['user']['sex'],
-      phoneNumber: json['user']['phone_number'],
       specialization: json['user']['specialization'],
-      updatedAt: DateTime.parse(json['user']['updated_at']),
+      sex: json['user']['sex'],
+      phoneNumber: json['user']['phone_number'] ?? '', // Handle missing field
+      age: json['user']['age'],
+      campId: json['user']['camp_id'],
+      level: json['user']['level'],
       createdAt: DateTime.parse(json['user']['created_at']),
-      level: json['user']['level']!=null?json['user']['level'].toString():null,
-      type: json['type'], // Nullable type
-      token: json['token']??'', // Add 'token' here
+      updatedAt: DateTime.parse(json['user']['updated_at']),
+      deletedAt: json['user']['deleted_at'],
+      campName: json['user']['camp_name'],
+      status: json['user']['status'],
+      type: json['type'],
+      token: json['token'] ?? '',
+      imageUrl: json['user']['image_url'],
     );
   }
-  // CopyWith method to modify certain fields (e.g., type)
+
+  // Method to create a copy of the UserModel with updated fields
   UserModel copyWith({
+    int? id,
     String? name,
     String? email,
-    String? age,
+    String? specialization,
     String? sex,
     String? phoneNumber,
-    String? specialization,
-    String? level,
-    DateTime? updatedAt,
+    String? age,
+    int? campId,
+    int? level,
     DateTime? createdAt,
+    DateTime? updatedAt,
+    String? deletedAt,
+    String? campName,
+    String? status,
     String? type,
     String? token,
+    String? imageUrl,
   }) {
     return UserModel(
+      id: id ?? this.id,
       name: name ?? this.name,
       email: email ?? this.email,
-      age: age ?? this.age,
+      specialization: specialization ?? this.specialization,
       sex: sex ?? this.sex,
       phoneNumber: phoneNumber ?? this.phoneNumber,
-      specialization: specialization ?? this.specialization,
+      age: age==null?this.age:int.parse(age),
+      campId: campId ?? this.campId,
       level: level ?? this.level,
-      updatedAt: updatedAt ?? this.updatedAt,
       createdAt: createdAt ?? this.createdAt,
-      type: type ?? this.type, // Ensure type is updated if provided
+      updatedAt: updatedAt ?? this.updatedAt,
+      deletedAt: deletedAt ?? this.deletedAt,
+      campName: campName ?? this.campName,
+      status: status ?? this.status,
+      type: type ?? this.type,
       token: token ?? this.token,
+      imageUrl: imageUrl ?? this.imageUrl,
     );
   }
 
@@ -78,17 +114,24 @@ class UserModel extends User {
   Map<String, dynamic> toJson() {
     return {
       'user': {
+        'id': id,
         'name': name,
         'email': email,
-        'age': age,
+        'specialization': specialization,
         'sex': sex,
         'phone_number': phoneNumber,
-        'specialization': specialization,
-        'updated_at': updatedAt.toIso8601String(),
+        'age': age,
+        'camp_id': campId,
+        'level': level,
         'created_at': createdAt.toIso8601String(),
+        'updated_at': updatedAt.toIso8601String(),
+        'deleted_at': deletedAt,
+        'camp_name': campName,
+        'status': status,
+        'image_url': imageUrl,
       },
-      'type': type, // Nullable type
-      'token': token, // Add 'token' here
+      'type': type,
+      'token': token,
     };
   }
 }

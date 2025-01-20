@@ -18,14 +18,16 @@ class TitelAndIconListTaileWidget extends StatelessWidget {
   final Course? coursesModel;
   final int? indexCourse;
   final bool isShowEditButton;
+   bool? isDeleteEditButton;
   final Function()? onTap;
   final Function()? onDeleteIconTap;
-  const TitelAndIconListTaileWidget(
+     TitelAndIconListTaileWidget(
       {super.key,
       required this.title,
       required this.subTitle,
       required this.iconUrl,
       required this.isShowEditButton,
+       this.isDeleteEditButton,
 
       this.isShowTrailing,
       this.subTitleStyle,
@@ -91,44 +93,47 @@ class TitelAndIconListTaileWidget extends StatelessWidget {
                   ),
                 ),
                 horizontalSpace(8),
-                GestureDetector(
-                  onTap:onDeleteIconTap?? () {
-                    showDialog(
-                      context: context,
-                      builder: (context) => WarningMessageTeacherInfoDialog(
-                        title: 'Do you really want to delete Course?',
-                        subTitle: 'This action will delete the request you sent to the camp',
-                        textButton: 'Delete Course',
-                        onTap: () {
-                          context.pop();
-                          showDialog(
-                            context: context,
-                            builder: (context) => WarningMessageTeacherInfoDialog(
-                              title: 'Do you really want to delete Course?',
-                              subTitle: 'If you want to delete the course, this will result in deleting all the course contents and all its students.',
-                              textButton: 'Accepts',
-                              onTap: () {
-                                context.pop();
-                                showDialog(
-                                  context: context,
-                                  builder: (context) => DeleteCourseInfoDialog(
-                                    indexCourse: indexCourse!,
-                                    courseTitle: coursesModel!.title,
-                                    courseId: coursesModel!.id,
-                                  ),
-                                );
-                              },
-                            ),
-                          );
-                        },
-                      ),
-                    );
+                Visibility(
+                  visible: isDeleteEditButton==null?true:false,
+                  child: GestureDetector(
+                    onTap:onDeleteIconTap?? () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => WarningMessageTeacherInfoDialog(
+                          title: 'Do you really want to delete Course?',
+                          subTitle: 'This action will delete the request you sent to the camp',
+                          textButton: 'Delete Course',
+                          onTap: () {
+                            context.pop();
+                            showDialog(
+                              context: context,
+                              builder: (context) => WarningMessageTeacherInfoDialog(
+                                title: 'Do you really want to delete Course?',
+                                subTitle: 'If you want to delete the course, this will result in deleting all the course contents and all its students.',
+                                textButton: 'Accepts',
+                                onTap: () {
+                                  context.pop();
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => DeleteCourseInfoDialog(
+                                      indexCourse: indexCourse!,
+                                      courseTitle: coursesModel!.title,
+                                      courseId: coursesModel!.id,
+                                    ),
+                                  );
+                                },
+                              ),
+                            );
+                          },
+                        ),
+                      );
 
-                  },
-                  child: SvgPicture.asset(
-                    'assets/svgs/delete_icon.svg',
-                    width: 24,
-                    height: 24,
+                    },
+                    child: SvgPicture.asset(
+                      'assets/svgs/delete_icon.svg',
+                      width: 24,
+                      height: 24,
+                    ),
                   ),
                 ),
               ],

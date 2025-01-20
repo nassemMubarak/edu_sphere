@@ -62,7 +62,7 @@ class StudentRequestWidget extends StatelessWidget {
                   ),
                 IconLabelRow(
                   iconPath: 'assets/svgs/circular-word-age.svg',
-                  label: user.age,
+                  label: user.age.toString(),
                 ),
                 IconLabelRow(
                   iconPath: 'assets/svgs/camp.svg',

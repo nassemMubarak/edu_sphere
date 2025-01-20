@@ -1,47 +1,62 @@
 import 'package:equatable/equatable.dart';
 
 class User extends Equatable {
-  String name;
-  String email;
-  String age;
-  String sex;
-  String phoneNumber;
-  String? specialization;
-  String? level;
-  String? imageUrl; // URL field for image
-  DateTime updatedAt;
-  DateTime createdAt;
-  String? type; // Nullable user type (e.g., Teacher, Student)
-  String token;
+   int id;
+   String name;
+   String email;
+   String? specialization; // Nullable for Teacher
+   String sex;
+   String phoneNumber; // Matches JSON key "phone_number"
+   int age; // Updated to int to match JSON
+   int? campId; // Nullable for Student
+   int? level; // Nullable for Student
+   DateTime createdAt;
+   DateTime updatedAt;
+   String? deletedAt; // Nullable
+   String? campName; // Nullable for Student
+   String? status; // Nullable for Student
+   String type; // User type (e.g., Teacher, Student)
+   String token; // Authentication token
+   String? imageUrl;
 
   User({
+    required this.id,
     required this.name,
     required this.email,
-    required this.age,
+    this.specialization,
     required this.sex,
     required this.phoneNumber,
+    required this.age,
+    this.campId,
     this.level,
-    required this.updatedAt,
     required this.createdAt,
-    this.specialization,
-    this.imageUrl,
-    this.type, // Nullable type
+    required this.updatedAt,
+    this.deletedAt,
+    this.campName,
+    this.status,
+    required this.type,
     required this.token,
+    this.imageUrl,
   });
 
   @override
   List<Object?> get props => [
+    id,
     name,
-    specialization,
     email,
-    age,
+    specialization,
     sex,
     phoneNumber,
+    age,
+    campId,
     level,
-    imageUrl,
-    updatedAt,
     createdAt,
+    updatedAt,
+    deletedAt,
+    campName,
+    status,
     type,
     token,
+    imageUrl,
   ];
 }

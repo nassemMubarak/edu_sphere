@@ -64,7 +64,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     if (response.statusCode >= 200 && response.statusCode < 300) {
       final decodeJson = json.decode(response.body);
       UserModel user = UserModel.fromJson(decodeJson);
-      user = user.copyWith(type: authData['level'] != null ? 'Student' : 'Teacher');
+      // user = user.copyWith(type: authData['level'] != null ? 'Student' : 'Teacher');
 
       return user;
     } else if (response.statusCode >= 400 && response.statusCode < 500) {
@@ -83,6 +83,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
     if (response.statusCode >= 200 && response.statusCode < 300) {
       final decodeJson = json.decode(response.body);
+      Logger().f(decodeJson);
       UserModel userModel = UserModel.fromJson(decodeJson);
       return userModel;
     }else if (response.statusCode >= 400 && response.statusCode < 500) {

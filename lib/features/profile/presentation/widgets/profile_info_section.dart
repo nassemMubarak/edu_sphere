@@ -54,7 +54,7 @@ class ProfileInfoSection extends StatelessWidget {
            showDialog(context: context, builder: (context) => EditGender(user: user));
           },
         ),
-        if(!isStudent)
+        if(!isStudent&&user.specialization!=null)
           ProfileInfoRow(
             iconPath: 'assets/svgs/university_teacher.svg',
             label: user.specialization!,
@@ -65,7 +65,7 @@ class ProfileInfoSection extends StatelessWidget {
         if(isStudent&&user.level!=null)
             ProfileInfoRow(
               iconPath: 'assets/svgs/educational.svg',
-              label: user.level!,
+              label: user.level!.toString(),
               onEdit: () {
               showDialog(context: context, builder: (context) => EditLevelDialog(user: user,));
                 // Handle edit action for level
@@ -73,7 +73,7 @@ class ProfileInfoSection extends StatelessWidget {
             ),
         ProfileInfoRow(
           iconPath: 'assets/svgs/circular-word-age.svg',
-          label: user.age,
+          label: user.age.toString(),
           onEdit: () {
             showDialog(context: context, builder: (context) => EditAgeDialog(user: user,));
           },

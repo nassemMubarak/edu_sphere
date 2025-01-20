@@ -16,7 +16,7 @@ class EditLevelDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    levelTextEditingController = TextEditingController(text: user.level);
+    levelTextEditingController = TextEditingController(text: user.level.toString());
 
     return AlertDialogWidget(title: 'Edit Level', textButton: 'Edit',
       widget: Form(
