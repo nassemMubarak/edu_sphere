@@ -2,6 +2,7 @@ class ApiConstants {
   static const String apiBaseUrl = "https://eduspherepal.com/api";
   static const String teacherCourses = "/teacher/courses";
   static const String studentCourses = "/student/courses";
+  static const String studentEstimates = "/student/estimates";
   static const String studentTeachers = "/student/teachers";
   static const String studentCoursesAvailable = "/student/courses/available";
   static const String studentCoursesJoin = "/student/courses/join";

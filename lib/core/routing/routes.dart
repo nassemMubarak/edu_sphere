@@ -30,5 +30,6 @@ class Routes {
   static const String estimateStudentMainPage = '/estimateStudentMainPage';
   static const String showStudentTeacherMainPage = '/showStudentTeacherMainPage';
   static const String showStudentDetailTeacherMainPage = '/showStudentDetailTeacherMainPage';
+  static const String showGradeCoursePage = '/showGradeCoursePage';
 
 }
