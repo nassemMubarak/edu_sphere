@@ -12,6 +12,7 @@ import 'package:edu_sphere/features/onboarding/ui/onboarding_screen.dart';
 import 'package:edu_sphere/features/auth/presentation/pages/signup_screen.dart';
 import 'package:edu_sphere/features/student/assessment_student/presesntations/pages/student_assessment_page.dart';
 import 'package:edu_sphere/features/student/estimates_students/presentations/pages/estimate_student_main_page.dart';
+import 'package:edu_sphere/features/student/estimates_students/presentations/pages/show_grade_course_page.dart';
 import 'package:edu_sphere/features/student/show_studetn_course_teachers/presentations/pages/show_student_detail_teacher_main_page.dart';
 import 'package:edu_sphere/features/student/show_studetn_course_teachers/presentations/pages/show_student_teacher_main_page.dart';
 import 'package:edu_sphere/features/student/student_main/presentations/pages/add_course_student_search.dart';
@@ -51,6 +52,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => ShowStudentTeacherMainPage());
       case Routes.showStudentDetailTeacherMainPage:
         return MaterialPageRoute(builder: (_) => ShowStudentDetailTeacherMainPage());
+      case Routes.showGradeCoursePage:
+        return MaterialPageRoute(builder: (_) => ShowGradeCoursePage());
       case Routes.estimateStudentMainPage:
         return MaterialPageRoute(builder: (_) => EstimateStudentMainPage());
       case Routes.communicationMainPage:

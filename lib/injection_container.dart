@@ -36,6 +36,11 @@ import 'package:edu_sphere/features/student/assessment_student/domain/usecases/g
 import 'package:edu_sphere/features/student/assessment_student/domain/usecases/show_student_assessment.dart';
 import 'package:edu_sphere/features/student/assessment_student/domain/usecases/submit_student_document_to_assessment.dart';
 import 'package:edu_sphere/features/student/assessment_student/presesntations/bloc/student_assessment_cubit.dart';
+import 'package:edu_sphere/features/student/estimates_students/data/datasources/estimate_student_remote_datasource.dart';
+import 'package:edu_sphere/features/student/estimates_students/data/repositoris/estimate_student_repository_impl.dart';
+import 'package:edu_sphere/features/student/estimates_students/domain/repositorises/estimates_student_repository.dart';
+import 'package:edu_sphere/features/student/estimates_students/domain/usecases/show_estimate_student_to_course.dart';
+import 'package:edu_sphere/features/student/estimates_students/presentations/bloc/estimate_student_cubit.dart';
 import 'package:edu_sphere/features/student/show_studetn_course_teachers/data/datasource/show_student_teacher_remote_datasource.dart';
 import 'package:edu_sphere/features/student/show_studetn_course_teachers/data/repositorises/show_repository_student_teacher_impl.dart';
 import 'package:edu_sphere/features/student/show_studetn_course_teachers/domain/repositorises/show_repository_student_teature.dart';
@@ -162,6 +167,8 @@ Future<void> init() async {
   sl.registerFactory(()=>StudentAssessmentCubit(getAllSubmitStudentDocumentToAssessmentUseCase: sl(),deleteSubmitStudentDocumentToAssessmentUseCase: sl(), getAllStudentAssessmentUseCase: sl(), submitStudentDocumentToAssessmentUseCase: sl(), showStudentAssessmentUseCase: sl()));
   /// student show student teacher cubit
   sl.registerFactory(()=>ShowStudentTeacherCubit(getAllStudentTeacherUseCase: sl(),showTeacherInformationUseCase: sl()));
+  /// feature show estimate to student
+  sl.registerFactory(()=>EstimateStudentCubit(showEstimateStudentToCourse: sl()));
 
   /// feature profile
   sl.registerFactory(()=>ProfileCubit(updateUserUseCase: sl(), getInfoUserUseCase: sl()));
@@ -232,13 +239,13 @@ Future<void> init() async {
   sl.registerLazySingleton(()=>GetAllSubscribeStudentCoursesUseCase(repository: sl()));
   sl.registerLazySingleton(()=>SubscribeStudentCourse(repository: sl()));
   sl.registerLazySingleton(()=>LeaveStudentCourseUseCase(repository: sl()));
-      /// use case student quiz
+      /// use case student quiz use case
   sl.registerLazySingleton(()=>GetAllStudentQuizUseCase(repository: sl()));
   sl.registerLazySingleton(()=>GetAttemptStudentQuizUseCase(repository: sl()));
   sl.registerLazySingleton(()=>SubmitAnswerQuizUseCase(repository: sl()));
   sl.registerLazySingleton(()=>ShowAttemptQuizUseCase(repository: sl()));
   sl.registerLazySingleton(()=>ReviewStudentQuizUseCase(repository: sl()));
-      /// use  case student assessment
+      /// use  case student assessment use case
   sl.registerLazySingleton(()=>DeleteSubmitStudentDocumentToAssessmentUseCase(repository: sl()));
   sl.registerLazySingleton(()=>ShowStudentAssessmentUseCase(repository: sl()));
   sl.registerLazySingleton(()=>SubmitStudentDocumentToAssessmentUseCase(repository: sl()));
@@ -247,7 +254,9 @@ Future<void> init() async {
   /// student show student teacher cubit
   sl.registerLazySingleton(()=>GetAllStudentTeacherUseCase(repository: sl()));
   sl.registerLazySingleton(()=>ShowTeacherInformationUseCase(repository: sl()));
-
+  /// feature show estimate to student use case
+  sl.registerLazySingleton(()=>ShowEstimateStudentToCourseUseCase(repository: sl()));
+  
   /// feature profile use case
   sl.registerLazySingleton(()=>GetInfoUserUseCase(profileRepository: sl()));
   sl.registerLazySingleton(()=>UpdateUserUseCase(profileRepository: sl()));
@@ -282,6 +291,8 @@ Future<void> init() async {
   sl.registerLazySingleton<CommunicationRepository>(()=>CommunicationRepositoryImpl(networkInfo: sl(), remoteDataSourceImpl: sl()));
   /// student show student teacher repository
   sl.registerLazySingleton<ShowRepositoryStudentTeacher>(()=>ShowRepositoryStudentTeacherImpl(networkInfo: sl(), remoteDataSourceImpl: sl()));
+  ///    feature show estimate to student repository
+  sl.registerLazySingleton<EstimateStudentRepository>(()=>EstimateStudentRepositoryImpl(estimateStudentRemoteDataSource: sl(), networkInfo: sl()));
 
 
 
@@ -317,6 +328,12 @@ Future<void> init() async {
    sl.registerLazySingleton<CommunicationRemoteDataSource>(()=>CommunicationRemoteDataSourceImpl(client: sl()));
   /// student show student teacher data sources
    sl.registerLazySingleton<ShowStudentTeacherRemoteDatasource>(()=>ShowStudentTeacherRemoteDatasourceImpl(client: sl()));
+  /// feature show estimate to student data sources
+   sl.registerLazySingleton<EstimateStudentRemoteDataSource>(()=>EstimateStudentRemoteDataSourceImpl(client: sl()));
+
+
+
+
   // Network
   sl.registerLazySingleton<NetworkInfo>(()=>NetworkInfoImpl(connectionChecker: sl()));
 
