@@ -1,4 +1,6 @@
 import 'package:edu_sphere/core/helpers/extenshions.dart';
+import 'package:edu_sphere/core/helpers/spacing.dart';
+import 'package:edu_sphere/core/theming/styles.dart';
 import 'package:edu_sphere/core/widgets/courses_shimmer_widget.dart';
 import 'package:edu_sphere/core/widgets/image_and_text_empty_data.dart';
 import 'package:edu_sphere/core/widgets/sliver_widget.dart';
@@ -32,17 +34,43 @@ class ShowGradeCoursePage extends StatelessWidget {
               return SectionCard(
                 title: 'Estimates',
                 icon: 'assets/svgs/assessment_estimates_icon.svg',
-                widget: ListView.builder(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount: state.estimatesStudent.quizAttempts.length,
-                  itemBuilder: (context, index) {
-                          return ListTile(
-                            leading: SvgPicture.asset('assets/svgs/quiz_leading_icon.svg'),
-                            title: Text(state.estimatesStudent.quizAttempts[index].),
-                            trailing: Text(state.estimatesStudent.quizAttempts[index].grade==null?'NotRated':state.estimatesStudent.quizAttempts[index].grade!.result.toString()),
-                          );
-                },),
+                widget: Column(
+                  children: [
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: state.estimatesStudent.quizAttempts.length,
+                      itemBuilder: (context, index) {
+                              return ListTile(
+                                leading: SvgPicture.asset('assets/svgs/quiz_leading_icon.svg'),
+                                title: Text('Quiz $index'),
+                                trailing: Text(state.estimatesStudent.quizAttempts[index].grade==null?'NotRated':state.estimatesStudent.quizAttempts[index].grade!.result.toString(),style: TextStyles.font10NeutralGray400Weight),
+                              );
+                    },),
+                    ListView.builder(
+                      padding: EdgeInsets.zero,
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: state.estimatesStudent.assignments.length,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          leading: SvgPicture.asset('assets/svgs/annual_assessment_icon.svg'),
+                          title: Text(state.estimatesStudent.assignments[index].title??'Assessment $index'),
+                          trailing: Text(state.estimatesStudent.assignments[index].grade==null?'NotRated':state.estimatesStudent.assignments[index].grade!.result.toString(),style: TextStyles.font10NeutralGray400Weight),
+                        );
+                      },),
+                    verticalSpace(24),
+                    Divider(),
+                    verticalSpace(24),
+                    Row(
+                      children: [
+                        Text('Total mark'),
+                        Spacer(),
+                        Text('Not Rated',style: TextStyles.font10NeutralGray400Weight),
+                      ],
+                    ),
+                  ],
+                ),
               );
             }else if(state is ShowEstimateStudentErrorState){
 return SizedBox.shrink();
