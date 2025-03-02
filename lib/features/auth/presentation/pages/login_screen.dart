@@ -16,7 +16,7 @@ import 'package:edu_sphere/features/auth/presentation/widgets/login_widgets/reme
 import 'package:edu_sphere/features/auth/presentation/widgets/login_widgets/text_account_signup_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:edu_sphere/l10n/app_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logger/logger.dart';
 
@@ -36,8 +36,8 @@ class LoginScreen extends StatelessWidget {
                 .showNotificationSuccess(message: state.message, context: context);
           }else if(state is AuthMessageErrorState){
             context.pop();
-          // ToastNotificationMessage()
-          //     .showToastNotificationError(message: state.message, context: context);
+          ToastNotificationMessage()
+              .showToastNotificationError(message: state.message, context: context);
           }else if(state is AuthLoadedState){
             if(state.user.type!.toUpperCase()=='TEACHER'){
               context.read<AuthCubit>().getCurrentUserUseCase();

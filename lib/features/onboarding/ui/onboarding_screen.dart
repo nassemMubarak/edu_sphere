@@ -7,7 +7,7 @@ import 'package:edu_sphere/features/onboarding/ui/widgets/indicator_onboarding_w
 import 'package:edu_sphere/features/onboarding/ui/widgets/page_view_onboarding_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:edu_sphere/l10n/app_localizations.dart';
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
 

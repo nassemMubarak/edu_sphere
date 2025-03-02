@@ -51,9 +51,13 @@ class QuizCubit extends Cubit<QuizState> {
   }
   /// emit show Estimate Quiz
   emitShowEstimateQuiz({required int idCourse,required int idQuiz,required int idEstimate})async{
+    Logger().f('.....1................................................00');
     emit(ShowReviewQuizLoadingState());
     final failureOrAdvertisement = await showEstimateQuizUseCase(idCourse: idCourse,idQuiz: idQuiz,idEstimate: idEstimate);
-    failureOrAdvertisement.fold((failure)=>emit(QuizMessageErrorState(message: _mapFailureMessage(failure: failure))),
+    failureOrAdvertisement.fold((failure){
+    Logger().f('....2.................................................00');
+      emit(QuizMessageErrorState(message: _mapFailureMessage(failure: failure)));
+    },
             (reviewQuiz){
           Logger().d('reviewQuiz  ---->   $reviewQuiz');
           reviewQuizModel = reviewQuiz;
@@ -66,8 +70,8 @@ class QuizCubit extends Cubit<QuizState> {
     final failureOrAdvertisement = await updateEstimateQuizUseCase(idCourse:idCourse ,idQuiz: idQuiz,grade: grade,idEstimate:idEstimate );
     failureOrAdvertisement.fold((failure)=>emit(QuizMessageErrorState(message: _mapFailureMessage(failure: failure))),
             (unit){
-          listEstimateQuiz[indexEstimateQuiz].grade.result= grade;
-          Logger().d('Estimate Quiz  list ---->   ${listEstimateQuiz[indexEstimateQuiz].grade.result}');
+          listEstimateQuiz[indexEstimateQuiz].grade!.result= grade;
+          Logger().d('Estimate Quiz  list ---->   ${listEstimateQuiz[indexEstimateQuiz].grade!.result}');
           emit(GetAllEstimateQuizLoadedState(listEstimateQuiz:listEstimateQuiz ));
         });
   }

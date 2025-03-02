@@ -86,7 +86,7 @@ class ShowReviewQuizWidget extends StatelessWidget {
             estimateQuiz: estimateQuiz!,
             indexEstimateQuiz: context.read<QuizCubit>().selectedEstimateQuiz,
             email: estimateQuiz!.student.email,
-            grad: '${estimateQuiz!.grade.result}/${quiz!.degree}',
+            grad: '${estimateQuiz!.grade!.result}/${quiz!.degree}',
             name: estimateQuiz!.student.name,
             quize: quiz!,
             isHideUpdate: true,
@@ -100,6 +100,7 @@ class ShowReviewQuizWidget extends StatelessWidget {
   }
 
   Widget _buildQuestionsList(ShowReviewQuizLoadedState state) {
+    Logger().e('--------------//////////////////////////////////////${questions!.length}');
     return ListView.builder(
       itemCount: questions!.length,
       shrinkWrap: true,
@@ -109,7 +110,7 @@ class ShowReviewQuizWidget extends StatelessWidget {
         int questionScore = 0;
 
         state.reviewQuizModel.data.forEach((answer) {
-          if (questions![index].id == int.parse(answer.questionId)) {
+          if (questions![index].id == int.parse(answer.questionId.toString())) {
             answerStudent = answer.answer;
             if (answer.answer == questions![index].correctAnswer) {
               questionScore = questions![index].mark;

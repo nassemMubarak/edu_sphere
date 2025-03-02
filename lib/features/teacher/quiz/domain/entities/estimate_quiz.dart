@@ -54,7 +54,7 @@ class Student {
       email: json['email'],
       campId: json['camp_id']?.toString(),
       sex: json['sex'],
-      phoneNumber: json['phone_number'],
+      phoneNumber: json['phone_number']??'',
       age: json['age'],
       level: json['level'],
       createdAt: DateTime.parse(json['created_at']),

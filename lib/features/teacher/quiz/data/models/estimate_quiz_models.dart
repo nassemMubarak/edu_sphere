@@ -1,9 +1,11 @@
 import 'package:edu_sphere/features/teacher/quiz/domain/entities/estimate_quiz.dart';
+import 'package:logger/logger.dart';
 
 class EstimateQuizModels extends EstimateQuiz{
   EstimateQuizModels({required super.id, required super.quizId, required super.createdAt, required super.updatedAt, required super.student, required super.grade});
 
   factory EstimateQuizModels.fromJson(Map<String, dynamic> json) {
+    Logger().f('---------+++++++++++5555555555555555555${json['grade']}');
     return EstimateQuizModels(
       id: json['id'],
       quizId: json['quiz_id'],

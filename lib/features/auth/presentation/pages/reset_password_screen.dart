@@ -5,7 +5,7 @@ import 'package:edu_sphere/core/widgets/wave_top_widget.dart';
 import 'package:edu_sphere/features/auth/presentation/widgets/forget_password_widgets/rest_password_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:edu_sphere/l10n/app_localizations.dart';
 class ResetPasswordScreen extends StatelessWidget {
   ResetPasswordScreen({super.key});
   @override

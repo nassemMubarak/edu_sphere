@@ -10,7 +10,7 @@ import 'package:edu_sphere/features/teacher/quiz/presentation/bloc/quiz_cubit.da
 import 'package:edu_sphere/features/teacher/quiz/presentation/widgets/questions_widgets/loading_add_or_update_or_delete_question_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:edu_sphere/l10n/app_localizations.dart';
 
 class DeleteQuestionInfoDialog extends StatelessWidget {
   Question question;

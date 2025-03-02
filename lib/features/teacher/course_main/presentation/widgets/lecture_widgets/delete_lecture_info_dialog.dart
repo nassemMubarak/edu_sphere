@@ -7,7 +7,7 @@ import 'package:edu_sphere/features/teacher/course_main/presentation/bloc/course
 import 'package:edu_sphere/features/teacher/course_main/presentation/widgets/lecture_widgets/add_or_update_or_delete_lecture_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:edu_sphere/l10n/app_localizations.dart';
 
 class DeleteLectureInfoDialog extends StatelessWidget {
   int idCourse;

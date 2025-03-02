@@ -9,7 +9,8 @@ import 'package:edu_sphere/features/teacher/course_main/presentation/bloc/docume
 import 'package:edu_sphere/features/teacher/course_main/presentation/widgets/chapters_widgets/loading_add_or_delete_chapter_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:edu_sphere/l10n/app_localizations.dart';
+
 
 class DeleteChapterInfoDialog extends StatelessWidget {
   DocumentAssessment chapter;

@@ -8,7 +8,7 @@ import 'package:edu_sphere/features/teacher/course_main/presentation/bloc/course
 import 'package:edu_sphere/features/teacher/course_main/presentation/widgets/advertisements/delete_advertisement_info_dialog.dart';
 import 'package:edu_sphere/features/teacher/course_main/presentation/widgets/advertisements/edit_advertisements_info_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:edu_sphere/l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

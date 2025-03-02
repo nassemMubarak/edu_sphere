@@ -13,7 +13,7 @@ import 'package:edu_sphere/features/teacher/teacher_main/presentation/widgets/sh
 import 'package:edu_sphere/features/teacher/teacher_main/presentation/widgets/titel_and_icon_list_taile_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:edu_sphere/l10n/app_localizations.dart';
 import 'package:edu_sphere/features/teacher/teacher_main/presentation/widgets/section_card.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

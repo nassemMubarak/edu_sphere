@@ -6,8 +6,8 @@ class AppRegex {
 
   static bool isPasswordValid(String password) {
     return RegExp(
-        r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$")
-        .hasMatch(password);
+        r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.])[A-Za-z\d@$!%*?&.]{8,}$"
+    ).hasMatch(password);
   }
   static bool isYouTubeUrl(String url) {
     final RegExp youtubeUrlPattern = RegExp(

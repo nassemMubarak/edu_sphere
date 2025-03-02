@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:logger/logger.dart';
+
 class ReviewQuizModel {
   final int id;
   final int studentId;
@@ -18,13 +20,22 @@ class ReviewQuizModel {
   });
 
   factory ReviewQuizModel.fromJson(Map<String, dynamic> json) {
+    Logger().e('--------------***********************${json['data']}');
+    List<dynamic> decodedData;
+    if (json['data'] is String) {
+      decodedData = jsonDecode(json['data']) as List<dynamic>;
+    } else if (json['data'] is List) {
+      decodedData = json['data'] as List<dynamic>;
+    } else {
+      // Handle the case where 'data' is neither a String nor a List
+      throw Exception('Invalid type for "data" field');
+    }
+
     return ReviewQuizModel(
       id: json['id'],
       studentId: json['student_id'],
       quizId: json['quiz_id'],
-      data: (jsonDecode(json['data'][0]) as List<dynamic>)
-          .map((e) => AnswerData.fromJson(e))
-          .toList(),
+      data: decodedData.map((e) => AnswerData.fromJson(e)).toList(),
       createdAt: DateTime.parse(json['created_at']),
       updatedAt: DateTime.parse(json['updated_at']),
     );
@@ -55,8 +66,8 @@ class AnswerData {
 
   factory AnswerData.fromJson(Map<String, dynamic> json) {
     return AnswerData(
-      questionId: json['question_id'],
-      answer: json['answer'],
+      questionId: json['question_id'].toString(),
+      answer: json['answer']??'no answer selected',
     );
   }
 

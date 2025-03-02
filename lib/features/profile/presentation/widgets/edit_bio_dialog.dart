@@ -8,7 +8,7 @@ import 'package:edu_sphere/core/widgets/app_text_form_field.dart';
 import 'package:edu_sphere/core/widgets/dropdown_widget.dart';
 import 'package:edu_sphere/core/widgets/label_and_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:edu_sphere/l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class EditBioDialog extends StatelessWidget {

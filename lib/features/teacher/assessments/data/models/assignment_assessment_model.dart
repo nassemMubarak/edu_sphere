@@ -13,7 +13,7 @@ class AssignmentAssessmentModel extends AssignmentAssessment {
     required super.relatedTo,
     required super.createdAt,
     required super.updatedAt,
-    required super.documents,
+     super.documents,
     super.degree,
     super.description,
     super.endIn,
@@ -38,7 +38,7 @@ class AssignmentAssessmentModel extends AssignmentAssessment {
       relatedTo: json['related_to'],
       createdAt: DateTime.parse(json['created_at']),
       updatedAt: DateTime.parse(json['updated_at']),
-      documents: (json['documents'] as List)
+      documents: json['documents']==null?[]:(json['documents'] as List)
           .map((document) => DocumentAssessmentModel.fromJson(document))
           .toList(),
       grade: json['grade'] != null ? Grade.fromJson(json['grade']) : null,

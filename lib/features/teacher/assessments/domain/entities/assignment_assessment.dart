@@ -17,7 +17,7 @@ class AssignmentAssessment extends Equatable {
   final int relatedTo;
   final DateTime createdAt;
   final DateTime updatedAt;
-  final List<DocumentAssessmentModel> documents;
+  final List<DocumentAssessmentModel>? documents;
   final Grade? grade;
 
   AssignmentAssessment({
@@ -34,7 +34,7 @@ class AssignmentAssessment extends Equatable {
     required this.relatedTo,
     required this.createdAt,
     required this.updatedAt,
-    required this.documents,
+     this.documents,
     this.grade,
 
   });
