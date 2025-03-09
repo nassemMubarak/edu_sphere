@@ -8,7 +8,7 @@ import 'package:logger/logger.dart';
 
 abstract class ProfileRemoteDataSource{
   Future<UserModel> getInfoUser({required String token});
-  Future<UserModel> updateUser({required Map data, required String token,required bool isStudent});
+  Future<UserModel> updateUser({required Map data, required String token,required bool isStudent,bool? isAdmin});
 }
 class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource{
   final http.Client client;
@@ -31,10 +31,10 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource{
   }
 
   @override
-  Future<UserModel> updateUser({required Map data, required String token,required bool isStudent}) async{
+  Future<UserModel> updateUser({required Map data, required String token,required bool isStudent,bool? isAdmin}) async{
     final header = {'Authorization': 'Bearer $token'};
     Logger().e('----------------------$data');
-    final response = await client.post(Uri.parse('${ApiConstants.apiBaseUrl}${isStudent?ApiConstants.studentUpdate:ApiConstants.teacherUpdate}'),body: data,headers: header);
+    final response = await client.post(Uri.parse('${ApiConstants.apiBaseUrl}${isAdmin!=null?ApiConstants.adminUpdate:isStudent?ApiConstants.studentUpdate:ApiConstants.teacherUpdate}'),body: data,headers: header);
     if(response.statusCode>=200&&response.statusCode<300){
       final  decodeJson = json.decode(response.body);
       UserModel user = UserModel.fromJsonUpdate(decodeJson);

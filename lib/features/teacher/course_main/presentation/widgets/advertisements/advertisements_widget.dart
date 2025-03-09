@@ -76,11 +76,36 @@ class AdvertisementsWidget extends StatelessWidget {
     itemBuilder: (context, index) {
       String colorString = listAds[index].color;
 
-      // Remove the "Color(" and ")" and also handle '0x' prefix if it exists
+// Remove the "Color(" and ")" and also handle '0x' prefix if it exists
       String colorHex = colorString.replaceAll('Color(', '').replaceAll(')', '').replaceAll('0x', '');
 
-      // Parse the hex string into a color integer
-      Color color = Color(int.parse(colorHex, radix: 16));
+// Extract the RGBA components from the string, assuming the format is like:
+// "alpha: 1.0000, red: 0.1176, green: 1.0000, blue: 0.0000"
+      RegExp regExp = RegExp(r'alpha: ([\d.]+), red: ([\d.]+), green: ([\d.]+), blue: ([\d.]+)');
+      Match? match = regExp.firstMatch(colorHex);
+      Color color = Colors.black;
+      if (match != null) {
+        // Extract each color component as a double
+        double alpha = double.parse(match.group(1)!);
+        double red = double.parse(match.group(2)!);
+        double green = double.parse(match.group(3)!);
+        double blue = double.parse(match.group(4)!);
+
+        // Convert each component to an integer in the 0-255 range
+        int redValue = (red * 255).round();
+        int greenValue = (green * 255).round();
+        int blueValue = (blue * 255).round();
+        int alphaValue = (alpha * 255).round();
+
+        // Combine RGBA values into a hex integer and create the color
+         color = Color.fromARGB(alphaValue, redValue, greenValue, blueValue);
+
+        // Now you can use the 'color' object
+        print(color);  // This prints the color as a Color object (e.g., Color(0xFF1EFF00))
+      } else {
+        // If the format doesn't match, handle the case gracefully
+        print("Invalid color format");
+      }
       return Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

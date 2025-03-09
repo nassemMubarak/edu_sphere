@@ -35,7 +35,7 @@ class ShowStudentQuizPage extends StatelessWidget {
       child: Column(
         children: [
           BreadCrumbWidget(
-            items: ['Home', coursesModel!.title, quiz.title],
+            items: ['Home', coursesModel!.title, quiz.title!],
           ),
           verticalSpace(24),
           // ShowStudentQuizWidget(),

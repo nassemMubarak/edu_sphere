@@ -41,7 +41,7 @@ class QuizeWidget extends StatelessWidget {
                     },
                     contentPadding: EdgeInsets.symmetric(horizontal: 16.w),
                     leading: SvgPicture.asset('assets/svgs/quiz_leading_icon.svg'),
-                    title: Text(state.listQuiz[index].title,style: TextStyles.font14Black500Weight),
+                    title: Text(state.listQuiz[index].title!,style: TextStyles.font14Black500Weight),
                   ),
                 ),
               );
@@ -73,7 +73,7 @@ class QuizeWidget extends StatelessWidget {
                     },
                     contentPadding: EdgeInsets.symmetric(horizontal: 16.w),
                     leading: SvgPicture.asset('assets/svgs/quiz_leading_icon.svg'),
-                    title: Text(context.read<QuizCubit>().listQuize[index].title,style: TextStyles.font14Black500Weight),
+                    title: Text(context.read<QuizCubit>().listQuize[index].title!,style: TextStyles.font14Black500Weight),
                   ),
                 ),
               );

@@ -11,6 +11,7 @@ import 'package:edu_sphere/features/student/assessment_student/domain/entities/d
 import 'package:edu_sphere/features/student/assessment_student/domain/repositorises/student_assessment_repository.dart';
 import 'package:edu_sphere/features/teacher/assessments/domain/entities/assessment.dart';
 import 'package:edu_sphere/features/teacher/assessments/domain/entities/document_assessment.dart';
+import 'package:logger/logger.dart';
 
 class StudentAssessmentRepositoryImpl implements StudentAssessmentRepository{
   final NetworkInfo networkInfo;
@@ -89,6 +90,7 @@ class StudentAssessmentRepositoryImpl implements StudentAssessmentRepository{
     if(await networkInfo.isConnected){
       try{
         final String token = await SharedPrefHelper.getString(SharedPrefKeys.cachedToken);
+        Logger().f('token ------------------$token');
         final listDocumentToAssessment = await remoteDataSourceImpl.getAllSubmitStudentDocumentToAssessment(idCourse: idCourse, token: token,idAssessment: idAssessment);
         return Right(listDocumentToAssessment);
       }on InvalidDataExceptionMessage catch (e) {

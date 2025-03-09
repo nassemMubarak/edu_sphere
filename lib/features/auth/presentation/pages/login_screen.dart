@@ -45,7 +45,11 @@ class LoginScreen extends StatelessWidget {
             }else if(state.user.type!.toUpperCase()=='STUDENT'){
               context.read<AuthCubit>().getCurrentUserUseCase();
               context.pushReplacementNamed(Routes.studentMainPage);
-            }else{
+            }else if(state.user.type!.toUpperCase()=='ADMIN'){
+              context.read<AuthCubit>().getCurrentUserUseCase();
+              context.pushReplacementNamed(Routes.adminMainPage);
+            }
+            else{
               context.read<AuthCubit>().getCurrentUserUseCase();
               context.pushReplacementNamed(Routes.teacherMainScreen);
             }

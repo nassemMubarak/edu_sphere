@@ -1,6 +1,13 @@
 import 'package:edu_sphere/core/routing/app_router.dart';
 import 'package:edu_sphere/core/routing/routes.dart';
 import 'package:edu_sphere/core/theming/colors.dart';
+import 'package:edu_sphere/features/admin/admin_main/presentation/bloc/admin_main_cubit.dart';
+import 'package:edu_sphere/features/admin/admin_main/presentation/bloc/admin_student_main_page/admin_student_main_cubit.dart';
+import 'package:edu_sphere/features/admin/requests_admin/presentation/bloc/accept_or_reject_request/accept_or_reject_request_cubit.dart';
+import 'package:edu_sphere/features/admin/requests_admin/presentation/bloc/request_admin_cubit.dart';
+import 'package:edu_sphere/features/admin/student_main/presintation/bloc/student_admin_cubit.dart';
+import 'package:edu_sphere/features/admin/teacher_admin/presintation/bloc/show_courrse_teacher/show_course_teacher_cubit.dart';
+import 'package:edu_sphere/features/admin/teacher_admin/presintation/bloc/teacher_admin_cubit.dart';
 import 'package:edu_sphere/features/auth/presentation/bloc/auth/auth_cubit.dart';
 import 'package:edu_sphere/features/auth/presentation/bloc/changTypSignUp/auth_type_cubit.dart';
 import 'package:edu_sphere/features/communication/presentation/bloc/communication_cubit.dart';
@@ -62,6 +69,13 @@ class EduSphereApp extends StatelessWidget {
         BlocProvider(create: (context) => di.sl<CommunicationCubit>()),
         BlocProvider(create: (context) => di.sl<ShowStudentTeacherCubit>()),
         BlocProvider(create: (context) => di.sl<EstimateStudentCubit>()),
+        BlocProvider(create: (context) => di.sl<AdminMainCubit>()),
+        BlocProvider(create: (context) => di.sl<TeacherAdminCubit>()),
+        BlocProvider(create: (context) => di.sl<ShowCourseTeacherCubit>()),
+        BlocProvider(create: (context) => di.sl<AdminStudentMainCubit>()),
+        BlocProvider(create: (context) => di.sl<StudentAdminCubit>()),
+        BlocProvider(create: (context) => di.sl<RequestAdminCubit>()),
+        BlocProvider(create: (context) => di.sl<AcceptOrRejectRequestCubit>()),
       ],
       child: ScreenUtilInit(
         designSize: const Size(375, 812),
@@ -101,7 +115,8 @@ class EduSphereApp extends StatelessWidget {
     if (isShowOnBoarding) {
       if (isUserLogIn) {
         if (isUserLogIn) {
-          return typeUser.toUpperCase() == 'STUDENT' ? Routes.studentMainPage : Routes.teacherMainScreen;
+          Logger().t(typeUser.toUpperCase() );
+          return typeUser.toUpperCase() == 'STUDENT' ? Routes.studentMainPage :typeUser.toUpperCase() == 'ADMIN'?Routes.adminMainPage: Routes.teacherMainScreen;
         } else {
           return Routes.loginScreen;
         }

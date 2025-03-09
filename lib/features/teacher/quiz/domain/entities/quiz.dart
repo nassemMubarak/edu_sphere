@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 class Quiz extends Equatable{
    int id;
-   String title;
+   String? title;
    String description;
    int courseId;
    String degree;
@@ -14,7 +14,7 @@ class Quiz extends Equatable{
    int? resultVisible; // Optional field (nullable)
   Quiz({
     required this.id,
-    required this.title,
+     this.title,
     required this.description,
     required this.time,
     required this.degree,

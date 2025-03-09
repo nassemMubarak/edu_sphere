@@ -5,7 +5,7 @@ import '../../domain/entities/quiz.dart';
 class QuizModel extends Quiz {
   QuizModel({
     required super.id,
-    required super.title,
+     super.title,
     required super.description,
     required super.time,
     required super.degree,

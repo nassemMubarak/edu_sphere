@@ -1,4 +1,11 @@
 import 'package:edu_sphere/core/routing/routes.dart';
+import 'package:edu_sphere/features/admin/admin_main/presentation/pages/admin_main_page.dart';
+import 'package:edu_sphere/features/admin/camp_subscription/presentation/pages/camp_subscribe_page.dart';
+import 'package:edu_sphere/features/admin/requests_admin/presentation/pages/accept_or_reject_request_page.dart';
+import 'package:edu_sphere/features/admin/requests_admin/presentation/pages/request_admin_main_page.dart';
+import 'package:edu_sphere/features/admin/student_main/presintation/pages/information_student_admin_page.dart';
+import 'package:edu_sphere/features/admin/teacher_admin/presintation/pages/information_teacher_page.dart';
+import 'package:edu_sphere/features/admin/teacher_admin/presintation/pages/show_course_teacher_page.dart';
 import 'package:edu_sphere/features/auth/presentation/pages/login_screen.dart';
 import 'package:edu_sphere/features/auth/presentation/pages/forget_password_screen.dart';
 import 'package:edu_sphere/features/auth/presentation/pages/reset_password_screen.dart';
@@ -48,6 +55,20 @@ class AppRouter {
             builder: (_) => const SignupScreen());
       case Routes.forgetPasswordScreen:
         return MaterialPageRoute(builder: (_) => ForgetPasswordScreen());
+      case Routes.informationStudentAdminPage:
+        return MaterialPageRoute(builder: (_) => InformationStudentAdminPage());
+      case Routes.requestAdminMainPage:
+        return MaterialPageRoute(builder: (_) => RequestAdminMainPage());
+      case Routes.adminMainPage:
+        return MaterialPageRoute(builder: (_) => AdminMainPage());
+      case Routes.informationTeacherPage:
+        return MaterialPageRoute(builder: (_) => InformationTeacherPage());
+      case Routes.showCourseTeacherPage:
+        return MaterialPageRoute(builder: (_) => ShowCourseTeacherPage());
+      case Routes.acceptOrRejectRequestPage:
+        return MaterialPageRoute(builder: (_) => AcceptOrRejectRequestPage());
+      case Routes.campSubscribePage:
+        return MaterialPageRoute(builder: (_) => CampSubscribePage());
       case Routes.showStudentTeacherMainPage:
         return MaterialPageRoute(builder: (_) => ShowStudentTeacherMainPage());
       case Routes.showStudentDetailTeacherMainPage:

@@ -1,5 +1,30 @@
 import 'package:edu_sphere/core/helpers/shared_pref_helper.dart';
 import 'package:edu_sphere/core/networking/network_info.dart';
+import 'package:edu_sphere/features/admin/admin_main/data/datasource/admin_main_remote_datasource.dart';
+import 'package:edu_sphere/features/admin/admin_main/data/repositoises/admin_main_repository_impl.dart';
+import 'package:edu_sphere/features/admin/admin_main/domain/repositorises/admin_main_repository.dart';
+import 'package:edu_sphere/features/admin/admin_main/domain/usecases/get_all_student_in_admin.dart';
+import 'package:edu_sphere/features/admin/admin_main/domain/usecases/get_all_teacher_in_admin.dart';
+import 'package:edu_sphere/features/admin/admin_main/presentation/bloc/admin_main_cubit.dart';
+import 'package:edu_sphere/features/admin/admin_main/presentation/bloc/admin_student_main_page/admin_student_main_cubit.dart';
+import 'package:edu_sphere/features/admin/requests_admin/data/datasource/request_admin_remote_datasource.dart';
+import 'package:edu_sphere/features/admin/requests_admin/data/repositorises/request_admin_repository_impl.dart';
+import 'package:edu_sphere/features/admin/requests_admin/domain/repositorises/request_admin_repository.dart';
+import 'package:edu_sphere/features/admin/requests_admin/domain/usecases/get_all_request_admin.dart';
+import 'package:edu_sphere/features/admin/requests_admin/domain/usecases/replay_request.dart';
+import 'package:edu_sphere/features/admin/requests_admin/presentation/bloc/accept_or_reject_request/accept_or_reject_request_cubit.dart';
+import 'package:edu_sphere/features/admin/requests_admin/presentation/bloc/request_admin_cubit.dart';
+import 'package:edu_sphere/features/admin/student_main/data/datasource/student_admin_remotedatasource.dart';
+import 'package:edu_sphere/features/admin/student_main/data/repositorises/student_admin_repository_impl.dart';
+import 'package:edu_sphere/features/admin/student_main/domain/repositorises/student_admin_repository.dart';
+import 'package:edu_sphere/features/admin/student_main/domain/usecase/get_information_student.dart';
+import 'package:edu_sphere/features/admin/student_main/presintation/bloc/student_admin_cubit.dart';
+import 'package:edu_sphere/features/admin/teacher_admin/data/datasource/teacher_admin_remotedatasource.dart';
+import 'package:edu_sphere/features/admin/teacher_admin/data/repositorises/teacher_admin_repository_impl.dart';
+import 'package:edu_sphere/features/admin/teacher_admin/domain/repositorises/teacher_admin_repository.dart';
+import 'package:edu_sphere/features/admin/teacher_admin/domain/usescases/get_information_teacher.dart';
+import 'package:edu_sphere/features/admin/teacher_admin/domain/usescases/show_course_teacher_admin.dart';
+import 'package:edu_sphere/features/admin/teacher_admin/presintation/bloc/teacher_admin_cubit.dart';
 import 'package:edu_sphere/features/auth/data/datasources/auth_local_data_source.dart';
 import 'package:edu_sphere/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:edu_sphere/features/auth/data/repositorises/auth_repository_impl.dart';
@@ -7,8 +32,10 @@ import 'package:edu_sphere/features/auth/domain/repositorises/repository.dart';
 import 'package:edu_sphere/features/auth/domain/usecases/code_check_forget_password.dart';
 import 'package:edu_sphere/features/auth/domain/usecases/get_all_camp.dart';
 import 'package:edu_sphere/features/auth/domain/usecases/get_current_user.dart';
+import 'package:edu_sphere/features/auth/domain/usecases/login_admin.dart';
 import 'package:edu_sphere/features/auth/domain/usecases/login_user.dart';
 import 'package:edu_sphere/features/auth/domain/usecases/logout.dart';
+import 'package:edu_sphere/features/auth/domain/usecases/register_admin.dart';
 import 'package:edu_sphere/features/auth/domain/usecases/register_user.dart';
 import 'package:edu_sphere/features/auth/domain/usecases/send_code_to_forget_password.dart';
 import 'package:edu_sphere/features/auth/domain/usecases/update_password.dart';
@@ -130,6 +157,7 @@ import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:http/http.dart' as http;
 
+import 'features/admin/teacher_admin/presintation/bloc/show_courrse_teacher/show_course_teacher_cubit.dart';
 import 'features/teacher/course_main/domain/usecases/document_to_course/add_document_to_course.dart';
 import 'features/teacher/course_main/domain/usecases/document_to_course/delete_document_to_course.dart';
 import 'features/teacher/course_main/domain/usecases/document_to_course/dwonload_document_to_course.dart';
@@ -138,7 +166,9 @@ GetIt sl = GetIt.instance;
 Future<void> init() async {
   ///Feature Auth
   // Bloc
-  sl.registerFactory(()=>AuthCubit(registerUserUseCase: sl(),loginUserUseCase: sl(), getCurrentUserUseCase: sl(),getAllCampUserUseCase: sl()));
+  sl.registerFactory(()=>AuthCubit(loginAdminUseCase: sl(),
+      registerAdminUseCase: sl()
+      ,registerUserUseCase: sl(),loginUserUseCase: sl(), getCurrentUserUseCase: sl(),getAllCampUserUseCase: sl()));
   //feature teacher main
   sl.registerFactory(()=>TeacherMainCubit(addCourseUseCase: sl(), deleteCourseUseCase: sl(), getAllCoursesUseCase: sl(), updateCourseUseCase: sl()));
   /// feature course main
@@ -174,10 +204,25 @@ Future<void> init() async {
   sl.registerFactory(()=>ProfileCubit(updateUserUseCase: sl(), getInfoUserUseCase: sl()));
   /// feature communication
   sl.registerFactory(()=>CommunicationCubit(updateCommunicationUseCase: sl(), addCommunicationUseCase: sl(), getAllCommunicationUseCase: sl()));
+  /// feature admin
+  sl.registerFactory(()=>AdminMainCubit(getAllTeacherInAdminUseCase: sl()));
+  sl.registerFactory(()=>AdminStudentMainCubit(getAllStudentInAdminUseCase: sl()));
+  /// feature admin -> teacher admin
+  sl.registerFactory(()=>TeacherAdminCubit(getInformationTeacherUseCase: sl()));
+  sl.registerFactory(()=>ShowCourseTeacherCubit(showCourseTeacherAdminUseCase: sl()));
+  /// feature admin -> student
+  sl.registerFactory(()=>StudentAdminCubit(getInformationStudentUseCase: sl()));
+  /// feature admin -> request
+  sl.registerFactory(()=>RequestAdminCubit(getAllRequestAdminUseCase: sl()));
+  sl.registerFactory(()=>AcceptOrRejectRequestCubit(replayRequestUseCase: sl()));
 
-  
+
+
+
   // Use Cases
   sl.registerLazySingleton(()=>CodeCheckForgetPasswordUseCase(authRepository: sl()));
+  sl.registerLazySingleton(()=>LoginAdminUseCase(repository: sl()));
+  sl.registerLazySingleton(()=>RegisterAdminUseCase(repository: sl()));
   sl.registerLazySingleton(()=>GetCurrentUserUseCase(repository: sl()));
   sl.registerLazySingleton(()=>LoginUserUseCase(repository: sl()));
   sl.registerLazySingleton(()=>LogoutUseCase(repository: sl()));
@@ -264,7 +309,25 @@ Future<void> init() async {
   sl.registerLazySingleton(()=>GetAllCommunicationUseCase(repository: sl()));
   sl.registerLazySingleton(()=>AddCommunicationUseCase(repository: sl()));
   sl.registerLazySingleton(()=>UpdateCommunicationUseCase(repository: sl()));
-  
+  /// /// feature admin use case
+  sl.registerLazySingleton(()=>GetAllTeacherInAdminUseCase(repository: sl()));
+  sl.registerLazySingleton(()=>GetAllStudentInAdminUseCase(repository: sl()));
+  /// feature admin -> teacher admin use case
+  sl.registerLazySingleton(()=>GetInformationTeacherUseCase(repository: sl()));
+  sl.registerLazySingleton(()=>ShowCourseTeacherAdminUseCase(repository: sl()));
+  /// feature admin -> student  use case
+  sl.registerLazySingleton(()=>GetInformationStudentUseCase(repository: sl()));
+  /// feature admin -> request use case
+  sl.registerLazySingleton(()=>GetAllRequestAdminUseCase(repository: sl()));
+  sl.registerLazySingleton(()=>ReplayRequestUseCase(repository: sl()));
+
+
+
+
+
+
+
+
 
 
   // Repository
@@ -293,13 +356,19 @@ Future<void> init() async {
   sl.registerLazySingleton<ShowRepositoryStudentTeacher>(()=>ShowRepositoryStudentTeacherImpl(networkInfo: sl(), remoteDataSourceImpl: sl()));
   ///    feature show estimate to student repository
   sl.registerLazySingleton<EstimateStudentRepository>(()=>EstimateStudentRepositoryImpl(estimateStudentRemoteDataSource: sl(), networkInfo: sl()));
-
+  /// feature admin repository
+  sl.registerLazySingleton<AdminMainRepository>(()=>AdminMainRepositoryImpl(networkInfo: sl(), remoteDataSource: sl()));
+  /// feature admin -> teacher admin repository
+  sl.registerLazySingleton<TeacherAdminRepository>(()=>TeacherAdminRepositoryImpl(remoteDataSource: sl(), networkInfo: sl()));
+  /// feature admin -> student  repository
+  sl.registerLazySingleton<StudentAdminRepository>(()=>StudentAdminRepositoryImpl(remoteDataSource: sl(), networkInfo: sl()));
+  /// feature admin -> request repository
+  sl.registerLazySingleton<RequestAdminRepository>(()=>RequestAdminRepositoryImpl(remoteDataSourceImpl: sl(), networkInfo: sl()));
 
 
 
 
   /// Data Sources
-
   sl.registerLazySingleton<AuthLocalDataSource>(()=>AuthLocalDataSourceImpl());
   sl.registerLazySingleton<AuthRemoteDataSource>(()=>AuthRemoteDataSourceImpl(client: sl()));
   ///feature teacher main
@@ -330,8 +399,14 @@ Future<void> init() async {
    sl.registerLazySingleton<ShowStudentTeacherRemoteDatasource>(()=>ShowStudentTeacherRemoteDatasourceImpl(client: sl()));
   /// feature show estimate to student data sources
    sl.registerLazySingleton<EstimateStudentRemoteDataSource>(()=>EstimateStudentRemoteDataSourceImpl(client: sl()));
-
-
+  /// feature admin
+   sl.registerLazySingleton<AdminMainRemoteDataSource>(()=>AdminMainDataRemoteSourceImpl(client: sl()));
+  /// feature admin -> teacher admin data sources
+   sl.registerLazySingleton<TeacherAdminRemoteDataSource>(()=>TeacherAdminRemoteDataSourceImpl(client: sl()));
+/// feature admin -> student admin data sources
+   sl.registerLazySingleton<StudentAdminRemoteDataSource>(()=>StudentAdminRemoteDataSourceImpl(client: sl()));
+  /// feature admin -> request data sources
+   sl.registerLazySingleton<RequestAdminRemoteDataSourceImpl>(()=>RequestAdminRemoteDataSourceImpl(client: sl()));
 
 
   // Network

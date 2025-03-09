@@ -43,61 +43,61 @@ class CommunicationMainPage extends StatelessWidget {
     );
   }
 
-  Widget _buildCommunicationSection(BuildContext context,List<Communication> communicationList) {
-    return SectionCard(
-      title: 'Communication',
-      icon: 'assets/svgs/communication_icon.svg',
-      widget: Column(
-        children: [
-          verticalSpace(10),
-          _buildCommunicationOption(
-            context: context,
-            icon: const Icon(Icons.phone, color: ColorsManager.neutralGray),
-            title: 'Phone Number',
-            communicationList: communicationList,
-            alertWidgetBuilder: (communication, index) => AddPhoneAlertWidget(
-              communication: communication,
-              indexInList: index,
-            ),
-            url: _getPhoneUrl(communicationList), // Pass WhatsApp URL
-          ),
-          _buildCommunicationOption(
+    Widget _buildCommunicationSection(BuildContext context,List<Communication> communicationList) {
+      return SectionCard(
+        title: 'Communication',
+        icon: 'assets/svgs/communication_icon.svg',
+        widget: Column(
+          children: [
+            verticalSpace(10),
+            _buildCommunicationOption(
               context: context,
-            icon: SvgPicture.asset('assets/svgs/whats_app_icon.svg'),
-            title: 'WhatsApp mobile',
-            communicationList: communicationList,
-            alertWidgetBuilder: (communication, index) => AddWhatsappMobileAlertWidget(
-              communication: communication,
-              indexInList: index,
+              icon: const Icon(Icons.phone, color: ColorsManager.neutralGray),
+              title: 'Phone Number',
+              communicationList: communicationList,
+              alertWidgetBuilder: (communication, index) => AddPhoneAlertWidget(
+                communication: communication,
+                indexInList: index,
+              ),
+              url: _getPhoneUrl(communicationList), // Pass WhatsApp URL
             ),
-            url: _getWhatsAppUrl(communicationList), // Pass WhatsApp URL
-          ),
-          _buildCommunicationOption(
-            context: context,
-            icon: SvgPicture.asset('assets/svgs/telegram_icon.svg'),
-            title: 'Telegram mobile',
-            communicationList: communicationList,
-            alertWidgetBuilder: (communication, index) => AddTelegramMobileAlertWidget(
-              communication: communication,
-              indexInList: index,
+            _buildCommunicationOption(
+                context: context,
+              icon: SvgPicture.asset('assets/svgs/whats_app_icon.svg'),
+              title: 'WhatsApp mobile',
+              communicationList: communicationList,
+              alertWidgetBuilder: (communication, index) => AddWhatsappMobileAlertWidget(
+                communication: communication,
+                indexInList: index,
+              ),
+              url: _getWhatsAppUrl(communicationList), // Pass WhatsApp URL
             ),
-            url: _getTelegramUrl(communicationList), // Pass Telegram URL
-          ),
-          _buildCommunicationOption(
-            context: context,
-            icon: SvgPicture.asset('assets/svgs/facebook_icon.svg'),
-            title: 'Facebook account',
-            communicationList: communicationList,
-            alertWidgetBuilder: (communication, index) => AddFacebookAlertWidget(
-              communication: communication,
-              indexInList: index,
+            _buildCommunicationOption(
+              context: context,
+              icon: SvgPicture.asset('assets/svgs/telegram_icon.svg'),
+              title: 'Telegram mobile',
+              communicationList: communicationList,
+              alertWidgetBuilder: (communication, index) => AddTelegramMobileAlertWidget(
+                communication: communication,
+                indexInList: index,
+              ),
+              url: _getTelegramUrl(communicationList), // Pass Telegram URL
             ),
-            url: _getFacebookUrl(communicationList), // Pass Facebook URL
-          ),
-        ],
-      ),
-    );
-  }
+            _buildCommunicationOption(
+              context: context,
+              icon: SvgPicture.asset('assets/svgs/facebook_icon.svg'),
+              title: 'Facebook account',
+              communicationList: communicationList,
+              alertWidgetBuilder: (communication, index) => AddFacebookAlertWidget(
+                communication: communication,
+                indexInList: index,
+              ),
+              url: _getFacebookUrl(communicationList), // Pass Facebook URL
+            ),
+          ],
+        ),
+      );
+    }
 
   Widget _buildCommunicationOption({
     required BuildContext context,

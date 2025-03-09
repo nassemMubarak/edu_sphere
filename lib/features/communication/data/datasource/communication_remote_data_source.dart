@@ -10,18 +10,18 @@ import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 
 abstract class CommunicationRemoteDataSource{
-  Future<List<CommunicationModel>> getAllCommunication({required String token,required bool isStudent});
-  Future<CommunicationModel> addCommunication({required String token,required Map data,required bool isStudent});
-  Future<Unit> updateCommunication({required String token,required Map data,required int id,required bool isStudent});
+  Future<List<CommunicationModel>> getAllCommunication({required String token,required bool isStudent,bool? isAdmin});
+  Future<CommunicationModel> addCommunication({required String token,required Map data,required bool isStudent,bool? isAdmin});
+  Future<Unit> updateCommunication({required String token,required Map data,required int id,required bool isStudent,bool? isAdmin});
 
 }
 class CommunicationRemoteDataSourceImpl implements CommunicationRemoteDataSource{
   final http.Client client;
   CommunicationRemoteDataSourceImpl({required this.client});
   @override
-  Future<List<CommunicationModel>> getAllCommunication({required String token,required bool isStudent}) async{
+  Future<List<CommunicationModel>> getAllCommunication({required String token,required bool isStudent,bool? isAdmin}) async{
     final header = {'Authorization': 'Bearer $token'};
-    final response = await client.get(Uri.parse('${ApiConstants.apiBaseUrl}${isStudent?ApiConstants.studentCommunications:ApiConstants.teacherCommunications}'),headers: header);
+    final response = await client.get(Uri.parse('${ApiConstants.apiBaseUrl}${isAdmin!=null?ApiConstants.adminCommunications:isStudent?ApiConstants.studentCommunications:ApiConstants.teacherCommunications}'),headers: header);
     if(response.statusCode>=200&&response.statusCode<300){
       final List<dynamic> decodeJson = json.decode(response.body);
       List<CommunicationModel> listCommunication = decodeJson.map((communication)=>CommunicationModel.fromJson(communication)).toList();
@@ -34,11 +34,11 @@ class CommunicationRemoteDataSourceImpl implements CommunicationRemoteDataSource
     }
   }
   @override
-  Future<CommunicationModel> addCommunication({required String token, required Map data,required bool isStudent}) async{
+  Future<CommunicationModel> addCommunication({required String token, required Map data,required bool isStudent,bool? isAdmin}) async{
     Logger().e('${ApiConstants.apiBaseUrl}${isStudent?ApiConstants.studentCommunications:ApiConstants.teacherCommunications}');
 
     final header = {'Authorization': 'Bearer $token'};
-    final response = await client.post(Uri.parse('${ApiConstants.apiBaseUrl}${isStudent?ApiConstants.studentCommunications:ApiConstants.teacherCommunications}'),body: data,headers: header);
+    final response = await client.post(Uri.parse('${ApiConstants.apiBaseUrl}${isAdmin!=null?ApiConstants.adminCommunications:isStudent?ApiConstants.studentCommunications:ApiConstants.teacherCommunications}'),body: data,headers: header);
     if(response.statusCode>=200&&response.statusCode<300){
       final decodeJson = json.decode(response.body);
       CommunicationModel communication = CommunicationModel.fromJson(decodeJson);
@@ -53,9 +53,9 @@ class CommunicationRemoteDataSourceImpl implements CommunicationRemoteDataSource
 
 
   @override
-  Future<Unit> updateCommunication({required String token, required Map data,required int id,required bool isStudent}) async{
+  Future<Unit> updateCommunication({required String token, required Map data,required int id,required bool isStudent,bool? isAdmin}) async{
     final header = {'Authorization': 'Bearer $token'};
-    final response = await client.put(Uri.parse('${ApiConstants.apiBaseUrl}${isStudent?ApiConstants.studentCommunications:ApiConstants.teacherCommunications}/$id'),body: data,headers: header);
+    final response = await client.put(Uri.parse('${ApiConstants.apiBaseUrl}${isAdmin!=null?ApiConstants.adminCommunications:isStudent?ApiConstants.studentCommunications:ApiConstants.teacherCommunications}/$id'),body: data,headers: header);
     if(response.statusCode>=200&&response.statusCode<300){
       return unit;
     }else if(response.statusCode >= 400 && response.statusCode < 500){

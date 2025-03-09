@@ -20,6 +20,7 @@ class UserModel extends User {
     required super.id,
     super.status,
     required super.type,
+    super.role,
   });
 
   // Factory method to create a UserModel from a JSON Map (with logging)
@@ -43,6 +44,7 @@ class UserModel extends User {
       type: json['type']??'',
       token: json['token']??'',
       imageUrl: json['image_url'],
+      role: json['role'],
     );
   }
 
@@ -55,7 +57,7 @@ class UserModel extends User {
       specialization: json['user']['specialization'],
       sex: json['user']['sex'],
       phoneNumber: json['user']['phone_number'] ?? '', // Handle missing field
-      age: json['user']['age'],
+      age: int.parse((json['user']['age']).toString()),
       campId: json['user']['camp_id'],
       level: json['user']['level'],
       createdAt: DateTime.parse(json['user']['created_at']),
@@ -63,9 +65,10 @@ class UserModel extends User {
       deletedAt: json['user']['deleted_at'],
       campName: json['user']['camp_name'],
       status: json['user']['status'],
-      type: json['type'],
+      type: json['type']??'',
       token: json['token'] ?? '',
       imageUrl: json['user']['image_url'],
+      role: json['user']['role'],
     );
   }
 

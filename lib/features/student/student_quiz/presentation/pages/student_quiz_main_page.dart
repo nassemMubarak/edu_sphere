@@ -48,7 +48,7 @@
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
-              BreadCrumbWidget(items: ['Home', coursesModel!.title, quiz.title]),
+              BreadCrumbWidget(items: ['Home', coursesModel!.title, quiz.title!]),
               verticalSpace(24),
               _buildQuizTimerCard(context, quiz),
               verticalSpace(24),
@@ -334,7 +334,7 @@
                 color: ColorsManager.mainBlue,
               ),
               title: Text(
-                quiz.title,
+                quiz.title!,
                 style: TextStyles.font14Black500Weight,
               ),
             ),

@@ -31,7 +31,7 @@ class ShowReviewQuizPage extends StatelessWidget {
                 items: [
                   'Home',
                   coursesModel.title,
-                  quiz!.title,
+                  quiz!.title!,
                   'Estimate',
                   'Nassem Ah Mubarak'
                 ],

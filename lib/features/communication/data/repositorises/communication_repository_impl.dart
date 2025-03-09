@@ -22,7 +22,7 @@ class CommunicationRepositoryImpl implements CommunicationRepository{
         final String token = await SharedPrefHelper.getString(SharedPrefKeys.cachedToken);
         final String type = await SharedPrefHelper.getString(SharedPrefKeys.cachedTypeUser);
         bool isStudent = type.toUpperCase()=='STUDENT';
-        final listCommunication = await remoteDataSourceImpl.getAllCommunication( token: token,isStudent: isStudent);
+        final listCommunication = await remoteDataSourceImpl.getAllCommunication( token: token,isStudent: isStudent,isAdmin:  type.toUpperCase()=='ADMIN'?true:null);
         return Right(listCommunication);
       }on InvalidDataExceptionMessage catch (e){
         return Left(InvalidDataFailureMessage(message:e.message ));
@@ -39,7 +39,7 @@ class CommunicationRepositoryImpl implements CommunicationRepository{
         final String type = await SharedPrefHelper.getString(SharedPrefKeys.cachedTypeUser);
         bool isStudent = type.toUpperCase()=='STUDENT';
 
-        final communication = await remoteDataSourceImpl.addCommunication(isStudent: isStudent, data: data,token: token);
+        final communication = await remoteDataSourceImpl.addCommunication(isStudent: isStudent, data: data,token: token,isAdmin:  type.toUpperCase()=='ADMIN'?true:null);
         return Right(communication);
       }on InvalidDataExceptionMessage catch (e){
         return Left(InvalidDataFailureMessage(message:e.message ));
@@ -58,7 +58,7 @@ class CommunicationRepositoryImpl implements CommunicationRepository{
         final String type = await SharedPrefHelper.getString(SharedPrefKeys.cachedTypeUser);
         bool isStudent = type.toUpperCase()=='STUDENT';
 
-        await remoteDataSourceImpl.updateCommunication(isStudent: isStudent, data: data,token: token,id:id);
+        await remoteDataSourceImpl.updateCommunication(isStudent: isStudent, data: data,token: token,id:id,isAdmin:  type.toUpperCase()=='ADMIN'?true:null);
         return const Right(unit);
       }on InvalidDataExceptionMessage catch (e){
         return Left(InvalidDataFailureMessage(message:e.message ));

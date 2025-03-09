@@ -5,6 +5,7 @@ import 'package:edu_sphere/core/networking/network_info.dart';
 import 'package:edu_sphere/features/auth/data/datasources/auth_local_data_source.dart';
 import 'package:edu_sphere/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:edu_sphere/features/auth/data/models/user_model.dart';
+import 'package:edu_sphere/features/auth/domain/entities/admin.dart';
 import 'package:edu_sphere/features/auth/domain/entities/camp.dart';
 import 'package:edu_sphere/features/auth/domain/entities/user.dart';
 import 'package:edu_sphere/features/auth/domain/repositorises/repository.dart';
@@ -105,6 +106,31 @@ class RepositoryImpl implements AuthRepository {
   Future<Either<Failure, Unit>> updatePassword({required String password}) {
     // TODO: implement updatePassword
     throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<Failure, Admin>> loginAdmin({required Map authData}) {
+    // TODO: implement loginAdmin
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<Failure, Admin>> registerAdmin({required Map authData}) async{
+    if(await networkInfo.isConnected){
+      try{
+        final admin = await remoteDataSource.registerAdmin(authData: authData);
+        // await localDataSource.saveToken(token: user.token);
+        // await localDataSource.saveUserType(type: user.type??' ');
+        // await localDataSource.saveUser(userModel: user);
+        return Right(admin);
+      }on InvalidDataExceptionMessage catch (e){
+        return Left(InvalidDataFailureMessage(message:e.message ));
+      }on ServerException{
+        return Left(ServerFailure());
+      }
+    }else{
+      return Left(OfflineFailure());
+    }
   }
 
 

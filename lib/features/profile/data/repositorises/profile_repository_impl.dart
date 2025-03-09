@@ -48,7 +48,7 @@ class ProfileRepositoryImpl implements ProfileRepository{
     if(await networkInfo.isConnected){
       try{
         final String token = await SharedPrefHelper.getString(SharedPrefKeys.cachedToken);
-        UserModel user = await profileRemoteDataSource.updateUser(token: token,data: data,isStudent: type.toUpperCase()=='STUDENT');
+        UserModel user = await profileRemoteDataSource.updateUser(token: token,data: data,isStudent: type.toUpperCase()=='STUDENT',isAdmin:  type.toUpperCase()=='ADMIN'?true:null);
         user.type = type;
         profileLocalDataSource.saveUser(userModel: user);
         return  Right(user);

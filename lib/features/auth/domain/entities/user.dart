@@ -18,6 +18,7 @@ class User extends Equatable {
    String type; // User type (e.g., Teacher, Student)
    String token; // Authentication token
    String? imageUrl;
+   String? role;
 
   User({
     required this.id,
@@ -37,6 +38,7 @@ class User extends Equatable {
     required this.type,
     required this.token,
     this.imageUrl,
+    this.role,
   });
 
   @override
@@ -58,5 +60,6 @@ class User extends Equatable {
     type,
     token,
     imageUrl,
+    role,
   ];
 }

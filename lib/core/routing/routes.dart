@@ -31,5 +31,12 @@ class Routes {
   static const String showStudentTeacherMainPage = '/showStudentTeacherMainPage';
   static const String showStudentDetailTeacherMainPage = '/showStudentDetailTeacherMainPage';
   static const String showGradeCoursePage = '/showGradeCoursePage';
+  static const String adminMainPage = '/adminMainPage';
+  static const String informationTeacherPage = '/informationTeacherPage';
+  static const String showCourseTeacherPage = '/showCourseTeacherPage';
+  static const String informationStudentAdminPage = '/informationStudentAdminPage';
+  static const String requestAdminMainPage = '/requestAdminMainPage';
+  static const String acceptOrRejectRequestPage = '/acceptOrRejectRequestPage';
+  static const String campSubscribePage = '/campSubscribePage';
 
 }

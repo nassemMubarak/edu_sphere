@@ -78,7 +78,7 @@ class CourseAdvertisementCubit extends Cubit<CourseAdvertisementState> {
   /// Add Advertisement
   emitAddAdvertisement({required int idCourse})async{
     emit(AddOrUpdateOrDeleteLoadingState());
-    Logger().e('--------------------------------${colorSelectedTextField.toString()}');
+    Logger().e('-----------11111---------------------${colorSelectedTextField.toString()}');
     final failureOrAdvertisement = await addAdvertisementUseCase(idCourse: idCourse,data:{
       'text':advertisementTextEditionController.text,
       'color':colorSelectedTextField.toString()

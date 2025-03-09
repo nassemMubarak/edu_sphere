@@ -19,6 +19,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:edu_sphere/l10n/app_localizations.dart';
+import 'package:logger/logger.dart';
 
 class SignupWidget extends StatelessWidget {
   const SignupWidget({super.key});
@@ -64,6 +65,20 @@ class SignupWidget extends StatelessWidget {
                       style: TextStyles.font16NeutralGray400Weight,
                     ),
                     verticalSpace(26),
+                    BlocConsumer<AuthCubit,AuthState>(builder: (context, state) {
+                      return const SizedBox.shrink();
+                    }, listener: (context, state) {
+                      if(state is AuthAdminRegisterLoadingState){
+                        context.loading();
+                      }else if(state is AuthAdminMessageErrorState){
+                        context.pop();
+                        ToastNotificationMessage().showToastNotificationError(message: state.message, context: context);
+                      }else if(state is AuthAdminLadedState){
+                        ToastNotificationMessage().showNotificationSuccess(message: 'Account created successfully. Log in.', context: context);
+                        context.pop();
+                        context.pop();
+                      }
+                    },),
                     Column(
                       children: [
                         SignUpFormStudent(),
@@ -89,7 +104,11 @@ class SignupWidget extends StatelessWidget {
                                             .read<AuthTypeCubit>()
                                             .emitChangTypeOnClickButton(
                                           context.read<AuthTypeCubit>().typeSignUp!,
+
                                         );
+                                        context.read<AuthCubit>().emitRegisterAdmin();
+                                        context.read<AuthTypeCubit>().emitChangTypeOnClickButton('camp');
+                                        context.read<AuthTypeCubit>().emitChangTypSignUp('camp');
                                       }
                                     },
                                   ),
@@ -175,6 +194,7 @@ class SignupWidget extends StatelessWidget {
                                       //     .emitChangTypeOnClickButton(
                                       //   context.read<AuthTypeCubit>().typeSignUp!,
                                       // );
+                                      Logger().f('---------------++++++++++++++++++++++++');
                                       context.pushNamed(Routes.signUpStudentOrTeacherPage);
 
                                     }

@@ -1,11 +1,14 @@
 import 'package:dartz/dartz.dart';
 import 'package:edu_sphere/core/error/failure.dart';
 import 'package:edu_sphere/core/string/failure.dart';
+import 'package:edu_sphere/features/auth/domain/entities/admin.dart';
 import 'package:edu_sphere/features/auth/domain/entities/camp.dart';
 import 'package:edu_sphere/features/auth/domain/entities/user.dart';
 import 'package:edu_sphere/features/auth/domain/usecases/get_all_camp.dart';
 import 'package:edu_sphere/features/auth/domain/usecases/get_current_user.dart';
+import 'package:edu_sphere/features/auth/domain/usecases/login_admin.dart';
 import 'package:edu_sphere/features/auth/domain/usecases/login_user.dart';
+import 'package:edu_sphere/features/auth/domain/usecases/register_admin.dart';
 import 'package:edu_sphere/features/auth/domain/usecases/register_user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:logger/logger.dart';
@@ -37,12 +40,16 @@ class AuthCubit extends Cubit<AuthState> {
   final GetAllCampUseCase getAllCampUserUseCase;
   final RegisterUserUseCase registerUserUseCase;
   final GetCurrentUserUseCase getCurrentUserUseCase;
+  final LoginAdminUseCase loginAdminUseCase;
+  final RegisterAdminUseCase registerAdminUseCase;
 
   AuthCubit(
       {required this.loginUserUseCase,
       required this.getCurrentUserUseCase,
       required this.registerUserUseCase,
       required this.getAllCampUserUseCase,
+      required this.loginAdminUseCase,
+      required this.registerAdminUseCase,
       })
       : super(AuthInitial());
   User? user;
@@ -57,7 +64,38 @@ class AuthCubit extends Cubit<AuthState> {
       },
     ));
   }
-
+  emitRegisterAdmin()async{
+    emit(AuthAdminRegisterLoadingState());
+    final body = {
+      'name': nameController.text,
+      'email': emailRegisterController.text,
+      'password': passwordRegisterController.text,
+      'password_confirmation': passwordRegisterController.text,
+      'age': '20',
+      'sex': genderIsMale?'male':'female',
+      'phone_number': '0592815701'
+    };
+      Logger().f('admin----------q///-------->');
+    final failureOrAdmin = await registerAdminUseCase(authData: body);
+    failureOrAdmin.fold((failure){
+      Logger().f('admin----------q-------->');
+      emit(AuthAdminMessageErrorState(message: _mapFailureMessage(failure: failure)));
+    }, (admin){
+      emailController=TextEditingController();
+      emailRegisterController=TextEditingController();
+      passwordController=TextEditingController();
+      passwordRegisterController=TextEditingController();
+      nameController=TextEditingController();
+      confirmPasswordController=TextEditingController();
+      campStudentId=null;
+      studentEducationStage=null;
+      campTeacherId=null;
+      ageStudentTextEditingController  =TextEditingController();
+      teacherUniversityMajor  =TextEditingController();
+      ageTeacherTextEditingController  =TextEditingController();
+      emit(AuthAdminLadedState(admin: admin));
+    });
+  }
   emitLoginUser() async {
     emit(AuthLoadingState());
     final failureOrUser = await loginUserUseCase(authData: {

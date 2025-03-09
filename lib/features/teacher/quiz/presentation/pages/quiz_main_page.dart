@@ -69,7 +69,7 @@ class QuizMainPage extends StatelessWidget {
             child: Column(
               children: [
                BreadCrumbWidget(
-              items: ['Home', coursesModel.title, quiz.title],
+              items: ['Home', coursesModel.title, quiz.title!],
             ),
                 verticalSpace(24),
                 // card show time quiz
@@ -153,7 +153,7 @@ class QuizMainPage extends StatelessWidget {
                           color: ColorsManager.mainBlue,
                         ),
                         title: Text(
-                          quiz.title,
+                          quiz.title!,
                           style: TextStyles.font14Black500Weight,
                         ),
                         trailing: SizedBox(
