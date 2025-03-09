@@ -39,6 +39,7 @@ class CommunicationRemoteDataSourceImpl implements CommunicationRemoteDataSource
 
     final header = {'Authorization': 'Bearer $token'};
     final response = await client.post(Uri.parse('${ApiConstants.apiBaseUrl}${isAdmin!=null?ApiConstants.adminCommunications:isStudent?ApiConstants.studentCommunications:ApiConstants.teacherCommunications}'),body: data,headers: header);
+    Logger().e('-----------Communication-----------------$response');
     if(response.statusCode>=200&&response.statusCode<300){
       final decodeJson = json.decode(response.body);
       CommunicationModel communication = CommunicationModel.fromJson(decodeJson);

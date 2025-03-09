@@ -16,6 +16,7 @@ class ProfileInfoSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
   bool isStudent = user.type!.toUpperCase()=='STUDENT';
+  bool isAdmin = user.type!.toUpperCase()=='ADMIN';
     // Sample user data; in a real application, this should come from a user model or state management.
     return Column(
       children: [
@@ -71,13 +72,14 @@ class ProfileInfoSection extends StatelessWidget {
                 // Handle edit action for level
               },
             ),
-        ProfileInfoRow(
-          iconPath: 'assets/svgs/circular-word-age.svg',
-          label: user.age.toString(),
-          onEdit: () {
-            showDialog(context: context, builder: (context) => EditAgeDialog(user: user,));
-          },
-        ),
+        if(!isAdmin)
+          ProfileInfoRow(
+            iconPath: 'assets/svgs/circular-word-age.svg',
+            label: user.age.toString(),
+            onEdit: () {
+              showDialog(context: context, builder: (context) => EditAgeDialog(user: user,));
+            },
+          ),
         // ProfileInfoRow(
         //   iconPath: 'assets/svgs/camp.svg',
         //   label: user.??'',

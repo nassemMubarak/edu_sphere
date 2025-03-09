@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 
 abstract class ProfileRemoteDataSource{
-  Future<UserModel> getInfoUser({required String token});
+  Future<UserModel> getInfoUser({required String token,required bool isAdmin});
   Future<UserModel> updateUser({required Map data, required String token,required bool isStudent,bool? isAdmin});
 }
 class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource{
@@ -15,12 +15,14 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource{
   ProfileRemoteDataSourceImpl({required this.client});
 
   @override
-  Future<UserModel> getInfoUser({required String token}) async{
+  Future<UserModel> getInfoUser({required String token,required bool isAdmin}) async{
     final header = {'Authorization': 'Bearer $token'};
-    final response = await client.get(Uri.parse('${ApiConstants.apiBaseUrl}/${ApiConstants.authInfo}'),headers: header);
+    final response = await client.get(Uri.parse('${ApiConstants.apiBaseUrl}/${isAdmin?ApiConstants.authInfoAdmin:ApiConstants.authInfo}'),headers: header);
+    Logger().f('Profiletoken  $token response-----${response.body}');
     if(response.statusCode>=200&&response.statusCode<300){
       final  decodeJson = json.decode(response.body);
-      UserModel user = UserModel.fromJson(decodeJson);
+      UserModel user = UserModel.fromJsonUpdate(decodeJson);
+      user.type = isAdmin?'admin':user.type;
       Logger().w('get info user----------------------$user');
       return user;
     }else if(response.statusCode >= 400 && response.statusCode < 500){

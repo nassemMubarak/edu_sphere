@@ -29,8 +29,9 @@ class ProfileRepositoryImpl implements ProfileRepository{
     if(await networkInfo.isConnected){
       try{
         final String token = await SharedPrefHelper.getString(SharedPrefKeys.cachedToken);
+        final String type = await SharedPrefHelper.getString(SharedPrefKeys.cachedTypeUser);
 
-        User user = await profileRemoteDataSource.getInfoUser(token: token);
+        User user = await profileRemoteDataSource.getInfoUser(token: token,isAdmin:type.toUpperCase()=='ADMIN' );
         return  Right(user);
       }on InvalidDataExceptionMessage catch (e) {
         return Left(InvalidDataFailureMessage(message: e.message));

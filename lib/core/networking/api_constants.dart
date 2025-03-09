@@ -14,6 +14,7 @@ class ApiConstants {
   static const String documents = "documents";
   static const String lectures = "lectures";
   static const String authInfo = "authInfo";
+  static const String authInfoAdmin = "admin/index";
   static const String studentUpdate = "/student/update";
   static const String adminUpdate = "/admin/update";
   static const String teacherUpdate = "/teacher/update";

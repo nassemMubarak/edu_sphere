@@ -111,10 +111,6 @@ class _DrawerWidgetState extends State<DrawerWidget> {
       'onTap': (BuildContext context) => context.pushNamed(Routes.campSubscribePage),
 
     },
-    {'icon': 'assets/svgs/type_of_teaching.svg', 'label': 'Course teachers',
-
-      'onTap': (BuildContext context) => context.pushNamed(Routes.showStudentTeacherMainPage),
-    },
     {'icon': 'assets/svgs/communication_icon.svg', 'label': 'Communication',
       'onTap': (BuildContext context) => context.pushNamed(Routes.communicationMainPage),
 
