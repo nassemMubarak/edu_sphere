@@ -59,7 +59,7 @@ class UserModel extends User {
       phoneNumber: json['user']['phone_number'] ?? '', // Handle missing field
       age: int.parse((json['user']['age']).toString()),
       campId: json['user']['camp_id'],
-      level: json['user']['level'],
+      level: json['user']['level']==null?null:int.parse(json['user']['level']),
       createdAt: DateTime.parse(json['user']['created_at']),
       updatedAt: DateTime.parse(json['user']['updated_at']),
       deletedAt: json['user']['deleted_at'],

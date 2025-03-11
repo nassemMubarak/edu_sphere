@@ -1,6 +1,7 @@
 import 'package:edu_sphere/core/routing/routes.dart';
 import 'package:edu_sphere/features/admin/admin_main/presentation/pages/admin_main_page.dart';
 import 'package:edu_sphere/features/admin/camp_subscription/presentation/pages/camp_subscribe_page.dart';
+import 'package:edu_sphere/features/admin/camp_subscription/presentation/pages/contact_us_subscribe_page.dart';
 import 'package:edu_sphere/features/admin/requests_admin/presentation/pages/accept_or_reject_request_page.dart';
 import 'package:edu_sphere/features/admin/requests_admin/presentation/pages/request_admin_main_page.dart';
 import 'package:edu_sphere/features/admin/student_main/presintation/pages/information_student_admin_page.dart';
@@ -17,6 +18,7 @@ import 'package:edu_sphere/features/auth/presentation/widgets/student_request_wi
 import 'package:edu_sphere/features/communication/presentation/pages/communication_main_page.dart';
 import 'package:edu_sphere/features/onboarding/ui/onboarding_screen.dart';
 import 'package:edu_sphere/features/auth/presentation/pages/signup_screen.dart';
+import 'package:edu_sphere/features/profile/presentation/pages/contact_us_page.dart';
 import 'package:edu_sphere/features/student/assessment_student/presesntations/pages/student_assessment_page.dart';
 import 'package:edu_sphere/features/student/estimates_students/presentations/pages/estimate_student_main_page.dart';
 import 'package:edu_sphere/features/student/estimates_students/presentations/pages/show_grade_course_page.dart';
@@ -107,6 +109,10 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) =>const StudentRequestPage());
       case Routes.verifyPasswordScreen:
         return MaterialPageRoute(builder: (_) => VerifyPasswordScreen());
+      case Routes.contactUsSubscribePage:
+        return MaterialPageRoute(builder: (_) => ContactUsSubscribePage());
+      case Routes.contactUsPage:
+        return MaterialPageRoute(builder: (_) => ContactUsPage());
       case Routes.courseStudentMainScreen:
         return MaterialPageRoute(builder: (_) => CourseStudentMainScreen());
       case Routes.courseMainScreen:

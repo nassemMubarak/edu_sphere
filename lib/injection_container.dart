@@ -38,8 +38,10 @@ import 'package:edu_sphere/features/auth/domain/usecases/logout.dart';
 import 'package:edu_sphere/features/auth/domain/usecases/register_admin.dart';
 import 'package:edu_sphere/features/auth/domain/usecases/register_user.dart';
 import 'package:edu_sphere/features/auth/domain/usecases/send_code_to_forget_password.dart';
+import 'package:edu_sphere/features/auth/domain/usecases/show_camp.dart';
 import 'package:edu_sphere/features/auth/domain/usecases/update_password.dart';
 import 'package:edu_sphere/features/auth/presentation/bloc/auth/auth_cubit.dart';
+import 'package:edu_sphere/features/auth/presentation/bloc/show_camp/show_camp_cubit.dart';
 import 'package:edu_sphere/features/communication/data/datasource/communication_remote_data_source.dart';
 import 'package:edu_sphere/features/communication/data/repositorises/communication_repository_impl.dart';
 import 'package:edu_sphere/features/communication/domain/repositorises/communication_repository.dart';
@@ -163,257 +165,455 @@ import 'features/teacher/course_main/domain/usecases/document_to_course/delete_d
 import 'features/teacher/course_main/domain/usecases/document_to_course/dwonload_document_to_course.dart';
 
 GetIt sl = GetIt.instance;
+
 Future<void> init() async {
   ///Feature Auth
   // Bloc
-  sl.registerFactory(()=>AuthCubit(loginAdminUseCase: sl(),
-      registerAdminUseCase: sl()
-      ,registerUserUseCase: sl(),loginUserUseCase: sl(), getCurrentUserUseCase: sl(),getAllCampUserUseCase: sl()));
+  sl.registerFactory(() =>
+      AuthCubit(
+          loginAdminUseCase: sl(),
+          registerAdminUseCase: sl(),
+          registerUserUseCase: sl(),
+          loginUserUseCase: sl(),
+          getCurrentUserUseCase: sl(),
+          getAllCampUserUseCase: sl(),
+
+      ),);
+  sl.registerFactory(() =>ShowCampCubit(showCampUseCase: sl()));
+
   //feature teacher main
-  sl.registerFactory(()=>TeacherMainCubit(addCourseUseCase: sl(), deleteCourseUseCase: sl(), getAllCoursesUseCase: sl(), updateCourseUseCase: sl()));
+  sl.registerFactory(() =>
+      TeacherMainCubit(addCourseUseCase: sl(),
+          deleteCourseUseCase: sl(),
+          getAllCoursesUseCase: sl(),
+          updateCourseUseCase: sl()));
+
   /// feature course main
-    /// Course Advertisement
-  sl.registerFactory(()=>CourseAdvertisementCubit(updateAdvertisementUseCase: sl(), addAdvertisementUseCase: sl(), deleteAdvertisementUseCase: sl(), getAllAdvertisementUseCase: sl()));
+  /// Course Advertisement
+  sl.registerFactory(() =>
+      CourseAdvertisementCubit(updateAdvertisementUseCase: sl(),
+          addAdvertisementUseCase: sl(),
+          deleteAdvertisementUseCase: sl(),
+          getAllAdvertisementUseCase: sl()));
+
   /// Course Lecture
-  sl.registerFactory(()=>CourseLectureCubit(getAllLectureUseCase: sl(), updateLectureUseCase: sl(), deleteLectureUseCase: sl(), addLectureUseCase: sl()));
-    /// Document Course
-  sl.registerFactory(()=>DocumentCourseCubit(getAllDocumentToCourseUseCase: sl(), addDocumentToCourseUseCase: sl(), downloadDocumentToCourseUseCase: sl(), deleteDocumentToCourseUseCase: sl()));
+  sl.registerFactory(() =>
+      CourseLectureCubit(getAllLectureUseCase: sl(),
+          updateLectureUseCase: sl(),
+          deleteLectureUseCase: sl(),
+          addLectureUseCase: sl()));
+
+  /// Document Course
+  sl.registerFactory(() =>
+      DocumentCourseCubit(getAllDocumentToCourseUseCase: sl(),
+          addDocumentToCourseUseCase: sl(),
+          downloadDocumentToCourseUseCase: sl(),
+          deleteDocumentToCourseUseCase: sl()));
+
   /// quiz
   /// course quiz
-  sl.registerFactory(()=>QuizCubit(showEstimateQuizUseCase: sl(),getAllEstimateQuizUseCase: sl(),updateEstimateQuizUseCase: sl(),getAllQuizUseCase: sl(), addQuizUseCase: sl(), updateQuizUseCase: sl(), deleteQuizUseCase: sl()));
+  sl.registerFactory(() =>
+      QuizCubit(showEstimateQuizUseCase: sl(),
+          getAllEstimateQuizUseCase: sl(),
+          updateEstimateQuizUseCase: sl(),
+          getAllQuizUseCase: sl(),
+          addQuizUseCase: sl(),
+          updateQuizUseCase: sl(),
+          deleteQuizUseCase: sl()));
+
   /// question quiz
-  sl.registerFactory(()=>QuestionCubit(getAllQuestionUseCase: sl(), addQuestionUseCase: sl(), deleteQuestionUseCase: sl(), updateQuestionUseCase: sl()));
+  sl.registerFactory(() =>
+      QuestionCubit(getAllQuestionUseCase: sl(),
+          addQuestionUseCase: sl(),
+          deleteQuestionUseCase: sl(),
+          updateQuestionUseCase: sl()));
+
   /// Assessments
-  sl.registerFactory(()=>AssessmentsCubit(addEstimateAssessmentUseCase: sl(),getAllEstimateAssessmentUseCase: sl(),downloadDocumentToAssessmentUseCase: sl(),updateAssessmentUseCase: sl(), getAllAssessmentUseCase: sl(), addAssessmentUseCase: sl(), deleteAssessmentUseCase: sl(),addDocumentToAssessmentUseCase: sl(),deleteDocumentToAssessmentUseCase: sl()));
-///feature student
+  sl.registerFactory(() =>
+      AssessmentsCubit(addEstimateAssessmentUseCase: sl(),
+          getAllEstimateAssessmentUseCase: sl(),
+          downloadDocumentToAssessmentUseCase: sl(),
+          updateAssessmentUseCase: sl(),
+          getAllAssessmentUseCase: sl(),
+          addAssessmentUseCase: sl(),
+          deleteAssessmentUseCase: sl(),
+          addDocumentToAssessmentUseCase: sl(),
+          deleteDocumentToAssessmentUseCase: sl()));
+
+  ///feature student
   /// get all subscribe course
-  sl.registerFactory(()=>SubscribeStudentCoursesCubit(leaveStudentCourseUseCase: sl(),getAllSubscribeStudentCoursesUseCase: sl()));
-  sl.registerFactory(()=>StudentAdvertisementsCubit(getAllStudentAdvertisementUseCase: sl()));
-  sl.registerFactory(()=>StudentLectureCubit(getAllStudentLectureCourseUseCase: sl()));
-  sl.registerFactory(()=>StudentDocumentCourseCubit(getAllStudentDocumentCourseUseCase: sl()));
-  sl.registerFactory(()=>StudentSearchCourseCubit(getAllStudentCoursesUseCase: sl(),subscribeStudentCourse: sl()));
-  sl.registerFactory(()=>StudentQuizCubit(reviewStudentQuizUseCase: sl(),showAttemptQuizUseCase: sl(),submitAnswerQuizUseCase: sl(), getAttemptStudentQuizUseCase: sl(), getAllStudentQuizUseCase: sl()));
+  sl.registerFactory(() =>
+      SubscribeStudentCoursesCubit(leaveStudentCourseUseCase: sl(),
+          getAllSubscribeStudentCoursesUseCase: sl()));
+  sl.registerFactory(() =>
+      StudentAdvertisementsCubit(getAllStudentAdvertisementUseCase: sl()));
+  sl.registerFactory(() =>
+      StudentLectureCubit(getAllStudentLectureCourseUseCase: sl()));
+  sl.registerFactory(() =>
+      StudentDocumentCourseCubit(getAllStudentDocumentCourseUseCase: sl()));
+  sl.registerFactory(() =>
+      StudentSearchCourseCubit(
+          getAllStudentCoursesUseCase: sl(), subscribeStudentCourse: sl()));
+  sl.registerFactory(() =>
+      StudentQuizCubit(reviewStudentQuizUseCase: sl(),
+          showAttemptQuizUseCase: sl(),
+          submitAnswerQuizUseCase: sl(),
+          getAttemptStudentQuizUseCase: sl(),
+          getAllStudentQuizUseCase: sl()));
+
   /// get assessment to course student
-  sl.registerFactory(()=>StudentAssessmentCubit(getAllSubmitStudentDocumentToAssessmentUseCase: sl(),deleteSubmitStudentDocumentToAssessmentUseCase: sl(), getAllStudentAssessmentUseCase: sl(), submitStudentDocumentToAssessmentUseCase: sl(), showStudentAssessmentUseCase: sl()));
+  sl.registerFactory(() =>
+      StudentAssessmentCubit(
+          getAllSubmitStudentDocumentToAssessmentUseCase: sl(),
+          deleteSubmitStudentDocumentToAssessmentUseCase: sl(),
+          getAllStudentAssessmentUseCase: sl(),
+          submitStudentDocumentToAssessmentUseCase: sl(),
+          showStudentAssessmentUseCase: sl()));
+
   /// student show student teacher cubit
-  sl.registerFactory(()=>ShowStudentTeacherCubit(getAllStudentTeacherUseCase: sl(),showTeacherInformationUseCase: sl()));
+  sl.registerFactory(() =>
+      ShowStudentTeacherCubit(getAllStudentTeacherUseCase: sl(),
+          showTeacherInformationUseCase: sl()));
+
   /// feature show estimate to student
-  sl.registerFactory(()=>EstimateStudentCubit(showEstimateStudentToCourse: sl()));
+  sl.registerFactory(() =>
+      EstimateStudentCubit(showEstimateStudentToCourse: sl()));
 
   /// feature profile
-  sl.registerFactory(()=>ProfileCubit(updateUserUseCase: sl(), getInfoUserUseCase: sl()));
+  sl.registerFactory(() =>
+      ProfileCubit(updateUserUseCase: sl(), getInfoUserUseCase: sl()));
+
   /// feature communication
-  sl.registerFactory(()=>CommunicationCubit(updateCommunicationUseCase: sl(), addCommunicationUseCase: sl(), getAllCommunicationUseCase: sl()));
+  sl.registerFactory(() =>
+      CommunicationCubit(updateCommunicationUseCase: sl(),
+          addCommunicationUseCase: sl(),
+          getAllCommunicationUseCase: sl()));
+
   /// feature admin
-  sl.registerFactory(()=>AdminMainCubit(getAllTeacherInAdminUseCase: sl()));
-  sl.registerFactory(()=>AdminStudentMainCubit(getAllStudentInAdminUseCase: sl()));
+  sl.registerFactory(() => AdminMainCubit(getAllTeacherInAdminUseCase: sl()));
+  sl.registerFactory(() =>
+      AdminStudentMainCubit(getAllStudentInAdminUseCase: sl()));
+
   /// feature admin -> teacher admin
-  sl.registerFactory(()=>TeacherAdminCubit(getInformationTeacherUseCase: sl()));
-  sl.registerFactory(()=>ShowCourseTeacherCubit(showCourseTeacherAdminUseCase: sl()));
+  sl.registerFactory(() =>
+      TeacherAdminCubit(getInformationTeacherUseCase: sl()));
+  sl.registerFactory(() =>
+      ShowCourseTeacherCubit(showCourseTeacherAdminUseCase: sl()));
+
   /// feature admin -> student
-  sl.registerFactory(()=>StudentAdminCubit(getInformationStudentUseCase: sl()));
+  sl.registerFactory(() =>
+      StudentAdminCubit(getInformationStudentUseCase: sl()));
+
   /// feature admin -> request
-  sl.registerFactory(()=>RequestAdminCubit(getAllRequestAdminUseCase: sl()));
-  sl.registerFactory(()=>AcceptOrRejectRequestCubit(replayRequestUseCase: sl()));
-
-
+  sl.registerFactory(() => RequestAdminCubit(getAllRequestAdminUseCase: sl()));
+  sl.registerFactory(() =>
+      AcceptOrRejectRequestCubit(replayRequestUseCase: sl()));
 
 
   // Use Cases
-  sl.registerLazySingleton(()=>CodeCheckForgetPasswordUseCase(authRepository: sl()));
-  sl.registerLazySingleton(()=>LoginAdminUseCase(repository: sl()));
-  sl.registerLazySingleton(()=>RegisterAdminUseCase(repository: sl()));
-  sl.registerLazySingleton(()=>GetCurrentUserUseCase(repository: sl()));
-  sl.registerLazySingleton(()=>LoginUserUseCase(repository: sl()));
-  sl.registerLazySingleton(()=>LogoutUseCase(repository: sl()));
-  sl.registerLazySingleton(()=>RegisterUserUseCase(repository: sl()));
-  sl.registerLazySingleton(()=>SendCodeToForgetPasswordUseCase(authRepository: sl()));
-  sl.registerLazySingleton(()=>UpdatePasswordUseCase(repository: sl()));
-  sl.registerLazySingleton(()=>GetAllCampUseCase(repository: sl()));
+  sl.registerLazySingleton(() =>
+      CodeCheckForgetPasswordUseCase(authRepository: sl()));
+  sl.registerLazySingleton(() => LoginAdminUseCase(repository: sl()));
+  sl.registerLazySingleton(() => RegisterAdminUseCase(repository: sl()));
+  sl.registerLazySingleton(() => GetCurrentUserUseCase(repository: sl()));
+  sl.registerLazySingleton(() => LoginUserUseCase(repository: sl()));
+  sl.registerLazySingleton(() => LogoutUseCase(repository: sl()));
+  sl.registerLazySingleton(() => RegisterUserUseCase(repository: sl()));
+  sl.registerLazySingleton(() => ShowCampUseCase(repository: sl()));
+  sl.registerLazySingleton(() =>
+      SendCodeToForgetPasswordUseCase(authRepository: sl()));
+  sl.registerLazySingleton(() => UpdatePasswordUseCase(repository: sl()));
+  sl.registerLazySingleton(() => GetAllCampUseCase(repository: sl()));
   // use case Teacher main Feature
-  sl.registerLazySingleton(()=>AddCourseUseCase(repository: sl()));
-  sl.registerLazySingleton(()=>DeleteCourseUseCase(repository: sl()));
-  sl.registerLazySingleton(()=>GetAllCoursesUseCase(repository: sl()));
-  sl.registerLazySingleton(()=>UpdateCourseUseCase(repository: sl()));
+  sl.registerLazySingleton(() => AddCourseUseCase(repository: sl()));
+  sl.registerLazySingleton(() => DeleteCourseUseCase(repository: sl()));
+  sl.registerLazySingleton(() => GetAllCoursesUseCase(repository: sl()));
+  sl.registerLazySingleton(() => UpdateCourseUseCase(repository: sl()));
+
   /// use case course main feature
-    /// use case Course Advertisement
-  sl.registerLazySingleton(()=>AddAdvertisementUseCase(repository: sl()));
-  sl.registerLazySingleton(()=>DeleteAdvertisementUseCase(repository: sl()));
-  sl.registerLazySingleton(()=>GetAllAdvertisementUseCase(repository: sl()));
-  sl.registerLazySingleton(()=>UpdateAdvertisementUseCase(repository: sl()));
-    /// Course Lecture
-  sl.registerLazySingleton(()=>AddLectureUseCase(repository: sl()));
-  sl.registerLazySingleton(()=>DeleteLectureUseCase(repository: sl()));
-  sl.registerLazySingleton(()=>GetAllLectureUseCase(repository: sl()));
-  sl.registerLazySingleton(()=>UpdateLectureUseCase(repository: sl()));
-    /// Course Document
-  sl.registerLazySingleton(()=>GetAllDocumentToCourseUseCase(repository: sl()));
-  sl.registerLazySingleton(()=>AddDocumentToCourseUseCase(repository: sl()));
-  sl.registerLazySingleton(()=>DeleteDocumentToCourseUseCase(repository: sl()));
-  sl.registerLazySingleton(()=>DownloadDocumentToCourseUseCase(repository: sl()));
+  /// use case Course Advertisement
+  sl.registerLazySingleton(() => AddAdvertisementUseCase(repository: sl()));
+  sl.registerLazySingleton(() => DeleteAdvertisementUseCase(repository: sl()));
+  sl.registerLazySingleton(() => GetAllAdvertisementUseCase(repository: sl()));
+  sl.registerLazySingleton(() => UpdateAdvertisementUseCase(repository: sl()));
+
+  /// Course Lecture
+  sl.registerLazySingleton(() => AddLectureUseCase(repository: sl()));
+  sl.registerLazySingleton(() => DeleteLectureUseCase(repository: sl()));
+  sl.registerLazySingleton(() => GetAllLectureUseCase(repository: sl()));
+  sl.registerLazySingleton(() => UpdateLectureUseCase(repository: sl()));
+
+  /// Course Document
+  sl.registerLazySingleton(() =>
+      GetAllDocumentToCourseUseCase(repository: sl()));
+  sl.registerLazySingleton(() => AddDocumentToCourseUseCase(repository: sl()));
+  sl.registerLazySingleton(() =>
+      DeleteDocumentToCourseUseCase(repository: sl()));
+  sl.registerLazySingleton(() =>
+      DownloadDocumentToCourseUseCase(repository: sl()));
 
   /// use cases quiz
-  sl.registerLazySingleton(()=>GetAllQuizUseCase(repository: sl()));
-  sl.registerLazySingleton(()=>AddQuizUseCase(repository: sl()));
-  sl.registerLazySingleton(()=>UpdateQuizUseCase(repository: sl()));
-  sl.registerLazySingleton(()=>DeleteQuizUseCase(repository: sl()));
-  sl.registerLazySingleton(()=>GetAllEstimateQuizUseCase(repository: sl()));
-  sl.registerLazySingleton(()=>UpdateEstimateQuizUseCase(repository: sl()));
-  sl.registerLazySingleton(()=>ShowEstimateQuizUseCase(repository: sl()));
+  sl.registerLazySingleton(() => GetAllQuizUseCase(repository: sl()));
+  sl.registerLazySingleton(() => AddQuizUseCase(repository: sl()));
+  sl.registerLazySingleton(() => UpdateQuizUseCase(repository: sl()));
+  sl.registerLazySingleton(() => DeleteQuizUseCase(repository: sl()));
+  sl.registerLazySingleton(() => GetAllEstimateQuizUseCase(repository: sl()));
+  sl.registerLazySingleton(() => UpdateEstimateQuizUseCase(repository: sl()));
+  sl.registerLazySingleton(() => ShowEstimateQuizUseCase(repository: sl()));
+
   /// use cases question quiz
-  sl.registerLazySingleton(()=>GetAllQuestionUseCase(repository: sl()));
-  sl.registerLazySingleton(()=>AddQuestionUseCase(repository: sl()));
-  sl.registerLazySingleton(()=>UpdateQuestionUseCase(repository: sl()));
-  sl.registerLazySingleton(()=>DeleteQuestionUseCase(repository: sl()));
+  sl.registerLazySingleton(() => GetAllQuestionUseCase(repository: sl()));
+  sl.registerLazySingleton(() => AddQuestionUseCase(repository: sl()));
+  sl.registerLazySingleton(() => UpdateQuestionUseCase(repository: sl()));
+  sl.registerLazySingleton(() => DeleteQuestionUseCase(repository: sl()));
+
   /// use case assessment
-  sl.registerLazySingleton(()=>GetAllAssessmentUseCase(repository: sl()));
-  sl.registerLazySingleton(()=>AddAssessmentUseCase(repository: sl()));
-  sl.registerLazySingleton(()=>UpdateAssessmentUseCase(repository: sl()));
-  sl.registerLazySingleton(()=>DeleteAssessmentUseCase(repository: sl()));
-  sl.registerLazySingleton(()=>AddDocumentToAssessmentUseCase(repository: sl()));
-  sl.registerLazySingleton(()=>DeleteDocumentToAssessmentUseCase(repository: sl()));
-  sl.registerLazySingleton(()=>DownloadDocumentToAssessmentUseCase(repository: sl()));
-  sl.registerLazySingleton(()=>GetAllEstimateAssessmentUseCase(repository: sl()));
-  sl.registerLazySingleton(()=>AddEstimateAssessmentUseCase(repository: sl()));
+  sl.registerLazySingleton(() => GetAllAssessmentUseCase(repository: sl()));
+  sl.registerLazySingleton(() => AddAssessmentUseCase(repository: sl()));
+  sl.registerLazySingleton(() => UpdateAssessmentUseCase(repository: sl()));
+  sl.registerLazySingleton(() => DeleteAssessmentUseCase(repository: sl()));
+  sl.registerLazySingleton(() =>
+      AddDocumentToAssessmentUseCase(repository: sl()));
+  sl.registerLazySingleton(() =>
+      DeleteDocumentToAssessmentUseCase(repository: sl()));
+  sl.registerLazySingleton(() =>
+      DownloadDocumentToAssessmentUseCase(repository: sl()));
+  sl.registerLazySingleton(() =>
+      GetAllEstimateAssessmentUseCase(repository: sl()));
+  sl.registerLazySingleton(() =>
+      AddEstimateAssessmentUseCase(repository: sl()));
 
   ///feature student -> use cases
-  sl.registerLazySingleton(()=>GetAllStudentAdvertisementUseCase(repository: sl()));
-  sl.registerLazySingleton(()=>GetAllStudentCoursesUseCase(repository: sl()));
-  sl.registerLazySingleton(()=>GetAllStudentDocumentCourseUseCase(repository: sl()));
-  sl.registerLazySingleton(()=>GetAllStudentLectureCourseUseCase(repository: sl()));
-  sl.registerLazySingleton(()=>GetAllSubscribeStudentCoursesUseCase(repository: sl()));
-  sl.registerLazySingleton(()=>SubscribeStudentCourse(repository: sl()));
-  sl.registerLazySingleton(()=>LeaveStudentCourseUseCase(repository: sl()));
-      /// use case student quiz use case
-  sl.registerLazySingleton(()=>GetAllStudentQuizUseCase(repository: sl()));
-  sl.registerLazySingleton(()=>GetAttemptStudentQuizUseCase(repository: sl()));
-  sl.registerLazySingleton(()=>SubmitAnswerQuizUseCase(repository: sl()));
-  sl.registerLazySingleton(()=>ShowAttemptQuizUseCase(repository: sl()));
-  sl.registerLazySingleton(()=>ReviewStudentQuizUseCase(repository: sl()));
-      /// use  case student assessment use case
-  sl.registerLazySingleton(()=>DeleteSubmitStudentDocumentToAssessmentUseCase(repository: sl()));
-  sl.registerLazySingleton(()=>ShowStudentAssessmentUseCase(repository: sl()));
-  sl.registerLazySingleton(()=>SubmitStudentDocumentToAssessmentUseCase(repository: sl()));
-  sl.registerLazySingleton(()=>GetAllStudentAssessmentUseCase(repository: sl()));
-  sl.registerLazySingleton(()=>GetAllSubmitStudentDocumentToAssessmentUseCase(repository: sl()));
+  sl.registerLazySingleton(() =>
+      GetAllStudentAdvertisementUseCase(repository: sl()));
+  sl.registerLazySingleton(() => GetAllStudentCoursesUseCase(repository: sl()));
+  sl.registerLazySingleton(() =>
+      GetAllStudentDocumentCourseUseCase(repository: sl()));
+  sl.registerLazySingleton(() =>
+      GetAllStudentLectureCourseUseCase(repository: sl()));
+  sl.registerLazySingleton(() =>
+      GetAllSubscribeStudentCoursesUseCase(repository: sl()));
+  sl.registerLazySingleton(() => SubscribeStudentCourse(repository: sl()));
+  sl.registerLazySingleton(() => LeaveStudentCourseUseCase(repository: sl()));
+
+  /// use case student quiz use case
+  sl.registerLazySingleton(() => GetAllStudentQuizUseCase(repository: sl()));
+  sl.registerLazySingleton(() =>
+      GetAttemptStudentQuizUseCase(repository: sl()));
+  sl.registerLazySingleton(() => SubmitAnswerQuizUseCase(repository: sl()));
+  sl.registerLazySingleton(() => ShowAttemptQuizUseCase(repository: sl()));
+  sl.registerLazySingleton(() => ReviewStudentQuizUseCase(repository: sl()));
+
+  /// use  case student assessment use case
+  sl.registerLazySingleton(() =>
+      DeleteSubmitStudentDocumentToAssessmentUseCase(repository: sl()));
+  sl.registerLazySingleton(() =>
+      ShowStudentAssessmentUseCase(repository: sl()));
+  sl.registerLazySingleton(() =>
+      SubmitStudentDocumentToAssessmentUseCase(repository: sl()));
+  sl.registerLazySingleton(() =>
+      GetAllStudentAssessmentUseCase(repository: sl()));
+  sl.registerLazySingleton(() =>
+      GetAllSubmitStudentDocumentToAssessmentUseCase(repository: sl()));
+
   /// student show student teacher cubit
-  sl.registerLazySingleton(()=>GetAllStudentTeacherUseCase(repository: sl()));
-  sl.registerLazySingleton(()=>ShowTeacherInformationUseCase(repository: sl()));
+  sl.registerLazySingleton(() => GetAllStudentTeacherUseCase(repository: sl()));
+  sl.registerLazySingleton(() =>
+      ShowTeacherInformationUseCase(repository: sl()));
+
   /// feature show estimate to student use case
-  sl.registerLazySingleton(()=>ShowEstimateStudentToCourseUseCase(repository: sl()));
-  
+  sl.registerLazySingleton(() =>
+      ShowEstimateStudentToCourseUseCase(repository: sl()));
+
   /// feature profile use case
-  sl.registerLazySingleton(()=>GetInfoUserUseCase(profileRepository: sl()));
-  sl.registerLazySingleton(()=>UpdateUserUseCase(profileRepository: sl()));
+  sl.registerLazySingleton(() => GetInfoUserUseCase(profileRepository: sl()));
+  sl.registerLazySingleton(() => UpdateUserUseCase(profileRepository: sl()));
+
   /// feature communication
-  sl.registerLazySingleton(()=>GetAllCommunicationUseCase(repository: sl()));
-  sl.registerLazySingleton(()=>AddCommunicationUseCase(repository: sl()));
-  sl.registerLazySingleton(()=>UpdateCommunicationUseCase(repository: sl()));
+  sl.registerLazySingleton(() => GetAllCommunicationUseCase(repository: sl()));
+  sl.registerLazySingleton(() => AddCommunicationUseCase(repository: sl()));
+  sl.registerLazySingleton(() => UpdateCommunicationUseCase(repository: sl()));
+
   /// /// feature admin use case
-  sl.registerLazySingleton(()=>GetAllTeacherInAdminUseCase(repository: sl()));
-  sl.registerLazySingleton(()=>GetAllStudentInAdminUseCase(repository: sl()));
+  sl.registerLazySingleton(() => GetAllTeacherInAdminUseCase(repository: sl()));
+  sl.registerLazySingleton(() => GetAllStudentInAdminUseCase(repository: sl()));
+
   /// feature admin -> teacher admin use case
-  sl.registerLazySingleton(()=>GetInformationTeacherUseCase(repository: sl()));
-  sl.registerLazySingleton(()=>ShowCourseTeacherAdminUseCase(repository: sl()));
+  sl.registerLazySingleton(() =>
+      GetInformationTeacherUseCase(repository: sl()));
+  sl.registerLazySingleton(() =>
+      ShowCourseTeacherAdminUseCase(repository: sl()));
+
   /// feature admin -> student  use case
-  sl.registerLazySingleton(()=>GetInformationStudentUseCase(repository: sl()));
+  sl.registerLazySingleton(() =>
+      GetInformationStudentUseCase(repository: sl()));
+
   /// feature admin -> request use case
-  sl.registerLazySingleton(()=>GetAllRequestAdminUseCase(repository: sl()));
-  sl.registerLazySingleton(()=>ReplayRequestUseCase(repository: sl()));
-
-
-
-
-
-
-
-
+  sl.registerLazySingleton(() => GetAllRequestAdminUseCase(repository: sl()));
+  sl.registerLazySingleton(() => ReplayRequestUseCase(repository: sl()));
 
 
   // Repository
-  sl.registerLazySingleton<AuthRepository>(()=>RepositoryImpl(localDataSource: sl(), remoteDataSource: sl(), networkInfo: sl()));
+  sl.registerLazySingleton<AuthRepository>(() =>
+      RepositoryImpl(
+          localDataSource: sl(), remoteDataSource: sl(), networkInfo: sl()));
   //feature teacher main
-  sl.registerLazySingleton<TeacherMainRepository>(()=>TeacherMainRepositoryImpl(networkInfo: sl(), teacherMainLocalDataSource: sl(), teacherMainRemoteDataSource: sl()));
+  sl.registerLazySingleton<TeacherMainRepository>(() =>
+      TeacherMainRepositoryImpl(networkInfo: sl(),
+          teacherMainLocalDataSource: sl(),
+          teacherMainRemoteDataSource: sl()));
+
   ///  course main feature
   ///  Course Advertisement
   ///  Course Lecture
-  sl.registerLazySingleton<CourseMainRepository>(()=>CourseMainRepositoryImpl(networkInfo: sl(), localDataSource: sl(), remoteDataSourceImpl: sl()));
+  sl.registerLazySingleton<CourseMainRepository>(() =>
+      CourseMainRepositoryImpl(networkInfo: sl(),
+          localDataSource: sl(),
+          remoteDataSourceImpl: sl()));
+
   /// Quiz Repository
-  sl.registerLazySingleton<QuizRepository>(()=>QuizRepositoryImpl(networkInfo: sl(), remoteDataSourceImpl: sl()));
+  sl.registerLazySingleton<QuizRepository>(() =>
+      QuizRepositoryImpl(networkInfo: sl(), remoteDataSourceImpl: sl()));
+
   /// assessment repository
-  sl.registerLazySingleton<AssessmentRepository>(()=>AssessmentRepositoryImpl(remoteDataSourceImpl: sl(), networkInfo: sl()));
+  sl.registerLazySingleton<AssessmentRepository>(() =>
+      AssessmentRepositoryImpl(remoteDataSourceImpl: sl(), networkInfo: sl()));
+
   /// feature student main repository
-  sl.registerLazySingleton<StudentMainRepository>(()=>StudentMainRepositoryImpl(remoteDataSource: sl(), localDataSource: sl(), networkInfo: sl()));
+  sl.registerLazySingleton<StudentMainRepository>(() =>
+      StudentMainRepositoryImpl(
+          remoteDataSource: sl(), localDataSource: sl(), networkInfo: sl()));
+
   /// feature student quiz repository
-  sl.registerLazySingleton<StudentQuizRepository>(()=>StudentQuizRepositoryImpl(networkInfo: sl(),remoteDataSourceImpl: sl()));
+  sl.registerLazySingleton<StudentQuizRepository>(() =>
+      StudentQuizRepositoryImpl(networkInfo: sl(), remoteDataSourceImpl: sl()));
+
   /// feature student assessment repository
-  sl.registerLazySingleton<StudentAssessmentRepository>(()=>StudentAssessmentRepositoryImpl(networkInfo: sl(),remoteDataSourceImpl: sl()));
+  sl.registerLazySingleton<StudentAssessmentRepository>(() =>
+      StudentAssessmentRepositoryImpl(
+          networkInfo: sl(), remoteDataSourceImpl: sl()));
+
   /// feature profile repository
-  sl.registerLazySingleton<ProfileRepository>(()=>ProfileRepositoryImpl( profileLocalDataSource: sl(),networkInfo: sl(), profileRemoteDataSource: sl()));
+  sl.registerLazySingleton<ProfileRepository>(() =>
+      ProfileRepositoryImpl(profileLocalDataSource: sl(),
+          networkInfo: sl(),
+          profileRemoteDataSource: sl()));
+
   /// feature communication repository
-  sl.registerLazySingleton<CommunicationRepository>(()=>CommunicationRepositoryImpl(networkInfo: sl(), remoteDataSourceImpl: sl()));
+  sl.registerLazySingleton<CommunicationRepository>(() =>
+      CommunicationRepositoryImpl(
+          networkInfo: sl(), remoteDataSourceImpl: sl()));
+
   /// student show student teacher repository
-  sl.registerLazySingleton<ShowRepositoryStudentTeacher>(()=>ShowRepositoryStudentTeacherImpl(networkInfo: sl(), remoteDataSourceImpl: sl()));
+  sl.registerLazySingleton<ShowRepositoryStudentTeacher>(() =>
+      ShowRepositoryStudentTeacherImpl(
+          networkInfo: sl(), remoteDataSourceImpl: sl()));
+
   ///    feature show estimate to student repository
-  sl.registerLazySingleton<EstimateStudentRepository>(()=>EstimateStudentRepositoryImpl(estimateStudentRemoteDataSource: sl(), networkInfo: sl()));
+  sl.registerLazySingleton<EstimateStudentRepository>(() =>
+      EstimateStudentRepositoryImpl(
+          estimateStudentRemoteDataSource: sl(), networkInfo: sl()));
+
   /// feature admin repository
-  sl.registerLazySingleton<AdminMainRepository>(()=>AdminMainRepositoryImpl(networkInfo: sl(), remoteDataSource: sl()));
+  sl.registerLazySingleton<AdminMainRepository>(() =>
+      AdminMainRepositoryImpl(networkInfo: sl(), remoteDataSource: sl()));
+
   /// feature admin -> teacher admin repository
-  sl.registerLazySingleton<TeacherAdminRepository>(()=>TeacherAdminRepositoryImpl(remoteDataSource: sl(), networkInfo: sl()));
+  sl.registerLazySingleton<TeacherAdminRepository>(() =>
+      TeacherAdminRepositoryImpl(remoteDataSource: sl(), networkInfo: sl()));
+
   /// feature admin -> student  repository
-  sl.registerLazySingleton<StudentAdminRepository>(()=>StudentAdminRepositoryImpl(remoteDataSource: sl(), networkInfo: sl()));
+  sl.registerLazySingleton<StudentAdminRepository>(() =>
+      StudentAdminRepositoryImpl(remoteDataSource: sl(), networkInfo: sl()));
+
   /// feature admin -> request repository
-  sl.registerLazySingleton<RequestAdminRepository>(()=>RequestAdminRepositoryImpl(remoteDataSourceImpl: sl(), networkInfo: sl()));
-
-
+  sl.registerLazySingleton<RequestAdminRepository>(() =>
+      RequestAdminRepositoryImpl(
+          remoteDataSourceImpl: sl(), networkInfo: sl()));
 
 
   /// Data Sources
-  sl.registerLazySingleton<AuthLocalDataSource>(()=>AuthLocalDataSourceImpl());
-  sl.registerLazySingleton<AuthRemoteDataSource>(()=>AuthRemoteDataSourceImpl(client: sl()));
+  sl.registerLazySingleton<AuthLocalDataSource>(() =>
+      AuthLocalDataSourceImpl());
+  sl.registerLazySingleton<AuthRemoteDataSource>(() =>
+      AuthRemoteDataSourceImpl(client: sl()));
+
   ///feature teacher main
-  sl.registerLazySingleton<TeacherMainLocalDataSource>(()=>TeacherMainLocalDataSourceImpl());
-  sl.registerLazySingleton<TeacherMainRemoteDataSource>(()=>TeacherMainRemoteDataSourceImpl(client: sl()));
+  sl.registerLazySingleton<TeacherMainLocalDataSource>(() =>
+      TeacherMainLocalDataSourceImpl());
+  sl.registerLazySingleton<TeacherMainRemoteDataSource>(() =>
+      TeacherMainRemoteDataSourceImpl(client: sl()));
+
   /// Data Sources course main feature
   ///  Course Advertisement
   ///  Course Lecture
-  sl.registerLazySingleton<CourseMainLocalDataSource>(() => CourseMainLocalDataSourceImpl());
-  sl.registerLazySingleton<CourseMainRemoteDataSourceImpl>(() => CourseMainRemoteDataSourceImpl(client: sl()));
+  sl.registerLazySingleton<CourseMainLocalDataSource>(() =>
+      CourseMainLocalDataSourceImpl());
+  sl.registerLazySingleton<CourseMainRemoteDataSourceImpl>(() =>
+      CourseMainRemoteDataSourceImpl(client: sl()));
+
   /// feature quiz
-  sl.registerLazySingleton<QuizRemoteDataSource>(() => QuizRemoteDataSourceImpl(client: sl()));
+  sl.registerLazySingleton<QuizRemoteDataSource>(() =>
+      QuizRemoteDataSourceImpl(client: sl()));
+
   /// feature assessment
-  sl.registerLazySingleton<AssessmentRemoteDataSource>(() => AssessmentRemoteDataSourceImpl(client: sl()));
+  sl.registerLazySingleton<AssessmentRemoteDataSource>(() =>
+      AssessmentRemoteDataSourceImpl(client: sl()));
+
   /// feature student main data sources
-  sl.registerLazySingleton<StudentMainLocalDataSource>(()=>StudentMainLocalDataSourceImpl());
-  sl.registerLazySingleton<StudentMainRemoteDataSource>(()=>StudentMainRemoteDataSourceImpl(client: sl()));
+  sl.registerLazySingleton<StudentMainLocalDataSource>(() =>
+      StudentMainLocalDataSourceImpl());
+  sl.registerLazySingleton<StudentMainRemoteDataSource>(() =>
+      StudentMainRemoteDataSourceImpl(client: sl()));
+
   /// feature student quiz main data sources
-  sl.registerLazySingleton<StudentQuizRemoteDataSource>(()=>StudentQuizRemoteDataSourceImpl(client: sl()));
+  sl.registerLazySingleton<StudentQuizRemoteDataSource>(() =>
+      StudentQuizRemoteDataSourceImpl(client: sl()));
+
   /// feature student assessment main data sources
-  sl.registerLazySingleton<StudentAssessmentRemoteDataSource>(()=>StudentAssessmentRemoteDataSourceImpl(client: sl()));
+  sl.registerLazySingleton<StudentAssessmentRemoteDataSource>(() =>
+      StudentAssessmentRemoteDataSourceImpl(client: sl()));
+
   /// feature profile main data main data sources
-   sl.registerLazySingleton<ProfileRemoteDataSource>(()=>ProfileRemoteDataSourceImpl(client: sl()));
-   sl.registerLazySingleton<ProfileLocalDataSourceImpl>(()=>ProfileLocalDataSourceImpl());
+  sl.registerLazySingleton<ProfileRemoteDataSource>(() =>
+      ProfileRemoteDataSourceImpl(client: sl()));
+  sl.registerLazySingleton<ProfileLocalDataSourceImpl>(() =>
+      ProfileLocalDataSourceImpl());
+
   /// feature communication main data sources
-   sl.registerLazySingleton<CommunicationRemoteDataSource>(()=>CommunicationRemoteDataSourceImpl(client: sl()));
+  sl.registerLazySingleton<CommunicationRemoteDataSource>(() =>
+      CommunicationRemoteDataSourceImpl(client: sl()));
+
   /// student show student teacher data sources
-   sl.registerLazySingleton<ShowStudentTeacherRemoteDatasource>(()=>ShowStudentTeacherRemoteDatasourceImpl(client: sl()));
+  sl.registerLazySingleton<ShowStudentTeacherRemoteDatasource>(() =>
+      ShowStudentTeacherRemoteDatasourceImpl(client: sl()));
+
   /// feature show estimate to student data sources
-   sl.registerLazySingleton<EstimateStudentRemoteDataSource>(()=>EstimateStudentRemoteDataSourceImpl(client: sl()));
+  sl.registerLazySingleton<EstimateStudentRemoteDataSource>(() =>
+      EstimateStudentRemoteDataSourceImpl(client: sl()));
+
   /// feature admin
-   sl.registerLazySingleton<AdminMainRemoteDataSource>(()=>AdminMainDataRemoteSourceImpl(client: sl()));
+  sl.registerLazySingleton<AdminMainRemoteDataSource>(() =>
+      AdminMainDataRemoteSourceImpl(client: sl()));
+
   /// feature admin -> teacher admin data sources
-   sl.registerLazySingleton<TeacherAdminRemoteDataSource>(()=>TeacherAdminRemoteDataSourceImpl(client: sl()));
-/// feature admin -> student admin data sources
-   sl.registerLazySingleton<StudentAdminRemoteDataSource>(()=>StudentAdminRemoteDataSourceImpl(client: sl()));
+  sl.registerLazySingleton<TeacherAdminRemoteDataSource>(() =>
+      TeacherAdminRemoteDataSourceImpl(client: sl()));
+
+  /// feature admin -> student admin data sources
+  sl.registerLazySingleton<StudentAdminRemoteDataSource>(() =>
+      StudentAdminRemoteDataSourceImpl(client: sl()));
+
   /// feature admin -> request data sources
-   sl.registerLazySingleton<RequestAdminRemoteDataSourceImpl>(()=>RequestAdminRemoteDataSourceImpl(client: sl()));
+  sl.registerLazySingleton<RequestAdminRemoteDataSourceImpl>(() =>
+      RequestAdminRemoteDataSourceImpl(client: sl()));
 
 
   // Network
-  sl.registerLazySingleton<NetworkInfo>(()=>NetworkInfoImpl(connectionChecker: sl()));
+  sl.registerLazySingleton<NetworkInfo>(() =>
+      NetworkInfoImpl(connectionChecker: sl()));
 
   // External
   sl.registerLazySingleton<http.Client>(() => http.Client());
   sl.registerLazySingleton(() => InternetConnectionChecker());
-
 }

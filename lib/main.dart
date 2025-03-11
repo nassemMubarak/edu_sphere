@@ -6,6 +6,7 @@ import 'package:edu_sphere/features/auth/domain/entities/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:logger/logger.dart';
 import 'core/theming/colors.dart';
 import 'injection_container.dart' as di;
 
@@ -34,5 +35,5 @@ Future<void> checkIfUserLogIn() async {
 }
 Future<void> getTypeUserLogIn() async {
   String? cachedUser = await SharedPrefHelper.getString(SharedPrefKeys.cachedTypeUser);
-  typeUser = cachedUser??'Student';
+  typeUser = cachedUser==''?'Student':cachedUser!;
 }

@@ -120,7 +120,7 @@ class ShowQuestionWidget extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   // builder: (context) => FullScreenImageWidget(networkImageUrl: question.documents![0].url,),
-                  builder: (context) => FullScreenImageWidget(networkImageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkR48LoFHBZXunbYp-PlllTPPEgrgml-paqg&s',),
+                  builder: (context) => FullScreenImageWidget(networkImageUrl: 'assets/images/quiz_image.jpg',),
                 ),
               );
             },
@@ -137,7 +137,8 @@ class ShowQuestionWidget extends StatelessWidget {
               // padding: EdgeInsetsDirectional.only(start: 30),
               child: ClipRRect(
               borderRadius: BorderRadius.circular(10),
-                child: Image.network('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkR48LoFHBZXunbYp-PlllTPPEgrgml-paqg&s')
+                // child: Image.network('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkR48LoFHBZXunbYp-PlllTPPEgrgml-paqg&s')
+                child: Image.asset('assets/images/quiz_image.jpg')
                 // child: Image.network(question.documents![0].url)
                 // CachedNetworkImage(
                 //   imageUrl: question.documents![0].url,

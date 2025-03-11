@@ -10,6 +10,7 @@ import 'package:edu_sphere/core/widgets/loading_widget.dart';
 import 'package:edu_sphere/core/widgets/wave_top_widget.dart';
 import 'package:edu_sphere/edu_sphere_app.dart';
 import 'package:edu_sphere/features/auth/presentation/bloc/auth/auth_cubit.dart';
+import 'package:edu_sphere/features/auth/presentation/bloc/show_camp/show_camp_cubit.dart';
 import 'package:edu_sphere/features/auth/presentation/widgets/login_widgets/email_and_password_widget.dart';
 import 'package:edu_sphere/features/auth/presentation/widgets/login_widgets/login_form_widget.dart';
 import 'package:edu_sphere/features/auth/presentation/widgets/login_widgets/remember_forget_password_widget.dart';
@@ -39,13 +40,14 @@ class LoginScreen extends StatelessWidget {
           ToastNotificationMessage()
               .showToastNotificationError(message: state.message, context: context);
           }else if(state is AuthLoadedState){
-            if(state.user.type!.toUpperCase()=='TEACHER'){
+            context.read<ShowCampCubit>().emitShowCamp();
+            if(state.user.type.toUpperCase()=='TEACHER'){
               context.read<AuthCubit>().getCurrentUserUseCase();
               context.pushReplacementNamed(Routes.teacherMainScreen);
-            }else if(state.user.type!.toUpperCase()=='STUDENT'){
+            }else if(state.user.type.toUpperCase()=='STUDENT'){
               context.read<AuthCubit>().getCurrentUserUseCase();
               context.pushReplacementNamed(Routes.studentMainPage);
-            }else if(state.user.type!.toUpperCase()=='ADMIN'){
+            }else if(state.user.type.toUpperCase()=='ADMIN'){
               context.read<AuthCubit>().getCurrentUserUseCase();
               context.pushReplacementNamed(Routes.adminMainPage);
             }
@@ -53,6 +55,20 @@ class LoginScreen extends StatelessWidget {
               context.read<AuthCubit>().getCurrentUserUseCase();
               context.pushReplacementNamed(Routes.teacherMainScreen);
             }
+            // if(state.user.type.toUpperCase()=='TEACHER'){
+            //   context.read<AuthCubit>().getCurrentUserUseCase();
+            //   context.pushReplacementNamed(Routes.teacherMainScreen);
+            // }else if(state.user.type.toUpperCase()=='STUDENT'){
+            //   context.read<AuthCubit>().getCurrentUserUseCase();
+            //   context.pushReplacementNamed(Routes.studentMainPage);
+            // }else if(state.user.type.toUpperCase()=='ADMIN'){
+            //   context.read<AuthCubit>().getCurrentUserUseCase();
+            //   context.pushReplacementNamed(Routes.adminMainPage);
+            // }
+            // else{
+            //   context.read<AuthCubit>().getCurrentUserUseCase();
+            //   context.pushReplacementNamed(Routes.teacherMainScreen);
+            // }
           }else if(state is AuthLoadingState){
             context.loading();
 

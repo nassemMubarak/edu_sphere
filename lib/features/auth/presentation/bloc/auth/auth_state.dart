@@ -35,6 +35,7 @@ class GetAllCampsLoadedState extends AuthState{
   @override
   List<Object> get props => [camp];
 }
+
 class AuthMessageErrorCampState extends AuthState{
   final String message;
 
@@ -58,7 +59,8 @@ class AuthMessageErrorState extends AuthState{
 
   @override
   List<Object> get props => [message];
-}class AuthAdminMessageErrorState extends AuthState{
+}
+class AuthAdminMessageErrorState extends AuthState{
   final String message;
 
   AuthAdminMessageErrorState({required this.message});

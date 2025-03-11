@@ -1,6 +1,8 @@
 class ApiConstants {
   static const String apiBaseUrl = "https://eduspherepal.com/api";
   static const String teacherCourses = "/teacher/courses";
+  static const String studentCamp = "/student/camp";
+  static const String teacherCamps = "/teacher/camps";
   static const String studentCourses = "/student/courses";
   static const String studentEstimates = "/student/estimates";
   static const String studentTeachers = "/student/teachers";

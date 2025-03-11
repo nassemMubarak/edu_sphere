@@ -149,8 +149,8 @@ class Assets {
   static const String l10nAppLocalizations = 'lib/l10n/app_localizations.dart';
   static const String l10nAppLocalizationsAr = 'lib/l10n/app_localizations_ar.dart';
   static const String l10nAppLocalizationsEn = 'lib/l10n/app_localizations_en.dart';
-  static const String l10nIntlAr = 'lib/l10n/intl_ar.arb';
-  static const String l10nIntlEn = 'lib/l10n/intl_en.arb';
+  static const String l10nIntlAr = 'lib/l10n/app_ar.arb';
+  static const String l10nIntlEn = 'lib/l10n/app_en.arb';
   static const String lectureUsecaseAddLecture = 'lib/features/teacher/course_main/domain/usecases/lecture_usecase/add_lecture.dart';
   static const String lectureUsecaseDeleteLecture = 'lib/features/teacher/course_main/domain/usecases/lecture_usecase/delete_lecture.dart';
   static const String lectureUsecaseGetAllLecture = 'lib/features/teacher/course_main/domain/usecases/lecture_usecase/get_all_lecture.dart';

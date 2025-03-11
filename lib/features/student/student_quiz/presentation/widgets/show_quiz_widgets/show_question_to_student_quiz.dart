@@ -39,7 +39,7 @@ class ShowQuestionToStudentQuiz extends StatelessWidget {
             _buildQuestionRow(
               context,
               // imageUrl:question.documents.isNotEmpty? question.documents.first.url:null,
-              imageUrl:question.documents.isNotEmpty?'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkR48LoFHBZXunbYp-PlllTPPEgrgml-paqg&s':null,
+              imageUrl:question.documents.isNotEmpty?'assets/images/quiz_image.jpg':null,
               number: (indexQuestion + 1).toString(),
               text: question.title,
               isSelected: true,
@@ -52,7 +52,7 @@ class ShowQuestionToStudentQuiz extends StatelessWidget {
               itemCount: question.options.length,
               itemBuilder: (context, index) => _buildQuestionRow(
                 // imageUrl:question.documents.isNotEmpty? question.documents.first.url:null,
-                imageUrl:question.documents.isNotEmpty?'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkR48LoFHBZXunbYp-PlllTPPEgrgml-paqg&s':null,
+                imageUrl:question.documents.isNotEmpty?'assets/images/quiz_image.jpg':null,
                 context,
                 indexChoice: index,
                 text: question.options[index],
@@ -180,7 +180,7 @@ class ShowQuestionToStudentQuiz extends StatelessWidget {
                 // padding: EdgeInsetsDirectional.only(start: 30),
                 child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
-                    child: Image.network(imageUrl)
+                    child: Image.asset(imageUrl)
                 ),
               ),
             ):SizedBox.shrink()

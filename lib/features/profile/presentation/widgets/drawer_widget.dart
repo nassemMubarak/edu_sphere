@@ -37,13 +37,16 @@ class _DrawerWidgetState extends State<DrawerWidget> {
     {'icon': 'assets/svgs/request_icon.svg', 'label': 'Requests',
       'onTap': (BuildContext context) => context.pushNamed(Routes.requestsTeacherPage),
     },
-    {'icon': 'assets/svgs/assessment_estimates_icon.svg', 'label': 'Student Estimates'},
-    {'icon': 'assets/svgs/university_teacher.svg', 'label': 'Course Students'},
+    // {'icon': 'assets/svgs/assessment_estimates_icon.svg', 'label': 'Student Estimates'},
+    // {'icon': 'assets/svgs/university_teacher.svg', 'label': 'Course Students'},
     {'icon': 'assets/svgs/communication_icon.svg', 'label': 'Communication',
       'onTap': (BuildContext context) => context.pushNamed(Routes.communicationMainPage),
     },
-    {'icon': 'assets/svgs/contact_us_icon.svg', 'label': 'Contact Us'},
-    {'icon': 'assets/svgs/course_subscription_icon.svg', 'label': 'Course subscription'},
+    {'icon': 'assets/svgs/contact_us_icon.svg', 'label': 'Contact Us',
+      'onTap': (BuildContext context) => context.pushNamed(Routes.contactUsPage),
+
+    },
+    // {'icon': 'assets/svgs/course_subscription_icon.svg', 'label': 'Course subscription'},
     {'icon': 'assets/svgs/language_icon.svg', 'label': 'Change language'},
     {'icon': 'assets/svgs/about_program_icon.svg', 'label': 'About program'},
     {
@@ -67,7 +70,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
       'label': 'Your Profile',
       'onTap': (BuildContext context) => context.pushNamed(Routes.profilePage),
     },
-    {'icon': 'assets/svgs/request_icon.svg', 'label': 'Withdrawal requests'},
+    // {'icon': 'assets/svgs/request_icon.svg', 'label': 'Withdrawal requests'},
     {'icon': 'assets/svgs/assessment_estimates_icon.svg', 'label': 'Estimates',
       'onTap': (BuildContext context) => context.pushNamed(Routes.estimateStudentMainPage),
 
@@ -80,7 +83,9 @@ class _DrawerWidgetState extends State<DrawerWidget> {
       'onTap': (BuildContext context) => context.pushNamed(Routes.communicationMainPage),
 
     },
-    {'icon': 'assets/svgs/contact_us_icon.svg', 'label': 'Contact us'},
+    {'icon': 'assets/svgs/contact_us_icon.svg', 'label': 'Contact us',
+      'onTap': (BuildContext context) => context.pushNamed(Routes.contactUsPage),
+    },
     {'icon': 'assets/svgs/language_icon.svg', 'label': 'Change language'},
     {'icon': 'assets/svgs/about_program_icon.svg', 'label': 'About program'},
     {
@@ -115,7 +120,9 @@ class _DrawerWidgetState extends State<DrawerWidget> {
       'onTap': (BuildContext context) => context.pushNamed(Routes.communicationMainPage),
 
     },
-    {'icon': 'assets/svgs/contact_us_icon.svg', 'label': 'Contact us'},
+    {'icon': 'assets/svgs/contact_us_icon.svg', 'label': 'Contact us',
+      'onTap': (BuildContext context) => context.pushNamed(Routes.contactUsPage),
+    },
     {'icon': 'assets/svgs/language_icon.svg', 'label': 'Change language'},
     {'icon': 'assets/svgs/about_program_icon.svg', 'label': 'About program'},
     {

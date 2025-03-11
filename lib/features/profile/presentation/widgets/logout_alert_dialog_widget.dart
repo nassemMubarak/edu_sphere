@@ -22,6 +22,7 @@ class LogoutAlertDialogWidget extends StatelessWidget {
     ), onTapButton: ()async{
       await SharedPrefHelper.removeData(SharedPrefKeys.cachedUser);
       await SharedPrefHelper.removeData(SharedPrefKeys.cachedToken);
+      await SharedPrefHelper.removeData(SharedPrefKeys.cachedIsCampSuccess);
       context.pushReplacementNamed(Routes.loginScreen);
     });
   }

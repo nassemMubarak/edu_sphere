@@ -1,3 +1,5 @@
+import 'package:edu_sphere/core/helpers/constants.dart';
+import 'package:edu_sphere/core/helpers/shared_pref_helper.dart';
 import 'package:edu_sphere/core/routing/app_router.dart';
 import 'package:edu_sphere/core/routing/routes.dart';
 import 'package:edu_sphere/core/theming/colors.dart';
@@ -10,6 +12,7 @@ import 'package:edu_sphere/features/admin/teacher_admin/presintation/bloc/show_c
 import 'package:edu_sphere/features/admin/teacher_admin/presintation/bloc/teacher_admin_cubit.dart';
 import 'package:edu_sphere/features/auth/presentation/bloc/auth/auth_cubit.dart';
 import 'package:edu_sphere/features/auth/presentation/bloc/changTypSignUp/auth_type_cubit.dart';
+import 'package:edu_sphere/features/auth/presentation/bloc/show_camp/show_camp_cubit.dart';
 import 'package:edu_sphere/features/communication/presentation/bloc/communication_cubit.dart';
 import 'package:edu_sphere/features/profile/presentation/bloc/profile_cubit.dart';
 import 'package:edu_sphere/features/student/assessment_student/presesntations/bloc/student_assessment_cubit.dart';
@@ -50,6 +53,7 @@ class EduSphereApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => di.sl<AuthCubit>()..emitGetCurrentUser()),
         BlocProvider(create: (context) => AuthTypeCubit()..emitChangTypSignUp('student')),
+        BlocProvider(create: (context) => di.sl<ShowCampCubit>()),
         BlocProvider(create: (context) => di.sl<TeacherMainCubit>()),
         BlocProvider(create: (context) => CourseMainCubit()),
         BlocProvider(create: (context) => di.sl<QuizCubit>()),
@@ -82,7 +86,8 @@ class EduSphereApp extends StatelessWidget {
         minTextAdapt: true,
         splitScreenMode: true,
         builder: (_, child) {
-          return MaterialApp(
+
+          return  MaterialApp(
             localizationsDelegates: const [
               AppLocalizations.delegate,
               GlobalWidgetsLocalizations.delegate,
@@ -100,7 +105,7 @@ class EduSphereApp extends StatelessWidget {
             theme: ThemeData(
               primaryColor: ColorsManager.mainBlue,
             ),
-            initialRoute:_getInitialRoute(context),//Routes.showStudentQuizPage,// ,
+            initialRoute:Routes.onBoardingScreen,//_getInitialRoute(context),//Routes.showStudentQuizPage,// ,
             routes: {
               Routes.courseMainScreen: (context) => const CourseMainScreen(),
             },
@@ -115,8 +120,7 @@ class EduSphereApp extends StatelessWidget {
     if (isShowOnBoarding) {
       if (isUserLogIn) {
         if (isUserLogIn) {
-          Logger().t(typeUser.toUpperCase() );
-          return typeUser.toUpperCase() == 'STUDENT' ? Routes.studentMainPage :typeUser.toUpperCase() == 'ADMIN'?Routes.adminMainPage: Routes.teacherMainScreen;
+              return typeUser.toUpperCase() == 'STUDENT' ? Routes.studentMainPage :typeUser.toUpperCase() == 'ADMIN'?Routes.adminMainPage: Routes.teacherMainScreen;
         } else {
           return Routes.loginScreen;
         }

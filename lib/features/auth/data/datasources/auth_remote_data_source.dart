@@ -12,6 +12,7 @@ import 'package:logger/logger.dart';
 
 abstract class AuthRemoteDataSource {
   Future<UserModel> loginUser({required Map authData});
+  Future<CampModel> showCamp({required String token,required bool isStudent});
 
   Future<UserModel> registerUser({required Map authData});
   Future<AdminModel> loginAdmin({required Map authData});
@@ -41,7 +42,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       "password_confirmation": authData['password_confirmation'],
       "age": authData['age'],
       "sex": authData['sex'],
-      "phone_number": authData['phone_number'],
+      // "phone_number": authData['phone_number'],
       "camp_id": authData['camp_id'], // Convert to String
       "level": authData['level']
     }:{
@@ -66,7 +67,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     if (response.statusCode >= 200 && response.statusCode < 300) {
       final decodeJson = json.decode(response.body);
       UserModel user = UserModel.fromJson(decodeJson);
-      // user = user.copyWith(type: authData['level'] != null ? 'Student' : 'Teacher');
+      user = user.copyWith(type: authData['level'] != null ? 'Student' : 'Teacher');
 
       return user;
     } else if (response.statusCode >= 400 && response.statusCode < 500) {
@@ -170,6 +171,25 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       // Assuming the response body contains a 'message' key for client-side errors
       throw InvalidDataExceptionMessage(message: json.decode(response.body)['message']);
     } else {
+      throw ServerException();
+    }
+  }
+
+  @override
+  Future<CampModel> showCamp({required String token,required bool isStudent})async {
+    final response = await client.get(Uri.parse('${ApiConstants.apiBaseUrl}${isStudent?ApiConstants.studentCamp:ApiConstants.teacherCamps}'));
+    if(response.statusCode>=200&&response.statusCode<300){
+     try{
+       final decodedJson = json.decode(response.body);
+       CampModel campModel = CampModel.fromJson(decodedJson);
+       Logger().w(campModel);
+       return campModel;
+     }catch(e){
+       throw InvalidDataException();
+     }
+    }else if(response.statusCode >= 400 && response.statusCode < 500){
+      throw InvalidDataException();
+    }else{
       throw ServerException();
     }
   }}

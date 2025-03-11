@@ -45,23 +45,27 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               PageViewOnboardingWidget(
                 image: 'assets/images/onboarding_image1.png',
                 text1:
-                    AppLocalizations.of(context)!.onBoarding1Text1,
+                    'Embark on your learning journey with our interactive camps.',
                 text2:
-                AppLocalizations.of(context)!.onBoarding1Text2,
+                'Join courses, connect with teachers, and grow your skills.',
               ),
               PageViewOnboardingWidget(
                 image: 'assets/images/onboarding_image2.png',
-                text1:
-                AppLocalizations.of(context)!.onBoarding2Text1,
-                text2:
-                AppLocalizations.of(context)!.onBoarding2Text2,
+                text1:'Access video lectures, course materials, and more from expert teachers.',
+                // text1:
+                // AppLocalizations.of(context)!.onBoarding2Text1,
+                text2:'Take the next step in your education.',
+                // text2:
+                // AppLocalizations.of(context)!.onBoarding2Text2,
               ),
               PageViewOnboardingWidget(
                 image: 'assets/images/onboarding_image3.png',
-                text1:
-                AppLocalizations.of(context)!.onBoarding3Text1,
-                text2:
-                AppLocalizations.of(context)!.onBoarding3Text2,
+                text1:'Complete quizzes, submit assignments, and track your progress.',
+                // text1:
+                // AppLocalizations.of(context)!.onBoarding3Text1,
+                text2:'Ready to start?'
+                // text2:
+                // AppLocalizations.of(context)!.onBoarding3Text2,
               ),
             ],
           ),

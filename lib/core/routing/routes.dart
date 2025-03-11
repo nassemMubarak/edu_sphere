@@ -38,5 +38,7 @@ class Routes {
   static const String requestAdminMainPage = '/requestAdminMainPage';
   static const String acceptOrRejectRequestPage = '/acceptOrRejectRequestPage';
   static const String campSubscribePage = '/campSubscribePage';
+  static const String contactUsSubscribePage = '/contactUsSubscribePage';
+  static const String contactUsPage = '/contactUsPage';
 
 }

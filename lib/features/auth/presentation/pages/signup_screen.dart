@@ -24,12 +24,12 @@ class SignupScreen extends StatelessWidget {
           ToastNotificationMessage()
               .showToastNotificationError(message: state.message, context: context);
         }else if(state is AuthLoadedState){
-          if(state.user.type!.toUpperCase()=='TEACHER'){
+          if(state.user.type.toUpperCase()=='TEACHER'){
             context.read<AuthCubit>().getCurrentUserUseCase();
-            context.pushReplacementNamed(Routes.teacherMainScreen);
-          }else if(state.user.type!.toUpperCase()=='STUDENT'){
+            context.pushReplacementNamed(Routes.studentRequestPage);
+          }else if(state.user.type.toUpperCase()=='STUDENT'){
             context.read<AuthCubit>().getCurrentUserUseCase();
-            context.pushReplacementNamed(Routes.studentMainPage);
+            context.pushReplacementNamed(Routes.studentRequestPage);
           }else{
             context.read<AuthCubit>().getCurrentUserUseCase();
             context.pushReplacementNamed(Routes.teacherMainScreen);

@@ -40,7 +40,7 @@ class ShowquestiontoReviewstudentquiz extends StatelessWidget {
                   context,
                   // imageUrl:question.documents.isNotEmpty? question.documents.first.url:null,
                   imageUrl: question.documents.isNotEmpty
-                      ? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkR48LoFHBZXunbYp-PlllTPPEgrgml-paqg&s'
+                      ? 'assets/images/quiz_image.jpg'
                       : null,
                   number: (index + 1).toString(),
                   text: question.title,
@@ -55,7 +55,7 @@ class ShowquestiontoReviewstudentquiz extends StatelessWidget {
                   itemBuilder: (context, index) => _buildQuestionRow(
                       // imageUrl:question.documents.isNotEmpty? question.documents.first.url:null,
                       imageUrl: question.documents.isNotEmpty
-                          ? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkR48LoFHBZXunbYp-PlllTPPEgrgml-paqg&s'
+                          ? 'assets/images/quiz_image.jpg'
                           : null,
                       context,
                       indexChoice: index,
@@ -249,7 +249,7 @@ class ShowquestiontoReviewstudentquiz extends StatelessWidget {
                       // padding: EdgeInsetsDirectional.only(start: 30),
                       child: ClipRRect(
                           borderRadius: BorderRadius.circular(10),
-                          child: Image.network(imageUrl)),
+                          child: Image.asset(imageUrl)),
                     ),
                   )
                 : SizedBox.shrink()

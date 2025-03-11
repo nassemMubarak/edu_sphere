@@ -14,6 +14,7 @@ class TextOnboardingWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             text1,
@@ -27,6 +28,7 @@ class TextOnboardingWidget extends StatelessWidget {
             style: TextStyles.font12White400Weight,
             overflow: TextOverflow.visible,
             maxLines: 3,
+            textAlign: TextAlign.start,
           ),
           verticalSpace(49),
         ],

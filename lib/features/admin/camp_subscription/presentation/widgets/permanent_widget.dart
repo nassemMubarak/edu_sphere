@@ -1,4 +1,6 @@
+import 'package:edu_sphere/core/helpers/extenshions.dart';
 import 'package:edu_sphere/core/helpers/spacing.dart';
+import 'package:edu_sphere/core/routing/routes.dart';
 import 'package:edu_sphere/core/theming/colors.dart';
 import 'package:edu_sphere/core/theming/styles.dart';
 import 'package:edu_sphere/core/widgets/app_text_button.dart';
@@ -13,20 +15,20 @@ class PermanentWidget extends StatelessWidget {
   String supTitle2;
   String supTitle3;
   bool isShowButtonSubscribe;
-   PermanentWidget({
-    super.key,
-     required this.isShowButtonSubscribe,
-     required this.price,
-     required this.supTitle1,
-     required this.supTitle2,
-     required this.supTitle3,
 
+  PermanentWidget({
+    super.key,
+    required this.isShowButtonSubscribe,
+    required this.price,
+    required this.supTitle1,
+    required this.supTitle2,
+    required this.supTitle3,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16.w,vertical: 24.h),
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 24.h),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(4),
@@ -40,7 +42,11 @@ class PermanentWidget extends StatelessWidget {
       ),
       child: Column(
         children: [
-          SvgPicture.asset('assets/svgs/permanet_icon.svg',width: 60.w,height: 60.h,),
+          SvgPicture.asset(
+            'assets/svgs/permanet_icon.svg',
+            width: 60.w,
+            height: 60.h,
+          ),
           verticalSpace(16),
           Text('$price/Permanent',
               style: TextStyles.font16MainBlue500Weight,
@@ -50,29 +56,30 @@ class PermanentWidget extends StatelessWidget {
             children: [
               Icon(Icons.check),
               horizontalSpace(8),
-              Text(supTitle1,
-                  style: TextStyles.font16Black500Weight),
+              Expanded(child: Text(supTitle1, style: TextStyles.font16Black500Weight)),
             ],
           ),
-          verticalSpace(16),Row(
+          verticalSpace(16),
+          Row(
             children: [
               Icon(Icons.check),
               horizontalSpace(8),
-              Text(supTitle2,
-                  style: TextStyles.font16Black500Weight),
+              Expanded(child: Text(supTitle2, style: TextStyles.font16Black500Weight)),
             ],
           ),
-          verticalSpace(16),Row(
+          verticalSpace(16),
+          Row(
             children: [
               Icon(Icons.check),
               horizontalSpace(8),
-              Text(supTitle3,
-                  style: TextStyles.font16Black500Weight),
+              Expanded(child: Text(supTitle3, style: TextStyles.font16Black500Weight)),
             ],
           ),
           verticalSpace(24),
-          if(isShowButtonSubscribe)
-              AppTextButton(buttonText: 'Subscribe With Us')
+          if (isShowButtonSubscribe)
+            AppTextButton(buttonText: 'Subscribe With Us',onPressed: (){
+              context.pushNamed(Routes.contactUsSubscribePage);
+            },)
         ],
       ),
     );

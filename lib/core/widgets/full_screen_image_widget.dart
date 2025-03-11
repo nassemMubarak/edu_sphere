@@ -18,7 +18,8 @@ class FullScreenImageWidget extends StatelessWidget {
           child: InteractiveViewer(
         
             child: networkImageUrl!=null?
-                Image.network(networkImageUrl!)
+                Image.asset(networkImageUrl!)
+                // Image.network(networkImageUrl!)
             // CachedNetworkImage(
             //   imageUrl: networkImageUrl!,
             //   placeholder: (context, url) => Padding(

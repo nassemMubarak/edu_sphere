@@ -9,7 +9,11 @@ import 'package:edu_sphere/features/auth/domain/entities/admin.dart';
 import 'package:edu_sphere/features/auth/domain/entities/camp.dart';
 import 'package:edu_sphere/features/auth/domain/entities/user.dart';
 import 'package:edu_sphere/features/auth/domain/repositorises/repository.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:logger/logger.dart';
+
+import '../../../../core/helpers/constants.dart';
+import '../../../../core/helpers/shared_pref_helper.dart';
 
 class RepositoryImpl implements AuthRepository {
   final AuthLocalDataSource localDataSource;
@@ -125,6 +129,22 @@ class RepositoryImpl implements AuthRepository {
         return Right(admin);
       }on InvalidDataExceptionMessage catch (e){
         return Left(InvalidDataFailureMessage(message:e.message ));
+      }on ServerException{
+        return Left(ServerFailure());
+      }
+    }else{
+      return Left(OfflineFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, Camp>> showCamp() async{
+    if(await networkInfo.isConnected){
+      try{
+        final String token = await SharedPrefHelper.getString(SharedPrefKeys.cachedToken);
+        final String type = await SharedPrefHelper.getString(SharedPrefKeys.cachedTypeUser);
+        final camp = await remoteDataSource.showCamp(token: token,isStudent:type.toUpperCase()=='STUDENT' );
+        return Right(camp);
       }on ServerException{
         return Left(ServerFailure());
       }

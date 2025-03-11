@@ -18,13 +18,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:edu_sphere/l10n/app_localizations.dart';
+import 'package:logger/logger.dart';
 
 class SectionCardCourses extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<TeacherMainCubit, TeacherMainState>(
-      listener: (context, state) {
-      },
+    return BlocBuilder<TeacherMainCubit, TeacherMainState>(
       builder: (context, state) {
         if(state is TeacherMainLoadingState){
           return SectionCard(
@@ -37,6 +36,7 @@ class SectionCardCourses extends StatelessWidget {
           ToastNotificationMessage().showToastNotificationError(message: state.message, context: context);
         }
         if (state is AddCourseState) {
+          Logger().f(state.courses);
           if (state.courses.isEmpty) {
             return ImageAndTextEmptyData(
                 message: AppLocalizations.of(context)!.noCoursesAdded);

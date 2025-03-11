@@ -1,5 +1,6 @@
 import 'package:edu_sphere/core/widgets/sliver_widget.dart';
 import 'package:edu_sphere/core/widgets/warning_message_alert_dialog.dart';
+import 'package:edu_sphere/features/profile/presentation/widgets/logout_alert_dialog_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -17,6 +18,9 @@ class StudentRequestWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverWidget(
+      leading: IconButton(onPressed: (){
+        showDialog(context: context, builder: (context) => LogoutAlertDialogWidget());
+      }, icon: Icon(Icons.login)),
         widget: SingleChildScrollView(
       padding: EdgeInsets.symmetric(horizontal: 16.w),
       child: Column(
@@ -66,7 +70,7 @@ class StudentRequestWidget extends StatelessWidget {
                 ),
                 IconLabelRow(
                   iconPath: 'assets/svgs/camp.svg',
-                  label: 'Camp Name',
+                  label: 'chang camp',
                   showChangeCampButton: true,
                   isTextFullWidth: true,
                   onChangeCamp: () => _showChangeCampDialog(context),

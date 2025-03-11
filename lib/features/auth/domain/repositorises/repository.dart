@@ -9,6 +9,7 @@ abstract class AuthRepository {
   Future<Either<Failure,Admin>> loginAdmin({required Map authData});
   Future<Either<Failure,Admin>> registerAdmin({required Map authData});
   Future<Either<Failure,User>> registerUser({required Map authData});
+  Future<Either<Failure,Camp>> showCamp();
   Future<Either<Failure,List<Camp>>> getAllCamp();
   Future<Either<Failure,User>> getCurrentUser();
   Future<Either<Failure,Unit>> sendCodeToForgetPassword({required String email});
