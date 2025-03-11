@@ -105,7 +105,7 @@ class EduSphereApp extends StatelessWidget {
             theme: ThemeData(
               primaryColor: ColorsManager.mainBlue,
             ),
-            initialRoute:Routes.onBoardingScreen,//_getInitialRoute(context),//Routes.showStudentQuizPage,// ,
+            initialRoute:_getInitialRoute(context),//Routes.showStudentQuizPage,// ,
             routes: {
               Routes.courseMainScreen: (context) => const CourseMainScreen(),
             },

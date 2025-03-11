@@ -9,7 +9,7 @@ class ShowStudentTeacherModel extends ShowStudentTeacher {
     required super.email,
     required super.specialization,
     required super.sex,
-    required super.phoneNumber,
+     super.phoneNumber,
     required super.age,
     required super.createdAt,
     required super.updatedAt,

@@ -14,7 +14,7 @@ class EstimateStudentCubit extends Cubit<EstimateStudentState> {
   EstimateStudentCubit({required this.showEstimateStudentToCourse})
       : super(EstimateStudentInitial());
   EstimatesStudent? estimatesStudent;
-
+  int idCourseSelected = 0;
   emitShowEstimateStudentToCourse({required int idCourse}) async {
     emit(ShowEstimateStudentLoadingState());
     final failureOrAdvertisement =

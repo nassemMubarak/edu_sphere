@@ -106,19 +106,19 @@ class QuizAttemptModel {
   final int id;
   final int studentId;
   final int quizId;
-  final String data;
+  final String? data;
   final String createdAt;
   final String updatedAt;
-  final GradeModel grade;
+  final GradeModel? grade;
 
   QuizAttemptModel({
     required this.id,
     required this.studentId,
     required this.quizId,
-    required this.data,
+     this.data,
     required this.createdAt,
     required this.updatedAt,
-    required this.grade,
+     this.grade,
   });
 
   factory QuizAttemptModel.fromJson(Map<String, dynamic> json) {
@@ -129,7 +129,7 @@ class QuizAttemptModel {
       data: json['data'],
       createdAt: json['created_at'],
       updatedAt: json['updated_at'],
-      grade: GradeModel.fromJson(json['grade']),
+      grade: json['grade']==null?null:GradeModel.fromJson(json['grade']),
     );
   }
 }

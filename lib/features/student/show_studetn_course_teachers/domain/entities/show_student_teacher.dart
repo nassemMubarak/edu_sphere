@@ -8,7 +8,7 @@ class ShowStudentTeacher extends Equatable {
   final String email;
   final String specialization;
   final String sex;
-  final String phoneNumber;
+  final String? phoneNumber;
   final int age;
   final DateTime createdAt;
   final DateTime updatedAt;
@@ -22,7 +22,7 @@ class ShowStudentTeacher extends Equatable {
     required this.email,
     required this.specialization,
     required this.sex,
-    required this.phoneNumber,
+     this.phoneNumber,
     required this.age,
     required this.createdAt,
     required this.updatedAt,

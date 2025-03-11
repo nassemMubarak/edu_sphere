@@ -42,7 +42,7 @@ class ShowQuizzesAndAssessmentsStudentAdminWidgetWidget extends StatelessWidget 
                 contentPadding: EdgeInsets.symmetric(horizontal: 16.w),
                 leading: SvgPicture.asset('assets/svgs/quiz_leading_icon.svg'),
                 title: Text('Quiz $index',style: TextStyles.font14Black500Weight),
-              trailing: Text(studentInformationModel!.quizAttempts[index].grade!=null?studentInformationModel!.quizAttempts[index].grade.result.toString():'Not Grade',style:studentInformationModel!.quizAttempts[index].grade!=null?TextStyles.font14Black400Weight: TextStyles.font14NeutralGray400Weight),
+              trailing: Text(studentInformationModel!.quizAttempts[index].grade!=null?studentInformationModel!.quizAttempts[index].grade!.result.toString():'Not Grade',style:studentInformationModel!.quizAttempts[index].grade!=null?TextStyles.font14Black400Weight: TextStyles.font14NeutralGray400Weight),
               ),
             ),
             ListView.builder(

@@ -10,8 +10,8 @@ class UserModel extends User {
     required super.sex,
     required super.phoneNumber,
     super.level,
-    required super.updatedAt,
-    required super.createdAt,
+     super.updatedAt,
+     super.createdAt,
     super.imageUrl,
     required super.token,
     super.campId,
@@ -25,19 +25,19 @@ class UserModel extends User {
 
   // Factory method to create a UserModel from a JSON Map (with logging)
   factory UserModel.fromJsonUpdate(Map<String, dynamic> json) {
-    Logger().e(json); // Log the JSON for debugging
+    Logger().e('--------------------------------$json'); // Log the JSON for debugging
     return UserModel(
-      id: json['id'] ?? '',
-      name: json['name'],
-      email: json['email'],
+      id: json['id'] ?? 0,
+      name: json['name']??'',
+      email: json['email']??'',
       specialization: json['specialization'],
-      sex: json['sex'],
+      sex: json['sex']??'',
       phoneNumber: json['phone_number'] ?? '', // Handle missing field
-      age: int.parse(json['age'].toString()),
+      age: json['age']??0,
       campId: json['camp_id'],
       level:json['level']==null?null:int.parse(json['level'].toString()),
-      createdAt: DateTime.parse(json['created_at']),
-      updatedAt: DateTime.parse(json['updated_at']),
+      createdAt:json['created_at']==null?null: DateTime.parse(json['created_at']),
+      updatedAt: json['updated_at']==null?null:DateTime.parse(json['updated_at']),
       deletedAt: json['deleted_at'],
       campName: json['camp_name'],
       status: json['status'],
@@ -59,7 +59,7 @@ class UserModel extends User {
       phoneNumber: json['user']['phone_number'] ?? '', // Handle missing field
       age: int.parse((json['user']['age']).toString()),
       campId: json['user']['camp_id'],
-      level: json['user']['level']==null?null:int.parse(json['user']['level']),
+      level: json['user']['level']==null?null:int.parse(json['user']['level'].toString()),
       createdAt: DateTime.parse(json['user']['created_at']),
       updatedAt: DateTime.parse(json['user']['updated_at']),
       deletedAt: json['user']['deleted_at'],
@@ -126,8 +126,8 @@ class UserModel extends User {
         'age': age,
         'camp_id': campId,
         'level': level,
-        'created_at': createdAt.toIso8601String(),
-        'updated_at': updatedAt.toIso8601String(),
+        'created_at': createdAt?.toIso8601String(),
+        'updated_at': updatedAt?.toIso8601String(),
         'deleted_at': deletedAt,
         'camp_name': campName,
         'status': status,

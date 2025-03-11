@@ -10,9 +10,9 @@ class EstimateStudentMainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverWidget(
-      leading: IconButton(onPressed: (){
-        context.pop();
-      }, icon: Icon(Icons.arrow_back)),
+      // leading: IconButton(onPressed: (){
+      //   context.pop();
+      // }, icon: Icon(Icons.arrow_back)),
       widget: Padding(
         padding: EdgeInsets.only(top: 10.h, left: 16.w, right: 16.w),
         child: Column(

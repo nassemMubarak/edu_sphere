@@ -20,7 +20,6 @@ class QuestionModel extends Question {
   });
   // Convert JSON to Question object
   factory QuestionModel.fromJson(Map<String, dynamic> json) {
-    Logger().f(json);
 
     // Safely handle options field
     List<String> optionsList = [];

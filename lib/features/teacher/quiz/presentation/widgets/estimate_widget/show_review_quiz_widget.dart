@@ -100,7 +100,7 @@ class ShowReviewQuizWidget extends StatelessWidget {
   }
 
   Widget _buildQuestionsList(ShowReviewQuizLoadedState state) {
-    Logger().e('--------------//////////////////////////////////////${questions!.length}');
+
     return ListView.builder(
       itemCount: questions!.length,
       shrinkWrap: true,
@@ -108,15 +108,16 @@ class ShowReviewQuizWidget extends StatelessWidget {
       itemBuilder: (context, index) {
         String? answerStudent;
         int questionScore = 0;
-
-        state.reviewQuizModel.data.forEach((answer) {
-          if (questions![index].id == int.parse(answer.questionId.toString())) {
-            answerStudent = answer.answer;
-            if (answer.answer == questions![index].correctAnswer) {
-              questionScore = questions![index].mark;
-            }
-          }
-        });
+        // state.reviewQuizModel.data.forEach((answer) {
+        // Logger().e('--------------//////////////////////////////////////${answer.answer}');
+        //   if (questions![index].id == int.parse(answer.questionId.toString())) {
+        //     Logger().f('++++++++6666666666666---------------${answer.answer}');
+        //     answerStudent = answer.answer;
+        //     if (answer.answer == questions![index].correctAnswer) {
+        //       questionScore = questions![index].mark;
+        //     }
+        //   }
+        // });
 
         return Column(
           children: [
@@ -159,7 +160,7 @@ class ShowReviewQuizWidget extends StatelessWidget {
                         color: Colors.black,
                       ),
                     ),
-                    title: Text(answerStudent ?? '', style: TextStyles.font14Black400Weight),
+                    title: Text(state.reviewQuizModel.data[index].studentAnswer ?? '', style: TextStyles.font14Black400Weight),
                   ),
                   ListTile(
                     contentPadding: EdgeInsets.zero,
@@ -177,7 +178,7 @@ class ShowReviewQuizWidget extends StatelessWidget {
                         color: Colors.black,
                       ),
                     ),
-                    title: Text('$questionScore', style: TextStyles.font14Black400Weight),
+                    title: Text('${state.reviewQuizModel.data[index].isCorrect?state.reviewQuizModel.data[index].mark:0}', style: TextStyles.font14Black400Weight),
                   ),
                 ],
               ),

@@ -4,6 +4,7 @@ import 'package:edu_sphere/core/routing/routes.dart';
 import 'package:edu_sphere/core/theming/styles.dart';
 import 'package:edu_sphere/core/widgets/courses_shimmer_widget.dart';
 import 'package:edu_sphere/core/widgets/image_and_text_empty_data.dart';
+import 'package:edu_sphere/features/student/estimates_students/presentations/bloc/estimate_student_cubit.dart';
 import 'package:edu_sphere/features/student/student_main/presentations/bloc/subscribe_student_courses/subscribe_student_courses_cubit.dart';
 import 'package:edu_sphere/features/student/student_main/presentations/widgets/leave_student_course_dialog.dart';
 import 'package:edu_sphere/features/teacher/teacher_main/presentation/widgets/show_message_pinding_or_rejected_course_info_dialog.dart';
@@ -39,6 +40,7 @@ class EstimateStudentMainWidget extends StatelessWidget {
                 margin: const EdgeInsets.only(bottom: 16),
                 child: ListTile(
                   onTap: (){
+                    context.read<EstimateStudentCubit>().idCourseSelected = state.courses[index].id;
                     context.pushNamed(Routes.showGradeCoursePage);
                   },
                   contentPadding: const EdgeInsets.only(left: 0.0, right: 0.0),
@@ -113,6 +115,7 @@ class EstimateStudentMainWidget extends StatelessWidget {
               margin: const EdgeInsets.only(bottom: 16),
               child: ListTile(
                 onTap: (){
+                  context.read<SubscribeStudentCoursesCubit>().listStudentCourse[index].id;
                   context.pushNamed(Routes.showGradeCoursePage);
                 },
                 contentPadding: const EdgeInsets.only(left: 0.0, right: 0.0),

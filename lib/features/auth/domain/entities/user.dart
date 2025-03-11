@@ -10,8 +10,8 @@ class User extends Equatable {
    int age; // Updated to int to match JSON
    int? campId; // Nullable for Student
    int? level; // Nullable for Student
-   DateTime createdAt;
-   DateTime updatedAt;
+   DateTime? createdAt;
+   DateTime? updatedAt;
    String? deletedAt; // Nullable
    String? campName; // Nullable for Student
    String? status; // Nullable for Student
@@ -30,8 +30,8 @@ class User extends Equatable {
     required this.age,
     this.campId,
     this.level,
-    required this.createdAt,
-    required this.updatedAt,
+     this.createdAt,
+     this.updatedAt,
     this.deletedAt,
     this.campName,
     this.status,

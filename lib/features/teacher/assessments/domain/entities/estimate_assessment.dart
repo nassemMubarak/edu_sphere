@@ -7,7 +7,7 @@ class EstimateAssessment extends Equatable {
   final String email;
   final int? campId;
   final String sex;
-  final String phoneNumber;
+  final String? phoneNumber;
   final int age;
   final int level;
   final DateTime createdAt;
@@ -21,7 +21,7 @@ class EstimateAssessment extends Equatable {
     required this.email,
     this.campId,
     required this.sex,
-    required this.phoneNumber,
+     this.phoneNumber,
     required this.age,
     required this.level,
     required this.createdAt,

@@ -23,7 +23,7 @@ class TeacherInformationModel extends TeacherInformation {
           CommunicationModel.fromJson(communicationJson))
           .toList(),
       students: (json['students'] as List).map((studentJson) =>
-          UserModel.fromJson(studentJson))
+          UserModel.fromJsonUpdate(studentJson))
           .toList(),
     );
   }

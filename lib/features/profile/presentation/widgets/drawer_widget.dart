@@ -102,7 +102,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
       'icon': 'assets/svgs/home_icon.svg',
       'label': 'Home',
       'onTap': (BuildContext context) =>
-          context.pushNamed(Routes.studentMainPage),
+          context.pushNamed(Routes.adminMainPage),
     },
     {
       'icon': 'assets/svgs/profile_icon.svg',

@@ -44,8 +44,12 @@ class AdminMainTeacherWidget extends StatelessWidget {
                  title: Text(state.listTeacher[index].name));
            },),
        )
-           :ImageAndTextEmptyData(
-            message: 'There is no Teacher yet');
+           :SectionCard(
+         title: 'Teachers',
+         icon: 'assets/svgs/type_of_teaching.svg',
+             widget: ImageAndTextEmptyData(
+              message: 'There is no Teacher yet'),
+           );
       }else{
        return context.read<AdminMainCubit>().listTeacher.isNotEmpty?
        SectionCard(

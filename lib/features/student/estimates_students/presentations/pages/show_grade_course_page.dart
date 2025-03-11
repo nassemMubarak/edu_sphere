@@ -20,7 +20,7 @@ class ShowGradeCoursePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    context.read<EstimateStudentCubit>().emitShowEstimateStudentToCourse(idCourse: 35);
+    context.read<EstimateStudentCubit>().emitShowEstimateStudentToCourse(idCourse: context.read<EstimateStudentCubit>().idCourseSelected);
     return SliverWidget(
         leading: IconButton(onPressed: (){
           context.pop();
@@ -44,7 +44,7 @@ class ShowGradeCoursePage extends StatelessWidget {
                               return ListTile(
                                 leading: SvgPicture.asset('assets/svgs/quiz_leading_icon.svg'),
                                 title: Text('Quiz $index'),
-                                trailing: Text(state.estimatesStudent.quizAttempts[index].grade==null?'NotRated':state.estimatesStudent.quizAttempts[index].grade!.result.toString(),style: TextStyles.font10NeutralGray400Weight),
+                                trailing: Text(state.estimatesStudent.quizAttempts[index].grade==null?'NotRated':'${state.estimatesStudent.quizAttempts[index].grade!.result}/10'.toString(),style: TextStyles.font10NeutralGray400Weight),
                               );
                     },),
                     ListView.builder(
@@ -66,7 +66,7 @@ class ShowGradeCoursePage extends StatelessWidget {
                       children: [
                         Text('Total mark'),
                         Spacer(),
-                        Text('Not Rated',style: TextStyles.font10NeutralGray400Weight),
+                        Text('7/10',style: TextStyles.font10NeutralGray400Weight),
                       ],
                     ),
                   ],

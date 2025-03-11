@@ -7,7 +7,7 @@ class EstimateAssessmentModel extends EstimateAssessment {
     required super.name,
     required super.email,
     required super.sex,
-    required super.phoneNumber,
+     super.phoneNumber,
     required super.age,
     required super.level,
     required super.createdAt,

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:edu_sphere/features/student/student_quiz/domain/entities/question_student_quiz.dart';
+import 'package:logger/logger.dart';
 
 class QuestionStudentQuizModel extends QuestionStudentQuiz {
   QuestionStudentQuizModel({
@@ -16,6 +17,7 @@ class QuestionStudentQuizModel extends QuestionStudentQuiz {
   });
 
   factory QuestionStudentQuizModel.fromJson(Map<String, dynamic> json) {
+    Logger().f('json logger--------------$json');
     // Fix malformed options
     List<String> parseOptions(String optionsString) {
       // Replace single quotes with double quotes and decode

@@ -268,8 +268,8 @@ class QuizRemoteDataSourceImpl implements QuizRemoteDataSource{
     final response = await client.get(Uri.parse(url),headers: header);
     if(response.statusCode>=200&&response.statusCode<300){
       var decodeJson = json.decode(response.body);
+      Logger().w('reviewQuizModel----------------------${decodeJson}');
       ReviewQuizModel reviewQuizModel = ReviewQuizModel.fromJson(decodeJson);
-      Logger().w('reviewQuizModel----------------------$reviewQuizModel');
       return reviewQuizModel;
     }else if(response.statusCode >= 400 && response.statusCode < 500){
       throw InvalidDataException();

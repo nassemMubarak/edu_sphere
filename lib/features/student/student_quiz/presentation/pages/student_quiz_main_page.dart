@@ -19,6 +19,7 @@
   import 'package:intl/intl.dart';
   import 'package:flutter_screenutil/flutter_screenutil.dart';
   import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:logger/logger.dart';
   import 'package:shimmer/shimmer.dart';
   import 'package:slide_countdown/slide_countdown.dart';
 
@@ -62,7 +63,10 @@
                       current is IsShowStudentQuizLoadingState,
                   builder: (context, state) {
                     if (state is IsShowStudentQuizLoadedState) {
+                      Logger().e('--------------------${state.estimateQuiz
+                          .quizAttempts.first.grade}');
                       return state.estimateQuiz.quizAttempts.isEmpty
+
                           ? SectionCard(
                               title: 'Quiz status',
                               icon: 'assets/svgs/flag_quiz_status.svg',
